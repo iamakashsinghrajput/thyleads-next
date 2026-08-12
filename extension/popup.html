@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HarvinAI</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- ── Header ────────────────────────────────────────────────────────── -->
+  <div class="header">
+    <div class="header-left">
+      <img src="icons/icon48.png" alt="Harvin" class="header-logo" />
+      <div class="header-text">
+        <span class="header-title">HarvinAI</span>
+        <span class="header-subtitle" id="site-url">Loading...</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="theme-btn" title="Toggle dark/light mode">
+        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="icon-btn" id="refresh-btn" title="Re-scan">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 2v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12a9 9 0 0115.36-6.36L21 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 22v-6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12a9 9 0 01-15.36 6.36L3 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Loading State — Harvin Logo Animation ───────────────────────── -->
+  <div class="loading-state" id="loading-state">
+    <div class="loading-logo-wrap">
+      <img src="icons/icon48.png" alt="" class="loading-logo" />
+      <div class="loading-ring"></div>
+    </div>
+    <p class="loading-title">Scanning technologies...</p>
+    <p class="loading-sub">Analyzing tech stack, store data & company info</p>
+    <div class="loading-dots"><span></span><span></span><span></span></div>
+  </div>
+
+  <!-- ── Error State ─────────────────────────────────────────────────── -->
+  <div class="error-state hidden" id="error-state">
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6.5v4M10 13.5h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <p class="error-text" id="error-text"></p>
+  </div>
+
+  <!-- ── Single Panel (no tabs) ──────────────────────────────────────── -->
+  <div class="panel hidden" id="panel-details">
+    <div class="details-content" id="details-content"></div>
+  </div>
+
+  <!-- Tech stack renders below details in the same panel -->
+  <div class="panel hidden" id="panel-tech">
+    <div class="tech-summary" id="tech-summary"></div>
+    <div class="scroll-hint" id="scroll-hint">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Scroll to see all technologies</span>
+    </div>
+    <div class="categories" id="categories"></div>
+  </div>
+
+  <!-- ── Footer ──────────────────────────────────────────────────────── -->
+  <div class="footer">
+    <span>Powered by</span>
+    <a href="https://harvin.ai" target="_blank" rel="noopener">Harvin AI</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

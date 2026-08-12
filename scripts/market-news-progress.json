@@ -1,0 +1,22 @@
+{
+  "status": "completed",
+  "lastRunDate": "2026-03-27T20:56:03.642Z",
+  "brandsScanned": 500,
+  "brandsWithNews": 97,
+  "totalFetched": 33434,
+  "totalExtracted": 271,
+  "totalWritten": 271,
+  "totalSkipped": 1047,
+  "typeCounts": {
+    "partnership": 57,
+    "acquisition": 79,
+    "expansion": 12,
+    "shutdown": 24,
+    "launch": 15,
+    "funding": 58,
+    "hiring": 19,
+    "regulatory": 7
+  },
+  "elapsedSeconds": 6833.3,
+  "mode": "brand-specific"
+}
