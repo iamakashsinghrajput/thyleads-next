@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useModal } from '@/components/ModalContext';
-import HeroSignal from '@/components/HeroSignal';
 
 const LOGOS = [
   { src: '/logos/clevertap.svg', h: 'h-9' },
@@ -19,10 +18,7 @@ const LOGOS = [
 
 const styles = `
   @keyframes heroFadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes heroCardIn { from { opacity: 0; transform: translateY(28px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-  @keyframes heroFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-  @keyframes heroBarGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-  @keyframes heroDraw { to { stroke-dashoffset: 0; } }
+  @keyframes heroImageIn { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
   @keyframes heroMarqueeLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @keyframes heroMarqueeRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 `;
@@ -35,135 +31,6 @@ function Star() {
   );
 }
 
-function ScoreRing() {
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    let x = 0;
-    const t = setInterval(() => { x += 4; setN(Math.min(x, 92)); if (x >= 92) clearInterval(t); }, 34);
-    return () => clearInterval(t);
-  }, []);
-  const C = 150.8;
-  return (
-    <div className="relative h-[60px] w-[60px] flex-shrink-0">
-      <svg viewBox="0 0 56 56" className="h-[60px] w-[60px] -rotate-90">
-        <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="4.5" />
-        <circle
-          cx="28" cy="28" r="24" fill="none" stroke="#F79127" strokeWidth="4.5" strokeLinecap="round"
-          strokeDasharray={C} strokeDashoffset={C * (1 - n / 100)}
-          style={{ transition: 'stroke-dashoffset 0.05s linear' }}
-        />
-      </svg>
-      <span className="absolute inset-0 grid place-items-center text-[16px] font-bold text-white">{n}</span>
-    </div>
-  );
-}
-
-/** Shuffles through what Harvin does: detect a signal, score the account, launch outbound, book the meeting. */
-function UpliftCard() {
-  const [step, setStep] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setStep((s) => (s + 1) % 4), 2600);
-    return () => clearInterval(t);
-  }, []);
-
-  return (
-    <div className="hidden lg:block absolute right-[3%] top-[24%] w-[344px]" style={{ animation: 'heroCardIn 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s both' }}>
-      <div style={{ animation: 'heroFloat 6s ease-in-out infinite' }}>
-        <div className="rounded-2xl border border-[#F2841C]/45 bg-[#1c1206]/90 p-5 backdrop-blur-md
-                        shadow-[0_0_44px_rgba(242,132,28,0.26),0_22px_54px_rgba(0,0,0,0.55)]">
-          {/* header: live badge + step dots */}
-          <div className="flex items-center justify-between">
-            <span className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-white/60">
-              <span className="h-2 w-2 rounded-full bg-[#F2841C] animate-pulse" />
-              Harvin, live
-            </span>
-            <span className="flex gap-1.5">
-              {[0, 1, 2, 3].map((i) => (
-                <span key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === step ? 'w-5 bg-[#F2841C]' : 'w-1.5 bg-white/20'}`} />
-              ))}
-            </span>
-          </div>
-          <div className="my-3.5 h-px w-full bg-white/10" />
-
-          {/* step body — re-mounts each step for the transition */}
-          <div key={step} className="min-h-[132px]" style={{ animation: 'heroFadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both' }}>
-            {step === 0 && (
-              <>
-                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#F79127]">Signal detected</p>
-                <div className="mt-3 flex items-center gap-3">
-                  <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-[#F2841C]/15 text-[15px] font-bold text-[#F7a94a]">W</span>
-                  <div className="min-w-0">
-                    <p className="truncate text-[15px] font-semibold text-white">Wonka Industries</p>
-                    <p className="text-[11.5px] text-white/45">CPG · Global</p>
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center gap-2">
-                  <span className="rounded bg-emerald-400/15 px-2 py-0.5 text-[10px] font-bold text-emerald-300">FUNDING</span>
-                  <span className="text-[13px] text-white/80">Raised $60M Series C</span>
-                </div>
-                <p className="mt-2.5 text-[11px] text-white/35">Detected 2m ago · from live sources</p>
-              </>
-            )}
-            {step === 1 && (
-              <>
-                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#F79127]">Account scored</p>
-                <div className="mt-3 flex items-center gap-4">
-                  <ScoreRing />
-                  <div>
-                    <p className="text-[15px] font-semibold text-white">High priority</p>
-                    <p className="text-[11.5px] text-white/45">Good fit · ready to buy</p>
-                  </div>
-                </div>
-                <ul className="mt-3 flex flex-col gap-1.5">
-                  {['6.8M monthly active users', '3 decision-makers mapped', 'Clear category fit'].map((r) => (
-                    <li key={r} className="flex items-center gap-2 text-[12px] text-white/60">
-                      <span className="text-emerald-400">✓</span>{r}
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-            {step === 2 && (
-              <>
-                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#F79127]">Outbound launched</p>
-                <p className="mt-3 text-[15px] font-semibold text-white">AI campaign generated</p>
-                <p className="text-[11.5px] text-white/45">Intelligence-led · 3 personas</p>
-                <div className="mt-3 rounded-lg border border-white/10 bg-white/[0.04] p-3">
-                  <p className="text-[9.5px] font-bold uppercase tracking-wide text-white/40">Recommended angle</p>
-                  <p className="mt-1 text-[13px] text-white/85">Lead with the funding signal</p>
-                </div>
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-[12px] text-white/50">Projected reply rate</span>
-                  <span className="font-bricolage text-[18px] font-bold text-[#F2841C]">5.4%</span>
-                </div>
-              </>
-            )}
-            {step === 3 && (
-              <>
-                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#F79127]">Meeting booked</p>
-                <div className="mt-3 flex items-center gap-3">
-                  <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-emerald-400/15 text-[16px] font-bold text-emerald-300">✓</span>
-                  <div className="min-w-0">
-                    <p className="truncate text-[15px] font-semibold text-white">Nina Alvarez replied</p>
-                    <p className="text-[11.5px] text-white/45">Brand Director · Interested</p>
-                  </div>
-                </div>
-                <div className="mt-3 rounded-lg border border-white/10 bg-white/[0.04] p-3">
-                  <p className="text-[12.5px] italic leading-snug text-white/80">&ldquo;This is timely — happy to chat.&rdquo;</p>
-                </div>
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-[12px] text-white/50">Meeting scheduled</span>
-                  <span className="text-[12.5px] font-semibold text-emerald-300">Thu, 2:30 PM</span>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Hero() {
   const { openModal } = useModal();
   const [email, setEmail] = useState('');
@@ -172,20 +39,41 @@ export default function Hero() {
     <section className="relative isolate overflow-hidden bg-[#0d0703] text-white">
       <style>{styles}</style>
 
-      {/* ── Animated signal-trace background (like thyleads-project) ─────── */}
+      {/* ── Base wash ───────────────────────────────────────────────────── */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(75%_65%_at_50%_45%,#3a1f0c_0%,#20120a_45%,#0d0703_100%)]"
       />
-      <HeroSignal slide={0} />
+
+      {/* ── Hero image — full-bleed on mobile, right panel from lg up ─────
+          The panel is wider and the crop sits further right than the source
+          framing, which pulls the subject leftward into the composition. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(38%_30%_at_50%_50%,rgba(13,7,3,0.60)_0%,rgba(13,7,3,0.24)_58%,transparent_100%)]"
-      />
+        className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[66%]"
+        style={{ animation: 'heroImageIn 1.1s cubic-bezier(0.16,1,0.3,1) both' }}
+      >
+        <img
+          src="/hero2.jpg"
+          alt=""
+          className="h-full w-full object-cover object-[68%_center] lg:object-[80%_center]"
+          loading="eager"
+        />
+        {/* blend the image's left edge into the page background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0d0703] via-[#0d0703]/72 to-[#0d0703]/20 lg:via-[#0d0703]/40 lg:to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0d0703] to-transparent" />
+      </div>
+
+      {/* ── Copy scrim — holds the left third near-black so the headline,
+             sub-copy and form stay legible, then clears before the subject. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#0d0703] via-[#0d0703]/60 to-transparent"
+        className="pointer-events-none absolute inset-0
+                   bg-[linear-gradient(to_right,rgba(13,7,3,0.94)_0%,rgba(13,7,3,0.88)_45%,rgba(13,7,3,0.66)_100%)]
+                   lg:bg-[linear-gradient(to_right,rgba(13,7,3,0.97)_0%,rgba(13,7,3,0.94)_22%,rgba(13,7,3,0.76)_38%,rgba(13,7,3,0.36)_50%,rgba(13,7,3,0.08)_62%,transparent_72%)]"
       />
+
+      {/* ── Grain ───────────────────────────────────────────────────────── */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-overlay"
@@ -198,18 +86,18 @@ export default function Hero() {
       {/* ── Content ────────────────────────────────────────────────────── */}
       <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1240px] flex-col px-6">
 
-        <div className="flex flex-1 flex-col items-center justify-center pt-44 pb-8 text-center">
-          <div className="flex w-full flex-col items-center">
+        <div className="flex flex-1 flex-col items-start justify-center pt-44 pb-8 text-left">
+          <div className="flex w-full max-w-[560px] flex-col items-start lg:max-w-[520px]">
             <h1
-              className="mx-auto max-w-[880px] font-bricolage font-bold tracking-[-0.02em] leading-[1.04]
-                         text-[clamp(36px,5.2vw,66px)] text-white"
+              className="font-bricolage font-bold tracking-[-0.02em] leading-[1.05]
+                         text-[clamp(32px,4.2vw,52px)] text-white"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both' }}
             >
-              AI-native GTM platform<br />that co-owns your pipeline
+              AI-native GTM platform that co-owns your pipeline
             </h1>
 
             <p
-              className="mt-6 max-w-[500px] text-[16px] sm:text-[19px] leading-relaxed text-white/70"
+              className="mt-5 max-w-[480px] text-[14px] sm:text-[16px] leading-relaxed text-white/70"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both' }}
             >
               Move from scattered tools to account intelligence, AI buying signals, and
@@ -231,10 +119,10 @@ export default function Hero() {
               />
               <button
                 type="submit"
-                className="flex flex-shrink-0 items-center gap-1.5 rounded-full px-6 py-3 text-[14px] font-semibold text-white
-                           bg-gradient-to-b from-[#F2841C] to-[#D95B12]
-                           shadow-[0_4px_14px_rgba(217,91,18,0.45)]
-                           hover:from-[#F79127] hover:to-[#E56B2C] transition-colors whitespace-nowrap"
+                className="flex flex-shrink-0 items-center gap-1.5 rounded-full px-6 py-3 text-[14px] font-semibold text-slate-950
+                           bg-gradient-to-b from-amber-400 to-amber-500
+                           shadow-[0_4px_14px_rgba(245,158,11,0.45)]
+                           hover:from-amber-300 hover:to-amber-400 transition-colors whitespace-nowrap"
               >
                 Get demo
                 <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -302,7 +190,7 @@ export default function Hero() {
               className="hidden min-w-0 flex-1 overflow-hidden pt-[74px] sm:block"
               style={{
                 maskImage: 'linear-gradient(to right, transparent, #000 10%, #000 99%, transparent)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent, #000 10%, #000 99 %, transparent)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent, #000 10%, #000 99%, transparent)',
               }}
             >
               <div className="flex w-max items-center gap-16" style={{ animation: 'heroMarqueeRight 20s linear infinite' }}>
