@@ -1346,7 +1346,7 @@ export default function ProductPage() {
     <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors duration-300">
       <style>{pageStyles}</style>
       <Navbar />
-      <div className="pt-[64px]">
+      <div>
 
         {/* ═══ HERO ═══════════════════════════════════════════════════════════ */}
         <section ref={heroReveal.ref} className="relative overflow-hidden

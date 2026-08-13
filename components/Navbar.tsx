@@ -1,423 +1,885 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Menu,
+  X,
+  ChevronDown,
+  Mail,
+} from 'lucide-react';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useSession, signOut } from 'next-auth/react';
-import { useTheme } from '@/components/ThemeProvider';
+import { usePathname } from 'next/navigation';
 import { useModal } from '@/components/ModalContext';
 
-/* ── Icons ──────────────────────────────────────────────────────────────────*/
-const SunIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-    <circle cx="10" cy="10" r="4" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42"
-          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-  </svg>
-);
+type DropdownKey = 'solutions' | 'resources' | null;
 
-const MoonIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-    <path d="M17.5 11.5A7.5 7.5 0 1 1 8.5 2.5a5.5 5.5 0 0 0 9 9z"
-          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+const PORTAL = 'https://www.portal-thyleads.com';
+const EXTENSION_URL =
+  'https://chromewebstore.google.com/detail/harvinai-tech-scanner/blmojockpggdpchlonagnhmgecbiapng';
 
-/* ── Component ──────────────────────────────────────────────────────────────*/
-const Navbar = () => {
-  const { isDark, toggle: onToggleTheme } = useTheme();
+const TOP_LINKS = [
+  { name: 'PRODUCT', href: '/product' },
+  { name: 'PRICING', href: '/pricing' },
+];
+
+/** Small secondary row above the main bar. */
+const UTILITY_LINKS = [
+  { name: 'BLOG', href: '/blog' },
+  { name: 'PRIVACY', href: '/privacy' },
+  { name: 'TERMS', href: '/terms' },
+];
+
+/** Flat list for the full (hamburger) menu. */
+const EXPLORE_LINKS = [
+  { name: 'Product', href: '/product' },
+  { name: 'Pricing', href: '/pricing' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Privacy', href: '/privacy' },
+  { name: 'Terms', href: '/terms' },
+];
+
+const CONTACT_EMAIL = 'admin@harvin.ai';
+
+type MenuItem = {
+  name: string;
+  href: string;
+  desc?: string;
+  image?: string;
+};
+
+const SOLUTIONS: {
+  byStage: MenuItem[];
+  byService: MenuItem[];
+  byVertical: MenuItem[];
+} = {
+  byStage: [
+    {
+      name: 'Account Intelligence',
+      href: '/product',
+      desc: 'Every account is a living intelligence entity.',
+      image: '/nav/series-a.jpg',
+    },
+    {
+      name: 'AI Signal Detection',
+      href: '/product',
+      desc: 'Funding, hiring, scaling, M&A and layoffs — scored.',
+      image: '/nav/series-b.jpg',
+    },
+  ],
+  byService: [
+    {
+      name: 'Campaign Orchestration',
+      href: '/product',
+      desc: 'Intelligence-led outbound, built from account signals.',
+      image: '/nav/outbound-strategy.jpg',
+    },
+    {
+      name: 'Verified Database',
+      href: '/product',
+      desc: 'Verified accounts and decision-makers',
+      image: '/nav/lead-generation.jpg',
+    },
+    {
+      name: 'Meeting Intelligence',
+      href: '/product',
+      desc: 'Track the full post-outbound journey',
+      image: '/nav/meeting-booking.jpg',
+    },
+    {
+      name: 'Look-a-like Accounts',
+      href: '/product',
+      desc: 'Find accounts like your best customers',
+      image: '/nav/pipeline-management.jpg',
+    },
+    {
+      name: 'Reports & Analytics',
+      href: '/product',
+      desc: 'Strategic visibility into outbound',
+      image: '/nav/gtm-execution.jpg',
+    },
+  ],
+  byVertical: [
+    {
+      name: 'SaaS & B2B',
+      href: '/product',
+      desc: 'Pipeline for modern GTM teams',
+      image: '/nav/martech.jpg',
+    },
+    {
+      name: 'FinTech',
+      href: '/product',
+      desc: 'Signal-led outbound for FinTech',
+      image:
+        '/nav/fintech.jpg',
+    },
+    {
+      name: 'HealthTech',
+      href: '/product',
+      desc: 'Reach the right healthcare buyers',
+      image: '/nav/hrtech.jpg',
+    },
+  ],
+};
+
+const RESOURCES: MenuItem[] = [
+  {
+    name: 'Blog',
+    href: '/blog',
+    desc: 'Playbooks and field notes.',
+    image: '/nav/blogs.jpg',
+  },
+  {
+    name: 'Pricing',
+    href: '/pricing',
+    desc: 'Simple, per-seat pricing',
+    image: '/nav/case-studies.jpg',
+  },
+  {
+    name: 'Product Tour',
+    href: '/product',
+    desc: 'See the platform end to end',
+    image: '/nav/ai-tools.jpg',
+  },
+  {
+    name: 'Get the Extension',
+    href: EXTENSION_URL,
+    desc: 'Scan any company from your browser.',
+    image: '/nav/gtm-framework.jpg',
+  },
+];
+
+/**
+ * Nav link styling. The underline is an ::after that wipes in from the left on
+ * hover; on the solid bar the label also picks up the brand colour.
+ */
+function navLinkClass(overlay: boolean, active: boolean) {
+  const base =
+    'relative inline-flex items-center px-3 py-2 text-[11px] font-bold tracking-[0.18em] transition-colors duration-200 ' +
+    'after:absolute after:left-3 after:right-3 after:bottom-[3px] after:h-[2px] after:origin-left ' +
+    'after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100';
+
+  if (overlay) {
+    return `${base} after:bg-white text-white/85 hover:text-white`;
+  }
+  return `${base} after:bg-primary-500 ${
+    active
+      ? 'text-primary-700 after:scale-x-100'
+      : 'text-neutral-600 hover:text-primary-600'
+  }`;
+}
+
+const EASE_OUT = [0.16, 1, 0.3, 1] as const;
+
+/**
+ * Panel shell. Hinges down from the top edge on the X axis — with the
+ * perspective set on the wrapper this reads as a real surface swinging into
+ * place rather than a flat fade.
+ */
+const panelVariants: Variants = {
+  hidden: { opacity: 0, y: -18, rotateX: -14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: {
+      duration: 0.42,
+      ease: EASE_OUT,
+      staggerChildren: 0.038,
+      delayChildren: 0.06,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -12,
+    rotateX: -10,
+    transition: {
+      duration: 0.22,
+      ease: EASE_OUT,
+      staggerChildren: 0.018,
+      staggerDirection: -1,
+    },
+  },
+};
+
+/** Pass-through container — carries the stagger down to the cards. */
+const groupVariants: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.038 } },
+  exit: { transition: { staggerChildren: 0.018, staggerDirection: -1 } },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 20, scale: 0.94 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: 'spring', stiffness: 320, damping: 26, mass: 0.7 },
+  },
+  exit: {
+    opacity: 0,
+    y: 10,
+    scale: 0.97,
+    transition: { duration: 0.14, ease: 'easeIn' },
+  },
+};
+
+const labelVariants: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: EASE_OUT } },
+  exit: { opacity: 0, y: 4, transition: { duration: 0.12 } },
+};
+
+const Navbar: React.FC = () => {
   const { openModal } = useModal();
-  const { data: session, status } = useSession();
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // Utility strip collapses on scroll-down, reappears on scroll-up.
+  const [hideUtil, setHideUtil] = useState(false);
+  const lastY = useRef(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pathname = usePathname();
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href.split('#')[0]);
 
-  const isLoggedIn = status === 'authenticated' && !!session?.user;
-  const userName = session?.user?.name || 'User';
-  const userEmail = session?.user?.email || '';
-  const userInitial = userName.charAt(0).toUpperCase();
+  const [navHovered, setNavHovered] = useState(false);
 
-  /* Scroll shadow */
+  // The homepage hero is dark and full-bleed, so the bar floats over it until
+  // you scroll past. Every other page keeps the solid bar in normal flow.
+  // Hovering the bar (or opening a menu) resolves it to solid white.
+  const isHome = pathname === '/';
+  const overlay = isHome && !scrolled && !navHovered && !openDropdown;
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    let raf = 0;
+    // Cooldown after each toggle: collapsing/expanding the strip changes layout
+    // height, which nudges scrollY and would otherwise re-trigger the handler in
+    // a loop (the "bouncing"). The lock + threshold keep it from ping-ponging.
+    let lockUntil = 0;
+    const handleScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const y = window.scrollY;
+        setScrolled(y > 20);
+        // Always show the strip near the top.
+        if (y < 80) {
+          setHideUtil(false);
+          lastY.current = y;
+          return;
+        }
+        const now = performance.now();
+        if (now < lockUntil) {
+          lastY.current = y;
+          return;
+        }
+        const delta = y - lastY.current;
+        if (delta > 10) {
+          setHideUtil(true);
+          lockUntil = now + 400;
+        } else if (delta < -10) {
+          setHideUtil(false);
+          lockUntil = now + 400;
+        }
+        lastY.current = y;
+      });
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
-  /* Lock body scroll while drawer is open */
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
 
-  /* Close dropdown on outside click */
-  useEffect(() => {
-    if (!dropdownOpen) return;
-    const handler = () => setDropdownOpen(false);
-    window.addEventListener('click', handler);
-    return () => window.removeEventListener('click', handler);
-  }, [dropdownOpen]);
-
-  const close = () => setMenuOpen(false);
-
-  const handleLogout = () => {
-    ['harvin_user', 'harvin_onboarding', 'harvin_dashboard_filters'].forEach(k => {
-      try { localStorage.removeItem(k); } catch { /* */ }
-    });
-    signOut({ callbackUrl: '/' });
+  const openIt = (k: DropdownKey) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpenDropdown(k);
   };
 
-  const navLinks = [
-    { label: 'Product', href: '/product' },
-    { label: 'Pricing', href: '/pricing' },
-    { label: 'Blog',    href: '/blog'    },
-  ];
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpenDropdown(null), 160);
+  };
+
+  const close = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpenDropdown(null);
+  };
+
+  const closeMobile = () => setMobileMenuOpen(false);
 
   return (
-    <>
-      {/* ═══ HEADER BAR ═══ */}
-      <header
-        className={[
-          'fixed top-0 inset-x-0 z-50 transition-all duration-300 backdrop-blur-2xl backdrop-saturate-150',
-          scrolled
-            ? 'bg-white/60 dark:bg-[#0D0D0C]/60 border-b border-slate-200/50 dark:border-white/[0.06] shadow-[0_1px_12px_rgba(0,0,0,0.04)] dark:shadow-[0_1px_12px_rgba(0,0,0,0.2)]'
-            : 'bg-white/30 dark:bg-[#0D0D0C]/30 border-b border-transparent',
-        ].join(' ')}
+    <nav
+      onMouseEnter={() => setNavHovered(true)}
+      onMouseLeave={() => setNavHovered(false)}
+      className={`${isHome ? 'fixed' : 'sticky'} top-0 z-50 w-full border-b transition-all duration-300 ${
+        overlay
+          ? 'bg-transparent border-white/10'
+          : scrolled || navHovered || openDropdown
+          ? 'bg-white/95 backdrop-blur-xl border-neutral-200/80 shadow-[0_6px_24px_-12px_rgba(15,23,42,0.18)]'
+          : 'bg-white border-neutral-100'
+      }`}
+    >
+      {/* Utility strip — collapses when scrolling down and reappears when
+          scrolling up (and is always shown near the top of the page). The
+          outer wrapper animates its height/opacity; the inner div keeps the
+          border and links unchanged. */}
+      <div
+        className={`hidden overflow-hidden transition-all duration-300 ease-out lg:block ${
+          hideUtil ? 'max-h-0 opacity-0' : 'max-h-12 opacity-100'
+        }`}
       >
-        <div className="max-w-[1280px] mx-auto px-6 h-[64px] flex items-center gap-8">
-
-          {/* LEFT: Logo + Nav links */}
-          <div className="flex items-center gap-6 flex-shrink-0">
-            <Link href="/" aria-label="HarvinAI home" className="flex items-center gap-0.5">
-              <div className="h-8 w-9 overflow-hidden flex-shrink-0">
-                <img src="/logo.svg" alt="" aria-hidden="true" className="h-8 w-auto max-w-none" />
-              </div>
-              <span className="font-bricolage font-bold text-[24px] tracking-normal text-slate-900 dark:text-white leading-none">
-                Harvin<span className="font-semibold opacity-40">AI</span>
-              </span>
-            </Link>
-
-            <span className="hidden md:block w-px h-5 bg-slate-200 dark:bg-white/[0.12]" aria-hidden="true" />
-
-            <ul className="hidden md:flex items-center gap-0.5 list-none m-0 p-0">
-              {navLinks.map(({ label, href }) => (
-                <li key={label}>
-                  <Link href={href}
-                    className="inline-block px-3 py-1.5 text-[15px] font-medium rounded-md transition-all duration-150
-                               text-slate-600 dark:text-slate-300
-                               hover:text-slate-900 dark:hover:text-white
-                               hover:bg-slate-100 dark:hover:bg-white/[0.07]
-                               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2">
-                    {label}
-                  </Link>
-                </li>
-              ))}
-              {/* Dashboard link — only for logged-in users */}
-              {isLoggedIn && (
-                <li>
-                  <Link href="/dashboard"
-                    className="inline-block px-3 py-1.5 text-[15px] font-medium rounded-md transition-all duration-150
-                               text-slate-600 dark:text-slate-300
-                               hover:text-slate-900 dark:hover:text-white
-                               hover:bg-slate-100 dark:hover:bg-white/[0.07]
-                               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2">
-                    Dashboard
-                  </Link>
-                </li>
-              )}
-            </ul>
+      <div
+        className={`border-b transition-colors duration-300 ${
+          overlay ? 'border-white/10' : 'border-neutral-200/70'
+        }`}
+      >
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-2 lg:px-10">
+          <div className="flex items-center gap-7">
+            {UTILITY_LINKS.map((l) => (
+              <Link
+                key={l.name}
+                href={l.href}
+                className={`text-[10.5px] font-bold uppercase tracking-[0.14em] transition-colors ${
+                  overlay
+                    ? 'text-white/70 hover:text-white'
+                    : 'text-neutral-500 hover:text-primary-600'
+                }`}
+              >
+                {l.name}
+              </Link>
+            ))}
           </div>
 
-          {/* SPACER */}
-          <div className="flex-1" />
-
-          {/* RIGHT: Theme + Auth (desktop only) */}
-          <div className="hidden md:flex items-center gap-3">
-            {/* Theme toggle */}
-            <button onClick={onToggleTheme} aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="w-9 h-9 flex items-center justify-center rounded-lg transition-all duration-150 flex-shrink-0
-                         text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white
-                         hover:bg-slate-100 dark:hover:bg-white/[0.07] border border-slate-200 dark:border-white/[0.1]">
-              {isDark ? <SunIcon /> : <MoonIcon />}
-            </button>
-
-            {/* Chrome Extension */}
-            <a href="https://chromewebstore.google.com/detail/harvinai-tech-scanner/blmojockpggdpchlonagnhmgecbiapng" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1.5 h-9 px-3 rounded-lg text-[13px] font-medium transition-all duration-150
-                         text-[#C94C1E] border border-[#C94C1E]/20
-                         hover:bg-[#C94C1E]/5 dark:hover:bg-[#C94C1E]/10">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                <path d="M8 12l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+          <div className="flex items-center gap-6">
+            <a
+              href={EXTENSION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-[0.14em] transition-colors ${
+                overlay
+                  ? 'text-white/70 hover:text-white'
+                  : 'text-neutral-500 hover:text-primary-600'
+              }`}
+            >
+              <ArrowUpRight className="h-3 w-3" strokeWidth={2.5} />
               Get Extension
             </a>
-
-            {isLoggedIn ? (
-              /* ── Logged-in: Avatar dropdown ── */
-              <div className="relative">
-                <button
-                  onClick={(e) => { e.stopPropagation(); setDropdownOpen(!dropdownOpen); }}
-                  className="flex items-center gap-2.5 h-9 pl-1 pr-3 rounded-full transition-all duration-150
-                             border border-slate-200 dark:border-white/[0.1]
-                             hover:bg-slate-50 dark:hover:bg-white/[0.05]
-                             hover:border-slate-300 dark:hover:border-white/20"
-                >
-                  <div className="w-7 h-7 rounded-full bg-[#C94C1E] flex items-center justify-center text-[12px] font-bold text-white flex-shrink-0">
-                    {session?.user?.image ? (
-                      <img src={session.user.image} alt="" className="w-7 h-7 rounded-full object-cover" />
-                    ) : (
-                      userInitial
-                    )}
-                  </div>
-                  <span className="text-[13px] font-medium text-slate-700 dark:text-slate-300 max-w-[120px] truncate">
-                    {userName}
-                  </span>
-                  <svg className={`w-3.5 h-3.5 text-slate-400 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} viewBox="0 0 14 14" fill="none">
-                    <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-
-                {/* Dropdown */}
-                {dropdownOpen && (
-                  <div className="absolute right-0 top-[calc(100%+6px)] w-[220px] rounded-xl overflow-hidden
-                                  bg-white dark:bg-[#1a1a1a] border border-slate-200 dark:border-white/[0.1]
-                                  shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
-                    <div className="px-4 py-3 border-b border-slate-100 dark:border-white/[0.06]">
-                      <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{userName}</p>
-                      <p className="text-[11px] text-slate-400 dark:text-slate-500 truncate">{userEmail}</p>
-                    </div>
-                    <div className="py-1.5">
-                      <Link href="/dashboard" onClick={() => setDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2 text-[13px] font-medium
-                                   text-slate-600 dark:text-slate-300
-                                   hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors">
-                        <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-                          <rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/>
-                          <rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/>
-                        </svg>
-                        Dashboard
-                      </Link>
-                      <button onClick={handleLogout}
-                        className="w-full flex items-center gap-2.5 px-4 py-2 text-[13px] font-medium
-                                   text-red-500 dark:text-red-400
-                                   hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
-                        <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-                          <path d="M6 14H3.33A1.33 1.33 0 012 12.67V3.33A1.33 1.33 0 013.33 2H6M11 11.33L14 8l-3-3.33M14 8H6"/>
-                        </svg>
-                        Sign out
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              /* ── Not logged in: Sign in + Early access ── */
-              <>
-                <a href="https://www.portal-thyleads.com"
-                  className="inline-flex items-center px-4 py-1.5 rounded-btn text-[14px] font-semibold transition-all duration-150
-                             text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/[0.18]
-                             hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/40
-                             hover:bg-slate-50 dark:hover:bg-white/[0.06]
-                             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500">
-                  Sign in
-                </a>
-
-                <button
-                  onClick={() => openModal('early-access')}
-                  className="inline-flex items-center px-4 py-1.5 rounded-btn text-[14px] font-semibold transition-all duration-150
-                             text-white bg-ember-500 shadow-[0_1px_4px_rgba(201,76,30,0.3)]
-                             hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)]
-                             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500">
-                  Get early access
-                </button>
-              </>
-            )}
-          </div>
-
-          {/* Hamburger — mobile / tablet */}
-          <button
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open navigation menu"
-            aria-expanded={menuOpen}
-            className="md:hidden ml-auto flex flex-col justify-center gap-[5px]
-                       w-9 h-9 p-2 rounded-md transition-colors duration-150
-                       hover:bg-slate-100 dark:hover:bg-white/[0.07]"
-          >
-            <span className="block w-full h-0.5 rounded-sm bg-slate-600 dark:bg-slate-300" />
-            <span className="block w-full h-0.5 rounded-sm bg-slate-600 dark:bg-slate-300" />
-            <span className="block w-4   h-0.5 rounded-sm bg-slate-600 dark:bg-slate-300" />
-          </button>
-        </div>
-      </header>
-
-      {/* ═══ BACKDROP ═══ */}
-      <div
-        onClick={close}
-        aria-hidden="true"
-        className={[
-          'fixed inset-0 z-[55] bg-black/40 backdrop-blur-[2px] md:hidden',
-          'transition-opacity duration-300',
-          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
-        ].join(' ')}
-      />
-
-      {/* ═══ RIGHT DRAWER (mobile) ═══ */}
-      <aside
-        aria-label="Navigation menu"
-        aria-hidden={!menuOpen}
-        className={[
-          'fixed top-0 right-0 bottom-0 z-[60] md:hidden',
-          'w-[80vw] max-w-[300px]',
-          'flex flex-col',
-          'bg-white dark:bg-[#0D0D0C]',
-          'border-l border-slate-200 dark:border-white/[0.08]',
-          'shadow-[-8px_0_32px_rgba(0,0,0,0.12)] dark:shadow-[-8px_0_32px_rgba(0,0,0,0.5)]',
-          'transition-transform duration-300 ease-in-out',
-          menuOpen ? 'translate-x-0' : 'translate-x-full',
-        ].join(' ')}
-      >
-        {/* Drawer header */}
-        <div className="flex items-center justify-between px-5 h-[64px] border-b border-slate-200 dark:border-white/[0.08] flex-shrink-0">
-          <Link href="/" onClick={close} className="flex items-center gap-2.5">
-            <div className="h-7 w-7 overflow-hidden flex-shrink-0">
-              <img src="/logo.svg" alt="" aria-hidden="true" className="h-7 w-auto max-w-none" />
-            </div>
-            <span className="font-bricolage font-bold text-[18px] tracking-normal text-slate-900 dark:text-white leading-none">
-              Harvin<span className="font-semibold opacity-40">AI</span>
-            </span>
-          </Link>
-
-          <button
-            onClick={close}
-            aria-label="Close navigation menu"
-            className="w-8 h-8 flex items-center justify-center rounded-lg
-                       text-slate-500 dark:text-slate-400
-                       hover:text-slate-900 dark:hover:text-white
-                       hover:bg-slate-100 dark:hover:bg-white/[0.07]
-                       transition-colors duration-150"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto flex flex-col px-4 py-4 gap-1">
-          {/* User info (mobile, logged in) */}
-          {isLoggedIn && (
-            <div className="flex items-center gap-3 px-3 py-3 mb-2 rounded-lg bg-slate-50 dark:bg-white/[0.04] border border-slate-100 dark:border-white/[0.06]">
-              <div className="w-9 h-9 rounded-full bg-[#C94C1E] flex items-center justify-center text-[13px] font-bold text-white flex-shrink-0">
-                {session?.user?.image ? (
-                  <img src={session.user.image} alt="" className="w-9 h-9 rounded-full object-cover" />
-                ) : (
-                  userInitial
-                )}
-              </div>
-              <div className="min-w-0">
-                <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{userName}</p>
-                <p className="text-[11px] text-slate-400 truncate">{userEmail}</p>
-              </div>
-            </div>
-          )}
-
-          {/* Nav links */}
-          <ul className="list-none m-0 p-0 flex flex-col gap-0.5">
-            {navLinks.map(({ label, href }) => (
-              <li key={label}>
-                <Link href={href} onClick={close}
-                  className="flex items-center justify-between px-3 py-3 rounded-md transition-all duration-150
-                             text-[15px] font-medium
-                             text-slate-700 dark:text-slate-300
-                             hover:text-slate-900 dark:hover:text-white
-                             hover:bg-slate-100 dark:hover:bg-white/[0.07]">
-                  {label}
-                  <svg className="w-4 h-4 text-slate-400" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </Link>
-              </li>
-            ))}
-            {isLoggedIn && (
-              <li>
-                <Link href="/dashboard" onClick={close}
-                  className="flex items-center justify-between px-3 py-3 rounded-md transition-all duration-150
-                             text-[15px] font-medium
-                             text-slate-700 dark:text-slate-300
-                             hover:text-slate-900 dark:hover:text-white
-                             hover:bg-slate-100 dark:hover:bg-white/[0.07]">
-                  Dashboard
-                  <svg className="w-4 h-4 text-slate-400" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </Link>
-              </li>
-            )}
-          </ul>
-
-          {/* Divider */}
-          <div className="my-3 border-t border-slate-200 dark:border-white/[0.08]" />
-
-          {/* Theme toggle row */}
-          <div className="flex items-center justify-between px-3 py-2.5 rounded-md
-                          bg-slate-50 dark:bg-white/[0.04]
-                          border border-slate-200 dark:border-white/[0.07]">
-            <span className="text-[14px] font-medium text-slate-600 dark:text-slate-400">
-              {isDark ? 'Dark mode' : 'Light mode'}
-            </span>
-            <button onClick={onToggleTheme} aria-label={isDark ? 'Switch to light' : 'Switch to dark'}
-              className="w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-150
-                         text-slate-500 dark:text-slate-400
-                         hover:text-slate-900 dark:hover:text-white
-                         hover:bg-slate-200 dark:hover:bg-white/[0.1]">
-              {isDark ? <SunIcon /> : <MoonIcon />}
-            </button>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className={`flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-[0.14em] transition-colors ${
+                overlay
+                  ? 'text-white/70 hover:text-white'
+                  : 'text-neutral-500 hover:text-primary-600'
+              }`}
+            >
+              <Mail className="h-3 w-3" strokeWidth={2.5} />
+              {CONTACT_EMAIL}
+            </a>
           </div>
         </div>
+      </div>
+      </div>
 
-        {/* Drawer footer — CTA buttons */}
-        <div className="flex-shrink-0 px-4 pb-6 pt-3 flex flex-col gap-2.5
-                        border-t border-slate-200 dark:border-white/[0.08]">
-          {isLoggedIn ? (
-            <>
-              <Link href="/dashboard" onClick={close}
-                className="w-full text-center py-2.5 rounded-btn text-[14px] font-semibold transition-all duration-150
-                           text-white bg-ember-500 hover:bg-ember-400
-                           shadow-[0_2px_8px_rgba(201,76,30,0.3)]">
-                Go to Dashboard
-              </Link>
-              <button onClick={() => { close(); handleLogout(); }}
-                className="w-full text-center py-2.5 rounded-btn text-[14px] font-semibold transition-all duration-150
-                           text-red-500 dark:text-red-400
-                           border border-red-200 dark:border-red-800/40
-                           hover:bg-red-50 dark:hover:bg-red-500/10">
-                Sign out
-              </button>
-            </>
-          ) : (
-            <>
-              <a href="https://www.portal-thyleads.com" onClick={close}
-                className="w-full text-center py-2.5 rounded-btn text-[14px] font-semibold transition-all duration-150
-                           text-slate-700 dark:text-slate-300
-                           border border-slate-300 dark:border-white/[0.18]
-                           hover:text-slate-900 dark:hover:text-white
-                           hover:bg-slate-50 dark:hover:bg-white/[0.05]">
-                Sign in
-              </a>
-              <button
-                onClick={() => { close(); openModal('early-access'); }}
-                className="w-full text-center py-2.5 rounded-btn text-[14px] font-semibold transition-all duration-150
-                           text-white bg-ember-500 hover:bg-ember-400
-                           shadow-[0_2px_8px_rgba(201,76,30,0.3)]">
+      {/* Main bar — logo and links both hug the left, Bain-style. */}
+      <div className="relative mx-auto flex max-w-[1600px] items-center gap-8 px-6 py-3.5 lg:px-10">
+
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Open menu"
+          className={`hidden lg:flex shrink-0 flex-col justify-center gap-[5px] p-1 transition-colors ${
+            overlay ? 'text-white' : 'text-neutral-900'
+          }`}
+        >
+          <span className="block h-[2px] w-6 bg-current" />
+          <span className="block h-[2px] w-6 bg-current" />
+          <span className="block h-[2px] w-6 bg-current" />
+        </button>
+
+        <Link
+          href="/"
+          className="flex items-center space-x-1 cursor-pointer hover:opacity-80 transition-opacity shrink-0"
+        >
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+            <div className="relative w-7 h-7 rounded-lg overflow-hidden">
+              <Image
+                src="/logo.svg"
+                alt="HarvinAI"
+                width={28}
+                height={28}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+          <span
+            className={`text-[20px] font-bricolage font-bold tracking-wide transition-colors duration-500 ${
+              overlay ? 'text-white' : 'text-neutral-900'
+            }`}
+          >
+            Harvin<span className="font-semibold opacity-40">AI</span>
+          </span>
+        </Link>
+
+        <div className="hidden lg:flex flex-1 items-center gap-0.5">
+          {TOP_LINKS.map((l) => (
+            <Link
+              key={l.name}
+              href={l.href}
+              className={navLinkClass(overlay, isActive(l.href))}
+            >
+              {l.name}
+            </Link>
+          ))}
+
+          <MenuTrigger
+            label="PLATFORM"
+            active={openDropdown === 'solutions'}
+            overlay={overlay}
+            onOpen={() => openIt('solutions')}
+            onClose={scheduleClose}
+          />
+
+          <MenuTrigger
+            label="RESOURCES"
+            active={openDropdown === 'resources'}
+            overlay={overlay}
+            onOpen={() => openIt('resources')}
+            onClose={scheduleClose}
+          />
+        </div>
+
+        <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <a
+            href={PORTAL}
+            className={`text-[11px] font-bold uppercase tracking-[0.12em] transition-colors ${
+              overlay ? 'text-white/85 hover:text-white' : 'text-neutral-700 hover:text-primary-600'
+            }`}
+          >
+            Sign in
+          </a>
+          {overlay ? (
+            <button
+              type="button"
+              onClick={() => openModal('early-access')}
+              className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-neutral-900 transition-all duration-300 hover:bg-primary-500 hover:text-white"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-[0.1em]">
                 Get early access
-              </button>
-            </>
+              </span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => openModal('early-access')}
+              className="relative inline-flex items-center justify-center rounded-full p-[1.5px] overflow-hidden group cursor-pointer"
+            >
+              <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0%,transparent_30%,#845cf5_50%,#ffffff_60%,transparent_70%,transparent_100%)]" />
+              <span className="relative flex items-center space-x-2 px-5 py-2.5 bg-neutral-900 text-white rounded-full group-hover:bg-primary-500 transition-all duration-300">
+                <span className="text-[11px] font-bold uppercase tracking-[0.1em]">
+                  Get early access
+                </span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </button>
           )}
         </div>
-      </aside>
-    </>
+
+        <div className="lg:hidden">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+            className={`p-2 transition-colors duration-500 ${
+              overlay ? 'text-white' : 'text-neutral-900'
+            }`}
+          >
+            {mobileMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+      </div>
+
+      {/* Perspective host: gives the panel below a real vanishing point. */}
+      <div className="hidden lg:block absolute inset-x-0 top-full [perspective:1800px]">
+        <AnimatePresence mode="wait">
+          {openDropdown && (
+            <motion.div
+              key={openDropdown}
+              variants={panelVariants}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              onMouseEnter={() => openIt(openDropdown)}
+              onMouseLeave={scheduleClose}
+              className="origin-top border-b-2 border-neutral-900/90 bg-[#f4f5f7] shadow-[0_40px_80px_-24px_rgba(15,23,42,0.45)]"
+            >
+              {/* Top bevel: a lit edge over a hairline shadow reads as thickness. */}
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white" />
+              <div className="pointer-events-none absolute inset-x-0 top-px h-px bg-neutral-900/10" />
+
+              <div className="relative mx-auto max-w-[1600px] px-6 py-8 lg:px-10">
+                {openDropdown === 'solutions' ? (
+                  <motion.div
+                    variants={groupVariants}
+                    className="grid grid-cols-12 gap-5"
+                  >
+                    <motion.div
+                      variants={groupVariants}
+                      className="col-span-4 flex flex-col"
+                    >
+                      <PanelLabel>Intelligence</PanelLabel>
+                      <div className="flex flex-1 flex-col gap-5">
+                        <MenuCard
+                          item={SOLUTIONS.byStage[0]}
+                          onClick={close}
+                          className="flex-1"
+                        />
+                        <MenuCard item={SOLUTIONS.byStage[1]} onClick={close} />
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      variants={groupVariants}
+                      className="col-span-5 flex flex-col"
+                    >
+                      <PanelLabel>Workflow</PanelLabel>
+                      <motion.div
+                        variants={groupVariants}
+                        className="grid flex-1 grid-cols-2 gap-5"
+                      >
+                        <MenuCard
+                          item={SOLUTIONS.byService[0]}
+                          onClick={close}
+                          className="col-span-2"
+                        />
+                        {SOLUTIONS.byService.slice(1).map((item) => (
+                          <MenuCard key={item.name} item={item} onClick={close} />
+                        ))}
+                      </motion.div>
+                    </motion.div>
+
+                    <motion.div
+                      variants={groupVariants}
+                      className="col-span-3 flex flex-col"
+                    >
+                      <PanelLabel>For teams</PanelLabel>
+                      <motion.div
+                        variants={groupVariants}
+                        className="flex flex-1 flex-col gap-5"
+                      >
+                        {SOLUTIONS.byVertical.map((item) => (
+                          <MenuCard
+                            key={item.name}
+                            item={item}
+                            onClick={close}
+                            variant="ghost"
+                            className="flex-1"
+                          />
+                        ))}
+                      </motion.div>
+                    </motion.div>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    variants={groupVariants}
+                    className="grid grid-cols-4 gap-5"
+                  >
+                    {RESOURCES.map((item) => (
+                      <MenuCard key={item.name} item={item} onClick={close} />
+                    ))}
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            variants={panelVariants}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            className="relative origin-top overflow-hidden border-b-2 border-neutral-900/90 bg-[#f4f5f7] shadow-[0_40px_80px_-24px_rgba(15,23,42,0.45)]"
+          >
+            {/* Same bevelled top edge as the mega menu. */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white" />
+            <div className="pointer-events-none absolute inset-x-0 top-px h-px bg-neutral-900/10" />
+
+            <div className="mx-auto max-h-[calc(100vh-8rem)] max-w-[1600px] overflow-y-auto px-6 py-8 lg:px-10">
+              <motion.div
+                variants={groupVariants}
+                className="grid gap-x-10 gap-y-8 md:grid-cols-2 lg:grid-cols-12"
+              >
+                <motion.div variants={groupVariants} className="lg:col-span-3">
+                  <PanelLabel>Explore</PanelLabel>
+                  <div className="flex flex-col">
+                    {EXPLORE_LINKS.map((l) => (
+                      <MenuLink key={l.name} href={l.href} onClose={closeMobile}>
+                        {l.name}
+                      </MenuLink>
+                    ))}
+                  </div>
+                </motion.div>
+
+                <motion.div variants={groupVariants} className="lg:col-span-6">
+                  <PanelLabel>Platform</PanelLabel>
+                  <div className="grid gap-x-8 sm:grid-cols-3">
+                    <MenuColumn label="Intelligence" items={SOLUTIONS.byStage} onClose={closeMobile} />
+                    <MenuColumn label="Workflow" items={SOLUTIONS.byService} onClose={closeMobile} />
+                    <MenuColumn label="For teams" items={SOLUTIONS.byVertical} onClose={closeMobile} />
+                  </div>
+                </motion.div>
+
+                <motion.div variants={groupVariants} className="lg:col-span-3">
+                  <PanelLabel>Resources</PanelLabel>
+                  <div className="flex flex-col">
+                    {RESOURCES.map((r) => (
+                      <MenuLink key={r.name} href={r.href} onClose={closeMobile}>
+                        {r.name}
+                      </MenuLink>
+                    ))}
+                  </div>
+
+                  <div className="mt-7 border-t border-neutral-300/70 pt-5">
+                    <button
+                      type="button"
+                      onClick={() => { closeMobile(); openModal('early-access'); }}
+                      className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-white transition-colors hover:bg-primary-500"
+                    >
+                      <span className="text-[11px] font-bold uppercase tracking-[0.1em]">
+                        Get early access
+                      </span>
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </button>
+                    <div className="mt-4 flex flex-col gap-2">
+                      <a href={PORTAL} className="flex items-center gap-2 text-[12px] font-medium text-neutral-500 transition-colors hover:text-primary-600">
+                        <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.2} />
+                        Sign in
+                      </a>
+                      <a href={`mailto:${CONTACT_EMAIL}`} className="flex items-center gap-2 text-[12px] font-medium text-neutral-500 transition-colors hover:text-primary-600">
+                        <Mail className="h-3.5 w-3.5" strokeWidth={2.2} />
+                        {CONTACT_EMAIL}
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 };
+
+function MenuTrigger({
+  label,
+  active,
+  overlay,
+  onOpen,
+  onClose,
+}: {
+  label: string;
+  active: boolean;
+  overlay: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <div
+      className="relative inline-flex items-center"
+      onMouseEnter={onOpen}
+      onMouseLeave={onClose}
+    >
+      <button
+        type="button"
+        aria-expanded={active}
+        className={`${navLinkClass(overlay, active)} gap-1 ${
+          active ? 'after:scale-x-100 text-primary-700' : ''
+        }`}
+      >
+        {label}
+        <ChevronDown
+          className={`w-3 h-3 transition-transform duration-300 ${
+            active ? 'rotate-180' : ''
+          }`}
+          strokeWidth={2.5}
+        />
+      </button>
+    </div>
+  );
+}
+
+function PanelLabel({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      variants={labelVariants}
+      className={`mb-3 flex items-center gap-3 text-[9.5px] font-bold uppercase tracking-[0.28em] text-neutral-400 ${className}`}
+    >
+      {children}
+      <span className="h-px flex-1 bg-neutral-300/70" />
+    </motion.div>
+  );
+}
+
+function CardArrow() {
+  return (
+    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/40 bg-white/10 text-white backdrop-blur-sm transition-all duration-300 group-hover/card:border-primary-400 group-hover/card:bg-primary-500 group-hover/card:shadow-[0_6px_14px_-4px_rgba(132,92,245,0.8)]">
+      <ArrowUpRight
+        className="h-4 w-4 transition-transform duration-300 group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5"
+        strokeWidth={2}
+      />
+    </span>
+  );
+}
+
+/**
+ * Stacked shadows give each card a physical thickness; on hover it lifts
+ * toward the viewer instead of just changing colour.
+ */
+const CARD_SURFACE =
+  'rounded-2xl bg-neutral-950 ring-1 ring-neutral-900/10 ' +
+  'shadow-[0_1px_1px_rgba(15,23,42,0.06),0_4px_8px_-2px_rgba(15,23,42,0.10),0_12px_24px_-8px_rgba(15,23,42,0.14)] ' +
+  'transition-all duration-300 ' +
+  'hover:-translate-y-1 hover:ring-primary-400/60 ' +
+  'hover:shadow-[0_2px_4px_rgba(15,23,42,0.08),0_12px_20px_-6px_rgba(132,92,245,0.28),0_28px_48px_-12px_rgba(132,92,245,0.40)]';
+
+function MenuCard({
+  item,
+  onClick,
+  className = '',
+  variant = 'solid',
+}: {
+  item: MenuItem;
+  onClick: () => void;
+  className?: string;
+  variant?: 'solid' | 'ghost';
+}) {
+  const ghost = variant === 'ghost';
+
+  return (
+    <motion.div
+      variants={cardVariants}
+      className={`${className}`}
+    >
+      <Link
+        href={item.href}
+        onClick={onClick}
+        className={`group/card relative flex h-full flex-col justify-end overflow-hidden p-4 ${
+          ghost ? 'min-h-[130px]' : 'min-h-[152px]'
+        } ${CARD_SURFACE}`}
+      >
+        {item.image && (
+          <Image
+            src={item.image}
+            alt=""
+            fill
+            sizes="(max-width: 1024px) 100vw, 480px"
+            className="object-cover transition-transform duration-[900ms] ease-out group-hover/card:scale-105"
+          />
+        )}
+
+        {/* Scrim — guarantees contrast for the label whatever the artwork is. */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-neutral-950/45 opacity-100 transition-opacity duration-500 group-hover/card:opacity-45" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary-700/45 via-primary-900/20 to-transparent opacity-70 transition-opacity duration-500 group-hover/card:opacity-25" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-neutral-950/95 via-neutral-950/55 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/20" />
+
+        <div className="relative flex items-end justify-between gap-3">
+          <div className="min-w-0">
+            <div className="text-[15px] font-semibold leading-snug tracking-[-0.01em] text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
+              {item.name}
+            </div>
+            {item.desc && (
+              <p className="mt-1 text-[12px] leading-snug text-white/75 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
+                {item.desc}
+              </p>
+            )}
+          </div>
+          <CardArrow />
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
+
+
+
+
+/** Text link inside the full menu — same hover language as the nav bar. */
+function MenuLink({
+  href,
+  children,
+  onClose,
+}: {
+  href: string;
+  children: React.ReactNode;
+  onClose: () => void;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onClose}
+      className="group/ml relative inline-flex items-center gap-2 py-2 text-[15px] font-medium text-neutral-700 transition-colors hover:text-primary-600"
+    >
+      <span className="relative">
+        {children}
+        <span className="absolute -bottom-0.5 left-0 h-[1.5px] w-full origin-left scale-x-0 bg-primary-500 transition-transform duration-300 group-hover/ml:scale-x-100" />
+      </span>
+      <ArrowUpRight
+        className="h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover/ml:translate-x-0 group-hover/ml:opacity-100"
+        strokeWidth={2.2}
+      />
+    </Link>
+  );
+}
+
+function MenuColumn({
+  label,
+  items,
+  onClose,
+}: {
+  label: string;
+  items: MenuItem[];
+  onClose: () => void;
+}) {
+  return (
+    <div className="mb-5 sm:mb-0">
+      <div className="mb-1 text-[9.5px] font-bold uppercase tracking-[0.24em] text-primary-600">
+        {label}
+      </div>
+      <div className="flex flex-col">
+        {items.map((item) => (
+          <MenuLink key={item.name} href={item.href} onClose={onClose}>
+            {item.name}
+          </MenuLink>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default Navbar;
