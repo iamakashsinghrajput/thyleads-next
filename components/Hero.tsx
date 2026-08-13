@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useModal } from '@/components/ModalContext';
 
 const LOGOS = [
@@ -21,7 +21,27 @@ const styles = `
   @keyframes heroImageIn { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
   @keyframes heroMarqueeLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @keyframes heroMarqueeRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  /* Card 1 rises from behind the laptop lid: starts tiny and pushed down onto
+     the lid, then grows upward (origin is the card's own bottom edge, which
+     rests just above the screen). */
+  @keyframes heroCardEmerge { 0% { opacity: 0; transform: translateY(52px) scale(0.2); } 25% { opacity: 0.45; } 55% { opacity: 0.9; } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes heroCardIn { from { opacity: 0; transform: translateY(18px) scale(0.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes heroCardFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes heroCaret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
 `;
+
+/** Prompts the Co-Marketer card cycles through. Card 0 is the one that
+ *  emerges from the laptop; the rest slide up in place. */
+const CARDS: { lines: [string, string] }[] = [
+  { lines: ['How do I get my first meeting?', "What's my next move?"] },
+  { lines: ['Which accounts are ready to buy?', "Show me today's signals."] },
+  { lines: ['Who should I reach out to first?', 'Map the buying committee.'] },
+  { lines: ['Write my outbound sequence.', 'Lead with the funding news.'] },
+  { lines: ['Why did this deal go quiet?', 'What changed last week?'] },
+  { lines: ['Which vendor are they using?', 'Show me where I can win.'] },
+];
+
+const CARD_MS = 8200;
 
 function Star() {
   return (
@@ -31,9 +51,112 @@ function Star() {
   );
 }
 
+function Sparkle() {
+  return (
+    <svg viewBox="0 0 26 26" className="h-[22px] w-[22px] flex-shrink-0" fill="currentColor" aria-hidden="true">
+      <path d="M15.4 1.6l1.75 4.9 4.9 1.75-4.9 1.75-1.75 4.9-1.75-4.9-4.9-1.75 4.9-1.75 1.75-4.9z" />
+      <path d="M6.6 13.9l1.05 2.95 2.95 1.05-2.95 1.05-1.05 2.95-1.05-2.95-2.95-1.05 2.95-1.05 1.05-2.95z" />
+    </svg>
+  );
+}
+
+/** Types both lines out as one stream so line 2 starts only once line 1 lands. */
+function TypedLines({ lines, delay }: { lines: [string, string]; delay: number }) {
+  const full = `${lines[0]}\n${lines[1]}`;
+  const [n, setN] = useState(0);
+
+  useEffect(() => {
+    setN(0);
+    let i = 0;
+    let tick: ReturnType<typeof setTimeout>;
+    // uneven cadence — a fixed interval reads as a machine, not a person
+    const step = () => {
+      i += 1;
+      setN(i);
+      if (i >= full.length) return;
+      const ch = full[i - 1];
+      const pause =
+        ch === '\n' ? 420 :        // beat before the second line
+        '?.,'.includes(ch) ? 260 : // settle on punctuation
+        ch === ' ' ? 70 :
+        40 + Math.random() * 60;
+      tick = setTimeout(step, pause);
+    };
+    const start = setTimeout(step, delay);
+    return () => { clearTimeout(start); clearTimeout(tick); };
+  }, [full, delay]);
+
+  const out = full.slice(0, n).split('\n');
+  const done = n >= full.length;
+
+  return (
+    // min-height reserves both lines so the card doesn't grow mid-type
+    <p className="min-h-[47px] text-[15px] font-medium leading-[1.55] text-white">
+      {out.map((line, i) => (
+        <span key={i} className="block">
+          {line}
+          {i === out.length - 1 && !done && (
+            <span
+              className="ml-0.5 inline-block h-[14px] w-[1.5px] translate-y-[2px] bg-[#F2841C]"
+              style={{ animation: 'heroCaret 1s steps(1) infinite' }}
+            />
+          )}
+        </span>
+      ))}
+    </p>
+  );
+}
+
+function CoMarketerCard({ card, emerge }: { card: (typeof CARDS)[number]; emerge: boolean }) {
+  return (
+    <div
+      className="w-[360px]"
+      style={
+        emerge
+          ? // grows upward off its own bottom edge, which sits on the laptop lid
+            { animation: 'heroCardEmerge 2s cubic-bezier(0.33,1,0.68,1) both', transformOrigin: '50% 100%' }
+          : { animation: 'heroCardIn 0.9s cubic-bezier(0.33,1,0.68,1) both' }
+      }
+    >
+      <div style={{ animation: 'heroCardFloat 9s ease-in-out infinite', animationDelay: '2.1s' }}>
+        {/* 2px gradient border: ember at the left edge resolving to blue across */}
+        <div className="rounded-[20px] bg-[linear-gradient(103deg,#F2841C_0%,#E9701B_14%,#6455C8_46%,#2F6AE8_72%,#3F7DF5_100%)] p-[1.5px] shadow-[0_0_38px_rgba(47,106,232,0.22),0_18px_46px_rgba(0,0,0,0.55)]">
+          <div className="flex items-center gap-4 rounded-[19px] bg-[linear-gradient(118deg,#0B1A3A_0%,#101F49_48%,#0A1631_100%)] px-5 py-4">
+            <div className="min-w-0 flex-1">
+              <span className="flex items-center gap-1.5 text-[#F2841C]">
+                <Sparkle />
+                <span className="font-bricolage text-[16.5px] font-bold tracking-[-0.01em]">Co-Marketer</span>
+              </span>
+              <div className="mt-2.5">
+                <TypedLines lines={card.lines} delay={emerge ? 1550 : 500} />
+              </div>
+            </div>
+
+            <span aria-hidden="true" className="h-[52px] w-px flex-shrink-0 bg-white/15" />
+            <span
+              aria-hidden="true"
+              className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full border border-[#4F86F7]/70 text-[#6C9BFF]"
+            >
+              <svg viewBox="0 0 24 24" className="h-[13px] w-[13px] translate-x-[1px]" fill="currentColor">
+                <path d="M8 4.5l11.5 7.5L8 19.5v-15z" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Hero() {
   const { openModal } = useModal();
   const [email, setEmail] = useState('');
+  const [cardIdx, setCardIdx] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setCardIdx((i) => (i + 1) % CARDS.length), CARD_MS);
+    return () => clearInterval(t);
+  }, []);
 
   return (
     <section className="relative isolate overflow-hidden bg-[#0d0703] text-white">
@@ -83,11 +206,23 @@ export default function Hero() {
         }}
       />
 
+      {/* ── Co-Marketer card — parked just above the laptop lid. The lid's top
+             edge lands at ~62% of viewport height and its centre at ~75.5%
+             width; because the image crop scales by height, those hold steady
+             from 1440 through 1920. Keyed on cardIdx so each card remounts and
+             replays its entrance + typewriter. ───────────────────────────── */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-[28%] left-[87%] z-20 hidden -translate-x-1/2 xl:block"
+      >
+        <CoMarketerCard key={cardIdx} card={CARDS[cardIdx]} emerge={cardIdx === 0} />
+      </div>
+
       {/* ── Content ────────────────────────────────────────────────────── */}
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1240px] flex-col px-6">
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1240px] flex-col px-6 lg:max-w-[1340px]">
 
         <div className="flex flex-1 flex-col items-start justify-center pt-44 pb-8 text-left">
-          <div className="flex w-full max-w-[560px] flex-col items-start lg:max-w-[520px]">
+          <div className="flex w-full max-w-[560px] flex-col items-start lg:max-w-[620px]">
             <h1
               className="font-bricolage font-bold tracking-[-0.02em] leading-[1.05]
                          text-[clamp(32px,4.2vw,52px)] text-white"
@@ -97,7 +232,7 @@ export default function Hero() {
             </h1>
 
             <p
-              className="mt-5 max-w-[480px] text-[14px] sm:text-[16px] leading-relaxed text-white/70"
+              className="mt-5 max-w-[540px] text-[14px] sm:text-[16px] leading-relaxed text-white/70"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both' }}
             >
               Move from scattered tools to account intelligence, AI buying signals, and
@@ -106,7 +241,7 @@ export default function Hero() {
 
             <form
               onSubmit={(e) => { e.preventDefault(); openModal('early-access'); }}
-              className="mt-9 flex w-full max-w-[460px] items-center gap-2 rounded-full
+              className="mt-9 flex w-full max-w-[500px] items-center gap-2 rounded-full
                          bg-white p-1.5 pl-6 shadow-[0_10px_40px_rgba(0,0,0,0.45)]"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.24s both' }}
             >
@@ -120,9 +255,9 @@ export default function Hero() {
               <button
                 type="submit"
                 className="flex flex-shrink-0 items-center gap-1.5 rounded-full px-6 py-3 text-[14px] font-semibold text-slate-950
-                           bg-gradient-to-b from-amber-400 to-amber-500
-                           shadow-[0_4px_14px_rgba(245,158,11,0.45)]
-                           hover:from-amber-300 hover:to-amber-400 transition-colors whitespace-nowrap"
+                           bg-gradient-to-b from-amber-500 to-amber-600
+                           shadow-[0_4px_14px_rgba(217,119,6,0.45)]
+                           hover:from-amber-400 hover:to-amber-500 transition-colors whitespace-nowrap"
               >
                 Get demo
                 <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -134,7 +269,7 @@ export default function Hero() {
         </div>
 
         {/* ── Social proof strip ───────────────────────────────────────── */}
-        <div className="relative pb-6 pt-2">
+        <div className="relative pb-1.5 pt-[3px]">
           <svg className="absolute left-1/2 top-6 h-[148px] w-screen -translate-x-1/2" viewBox="0 0 1000 148" preserveAspectRatio="none" aria-hidden="true">
             <path
               d="M0 16 H355 C400 16 389 124 438 124 H562 C600 124 611 16 640 16 H1000"
