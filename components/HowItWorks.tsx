@@ -431,25 +431,48 @@ const STEPS = [
 export default function HowItWorks() {
   const [activeStep, setActiveStep] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [autoplay, setAutoplay] = useState(true); // false once the reader takes over
+  const [paused, setPaused] = useState(false);    // pointer or focus is inside
+  const [hidden, setHidden] = useState(false);    // tab is in the background
+  const [reduced, setReduced] = useState(false);  // prefers-reduced-motion
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const handleNext = () => {
-    setActiveStep((prev) => (prev + 1) % STEPS.length);
+  /**
+   * Any deliberate selection stops the carousel for good. Auto-advance that
+   * yanks the panel away while someone is reading is the main complaint with
+   * this pattern, and WCAG 2.2.2 wants a way to halt it — taking control IS
+   * that mechanism, alongside the hover/focus pause below.
+   */
+  const select = (i: number) => {
+    setActiveStep(i);
     setProgress(0);
-  };
-
-  const handlePrev = () => {
-    setActiveStep((prev) => (prev - 1 + STEPS.length) % STEPS.length);
-    setProgress(0);
+    setAutoplay(false);
   };
 
   useEffect(() => {
+    const onVis = () => setHidden(document.hidden);
+    document.addEventListener('visibilitychange', onVis);
+    return () => document.removeEventListener('visibilitychange', onVis);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReduced(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  const running = autoplay && !paused && !hidden && !reduced;
+
+  useEffect(() => {
+    if (!running) return;
     const slideStart = Date.now();
 
     const timer = window.setInterval(() => {
       const elapsed = Date.now() - slideStart;
-      const currentProgress = Math.min(100, (elapsed / SLIDE_DURATION) * 100);
-      setProgress(currentProgress);
+      setProgress(Math.min(100, (elapsed / SLIDE_DURATION) * 100));
 
       if (elapsed >= SLIDE_DURATION) {
         setActiveStep((curr) => (curr + 1) % STEPS.length);
@@ -458,7 +481,17 @@ export default function HowItWorks() {
     }, UPDATE_INTERVAL);
 
     return () => window.clearInterval(timer);
-  }, [activeStep]);
+  }, [activeStep, running]);
+
+  /** Roving arrow-key navigation, as a vertical tablist is expected to have. */
+  const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
+    const delta = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[event.key];
+    if (!delta) return;
+    event.preventDefault();
+    const next = (activeStep + delta + STEPS.length) % STEPS.length;
+    select(next);
+    tabsRef.current[next]?.focus();
+  };
 
   const onTouchStart: React.TouchEventHandler<HTMLDivElement> = (event) => {
     const touch = event.touches[0];
@@ -478,83 +511,135 @@ export default function HowItWorks() {
     if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
     if (Math.abs(deltaX) <= Math.abs(deltaY)) return;
 
-    if (deltaX < 0) handleNext();
-    else handlePrev();
+    select((activeStep + (deltaX < 0 ? 1 : -1) + STEPS.length) % STEPS.length);
   };
 
   const currentData = STEPS[activeStep];
   const ActiveVisual = currentData.Visual;
-  const totalProgress = ((activeStep + progress / 100) / STEPS.length) * 100;
 
   return (
-    <section className="flex min-h-screen w-full flex-col justify-center bg-[#f1f2f4] px-4 py-12 sm:px-6 sm:py-20 font-sans md:px-10 lg:px-16">
+    <section className="w-full bg-slate-100 px-4 py-20 font-sans dark:bg-slate-950 sm:px-6 sm:py-24 md:px-10 lg:px-16">
       <style>{styles}</style>
 
-      <div className="mx-auto w-full max-w-[1300px]">
-        <div className="mx-auto mb-14 max-w-6xl text-center lg:mb-16">
-          <h2 className="text-[24px] font-bold leading-[1.1] tracking-tight text-gray-900 md:text-[36px] lg:text-[36px]">
+      <div className="mx-auto w-full max-w-[1240px]">
+        <div className="mx-auto mb-12 max-w-3xl text-center lg:mb-16">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">How it works</p>
+          <h2 className="mt-4 text-[clamp(30px,3.5vw,48px)] font-semibold leading-[1.08] tracking-[-0.025em] text-slate-900 dark:text-white">
             From cold list to closed deal in 4 steps
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-gray-600 md:text-xl">
+          <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-slate-500 dark:text-slate-400 sm:text-[18px]">
             Most sales teams waste weeks researching accounts. Here&rsquo;s how our customers cut that to minutes.
           </p>
         </div>
 
         <div
-          className="rounded-[16px] sm:rounded-[28px] border border-gray-200/80 bg-[#f8f8f9] p-3 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.06)] md:p-6 lg:p-7"
+          className="rounded-[18px] border border-slate-200 bg-slate-50 p-3 shadow-[0_12px_40px_rgba(0,0,0,0.06)]
+                     dark:border-white/[0.08] dark:bg-white/[0.02] dark:shadow-[0_12px_40px_rgba(0,0,0,0.35)]
+                     sm:rounded-[28px] sm:p-5 md:p-6 lg:p-7"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={() => setPaused(false)}
           style={{ touchAction: 'pan-y' }}
         >
-          <div className="flex flex-col gap-5 sm:gap-7 md:flex-row md:items-stretch md:gap-8">
-            <div className="relative flex w-full flex-col justify-between md:w-1/2 md:min-h-[430px] md:pb-14">
-              <div key={activeStep} className="animate-slide-up-fade">
-                <div className="mb-3 sm:mb-4 font-mono text-[18px] sm:text-[22px] font-medium tracking-wide text-gray-400">{currentData.number}</div>
-                <h3 className="mb-3 sm:mb-5 pr-4 text-[22px] sm:text-[28px] font-bold leading-[1.2] text-gray-900 md:text-[38px]">{currentData.title}</h3>
-                <p className="pr-3 text-[15px] sm:text-[18px] leading-relaxed text-gray-600">{currentData.desc}</p>
-              </div>
-
-              <div className="mt-6 sm:mt-10 flex w-full max-w-[460px] items-center gap-3 sm:gap-5 md:absolute md:bottom-0 md:left-0">
-                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-300/80">
-                  <div className="h-full rounded-full bg-[#C94C1E] transition-all duration-75 ease-linear" style={{ width: `${totalProgress}%` }} />
-                </div>
-
-                <div className="flex flex-shrink-0 items-center gap-3">
+          <div className="flex flex-col gap-6 md:flex-row md:items-stretch md:gap-8">
+            {/* ── Step rail. All four are visible at once: the sequence IS the
+                   message, and a carousel that shows one at a time hides it. */}
+            <div
+              role="tablist"
+              aria-orientation="vertical"
+              aria-label="How it works"
+              onKeyDown={onKeyDown}
+              className="flex w-full flex-col md:w-1/2 md:justify-center"
+            >
+              {STEPS.map((s, i) => {
+                const active = i === activeStep;
+                return (
                   <button
+                    key={s.number}
                     type="button"
-                    onClick={handlePrev}
-                    aria-label="Previous step"
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-500 shadow-sm transition-all hover:border-[#C94C1E] hover:text-[#C94C1E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C94C1E] focus-visible:ring-offset-2"
+                    ref={(el) => { tabsRef.current[i] = el; }}
+                    role="tab"
+                    id={`hiw-tab-${i}`}
+                    aria-selected={active}
+                    aria-controls="hiw-panel"
+                    tabIndex={active ? 0 : -1}
+                    onClick={() => select(i)}
+                    className={[
+                      'group w-full border-l-2 py-4 pl-4 pr-2 text-left transition-colors duration-300 sm:pl-5',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2',
+                      'focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-[#0D0D0C]',
+                      active
+                        ? 'border-ember-500'
+                        : 'border-slate-200 hover:border-slate-300 dark:border-white/[0.10] dark:hover:border-white/25',
+                    ].join(' ')}
                   >
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </button>
+                    <span className="flex items-baseline gap-3">
+                      <span
+                        className={`w-[22px] flex-shrink-0 font-mono text-[13px] font-medium tabular-nums transition-colors duration-300 ${
+                          active ? 'text-ember-500' : 'text-slate-400 dark:text-slate-500'
+                        }`}
+                      >
+                        {s.number}
+                      </span>
 
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    aria-label="Next step"
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-500 shadow-sm transition-all hover:border-[#C94C1E] hover:text-[#C94C1E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C94C1E] focus-visible:ring-offset-2"
-                  >
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                </div>
+                      <span className="min-w-0 flex-1">
+                        <span
+                          className={`block text-[17px] font-semibold leading-[1.3] tracking-[-0.01em] transition-colors duration-300 sm:text-[19px] ${
+                            active ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'
+                          }`}
+                        >
+                          {s.title}
+                        </span>
 
-              </div>
+                        {/* 0fr → 1fr animates the height open without ever
+                            measuring it — no refs, no layout thrash. */}
+                        <span
+                          className={`grid transition-[grid-template-rows] duration-500 ease-out ${
+                            active ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                          }`}
+                        >
+                          <span className="overflow-hidden">
+                            <span className="block pt-2 text-[14.5px] leading-relaxed text-slate-500 dark:text-slate-400">
+                              {s.desc}
+                            </span>
+
+                            {autoplay && (
+                              <span className="mt-3.5 block h-[3px] w-full max-w-[220px] overflow-hidden rounded-full bg-slate-200 dark:bg-white/10">
+                                <span
+                                  className="block h-full rounded-full bg-ember-500 transition-[width] duration-75 ease-linear"
+                                  style={{ width: `${active ? progress : 0}%` }}
+                                />
+                              </span>
+                            )}
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
             </div>
 
-            <div className="relative flex h-[280px] sm:h-[340px] w-full flex-shrink-0 items-center justify-center overflow-hidden rounded-[16px] sm:rounded-[24px] border border-gray-200 bg-white p-3 sm:p-5 shadow-[0_10px_28px_rgba(15,23,42,0.08)] md:h-[390px] md:w-1/2 lg:h-[430px] lg:p-6">
-              <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_75%_30%,rgba(201,76,30,0.07),transparent_45%),linear-gradient(to_bottom,rgba(248,250,252,0.6),rgba(255,255,255,0.2))]" />
+            {/* ── Visual ─────────────────────────────────────────────────── */}
+            <div
+              id="hiw-panel"
+              role="tabpanel"
+              aria-labelledby={`hiw-tab-${activeStep}`}
+              className="relative flex h-[280px] w-full flex-shrink-0 items-center justify-center overflow-hidden
+                         rounded-[16px] border border-slate-200 bg-white p-3 shadow-[0_10px_28px_rgba(15,23,42,0.08)]
+                         dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_10px_28px_rgba(0,0,0,0.4)]
+                         sm:h-[340px] sm:rounded-[24px] sm:p-5 md:h-[420px] md:w-1/2 lg:h-[460px] lg:p-6"
+            >
+              <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_75%_30%,rgba(201,76,30,0.07),transparent_45%),linear-gradient(to_bottom,rgba(248,250,252,0.6),rgba(255,255,255,0.2))] dark:bg-[radial-gradient(circle_at_75%_30%,rgba(242,132,28,0.10),transparent_45%)]" />
               <div key={activeStep} className="relative z-10 flex h-full w-full animate-subtle-fade items-center justify-center">
                 <ActiveVisual />
               </div>
-              {/* Step indicator */}
-              <div className="pointer-events-none absolute top-4 right-4 z-20">
-                <span className="text-[11px] font-mono font-medium text-slate-400 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-md">
-                  Step {currentData.number} of 04
+              <div className="pointer-events-none absolute right-4 top-4 z-20">
+                <span className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 font-mono text-[11px] font-medium tabular-nums text-slate-400 dark:border-white/[0.10] dark:bg-white/[0.04] dark:text-slate-500">
+                  {currentData.number} / 04
                 </span>
               </div>
             </div>

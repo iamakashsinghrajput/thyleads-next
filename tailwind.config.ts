@@ -34,6 +34,20 @@ const config: Config = {
           800: '#5E220E',
           900: '#3D160A',
         },
+        // Warm neutral used for light-mode page + card surfaces below the hero,
+        // in place of pure white. Sits alongside slate rather than replacing it
+        // — slate stays the token for text and borders.
+        //
+        // 100 is the beige from the thyleads-project marketing site (#f7f3eb),
+        // carried over verbatim so the two properties match. The rest of the
+        // ramp is derived from it: 50 lifts cards off the section, 200/300 sink
+        // below it for fills and muted marks.
+        sand: {
+          50:  '#FDFBF6', // card / raised surfaces (was bg-white)
+          100: '#F7F3EB', // section background — thyleads-project beige
+          200: '#EEE8DB', // subtle fills
+          300: '#E0D7C5', // borders, muted marks on sand
+        },
         slate: {
           50:  '#F8F8F7',
           100: '#EFEFED',

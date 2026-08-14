@@ -46,6 +46,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className=""
       suppressHydrationWarning
     >
+      <head>
+        {/*
+          Applies the saved theme before first paint. ThemeProvider only sets
+          the class in an effect, which runs after hydration — so without this
+          a returning dark-mode visitor gets a flash of the light page first.
+          That flash was invisible while the default matched their OS; making
+          light the default is what exposes it. Mirrors the provider's logic:
+          no stored value => light.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var m=localStorage.getItem('harvin_theme');var d=m==='dark'||(m==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body
         className={`${universalSans.variable} ${jetbrainsMono.variable} ${bricolageGrotesque.variable}`}
       >

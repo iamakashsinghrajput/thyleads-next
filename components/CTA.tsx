@@ -9,14 +9,14 @@ export default function CTA() {
   const [email, setEmail] = useState('');
 
   return (
-    <section className="bg-slate-50 dark:bg-slate-950 py-20 px-4 sm:px-6 lg:px-8
+    <section className="bg-sand-100 dark:bg-slate-950 py-20 px-4 sm:px-6 lg:px-8
                          border-t border-slate-200 dark:border-white/[0.06]">
 
       {/* ── Outer box ─────────────────────────────────────────────────────── */}
       <div className="max-w-[1300px] mx-auto rounded-2xl overflow-hidden
                        border border-slate-200 dark:border-white/[0.08]
                        shadow-[0_4px_32px_rgba(0,0,0,0.06)] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)]
-                       bg-white dark:bg-[#0F0E0C]">
+                       bg-sand-100 dark:bg-[#0F0E0C]">
 
         <div className="grid grid-cols-1 lg:grid-cols-2">
 
@@ -46,7 +46,7 @@ export default function CTA() {
               onSubmit={(e) => { e.preventDefault(); openModal('early-access'); }}
               className="flex flex-col sm:flex-row w-full max-w-[460px] rounded-xl overflow-hidden
                          border border-slate-200 dark:border-white/[0.12]
-                         bg-slate-50 dark:bg-white/[0.04]
+                         bg-sand-50 dark:bg-white/[0.04]
                          focus-within:border-ember-400 dark:focus-within:border-ember-500/60
                          transition-colors shadow-sm"
             >
@@ -83,7 +83,7 @@ export default function CTA() {
 
           {/* ── Right: product screenshot ────────────────────────────────── */}
           <div className="relative flex items-center
-                           bg-slate-100/50 dark:bg-white/[0.02]
+                           bg-sand-200/50 dark:bg-white/[0.02]
                            border-t lg:border-t-0 lg:border-l
                            border-slate-200 dark:border-white/[0.08]
                            p-4 sm:p-6 lg:p-8 overflow-hidden min-h-[200px] sm:min-h-[320px]">
