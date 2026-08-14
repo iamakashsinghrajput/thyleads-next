@@ -12,6 +12,7 @@ import {
   ExternalLink, Star, Pencil, Trash2, ChevronDown,
   Radar, Bell, Plus, Bookmark,
 } from 'lucide-react';
+import PromptFunnel from '@/components/PromptFunnel';
 
 /* ── Keyframe styles ─────────────────────────────────────────────────────── */
 const pageStyles = `
@@ -111,95 +112,6 @@ function useCounter(end: number, start: boolean, duration = 1400) {
     requestAnimationFrame(step);
   }, [start, end, duration]);
   return count;
-}
-
-/* ── Hero stat chip with counter ─────────────────────────────────────────── */
-function HeroStat({ numEnd, suffix, prefix, label, ready, delay }: {
-  numEnd: number; suffix: string; prefix?: string; label: string; ready: boolean; delay: number;
-}) {
-  const [started, setStarted] = useState(false);
-  useEffect(() => {
-    if (!ready) return;
-    const t = setTimeout(() => setStarted(true), delay);
-    return () => clearTimeout(t);
-  }, [ready, delay]);
-
-  const count = useCounter(numEnd, started);
-  const formatted = numEnd >= 1000 ? count.toLocaleString() : count;
-
-  return (
-    <span className="font-bold text-slate-900 dark:text-white tabular-nums">
-      {prefix}{formatted}{suffix}
-    </span>
-  );
-}
-
-/* ── Hero typewriter word ─────────────────────────────────────────────────── */
-const HERO_WORDS = ['revenue teams', 'sales leaders', 'growth teams', 'market analysts', 'deal closers'];
-const TYPE_SPEED = 80;
-const DELETE_SPEED = 50;
-const PAUSE_AFTER_TYPE = 2000;
-const PAUSE_AFTER_DELETE = 400;
-
-function HeroRotatingWord({ heroReady }: { heroReady: boolean }) {
-  const [wordIndex, setWordIndex] = useState(0);
-  const [displayed, setDisplayed] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    if (!heroReady) return;
-
-    const currentWord = HERO_WORDS[wordIndex];
-
-    if (!isDeleting && displayed === currentWord) {
-      // Finished typing — pause then start deleting
-      const t = setTimeout(() => setIsDeleting(true), PAUSE_AFTER_TYPE);
-      return () => clearTimeout(t);
-    }
-
-    if (isDeleting && displayed === '') {
-      // Finished deleting — move to next word
-      const t = setTimeout(() => {
-        setIsDeleting(false);
-        setWordIndex(i => (i + 1) % HERO_WORDS.length);
-      }, PAUSE_AFTER_DELETE);
-      return () => clearTimeout(t);
-    }
-
-    const speed = isDeleting ? DELETE_SPEED : TYPE_SPEED;
-    const t = setTimeout(() => {
-      setDisplayed(
-        isDeleting
-          ? currentWord.slice(0, displayed.length - 1)
-          : currentWord.slice(0, displayed.length + 1)
-      );
-    }, speed);
-
-    return () => clearTimeout(t);
-  }, [heroReady, displayed, isDeleting, wordIndex]);
-
-  // Start typing the first word once hero is ready
-  useEffect(() => {
-    if (heroReady && displayed === '' && !isDeleting) {
-      const t = setTimeout(() => setDisplayed(HERO_WORDS[wordIndex].slice(0, 1)), 600);
-      return () => clearTimeout(t);
-    }
-  }, [heroReady]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  return (
-    <span className={`inline-block text-[#C94C1E] relative
-                      ${heroReady ? 'opacity-100' : 'opacity-0'}`}>
-      {displayed}
-      <span className="inline-block w-[3px] h-[0.85em] bg-[#C94C1E] ml-0.5 align-baseline
-                       rounded-sm animate-[heroGlow_1s_step-end_infinite]"
-            style={{ animation: 'blink 1s step-end infinite' }} />
-      {displayed.length > 0 && (
-        <span className="absolute -bottom-1 left-0 h-[3px] rounded-full bg-[#C94C1E]/30
-                         transition-all duration-200"
-              style={{ width: `${(displayed.length / HERO_WORDS[wordIndex].length) * 100}%` }} />
-      )}
-    </span>
-  );
 }
 
 /* ── Data ────────────────────────────────────────────────────────────────── */
@@ -1326,6 +1238,7 @@ function FeaturesSection() {
 ═══════════════════════════════════════════════════════════════════════════ */
 
 export default function ProductPage() {
+  const [heroEmail, setHeroEmail] = useState('');
   const { openModal } = useModal();
 
   const heroReveal = useReveal(0.05);
@@ -1349,119 +1262,85 @@ export default function ProductPage() {
       <div>
 
         {/* ═══ HERO ═══════════════════════════════════════════════════════════ */}
-        <section ref={heroReveal.ref} className="relative overflow-hidden
-                   bg-gradient-to-b from-slate-50 via-white to-white
-                   dark:from-slate-900/60 dark:via-slate-950 dark:to-slate-950">
-          {/* Animated radial glow */}
-          <div className="pointer-events-none absolute top-[-80px] left-1/2 w-[1100px] h-[700px]"
-               style={{ animation: 'heroGlow 8s ease-in-out infinite' }}>
-            <div className="w-full h-full
-                            bg-[radial-gradient(ellipse_at_center,rgba(201,76,30,0.06),transparent_65%)]
-                            dark:bg-[radial-gradient(ellipse_at_center,rgba(201,76,30,0.10),transparent_65%)]" />
-          </div>
+        {/* ═══ HERO ═════════════════════════════════════════════════════════
+             Always-dark, matching the marketing hero on the home page: same
+             #0d0703 ground, same radial wash and grain. Copy sits left, the
+             platform illustration right. ─────────────────────────────────── */}
+        <section
+          ref={heroReveal.ref}
+          className="relative isolate overflow-hidden border-b border-slate-200 bg-sand-100 dark:border-white/[0.06] dark:bg-[#040404]"
+        >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_24%,rgba(201,76,30,0.07),transparent_45%)] dark:bg-[radial-gradient(circle_at_18%_24%,rgba(201,76,30,0.14),transparent_45%)]"
+          />
 
-          {/* Grid pattern overlay */}
-          <div className="pointer-events-none absolute inset-0 opacity-[0.03] dark:opacity-[0.04]"
-               style={{
-                 backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
-                 backgroundSize: '60px 60px',
-               }} />
+          <div className="relative z-10 mx-auto grid max-w-[1340px] items-center gap-8 px-6 pb-[110px] pt-24 lg:grid-cols-[1.18fr_1fr] lg:gap-10 lg:pb-[140px] lg:pt-28">
+            {/* ── Copy ─────────────────────────────────────────────────── */}
+            <div className="text-left">
 
-          <div className="relative z-10 max-w-[1000px] mx-auto px-6 pt-28 pb-24 text-center">
+              <h1 className="font-bricolage text-[clamp(30px,3.6vw,46px)] font-bold leading-[1.07] tracking-[-0.02em] text-slate-900 dark:text-white">
+                <span
+                  className={`inline-block transition-all delay-[150ms] duration-700
+                             ${heroReady ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
+                >
+                  The GTM intelligence platform
+                </span>
+                <br />
+                <span
+                  className={`inline-block transition-all delay-[300ms] duration-700
+                             ${heroReady ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
+                >
+                  built for revenue teams
+                </span>
+              </h1>
 
-            {/* Badge */}
+              <p
+                className={`mt-5 max-w-[560px] text-[14px] sm:text-[16px] leading-relaxed text-slate-600 dark:text-white/70 transition-all delay-[500ms] duration-700
+                           ${heroReady ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
+              >
+                Harvin tracks your target accounts, detects real-time buying signals, and tells your
+                team exactly{' '}
+                <em className="font-medium not-italic text-slate-900 dark:text-white">who to sell to and when</em>. Stop
+                guessing. Start closing.
+              </p>
+
+              <form
+                onSubmit={(e) => { e.preventDefault(); openModal('early-access'); }}
+                className={`mt-9 flex w-full max-w-[500px] items-center gap-2 rounded-full bg-white p-1.5 pl-6 dark:bg-[#16130F]
+                            border border-slate-200 shadow-[0_10px_36px_rgba(15,23,42,0.10)] dark:border-white/[0.10] transition-all delay-[650ms] duration-700
+                            ${heroReady ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
+              >
+                <input
+                  type="email"
+                  value={heroEmail}
+                  onChange={(e) => setHeroEmail(e.target.value)}
+                  placeholder="Your work email"
+                  className="min-w-0 flex-1 bg-transparent text-[15px] text-slate-800 outline-none placeholder:text-slate-400"
+                />
+                <button
+                  type="submit"
+                  className="flex flex-shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-b from-amber-500 to-amber-600
+                             px-6 py-3 text-[14px] font-semibold text-slate-950 shadow-[0_4px_14px_rgba(217,119,6,0.45)]
+                             transition-colors hover:from-amber-400 hover:to-amber-500"
+                >
+                  Get demo
+                  <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 8h10M9 4l4 4-4 4" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+
+            {/* ── Illustration ─────────────────────────────────────────── */}
             <div
-              className={`inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-8
-                          border border-[#C94C1E]/20 bg-[#C94C1E]/[0.06]
-                          backdrop-blur-sm
-                          transition-all duration-700
-                          ${heroReady ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}
+              className={`transition-all delay-[600ms] duration-[900ms]
+                         ${heroReady ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
             >
-              
-              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#C94C1E]">
-                AI-Native GTM Intelligence
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h1 className="font-sans font-bold tracking-[-0.03em] leading-[1.08] mb-7
-                           text-[clamp(32px,5.5vw,64px)]
-                           text-slate-900 dark:text-slate-50">
-              <span className={`inline-block transition-all duration-700 delay-[150ms]
-                               ${heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                The GTM intelligence platform
-              </span>
-              <br />
-              <span className={`inline-block transition-all duration-700 delay-[300ms]
-                               ${heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                built for{' '}
-                <HeroRotatingWord heroReady={heroReady} />
-              </span>
-            </h1>
-
-            {/* Sub */}
-            <p className={`text-[17px] leading-relaxed text-slate-500 dark:text-slate-400
-                          max-w-[600px] mx-auto mb-10
-                          transition-all duration-700 delay-[500ms]
-                          ${heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-              HarvinAI tracks your target accounts, detects real-time buying signals, and tells your team
-              exactly <em className="not-italic font-medium text-slate-700 dark:text-slate-300">who to sell to and when</em>.
-              Stop guessing. Start closing.
-            </p>
-
-            {/* CTAs */}
-            <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-16
-                            transition-all duration-700 delay-[650ms]
-                            ${heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-              <button
-                onClick={() => openModal('early-access')}
-                className="group/btn inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-[15px] font-semibold
-                           text-white bg-[#C94C1E] shadow-[0_2px_12px_rgba(201,76,30,0.35)]
-                           hover:bg-[#b8431a] hover:shadow-[0_8px_30px_rgba(201,76,30,0.5)]
-                           hover:scale-[1.03] active:scale-[0.98]
-                           transition-all duration-200"
-              >
-                Get early access
-                <ArrowRight size={16} className="transition-transform duration-200 group-hover/btn:translate-x-1" />
-              </button>
-              <a href="/pricing"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-[15px] font-semibold
-                           text-slate-700 dark:text-slate-300
-                           border border-slate-300 dark:border-white/[0.18]
-                           hover:text-slate-900 dark:hover:text-white
-                           hover:border-slate-400 dark:hover:border-white/40
-                           hover:bg-slate-50 dark:hover:bg-white/[0.06]
-                           hover:scale-[1.02] active:scale-[0.98]
-                           transition-all duration-200"
-              >
-                View pricing
-              </a>
-            </div>
-
-            {/* Stat highlights */}
-            <div className={`flex flex-wrap items-center justify-center gap-x-8 gap-y-3
-                            transition-all duration-700 delay-[800ms]
-                            ${heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              {[
-                { numEnd: 500, suffix: 'K+', label: 'Accounts tracked' },
-                { numEnd: 5, suffix: '', label: 'Signal types' },
-                { numEnd: 5, suffix: ' min', prefix: '<', label: 'Signal latency' },
-                { numEnd: 2400, suffix: '+', label: 'Weekly signals' },
-              ].map((s, i) => (
-                <div key={s.label} className="flex items-center gap-2 text-[14px]"
-                  style={heroReady ? { animation: `floatUp 0.5s cubic-bezier(0.16,1,0.3,1) ${800 + i * 100}ms both` } : { opacity: 0 }}>
-                  <HeroStat numEnd={s.numEnd} suffix={s.suffix} prefix={s.prefix} label={s.label} ready={heroReady} delay={800 + i * 100} />
-                  <span className="text-slate-400 dark:text-slate-500">{s.label}</span>
-                  {i < 3 && <span className="hidden sm:inline-block w-px h-3.5 bg-slate-200 dark:bg-white/[0.1] ml-6" />}
-                </div>
-              ))}
+              <PromptFunnel />
             </div>
           </div>
 
-          {/* Bottom fade into next section */}
-          <div className="absolute bottom-0 inset-x-0 h-16
-                          bg-gradient-to-t from-slate-50 to-transparent
-                          dark:from-slate-900/40 dark:to-transparent pointer-events-none" />
         </section>
 
 

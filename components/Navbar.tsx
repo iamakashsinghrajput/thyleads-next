@@ -156,6 +156,9 @@ const RESOURCES: MenuItem[] = [
  * Nav link styling. The underline is an ::after that wipes in from the left on
  * hover; on the solid bar the label also picks up the brand colour.
  */
+/** Routes whose hero is dark and full-bleed. */
+const DARK_HERO_ROUTES = ['/'];
+
 function navLinkClass(overlay: boolean, active: boolean) {
   const base =
     'relative inline-flex items-center px-3 py-2 text-[11px] font-bold tracking-[0.18em] transition-colors duration-200 ' +
@@ -249,11 +252,14 @@ const Navbar: React.FC = () => {
 
   const [navHovered, setNavHovered] = useState(false);
 
-  // The homepage hero is dark and full-bleed, so the bar floats over it until
-  // you scroll past. Every other page keeps the solid bar in normal flow.
+  // These pages open with a dark, full-bleed hero, so the bar floats over it
+  // until you scroll past; every other page keeps the solid bar in normal flow.
   // Hovering the bar (or opening a menu) resolves it to solid white.
-  const isHome = pathname === '/';
-  const overlay = isHome && !scrolled && !navHovered && !openDropdown;
+  //
+  // Add a route here when you give it a dark hero — otherwise it gets the white
+  // bar sitting on black, which is what /product had.
+  const hasDarkHero = DARK_HERO_ROUTES.includes(pathname);
+  const overlay = hasDarkHero && !scrolled && !navHovered && !openDropdown;
 
   useEffect(() => {
     let raf = 0;
@@ -324,7 +330,7 @@ const Navbar: React.FC = () => {
     <nav
       onMouseEnter={() => setNavHovered(true)}
       onMouseLeave={() => setNavHovered(false)}
-      className={`${isHome ? 'fixed' : 'sticky'} top-0 z-50 w-full border-b transition-all duration-300 ${
+      className={`${hasDarkHero ? 'fixed' : 'sticky'} top-0 z-50 w-full border-b transition-all duration-300 ${
         overlay
           ? 'bg-transparent border-white/10'
           : scrolled || navHovered || openDropdown
@@ -417,7 +423,7 @@ const Navbar: React.FC = () => {
             <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
             <div className="relative w-7 h-7 rounded-lg overflow-hidden">
               <Image
-                src="/logo.svg"
+                src="/logo1.png"
                 alt="HarvinAI"
                 width={28}
                 height={28}
@@ -426,11 +432,11 @@ const Navbar: React.FC = () => {
             </div>
           </div>
           <span
-            className={`text-[20px] font-bricolage font-bold tracking-wide transition-colors duration-500 ${
+            className={`text-[26px] font-bricolage font-bold tracking-wide transition-colors duration-500 ${
               overlay ? 'text-white' : 'text-neutral-900'
             }`}
           >
-            Harvin<span className="font-semibold opacity-40">AI</span>
+            Harvin
           </span>
         </Link>
 

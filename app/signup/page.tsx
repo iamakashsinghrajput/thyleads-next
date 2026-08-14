@@ -190,10 +190,10 @@ export default function SignUpPage() {
           <div className="relative z-10 flex flex-col justify-between p-11 w-full min-h-[640px]">
             <div className="flex items-center gap-0.5">
               <div className="h-8 w-9 overflow-hidden flex-shrink-0">
-                <img src="/logo.svg" alt="" aria-hidden="true" className="h-8 w-auto max-w-none" />
+                <img src="/logo1.png" alt="" aria-hidden="true" className="h-8 w-auto max-w-none" />
               </div>
-              <span className="font-bricolage font-bold text-[24px] tracking-normal text-white leading-none">
-                Harvin<span className="font-semibold opacity-40">AI</span>
+              <span className="font-bricolage font-bold text-[31px] tracking-normal text-white leading-none">
+                Harvin
               </span>
             </div>
 
@@ -241,9 +241,9 @@ export default function SignUpPage() {
           <div className="flex justify-between items-center px-8 pt-6 pb-0 lg:px-10 flex-shrink-0">
             <Link href="/" className="flex items-center gap-0.5 lg:hidden">
               <div className="h-8 w-9 overflow-hidden flex-shrink-0">
-                <img src="/logo.svg" alt="" aria-hidden="true" className="h-8 w-auto max-w-none" />
+                <img src="/logo1.png" alt="" aria-hidden="true" className="h-8 w-auto max-w-none" />
               </div>
-              <span className="font-bricolage font-bold text-[24px] tracking-normal text-slate-900 dark:text-white leading-none">Harvin<span className="font-semibold opacity-40">AI</span></span>
+              <span className="font-bricolage font-bold text-[31px] tracking-normal text-slate-900 dark:text-white leading-none">Harvin</span>
             </Link>
             <div className="hidden lg:block" />
             <Link href="/signin" className="text-[12px] font-medium text-gray-400 hover:text-gray-600 transition-colors bg-gray-50 px-3.5 py-1.5 rounded-lg border border-gray-100">

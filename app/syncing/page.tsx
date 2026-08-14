@@ -66,9 +66,9 @@ export default function SyncingPage() {
       {/* Logo */}
       <div className="flex items-center gap-0.5 mb-12">
         <div className="h-8 w-9 overflow-hidden flex-shrink-0">
-          <img src="/logo.svg" alt="" aria-hidden="true" className="h-8 w-auto max-w-none" />
+          <img src="/logo1.png" alt="" aria-hidden="true" className="h-8 w-auto max-w-none" />
         </div>
-        <span className="font-bricolage font-bold text-[24px] tracking-normal text-slate-900 dark:text-white leading-none">Harvin<span className="font-semibold opacity-40">AI</span></span>
+        <span className="font-bricolage font-bold text-[31px] tracking-normal text-slate-900 dark:text-white leading-none">Harvin</span>
       </div>
 
       {/* Card */}

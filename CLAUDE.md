@@ -386,7 +386,7 @@ When the Figma MCP returns design context, normalize it to this project's conven
 | Text style `H2 / Section`                          | `font-sans font-semibold text-[clamp(30px,3.5vw,48px)] tracking-[-0.025em] leading-[1.08]` |
 | Text style `Body / 16`                             | `text-[16px] leading-relaxed text-slate-500 dark:text-slate-400`    |
 | Text style `Caption / 13`                          | `text-[13px] text-slate-400 dark:text-slate-500`                    |
-| Logo wordmark `HarvinAI`                           | `font-bricolage font-bold text-[24px] text-slate-900 dark:text-white` with `<span class="font-semibold opacity-40">AI</span>` |
+| Logo wordmark `Harvin`                             | `font-bricolage font-bold text-[31px] text-slate-900 dark:text-white` (`text-[23px]` in the compact app-shell header). No `AI` suffix — the wordmark is `Harvin` alone. |
 | Corner radius 8 / 12 / 16                          | `rounded-btn` / `rounded-card` / `rounded-modal`                    |
 | Corner radius 9999 / pill                          | `rounded-full`                                                      |
 | Drop shadow on CTA button                          | `shadow-[0_1px_4px_rgba(201,76,30,0.3)] hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)]` |

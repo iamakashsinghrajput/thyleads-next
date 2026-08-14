@@ -1371,9 +1371,9 @@ const [sortKey, setSortKey] = useState<SortKey>('updatedAt');
         <div className="flex items-center gap-2.5 flex-shrink-0 px-5 py-4">
           <a href="/" className="flex items-center gap-0.5">
             <div className="h-7 w-8 overflow-hidden flex-shrink-0">
-              <img src="/logo.svg" alt="" aria-hidden="true" className="h-7 w-auto max-w-none" />
+              <img src="/logo1.png" alt="" aria-hidden="true" className="h-7 w-auto max-w-none" />
             </div>
-            <span className="font-bricolage font-bold text-[18px] tracking-normal text-slate-900 dark:text-white leading-none">Harvin<span className="font-semibold opacity-40">AI</span></span>
+            <span className="font-bricolage font-bold text-[23px] tracking-normal text-slate-900 dark:text-white leading-none">Harvin</span>
           </a>
         </div>
 
