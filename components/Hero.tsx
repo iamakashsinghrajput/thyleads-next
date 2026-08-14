@@ -1,26 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Clock, Mail, Phone, Zap } from 'lucide-react';
 import { useModal } from '@/components/ModalContext';
-
-const LOGOS = [
-  { src: '/logos/clevertap.svg', h: 'h-9' },
-  { src: '/logos/tazapay.svg', h: 'h-7' },
-  { src: '/logos/vwo.svg', h: 'h-8' },
-  { src: '/logos/increff.svg', h: 'h-8' },
-  { src: '/logos/airmeet.svg', h: 'h-7' },
-  { src: '/logos/nurix.svg', h: 'h-7' },
-  { src: '/logos/mynd.svg', h: 'h-8' },
-  { src: '/logos/venwiz.svg', h: 'h-8' },
-  { src: '/logos/pazo.png', h: 'h-9' },
-  { src: '/logos/cometchat.png', h: 'h-9' },
-];
+import TrustedStrip from '@/components/TrustedStrip';
 
 const styles = `
   @keyframes heroFadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes heroImageIn { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
-  @keyframes heroMarqueeLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @keyframes heroMarqueeRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
   /* Card 1 rises from behind the laptop lid: starts tiny and pushed down onto
      the lid, then grows upward (origin is the card's own bottom edge, which
      rests just above the screen). */
@@ -28,28 +15,38 @@ const styles = `
   @keyframes heroCardIn { from { opacity: 0; transform: translateY(18px) scale(0.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
   @keyframes heroCardFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
   @keyframes heroCaret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  @keyframes heroBarGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 `;
 
-/** Prompts the Co-Marketer card cycles through. Card 0 is the one that
- *  emerges from the laptop; the rest slide up in place. */
-const CARDS: { lines: [string, string] }[] = [
-  { lines: ['How do I get my first meeting?', "What's my next move?"] },
-  { lines: ['Which accounts are ready to buy?', "Show me today's signals."] },
-  { lines: ['Who should I reach out to first?', 'Map the buying committee.'] },
-  { lines: ['Write my outbound sequence.', 'Lead with the funding news.'] },
-  { lines: ['Why did this deal go quiet?', 'What changed last week?'] },
-  { lines: ['Which vendor are they using?', 'Show me where I can win.'] },
-];
+/** Card 1's prompt — typed out on screen. */
+const PROMPT: [string, string] = ['How do I get my first meeting?', "What's my next move?"];
 
-const CARD_MS = 8200;
+/**
+ * Shared by background.png AND heroman.png. Both plates are 2730×1536, so an
+ * identical box + object-position is what re-registers the cut-out onto the
+ * scene. Edit this in one place only — divergent crops slide the man off his
+ * own chair.
+ */
+const SCENE_IMG = 'h-full w-full object-cover object-[68%_center] lg:object-[52%_center]';
 
-function Star() {
-  return (
-    <svg viewBox="0 0 20 20" className="h-4 w-4" fill="#F6A11E" aria-hidden="true">
-      <path d="M10 1.5l2.47 5.01 5.53.8-4 3.9.94 5.51L10 14.9l-4.94 2.6.94-5.5-4-3.9 5.53-.8L10 1.5z" />
-    </svg>
-  );
-}
+/**
+ * The cut-out is framed much larger than the room plate wants him, so he gets
+ * this on TOP of SCENE_IMG.
+ *
+ * The origin does double duty: `bottom` keeps his laptop planted on the table
+ * as he shrinks (scaling about the centre would lift him off it), and `right`
+ * makes him shrink TOWARD the right edge rather than toward the middle — which
+ * is what walks him over to the right side without a separate translate.
+ * Lower the scale to shrink him further; he'll drift further right as he goes.
+ *
+ * The translates then place him: -y lifts him clear of the table, +x walks him
+ * further right than the origin alone takes him. Because CSS applies the scale
+ * first and the translates after, these are flat offsets — they are NOT
+ * multiplied by the scale — so the values read as the actual distance he moves
+ * (percentages are of the panel, which is 66% of the viewport at lg).
+ * Lift too far and his laptop floats off the table.
+ */
+const MAN_TRANSFORM = 'translate-x-[14%] -translate-y-[12%] scale-[0.60] origin-bottom-right';
 
 function Sparkle() {
   return (
@@ -107,16 +104,13 @@ function TypedLines({ lines, delay }: { lines: [string, string]; delay: number }
   );
 }
 
-function CoMarketerCard({ card, emerge }: { card: (typeof CARDS)[number]; emerge: boolean }) {
+/** Card 1 — the Co-Marketer prompt, rising from behind the laptop lid. */
+function CoMarketerCard() {
   return (
     <div
       className="w-[360px]"
-      style={
-        emerge
-          ? // grows upward off its own bottom edge, which sits on the laptop lid
-            { animation: 'heroCardEmerge 2s cubic-bezier(0.33,1,0.68,1) both', transformOrigin: '50% 100%' }
-          : { animation: 'heroCardIn 0.9s cubic-bezier(0.33,1,0.68,1) both' }
-      }
+      // grows upward off its own bottom edge, which sits on the laptop lid
+      style={{ animation: 'heroCardEmerge 2s cubic-bezier(0.33,1,0.68,1) both', transformOrigin: '50% 100%' }}
     >
       <div style={{ animation: 'heroCardFloat 9s ease-in-out infinite', animationDelay: '2.1s' }}>
         {/* 2px gradient border: ember at the left edge resolving to blue across */}
@@ -128,7 +122,7 @@ function CoMarketerCard({ card, emerge }: { card: (typeof CARDS)[number]; emerge
                 <span className="font-bricolage text-[16.5px] font-bold tracking-[-0.01em]">Co-Marketer</span>
               </span>
               <div className="mt-2.5">
-                <TypedLines lines={card.lines} delay={emerge ? 1550 : 500} />
+                <TypedLines lines={PROMPT} delay={1550} />
               </div>
             </div>
 
@@ -148,15 +142,251 @@ function CoMarketerCard({ card, emerge }: { card: (typeof CARDS)[number]; emerge
   );
 }
 
+/**
+ * Uplift series, as a % of the plot height. Deliberately NOT a clean ramp —
+ * the dip at index 2 is what makes it read as measured data rather than
+ * decoration. The final bar is the projection and carries the only accent.
+ */
+const BARS = [24, 33, 27, 44, 52, 63, 88];
+// tracks the figure's cap height so the plot reads as its peer, not its label
+const PLOT_H = 56;
+
+function Bars() {
+  return (
+    <span className="relative flex items-end gap-[5px]" style={{ height: PLOT_H }} aria-hidden="true">
+      {BARS.map((pct, i) => {
+        const projected = i === BARS.length - 1;
+        return (
+          <span
+            key={i}
+            className={`w-[6px] origin-bottom rounded-t-[2px] ${
+              // one accent, everything else recedes — a rainbow ramp here says
+              // nothing about the data
+              projected ? 'bg-[#F2841C] shadow-[0_0_12px_rgba(242,132,28,0.5)]' : 'bg-[#3B4C7D]'
+            }`}
+            style={{
+              height: (pct / 100) * PLOT_H,
+              animation: 'heroBarGrow 0.5s cubic-bezier(0.33,1,0.68,1) both',
+              // history fills quickly, the projection lands last and alone
+              animationDelay: `${0.7 + i * 0.06 + (projected ? 0.12 : 0)}s`,
+            }}
+          />
+        );
+      })}
+      <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-white/[0.11]" />
+    </span>
+  );
+}
+
+function CountUp({ to, delay }: { to: number; delay: number }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    setN(0);
+    let tick: ReturnType<typeof setInterval>;
+    const start = setTimeout(() => {
+      let v = 0;
+      tick = setInterval(() => {
+        v += 1;
+        setN(v);
+        if (v >= to) clearInterval(tick);
+      }, 60);
+    }, delay);
+    return () => { clearTimeout(start); clearInterval(tick); };
+  }, [to, delay]);
+  return <>{n}</>;
+}
+
+/**
+ * Card 2 — Harvin answering card 1's question: the recommended next move and
+ * what it should return. Parked low so the man reads as being in front of it.
+ *
+ * The figures here are illustrative product UI, in the same spirit as the
+ * reference — not claims about Harvin's results.
+ */
+function PlaybookCard() {
+  return (
+    <div className="w-[312px]" style={{ animation: 'heroCardIn 0.9s cubic-bezier(0.33,1,0.68,1) both' }}>
+      <div style={{ animation: 'heroCardFloat 9s ease-in-out infinite', animationDelay: '1.2s' }}>
+        <div className="rounded-[24px] bg-[linear-gradient(152deg,#F2841C_0%,#E9701B_11%,#6455C8_40%,#2F6AE8_70%,#3F7DF5_100%)] p-[1.5px] shadow-[0_0_38px_rgba(47,106,232,0.22),0_18px_46px_rgba(0,0,0,0.55)]">
+          <div className="rounded-[23px] bg-[linear-gradient(158deg,#0B1A3A_0%,#101F49_50%,#0A1631_100%)] px-[21px] py-[19px] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
+            {/* Salutation is context, not the message — it recedes so the offer
+                is the first thing read. Both at one weight read as a wall. */}
+            <p className="text-[13.5px] font-medium text-white/50">Hi Sophia,</p>
+            <p className="mt-1.5 text-[18px] font-semibold leading-[1.26] tracking-[-0.015em] text-white">
+              Start with the 38 accounts showing buying intent this week.
+            </p>
+
+            {/* Metric gets its own inset surface rather than being fenced by two
+                rules — structure instead of dividers. */}
+            <div className="mt-[18px] rounded-[15px] border border-white/[0.07] bg-white/[0.035] px-4 py-3.5">
+              <p className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#8FA3D8]">
+                Projected reply rate
+              </p>
+              <div className="mt-2.5 flex items-end justify-between gap-3">
+                <span className="font-bricolage text-[60px] font-bold leading-[0.8] tracking-[-0.045em] text-[#F2841C]">
+                  <CountUp to={32} delay={620} />
+                  {/* smaller, lighter, raised — the unit shouldn't carry the
+                      same weight as the figure, and the gap widens as the
+                      figure grows */}
+                  <span className="relative -top-[17px] ml-[1px] text-[25px] font-semibold text-[#F2841C]/65">%</span>
+                </span>
+                <Bars />
+              </div>
+            </div>
+
+            <div className="mt-[18px] flex flex-col gap-2.5">
+              <span
+                className="block rounded-[12px] bg-[linear-gradient(180deg,#F79138_0%,#E4700F_100%)] py-[12px]
+                           text-center text-[13.5px] font-semibold tracking-[-0.005em] text-white
+                           shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_16px_rgba(228,112,15,0.32)]"
+              >
+                Launch sequence
+              </span>
+              <span
+                className="block rounded-[12px] border border-white/[0.14] bg-white/[0.05] py-[11px]
+                           text-center text-[12.5px] font-medium text-white/85"
+              >
+                Ask a Harvin Growth Engineer
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const Rule = () => <div aria-hidden="true" className="my-[11px] h-px bg-white/[0.10]" />;
+const Meta = ({ children }: { children: React.ReactNode }) => (
+  <p className="text-[10.5px] text-white/45">{children}</p>
+);
+
+/**
+ * Placeholder lead portraits. These are generated silhouette SVGs in
+ * /public/avatars, not photographs — they read as stand-ins rather than
+ * pretending to be real people, which is the point: putting invented faces
+ * next to named "leads" on a live marketing page would be fabricated social
+ * proof. Drop real headshots in at the same paths to swap them; no markup
+ * change needed.
+ */
+const COHORT = [
+  { name: 'Avery Park', img: '/avatars/lead-1.svg', ring: 'linear-gradient(140deg,#F2841C,#C94C1E)' },
+  { name: 'Liam Alexander', img: '/avatars/lead-2.svg', ring: 'linear-gradient(140deg,#6455C8,#2F6AE8)' },
+  { name: 'Olivia Grace', img: '/avatars/lead-3.svg', ring: 'linear-gradient(140deg,#E9701B,#6455C8)' },
+  { name: 'Dylan Thomas', img: '/avatars/lead-4.svg', ring: 'linear-gradient(140deg,#3F7DF5,#6455C8)' },
+];
+
+/**
+ * Card 3 — the lead-generation readout: who Harvin surfaced, how to reach them,
+ * how warm they are and how fresh the signal is.
+ *
+ * Reframed from the reference's win-back cohort, because Email + Cold Calling
+ * are prospecting channels — "dormant", "At risk" and a 47-day-old engagement
+ * describe a customer you are losing, not a lead you are working.
+ */
+function CohortCard() {
+  return (
+    <div className="w-[282px]" style={{ animation: 'heroCardIn 0.9s cubic-bezier(0.33,1,0.68,1) both' }}>
+      <div style={{ animation: 'heroCardFloat 9s ease-in-out infinite', animationDelay: '1.2s' }}>
+        <div className="rounded-[22px] bg-[linear-gradient(152deg,#F2841C_0%,#E9701B_11%,#6455C8_40%,#2F6AE8_70%,#3F7DF5_100%)] p-[1.5px] shadow-[0_0_38px_rgba(47,106,232,0.22),0_18px_46px_rgba(0,0,0,0.55)]">
+          <div className="rounded-[21px] bg-[linear-gradient(158deg,#0B1A3A_0%,#101F49_50%,#0A1631_100%)] px-[18px] py-[16px] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
+            <h3 className="font-bricolage text-[19px] font-bold leading-[1.18] tracking-[-0.02em] text-white">
+              High-Intent,
+              <br />
+              Untouched Leads
+            </h3>
+
+            <Rule />
+
+            {/* Channel accents are drawn from the card's own gradient rather
+                than each vendor's brand colour — these are outbound motions,
+                not logos. */}
+            <Meta>Preferred Channels</Meta>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              <span className="flex items-center justify-center gap-1.5 rounded-[10px] border border-[#3F7DF5]/55 bg-[#3F7DF5]/[0.10] py-[7px]">
+                <Mail size={14} className="flex-shrink-0 text-[#6C9BFF]" strokeWidth={2.2} />
+                <span className="text-[12px] font-bold text-white">Email</span>
+              </span>
+              <span className="flex items-center justify-center gap-1.5 rounded-[10px] border border-[#F2841C]/55 bg-[#F2841C]/[0.10] py-[7px]">
+                <Phone size={14} className="flex-shrink-0 text-[#F79127]" strokeWidth={2.2} />
+                <span className="text-[12px] font-bold text-white">Cold Calling</span>
+              </span>
+            </div>
+
+            <Rule />
+
+            <Meta>Lead stage</Meta>
+            <div className="mt-1.5 flex items-center gap-2">
+              <Zap size={16} className="flex-shrink-0 text-[#F2841C]" strokeWidth={2.2} fill="#F2841C" />
+              <span className="text-[13.5px] font-bold text-[#F2841C]">Ready to engage</span>
+            </div>
+
+            <Rule />
+
+            <Meta>Last buying signal</Meta>
+            <div className="mt-1.5 flex items-center gap-2">
+              <Clock size={16} className="flex-shrink-0 text-[#3F7DF5]" strokeWidth={2.2} />
+              <span className="text-[13.5px] font-bold text-white">3 days ago</span>
+            </div>
+
+            <Rule />
+
+            <Meta>Selected Leads</Meta>
+            <div className="mt-2.5 grid grid-cols-4 gap-1.5">
+              {COHORT.map((c) => (
+                <span key={c.name} className="flex flex-col items-center gap-1.5">
+                  <span
+                    className="grid h-[42px] w-[42px] flex-shrink-0 place-items-center rounded-full p-[2px]"
+                    style={{ background: c.ring }}
+                  >
+                    <img
+                      src={c.img}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full rounded-full bg-[#0B1A3A] object-cover"
+                    />
+                  </span>
+                  <span className="text-center text-[8.5px] leading-[1.25] text-white/50">{c.name}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The card sequence. Each slide owns its artwork, its position, its dwell time
+ * and — now that the man is a separate cut-out — which side of him it sits on.
+ *
+ *   behind: true  → drawn between background.png and heroman.png, so the man
+ *                   physically covers any part of the card that overlaps him.
+ *   behind: false → floats over the entire scene.
+ */
+const SLIDES: { key: string; pos: string; ms: number; behind: boolean; node: React.ReactNode }[] = [
+  { key: 'co-marketer', pos: 'bottom-[60%] left-[65%] -translate-x-1/2', ms: 8200, behind: false, node: <CoMarketerCard /> },
+  // Sits to the man's LEFT, with its right edge inside his silhouette so his
+  // arm crops that corner. It used to sit on his right, but once he moved over
+  // there was less viewport left of the edge than the card is wide — it would
+  // have been buried. Tracks MAN_TRANSFORM: every nudge right pushes his left
+  // edge along too, so this follows or the overlap is lost.
+  { key: 'playbook', pos: 'bottom-[37%] left-[68%] -translate-x-1/2', ms: 6400, behind: true, node: <PlaybookCard /> },
+  // taller than card 2, so it sits lower to keep its top off the headline
+  // while its foot stays clear of the trusted strip
+  { key: 'cohort', pos: 'bottom-[37%] left-[68%] -translate-x-1/2', ms: 7000, behind: true, node: <CohortCard /> },
+];
+
 export default function Hero() {
   const { openModal } = useModal();
   const [email, setEmail] = useState('');
   const [cardIdx, setCardIdx] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setCardIdx((i) => (i + 1) % CARDS.length), CARD_MS);
-    return () => clearInterval(t);
-  }, []);
+    const t = setTimeout(() => setCardIdx((i) => (i + 1) % SLIDES.length), SLIDES[cardIdx].ms);
+    return () => clearTimeout(t);
+  }, [cardIdx]);
 
   return (
     <section className="relative isolate overflow-hidden bg-[#0d0703] text-white">
@@ -177,9 +407,9 @@ export default function Hero() {
         style={{ animation: 'heroImageIn 1.1s cubic-bezier(0.16,1,0.3,1) both' }}
       >
         <img
-          src="/hero2.jpg"
+          src="/background.png"
           alt=""
-          className="h-full w-full object-cover object-[68%_center] lg:object-[80%_center]"
+          className={SCENE_IMG}
           loading="eager"
         />
         {/* blend the image's left edge into the page background */}
@@ -187,11 +417,37 @@ export default function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0d0703] to-transparent" />
       </div>
 
-      {/* ── Copy scrim — holds the left third near-black so the headline,
-             sub-copy and form stay legible, then clears before the subject. */}
+      {/* ── BEHIND-THE-MAN card stage — drawn after the plate but before the
+             cut-out, so the man genuinely covers whatever overlaps him. ──── */}
+      {SLIDES[cardIdx].behind && (
+        <div
+          key={cardIdx}
+          aria-hidden="true"
+          className={`pointer-events-none absolute z-[6] hidden xl:block ${SLIDES[cardIdx].pos}`}
+        >
+          {SLIDES[cardIdx].node}
+        </div>
+      )}
+
+      {/* ── The man, cut out and laid back over the plate. Same panel box and
+             same SCENE_IMG crop as the background — that shared value is the
+             whole registration; changing one without the other slides him off
+             his own chair. ─────────────────────────────────────────────── */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0
+        className="pointer-events-none absolute inset-y-0 right-0 z-[7] w-full lg:w-[66%]"
+        style={{ animation: 'heroImageIn 1.1s cubic-bezier(0.16,1,0.3,1) both' }}
+      >
+        <img src="/heroman.png" alt="" className={`${SCENE_IMG} ${MAN_TRANSFORM}`} loading="eager" />
+      </div>
+
+      {/* ── Copy scrim — holds the left third near-black so the headline,
+             sub-copy and form stay legible, then clears before the subject.
+             Sits ABOVE the cut-out so his far edge falls away into the copy
+             side instead of cutting a hard silhouette across the headline. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[8]
                    bg-[linear-gradient(to_right,rgba(13,7,3,0.94)_0%,rgba(13,7,3,0.88)_45%,rgba(13,7,3,0.66)_100%)]
                    lg:bg-[linear-gradient(to_right,rgba(13,7,3,0.97)_0%,rgba(13,7,3,0.94)_22%,rgba(13,7,3,0.76)_38%,rgba(13,7,3,0.36)_50%,rgba(13,7,3,0.08)_62%,transparent_72%)]"
       />
@@ -199,24 +455,24 @@ export default function Hero() {
       {/* ── Grain ───────────────────────────────────────────────────────── */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-overlay"
+        className="pointer-events-none absolute inset-0 z-[9] opacity-[0.18] mix-blend-overlay"
         style={{
           backgroundImage:
             "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")",
         }}
       />
 
-      {/* ── Co-Marketer card — parked just above the laptop lid. The lid's top
-             edge lands at ~62% of viewport height and its centre at ~75.5%
-             width; because the image crop scales by height, those hold steady
-             from 1440 through 1920. Keyed on cardIdx so each card remounts and
-             replays its entrance + typewriter. ───────────────────────────── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-[28%] left-[87%] z-20 hidden -translate-x-1/2 xl:block"
-      >
-        <CoMarketerCard key={cardIdx} card={CARDS[cardIdx]} emerge={cardIdx === 0} />
-      </div>
+      {/* ── IN-FRONT card stage — for slides that should float over the whole
+             scene, the man included. ────────────────────────────────────── */}
+      {!SLIDES[cardIdx].behind && (
+        <div
+          key={cardIdx}
+          aria-hidden="true"
+          className={`pointer-events-none absolute z-20 hidden xl:block ${SLIDES[cardIdx].pos}`}
+        >
+          {SLIDES[cardIdx].node}
+        </div>
+      )}
 
       {/* ── Content ────────────────────────────────────────────────────── */}
       <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1240px] flex-col px-6 lg:max-w-[1340px]">
@@ -269,85 +525,7 @@ export default function Hero() {
         </div>
 
         {/* ── Social proof strip ───────────────────────────────────────── */}
-        <div className="relative pb-1.5 pt-[3px]">
-          <svg className="absolute left-1/2 top-6 h-[148px] w-screen -translate-x-1/2" viewBox="0 0 1000 148" preserveAspectRatio="none" aria-hidden="true">
-            <path
-              d="M0 16 H355 C400 16 389 124 438 124 H562 C600 124 611 16 640 16 H1000"
-              fill="none" stroke="url(#dividerGrad)" strokeWidth="5" strokeOpacity="0.28" vectorEffect="non-scaling-stroke"
-            />
-            <path
-              d="M0 16 H355 C400 16 389 124 438 124 H562 C600 124 611 16 640 16 H1000"
-              fill="none" stroke="url(#dividerGrad)" strokeWidth="2" vectorEffect="non-scaling-stroke"
-            />
-            <defs>
-              <linearGradient id="dividerGrad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0" />
-                <stop offset="6%" stopColor="#38bdf8" stopOpacity="0.9" />
-                <stop offset="27%" stopColor="#8b5cf6" stopOpacity="1" />
-                <stop offset="50%" stopColor="#FF8A1E" stopOpacity="1" />
-                <stop offset="73%" stopColor="#8b5cf6" stopOpacity="1" />
-                <stop offset="94%" stopColor="#38bdf8" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-          </svg>
-
-          <div className="relative left-1/2 z-10 flex w-screen -translate-x-1/2 items-start justify-between gap-2 px-4">
-            {/* Left logos — marquee scrolling left */}
-            <div
-              className="hidden min-w-0 flex-1 overflow-hidden pt-[74px] sm:block"
-              style={{
-                maskImage: 'linear-gradient(to right, transparent, #000 3%, #000 99%, transparent)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent, #000 3%, #000 99%, transparent)',
-              }}
-            >
-              <div className="flex w-max items-center gap-16" style={{ animation: 'heroMarqueeLeft 20s linear infinite' }}>
-                {[...LOGOS, ...LOGOS].map((logo, i) => (
-                  <img key={`l-${i}`} src={logo.src} alt="" className={`${logo.h} w-auto flex-shrink-0 object-contain opacity-50 brightness-0 invert`} />
-                ))}
-              </div>
-            </div>
-
-            {/* Center review badge */}
-            <div className="flex w-[300px] flex-shrink-0 flex-col items-center pt-[28px]">
-              <span className="text-[12px] font-extrabold uppercase tracking-[0.18em] text-white">Excellent</span>
-              <span className="mt-1.5 text-[26px] font-bold leading-none tracking-tight">
-                <span className="text-white">Customer</span> <span className="text-[#57a6ff]">Reviews</span>
-              </span>
-              <div className="mt-3.5 flex items-center gap-2">
-                <span className="flex items-center gap-0.5"><Star /><Star /><Star /><Star /><Star /></span>
-                <span className="text-[13px] font-bold text-white">4.7/5.0</span>
-              </div>
-            </div>
-
-            {/* Right logos — marquee scrolling right */}
-            <div
-              className="hidden min-w-0 flex-1 overflow-hidden pt-[74px] sm:block"
-              style={{
-                maskImage: 'linear-gradient(to right, transparent, #000 10%, #000 99%, transparent)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent, #000 10%, #000 99%, transparent)',
-              }}
-            >
-              <div className="flex w-max items-center gap-16" style={{ animation: 'heroMarqueeRight 20s linear infinite' }}>
-                {[...LOGOS, ...LOGOS].map((logo, i) => (
-                  <img key={`r-${i}`} src={logo.src} alt="" className={`${logo.h} w-auto flex-shrink-0 object-contain opacity-50 brightness-0 invert`} />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 grid grid-cols-3 items-center gap-x-6 gap-y-5 sm:hidden">
-            {LOGOS.slice(0, 6).map((logo, i) => (
-              <img key={i} src={logo.src} alt="" className={`${logo.h} mx-auto w-auto object-contain opacity-50 brightness-0 invert`} />
-            ))}
-          </div>
-
-          <p className="mt-9 text-center text-[13px] font-medium">
-            <span className="text-white/60">Trusted by</span>{' '}
-            <span className="font-bold text-[#F2841C]">growing</span>{' '}
-            <span className="text-white/60">revenue teams</span>
-          </p>
-        </div>
+        <TrustedStrip />
       </div>
     </section>
   );
