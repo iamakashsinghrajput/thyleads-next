@@ -721,8 +721,13 @@ const MODULES: Module[] = [
   {
     title: 'Account Intelligence',
     Visual: AccountRecordVisual,
-    desc: 'Every account is a living intelligence entity. Search and filter your account universe by geography, category, employee size, funding stage, business motion, or priority score.',
-    details: ['Living intelligence per account', 'Multi-dimension filters', 'Dynamic priority score'],
+    desc: 'Every account is a living record, not a row in a spreadsheet. Firmographics, tech stack, funding history, headcount and buying committee are kept current automatically, so the profile you open today reflects the company as it is today.',
+    details: [
+      'Firmographics, stack and funding in one record',
+      'Filter by geography, category, size or motion',
+      'Priority score that moves with the evidence',
+      'Refreshed continuously — no manual enrichment',
+    ],
     stat: 'Live',
     statLabel: 'scoring',
     screenshot: '/dashboard-preview.png',
@@ -731,8 +736,13 @@ const MODULES: Module[] = [
   {
     title: 'AI Signal Detection',
     Visual: SignalScoringVisual,
-    desc: 'Score accounts from live signals — funding, hiring, scaling & expansion, M&A and layoffs. Everything above your threshold is shortlisted automatically, with the evidence behind every score.',
-    details: ['Funding · Hiring · Scaling', 'M&A · Firing', 'Evidence for every signal'],
+    desc: 'Five signal types are watched across your whole universe — funding, hiring, scaling, M&A and layoffs. Each one moves the account score, everything above your threshold is shortlisted automatically, and every point is traceable to the evidence behind it.',
+    details: [
+      'Funding · Hiring · Scaling · M&A · Layoffs',
+      'Threshold you set, shortlist we maintain',
+      'Every score traceable to its evidence',
+      'Scores move as the signals do',
+    ],
     stat: '5',
     statLabel: 'signal types',
     screenshot: '/tech-scanner.png',
@@ -741,8 +751,13 @@ const MODULES: Module[] = [
   {
     title: 'Watchlists',
     Visual: WatchlistDiagram,
-    desc: 'Group accounts into focused lists — by industry, by funding stage, by competitor footprint. Each list tracks its own accounts and alerts you the second something changes.',
-    details: ['Filters, manual, or CSV import', 'Slack & email alerts', 'Aggregate trends per list'],
+    desc: 'Group accounts into lists that mirror how your team actually sells — by industry, by funding stage, by competitor footprint, by rep. Each list tracks its own accounts and tells you the moment one of them moves.',
+    details: [
+      'Build from filters, by hand, or CSV import',
+      'Slack and email alerts the moment something changes',
+      'Aggregate trends across every list',
+      'Share lists across the team',
+    ],
     stat: 'Real-time',
     statLabel: 'alerts',
     screenshot: '/Watchlist.png',
@@ -754,10 +769,10 @@ const MODULES: Module[] = [
     wide: true,
     desc: 'Point Harvin at a customer you already won, choose what actually makes it a fit — category, tech stack, headcount, region — and it returns the accounts that look like it. Tick the ones worth pursuing and launch a campaign to them without leaving the screen.',
     details: [
-      'Seed from any account or domain',
+      'Seed from any account or domain you already won',
       'Choose which traits to match on',
-      'Every match scored and explained',
-      'Shortlist and launch in one flow',
+      'Every match scored, and the reason shown',
+      'Shortlist and launch a campaign in one flow',
     ],
     stat: '248',
     statLabel: 'accounts searched',
@@ -783,16 +798,18 @@ export default function Platform() {
             The Platform
           </p>
           <h2 className="text-[clamp(28px,4.2vw,48px)] font-semibold leading-[1.08] tracking-[-0.025em] text-slate-900 dark:text-white mb-4">
-            What&rsquo;s inside
+            Everything you need to know<br className="hidden sm:block" /> who to sell to, and when
           </h2>
-          <p className="text-[16px] leading-relaxed text-slate-500 dark:text-slate-400 max-w-[480px] mx-auto">
-            Four modules. One platform. Built for GTM teams running intelligence-led outbound.
+          <p className="mx-auto max-w-[600px] text-[17px] leading-[1.7] text-slate-600 dark:text-slate-400">
+            Four modules that share one account graph. Find the companies worth your time, watch for
+            the moment they enter the market, and launch outbound the same day — without stitching
+            together four tools to do it.
           </p>
         </div>
       </div>
 
       {/* ── Modules ──────────────────────────────────────────────── */}
-      <div className="max-w-[1100px] mx-auto px-6">
+      <div className="mx-auto max-w-[1180px] px-6">
         {MODULES.map((mod, i) => (
           <ModuleRow key={mod.title} mod={mod} index={i} flipped={i % 2 !== 0} isDark={isDark} />
         ))}
@@ -818,16 +835,16 @@ function ModuleRow({ mod, index, flipped, isDark }: {
       style={{ transitionDelay: `${index * 80}ms` }}
     >
       {/* ── Text side ── */}
-      <div className="min-w-0 max-w-lg flex-1">
+      <div className="min-w-0 max-w-[540px] flex-1">
         {/* Index, rule and stat on one line — the old oversized ghost numeral
             competed with the heading for first read. */}
-        <div className="mb-5 flex items-center gap-3.5">
-          <span className="font-mono text-[12px] font-semibold tracking-[0.16em] text-ember-500">
+        <div className="mb-6 flex items-center gap-3.5">
+          <span className="font-mono text-[13px] font-semibold tracking-[0.16em] text-ember-500">
             {String(index + 1).padStart(2, '0')}
           </span>
           <span aria-hidden="true" className="h-px flex-1 bg-slate-200 dark:bg-white/[0.10]" />
           <span
-            className="flex-shrink-0 rounded-full border border-slate-200 bg-sand-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500
+            className="flex-shrink-0 rounded-full border border-slate-200 bg-sand-50 px-3 py-1.5 text-[11.5px] font-semibold uppercase tracking-[0.08em] text-slate-500
                        dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-400"
           >
             {mod.stat} {mod.statLabel}
@@ -836,22 +853,22 @@ function ModuleRow({ mod, index, flipped, isDark }: {
 
         {/* Display face + tighter tracking: at this size the body sans reads
             flat, and negative tracking is what stops large type looking loose. */}
-        <h3 className="font-bricolage text-[27px] font-bold leading-[1.1] tracking-[-0.025em] text-slate-900 dark:text-white sm:text-[33px]">
+        <h3 className="font-bricolage text-[30px] font-bold leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white sm:text-[38px]">
           {mod.title}
         </h3>
 
-        <p className="mt-4 text-[16px] leading-[1.65] text-slate-600 dark:text-slate-400">
+        <p className="mt-5 text-[17px] leading-[1.72] text-slate-600 dark:text-slate-400">
           {mod.desc}
         </p>
 
         {/* Checklist reads as substance; the old pills read as tags. */}
-        <ul className="mt-6 flex flex-col gap-2.5">
+        <ul className="mt-7 flex flex-col gap-3.5">
           {mod.details.map((d) => (
             <li key={d} className="flex items-start gap-2.5">
-              <span className="mt-[3px] grid h-[17px] w-[17px] flex-shrink-0 place-items-center rounded-full bg-ember-50 dark:bg-ember-500/15">
-                <Check size={11} className="text-ember-600 dark:text-ember-300" strokeWidth={3} />
+              <span className="mt-[3px] grid h-[19px] w-[19px] flex-shrink-0 place-items-center rounded-full bg-ember-50 dark:bg-ember-500/15">
+                <Check size={12} className="text-ember-600 dark:text-ember-300" strokeWidth={3} />
               </span>
-              <span className="text-[14.5px] leading-[1.5] text-slate-700 dark:text-slate-300">{d}</span>
+              <span className="text-[15.5px] leading-[1.55] text-slate-700 dark:text-slate-300">{d}</span>
             </li>
           ))}
         </ul>
