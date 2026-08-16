@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useModal } from '@/components/ModalContext';
 
-type DropdownKey = 'solutions' | 'services' | 'resources' | null;
+type DropdownKey = 'platform' | 'solutions' | 'resources' | null;
 
 const PORTAL = portalUrl();
 const EXTENSION_URL =
@@ -24,12 +24,11 @@ const EXTENSION_URL =
 
 /**
  * PRODUCT and PLATFORM pointed at the same page, so the pair is now one
- * dropdown labelled PLATFORM — see the MenuTrigger below. What is left here is
- * the flat links only.
+ * dropdown labelled PLATFORM — see the MenuTrigger below. Pricing has been
+ * retired, which leaves this list empty; it is kept so a flat link can be added
+ * back without rebuilding the row.
  */
-const TOP_LINKS = [
-  { name: 'PRICING', href: '/pricing' },
-];
+const TOP_LINKS: { name: string; href: string }[] = [];
 
 /** Small secondary row above the main bar. */
 const UTILITY_LINKS = [
@@ -41,7 +40,6 @@ const UTILITY_LINKS = [
 /** Flat list for the full (hamburger) menu. */
 const EXPLORE_LINKS = [
   { name: 'Platform', href: '/platform' },
-  { name: 'Pricing', href: '/pricing' },
   { name: 'Blog', href: '/blog' },
   { name: 'Privacy', href: '/privacy' },
   { name: 'Terms', href: '/terms' },
@@ -70,7 +68,15 @@ type MenuItem = {
  * lowercased with non-alphanumerics collapsed to hyphens, matching the ids
  * PlatformGrid and the use-case section generate.
  */
-const SOLUTIONS: {
+/** The page the whole menu describes — rendered as the leading card. */
+const PLATFORM_OVERVIEW: MenuItem = {
+  name: 'Platform overview',
+  href: '/platform',
+  desc: 'Every module, how it works, and who it\u2019s for — on one page.',
+  image: '/nav/gtm-framework.jpg',
+};
+
+const PLATFORM_MENU: {
   byStage: MenuItem[];
   byService: MenuItem[];
   byVertical: MenuItem[];
@@ -138,26 +144,26 @@ const SOLUTIONS: {
 };
 
 /**
- * The three verticals Harvin sells into, each with its own page. Content is
+ * The three verticals Harvin sells into — the SOLUTIONS menu. Content is
  * carried over from the thyleads-project site and rebuilt to this design
- * system — see app/services/[vertical]/page.tsx.
+ * system; see app/solutions/[vertical]/page.tsx.
  */
-const SERVICES: MenuItem[] = [
+const SOLUTIONS: MenuItem[] = [
   {
     name: 'FinTech',
-    href: '/services/fintech',
+    href: '/solutions/fintech',
     desc: 'Signal-led outbound for payments, lending and infrastructure.',
     image: '/nav/fintech.jpg',
   },
   {
     name: 'MarTech',
-    href: '/services/martech',
+    href: '/solutions/martech',
     desc: 'Reach marketing and growth buyers while budget is moving.',
     image: '/nav/martech.jpg',
   },
   {
     name: 'HRTech',
-    href: '/services/hrtech',
+    href: '/solutions/hrtech',
     desc: 'Find HR and people-ops teams at the moment they are scaling.',
     image: '/nav/hrtech.jpg',
   },
@@ -169,12 +175,6 @@ const RESOURCES: MenuItem[] = [
     href: '/blog',
     desc: 'Playbooks and field notes.',
     image: '/nav/blogs.jpg',
-  },
-  {
-    name: 'Pricing',
-    href: '/pricing',
-    desc: 'Simple, per-seat pricing',
-    image: '/nav/case-studies.jpg',
   },
   {
     name: 'Product Tour',
@@ -481,17 +481,17 @@ const Navbar: React.FC = () => {
         <div className="hidden lg:flex flex-1 items-center gap-0.5">
           <MenuTrigger
             label="PLATFORM"
-            active={openDropdown === 'solutions'}
+            active={openDropdown === 'platform'}
             overlay={overlay}
-            onOpen={() => openIt('solutions')}
+            onOpen={() => openIt('platform')}
             onClose={scheduleClose}
           />
 
           <MenuTrigger
-            label="SERVICES"
-            active={openDropdown === 'services'}
+            label="SOLUTIONS"
+            active={openDropdown === 'solutions'}
             overlay={overlay}
-            onOpen={() => openIt('services')}
+            onOpen={() => openIt('solutions')}
             onClose={scheduleClose}
           />
 
@@ -583,52 +583,41 @@ const Navbar: React.FC = () => {
               <div className="pointer-events-none absolute inset-x-0 top-px h-px bg-neutral-900/10" />
 
               <div className="relative mx-auto max-w-[1600px] px-6 py-8 lg:px-10">
-                {openDropdown === 'solutions' ? (
-                  <motion.div variants={groupVariants}>
-                    {/* The trigger is a hover target, not a link, so without
-                        this row the panel offers no way to reach /platform
-                        itself — only the individual anchors within it. */}
-                    <Link
-                      href="/platform"
-                      onClick={close}
-                      className="group mb-5 flex items-center gap-3 rounded-xl border border-neutral-900/10 bg-white px-5 py-3.5 transition-colors hover:border-primary-600/40 hover:bg-primary-50/60"
-                    >
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-[13px] font-bold tracking-[-0.01em] text-neutral-900">
-                          Platform overview
-                        </span>
-                        <span className="block text-[12px] text-neutral-500">
-                          Every module, how it works, and who it&rsquo;s for — on one page.
-                        </span>
-                      </span>
-                      <ArrowRight
-                        className="h-4 w-4 flex-shrink-0 text-neutral-400 transition-all group-hover:translate-x-0.5 group-hover:text-primary-600"
-                        strokeWidth={2.2}
-                      />
-                    </Link>
-
+                {openDropdown === 'platform' ? (
                   <motion.div
                     variants={groupVariants}
                     className="grid grid-cols-12 gap-5"
                   >
-                    <motion.div
-                      variants={groupVariants}
-                      className="col-span-4 flex flex-col"
-                    >
-                      <PanelLabel>Intelligence</PanelLabel>
-                      <div className="flex flex-1 flex-col gap-5">
-                        <MenuCard
-                          item={SOLUTIONS.byStage[0]}
-                          onClick={close}
-                          className="flex-1"
-                        />
-                        <MenuCard item={SOLUTIONS.byStage[1]} onClick={close} />
+                    {/* ── The page itself, as the leading card ──────────────
+                        The trigger is a hover target, not a link, so without
+                        this the panel offers no way to reach /platform — only
+                        the anchors within it. It sits first and full-height so
+                        it reads as the parent of the columns beside it. */}
+                    <motion.div variants={groupVariants} className="col-span-3 flex flex-col">
+                      <PanelLabel>Overview</PanelLabel>
+                      <div className="flex flex-1">
+                        <MenuCard item={PLATFORM_OVERVIEW} onClick={close} className="flex-1" />
                       </div>
                     </motion.div>
 
                     <motion.div
                       variants={groupVariants}
-                      className="col-span-5 flex flex-col"
+                      className="col-span-3 flex flex-col"
+                    >
+                      <PanelLabel>Intelligence</PanelLabel>
+                      <div className="flex flex-1 flex-col gap-5">
+                        <MenuCard
+                          item={PLATFORM_MENU.byStage[0]}
+                          onClick={close}
+                          className="flex-1"
+                        />
+                        <MenuCard item={PLATFORM_MENU.byStage[1]} onClick={close} />
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      variants={groupVariants}
+                      className="col-span-4 flex flex-col"
                     >
                       <PanelLabel>Workflow</PanelLabel>
                       {/* Plain 2×2. A wide first card plus three below leaves a
@@ -637,7 +626,7 @@ const Navbar: React.FC = () => {
                         variants={groupVariants}
                         className="grid flex-1 grid-cols-2 gap-5"
                       >
-                        {SOLUTIONS.byService.map((item) => (
+                        {PLATFORM_MENU.byService.map((item) => (
                           <MenuCard key={item.name} item={item} onClick={close} />
                         ))}
                       </motion.div>
@@ -645,14 +634,14 @@ const Navbar: React.FC = () => {
 
                     <motion.div
                       variants={groupVariants}
-                      className="col-span-3 flex flex-col"
+                      className="col-span-2 flex flex-col"
                     >
                       <PanelLabel>For teams</PanelLabel>
                       <motion.div
                         variants={groupVariants}
                         className="flex flex-1 flex-col gap-5"
                       >
-                        {SOLUTIONS.byVertical.map((item) => (
+                        {PLATFORM_MENU.byVertical.map((item) => (
                           <MenuCard
                             key={item.name}
                             item={item}
@@ -664,10 +653,9 @@ const Navbar: React.FC = () => {
                       </motion.div>
                     </motion.div>
                   </motion.div>
-                  </motion.div>
-                ) : openDropdown === 'services' ? (
+                ) : openDropdown === 'solutions' ? (
                   <motion.div variants={groupVariants} className="grid grid-cols-3 gap-5">
-                    {SERVICES.map((item) => (
+                    {SOLUTIONS.map((item) => (
                       <MenuCard key={item.name} item={item} onClick={close} />
                     ))}
                   </motion.div>
@@ -722,10 +710,10 @@ const Navbar: React.FC = () => {
                     Platform overview
                   </MenuLink>
                   <div className="grid gap-x-8 sm:grid-cols-3">
-                    <MenuColumn label="Intelligence" items={SOLUTIONS.byStage} onClose={closeMobile} />
-                    <MenuColumn label="Workflow" items={SOLUTIONS.byService} onClose={closeMobile} />
-                    <MenuColumn label="For teams" items={SOLUTIONS.byVertical} onClose={closeMobile} />
-                    <MenuColumn label="Services" items={SERVICES} onClose={closeMobile} />
+                    <MenuColumn label="Intelligence" items={PLATFORM_MENU.byStage} onClose={closeMobile} />
+                    <MenuColumn label="Workflow" items={PLATFORM_MENU.byService} onClose={closeMobile} />
+                    <MenuColumn label="For teams" items={PLATFORM_MENU.byVertical} onClose={closeMobile} />
+                    <MenuColumn label="Solutions" items={SOLUTIONS} onClose={closeMobile} />
                   </div>
                 </motion.div>
 

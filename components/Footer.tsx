@@ -15,7 +15,6 @@ const NAV_COLS = [
     links: [
       { label: 'Overview', href: '/platform' },
       { label: 'Platform', href: '/platform' },
-      { label: 'Pricing', href: '/pricing' },
       { label: 'Tech Scanner', href: portalUrl(), external: true },
     ],
   },

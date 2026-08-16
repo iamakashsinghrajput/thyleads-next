@@ -4,7 +4,6 @@ import HowItWorks  from '@/components/HowItWorks';
 import Convergence from '@/components/Convergence';
 import TheData     from '@/components/TheData';
 import Platform    from '@/components/Platform';
-import Pricing     from '@/components/Pricing';
 import Testimonials from '@/components/Testimonials';
 import CTA         from '@/components/CTA';
 import Footer      from '@/components/Footer';
@@ -19,7 +18,6 @@ export default function Home() {
         <Convergence />
         <TheData />
         <Platform />
-        {/* <Pricing /> */}
         <Testimonials />
         {/* rides up over the sticky testimonials — the parallax reveal */}
         <div className="relative z-10">

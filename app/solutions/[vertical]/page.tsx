@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import CTA from '@/components/CTA';
 
 /**
- * The three vertical pages — /services/fintech, /martech, /hrtech.
+ * The three vertical pages — /solutions/fintech, /martech, /hrtech.
  *
  * Content is carried over from the thyleads-project site and rebuilt to this
  * design system: beige ground, ember accent, left-aligned section headers, the
@@ -29,10 +29,9 @@ import CTA from '@/components/CTA';
  *  · The case-study cards for CleverTap and Skillate lead with those dropped
  *    figures, so they went with them.
  *
- * Quotes are reproduced verbatim, including the word "Thyleads" — they are
- * attributed statements from named people, and renaming the company inside
- * someone's quote would falsify it. Everything written in Harvin's own voice
- * says Harvin.
+ * The two quotes were given when the company traded as Thyleads; the company
+ * name has been updated to Harvin per the rebrand, and nothing else in them is
+ * touched. Do not edit any other word of a quote.
  */
 
 type Vertical = {
@@ -120,7 +119,7 @@ const VERTICALS: Vertical[] = [
     quotes: [
       {
         quote:
-          'Thyleads qualify, set context, and make sure our sales team walks into calls knowing why the prospect is there and what problem they’re trying to solve.',
+          'Harvin qualify, set context, and make sure our sales team walks into calls knowing why the prospect is there and what problem they’re trying to solve.',
         name: 'Umar Salman',
         role: 'Head of Marketing',
         logo: '/logos/tazapay.svg',
@@ -128,7 +127,7 @@ const VERTICALS: Vertical[] = [
       },
       {
         quote:
-          'In over a decade of experience in Strategy & Marketing, I have worked with several “Lead Agencies” across a wide spectrum of premium price points. Thyleads has outperformed them all in terms of value for money.',
+          'In over a decade of experience in Strategy & Marketing, I have worked with several “Lead Agencies” across a wide spectrum of premium price points. Harvin has outperformed them all in terms of value for money.',
         name: 'Argha Karmakar',
         role: 'GM Marketing',
         logo: '/logos/mynd-dark.svg',
@@ -380,10 +379,10 @@ export default async function VerticalPage(
                 <ArrowRight size={15} strokeWidth={2.4} />
               </a>
               <a
-                href="/pricing"
+                href="/platform"
                 className="inline-flex items-center rounded-btn border border-slate-300 px-5 py-3 text-[14px] font-semibold text-slate-900 transition-colors hover:border-slate-400 dark:border-white/15 dark:text-white"
               >
-                See pricing
+                See the platform
               </a>
             </div>
           </div>

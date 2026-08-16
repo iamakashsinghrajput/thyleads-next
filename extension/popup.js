@@ -883,7 +883,7 @@ async function fetchFresh(forceRefresh) {
     const unscriptable = /^(chrome|chrome-extension|about|edge|brave):\/\/|chromewebstore\.google\.com/i;
     if (!unscriptable.test(currentUrl)) {
       try { pageData = await capturePageData(); } catch (e) {
-        console.warn('[HarvinAI] Could not capture page data:', e.message);
+        console.warn('[Harvin] Could not capture page data:', e.message);
       }
     }
 

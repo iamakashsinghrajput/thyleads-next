@@ -17,9 +17,10 @@ import { useEffect, useState } from 'react';
  * CONTENT IS REAL — quotes, names and titles carried over verbatim from
  * thyleads-project (app/casestudies/*, components/Testimonial). Two notes:
  *
- *  1. The quotes say "Thyleads", not "Harvin". They are attributed statements
- *     from named people, so they are reproduced word for word. Renaming the
- *     company inside someone's quote would falsify it.
+ *  1. The quotes were given when the company traded as Thyleads. The company
+ *     name — and only the company name — has been updated to Harvin, which is
+ *     the usual convention after a rebrand. Every other word is the speaker's,
+ *     reproduced verbatim. Do not edit anything else in a quote.
  *  2. Companies show as logos, not names. MYND ships only a light-grey mark
  *     built for dark grounds, so /logos/mynd-dark.svg is a darkened copy. Dice
  *     has no logo asset — it falls back to its name in text, which is the only
@@ -28,7 +29,7 @@ import { useEffect, useState } from 'react';
 const TESTIMONIALS = [
   {
     quote:
-      'Thyleads brought a level of precision to our outbound that complemented our in-house SDR team well. Their signal-driven approach ensured we were reaching the right accounts at the right time, and some accounts they sourced now sit among our top revenue contributors.',
+      'Harvin brought a level of precision to our outbound that complemented our in-house SDR team well. Their signal-driven approach ensured we were reaching the right accounts at the right time, and some accounts they sourced now sit among our top revenue contributors.',
     name: 'Deepak Lamba',
     role: 'Chief Revenue Officer',
     org: 'CleverTap',
@@ -37,7 +38,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      'In over a decade in Strategy & Marketing I have worked with several lead agencies across a wide spectrum of price points. Thyleads has outperformed them all in value for money, specifically on SaaS lead generation and connecting with relevant key decision makers.',
+      'In over a decade in Strategy & Marketing I have worked with several lead agencies across a wide spectrum of price points. Harvin has outperformed them all in value for money, specifically on SaaS lead generation and connecting with relevant key decision makers.',
     name: 'Argha Karmakar',
     role: 'General Manager — Marketing',
     org: 'MYND',
@@ -46,7 +47,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      'Working with Thyleads has significantly boosted our outbound efforts at Wingify. Their speed and ability to deliver qualified meetings from month one, even with minimal product training, were impressive.',
+      'Working with Harvin has significantly boosted our outbound efforts at Wingify. Their speed and ability to deliver qualified meetings from month one, even with minimal product training, were impressive.',
     name: 'Harsh Sharma',
     role: 'Senior Manager',
     org: 'VWO',
@@ -55,7 +56,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      'We always believed outbound could work, but lacked a structured approach. Thyleads changed that by building a repeatable system that delivers high-value meetings. Now we are having quality conversations with the right people with real buying intent.',
+      'We always believed outbound could work, but lacked a structured approach. Harvin changed that by building a repeatable system that delivers high-value meetings. Now we are having quality conversations with the right people with real buying intent.',
     name: 'Nitin Ravi',
     role: 'Head of Global Sales',
     org: 'Pazo',
@@ -64,7 +65,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      'Thyleads gets highly sales-qualified leads within the provided target regions from the very first month of our partnership. Their working style, culture, and ethics are highly commendable.',
+      'Harvin gets highly sales-qualified leads within the provided target regions from the very first month of our partnership. Their working style, culture, and ethics are highly commendable.',
     name: 'Ishan Acharya',
     role: 'Director of Business Operations',
     org: 'Dice',

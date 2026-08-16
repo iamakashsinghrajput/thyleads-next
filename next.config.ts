@@ -12,7 +12,11 @@ const nextConfig: NextConfig = {
    * deleted outright, because it is linked from elsewhere on the web.
    */
   async redirects() {
-    return [{ source: '/product', destination: '/platform', permanent: true }];
+    return [
+      { source: '/product', destination: '/platform', permanent: true },
+      // the vertical pages shipped briefly under /services
+      { source: '/services/:vertical', destination: '/solutions/:vertical', permanent: true },
+    ];
   },
 };
 

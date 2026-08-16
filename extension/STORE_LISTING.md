@@ -1,4 +1,4 @@
-# Chrome Web Store Listing — HarvinAI
+# Chrome Web Store Listing — Harvin
 
 Use this copy when publishing to the Chrome Web Store.
 
@@ -6,17 +6,17 @@ Use this copy when publishing to the Chrome Web Store.
 
 ## Extension Name
 ```
-HarvinAI — D2C Brand & Tech Intelligence
+Harvin — GTM & Tech Stack Intelligence
 ```
 
 ## Short Description (132 chars max)
 ```
-Detect any website's tech stack, classify D2C brands, track funding signals & discover 25,000+ accounts — all in one click.
+Scan any website's tech stack, see the company behind it, and track buying signals — without leaving the page.
 ```
 
 ## Detailed Description
 ```
-HarvinAI is a D2C Brand Intelligence Platform for sales teams, investors, and brand strategists.
+Harvin is a GTM intelligence platform for revenue teams, investors and analysts.
 
 🔍 TECH STACK DETECTION
 • Instantly detect 200+ technologies on any website
@@ -26,27 +26,27 @@ HarvinAI is a D2C Brand Intelligence Platform for sales teams, investors, and br
 • Analytics: Google Analytics, Mixpanel, Amplitude, Hotjar
 • Plus: CDN, SEO tools, A/B testing, frameworks, and 30+ more categories
 
-🏢 BRAND INTELLIGENCE
-• Auto-classify brands across 128 industry categories
-• See region, offline store count, monthly traffic estimates
-• Business model detection: Pure D2C, Omnichannel, D2C + Marketplace
+🏢 ACCOUNT INTELLIGENCE
+• Auto-classify accounts across 128 industry categories
+• See region, offline footprint and monthly traffic estimates
+• Business model detection: direct, omnichannel, or marketplace-led
 • App presence: iOS, Android, or Both
 
 📊 MARKET SIGNALS (Dashboard)
 • Track live funding rounds and key executive hires
 • Signal scoring: composite score (0-100) based on recency & type
 • "Recommended This Week" — top accounts to reach out to
-• 25,000+ D2C brand accounts to explore and filter
+• A searchable account universe to explore and filter
 
 🎯 WHO IS THIS FOR?
-• Sales teams prospecting D2C brands
+• Revenue teams prospecting target accounts
 • Investors tracking funding & hiring signals
-• Brand strategists analyzing competitors
+• Analysts and strategists tracking competitors
 • Agencies identifying tech stack opportunities
 
 ⚡ HOW IT WORKS
 1. Visit any website
-2. Click the HarvinAI icon
+2. Click the Harvin icon
 3. Instantly see: tech stack, brand category, region, store count, app presence, and more
 
 🔗 DASHBOARD
@@ -88,13 +88,13 @@ You need to create these. Capture the following:
 → Caption: "Instantly detect 200+ technologies on any website"
 
 **Screenshot 2 — Brand Details**
-→ Open the extension popup on a D2C brand (e.g., nykaa.com)
+→ Open the extension popup on any company site
 → Show the More Details tab with category, region, stores, app presence
 → Caption: "Auto-classify brands — category, region, stores, app presence"
 
 **Screenshot 3 — Dashboard Account Explorer**
 → Screenshot of the dashboard at harvin.ai/dashboard showing Account Explorer
-→ Caption: "25,000+ D2C brand accounts — filter by category, region, tech stack"
+→ Caption: "Explore the account universe — filter by category, region, tech stack"
 
 **Screenshot 4 — Market Intelligence**
 → Screenshot of the Market Intelligence tab with signals
@@ -107,7 +107,7 @@ You need to create these. Capture the following:
 ### 4. Promotional Images (optional but recommended)
 
 **Small Promo Tile:** 440x280 PNG
-→ Design: HarvinAI logo + tagline "D2C Brand & Tech Intelligence" on branded gradient
+→ Design: Harvin logo + tagline "GTM & Tech Stack Intelligence" on branded gradient
 
 **Large Promo Tile (Marquee):** 1400x560 PNG
 → Design: Logo + "Detect Tech. Discover Brands. Track Signals." + screenshot preview
