@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { portalUrl, portalTab } from '@/lib/portal';
 import { useParams, useRouter } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
@@ -388,25 +389,25 @@ export default function AccountDetailPage() {
             <div>
               <h3 className="px-3 mb-1 text-[11px] font-black text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Intelligence</h3>
               <div className="space-y-0.5">
-                <NavBtn icon={<Satellite size={18} />} label="Intelligence Hub" onClick={() => router.push('/dashboard?tab=market-intelligence')} />
-                <NavBtn icon={<Globe size={18} />} label="My Universe" onClick={() => router.push('/dashboard?tab=my-universe')} />
+                <NavBtn icon={<Satellite size={18} />} label="Intelligence Hub" onClick={() => { window.location.href = portalTab('intelligence'); }} />
+                <NavBtn icon={<Globe size={18} />} label="My Universe" onClick={() => { window.location.href = portalTab('accounts'); }} />
               </div>
             </div>
 
             <div>
               <h3 className="px-3 mb-1 text-[11px] font-black text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Discover</h3>
               <div className="space-y-0.5">
-                <NavBtn icon={<Search size={18} />} label="Account Explorer" active onClick={() => router.push('/dashboard')} />
-                <NavBtn icon={<Radar size={18} />} label="Tech Scanner" onClick={() => router.push('/dashboard?tab=tech-scanner')} />
-                <NavBtn icon={<Target size={18} />} label="LookALike" onClick={() => router.push('/dashboard?tab=lookalike-brands')} />
+                <NavBtn icon={<Search size={18} />} label="Account Explorer" active onClick={() => { window.location.href = portalUrl(); }} />
+                <NavBtn icon={<Radar size={18} />} label="Tech Scanner" onClick={() => { window.location.href = portalUrl(); }} />
+                <NavBtn icon={<Target size={18} />} label="LookALike" onClick={() => { window.location.href = portalTab('lookalike'); }} />
               </div>
             </div>
 
             <div>
               <h3 className="px-3 mb-1 text-[11px] font-black text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Watchlists</h3>
               <div className="space-y-0.5">
-                <NavBtn icon={<Star size={18} />} label="My Watchlists" onClick={() => router.push('/dashboard?tab=my-watchlists')} />
-                <NavBtn icon={<Target size={18} />} label="Recently Funded" onClick={() => router.push('/dashboard?tab=recently-funded')} />
+                <NavBtn icon={<Star size={18} />} label="My Watchlists" onClick={() => { window.location.href = portalTab('watchlist'); }} />
+                <NavBtn icon={<Target size={18} />} label="Recently Funded" onClick={() => { window.location.href = portalUrl(); }} />
                 <NavBtn icon={<Briefcase size={18} />} label="Current Clients" locked />
               </div>
             </div>
@@ -414,8 +415,8 @@ export default function AccountDetailPage() {
             <div>
               <h3 className="px-3 mb-1 text-[11px] font-black text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Settings</h3>
               <div className="space-y-0.5">
-                <NavBtn icon={<Settings2 size={18} />} label="ICP & Preferences" onClick={() => router.push('/dashboard?tab=icp-preferences')} />
-                <NavBtn icon={<Link2 size={18} />} label="Integrations" onClick={() => router.push('/dashboard?tab=integrations')} />
+                <NavBtn icon={<Settings2 size={18} />} label="ICP & Preferences" onClick={() => { window.location.href = portalTab('settings'); }} />
+                <NavBtn icon={<Link2 size={18} />} label="Integrations" onClick={() => { window.location.href = portalTab('settings'); }} />
               </div>
             </div>
           </div>
@@ -466,7 +467,7 @@ export default function AccountDetailPage() {
             <header className="h-[68px] border-b border-slate-200/60 dark:border-white/[0.05] bg-white/80 dark:bg-[#111111]/80 backdrop-blur-md px-6 lg:px-10 flex items-center justify-between flex-shrink-0 z-10 sticky top-0">
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => window.history.length > 1 ? router.back() : router.push('/dashboard')}
+                  onClick={() => { if (window.history.length > 1) router.back(); else window.location.href = portalUrl(); }}
                   className="group flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 dark:text-neutral-500 hover:bg-slate-100 dark:hover:bg-white/[0.08] transition-all"
                 >
                   <ChevronRight size={18} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
@@ -490,7 +491,7 @@ export default function AccountDetailPage() {
                   Visit Website
                 </a>
                 <button
-                  onClick={() => router.push(`/dashboard?tab=tech-scanner&scan=${encodeURIComponent(domain)}`)}
+                  onClick={() => { window.location.href = portalUrl(); }}
                   className="hidden sm:inline-flex text-[13px] font-semibold text-white px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 dark:bg-white dark:text-black dark:hover:bg-slate-200 shadow-sm transition-all"
                 >
                   Full Tech Scan
@@ -693,7 +694,7 @@ export default function AccountDetailPage() {
                           {techCount > 0 && <span className="text-[12px] font-semibold text-slate-500 bg-slate-200 dark:bg-white/10 px-2 py-0.5 rounded-full ml-1">{techCount}</span>}
                         </h2>
                         {techCount > 0 && (
-                          <button onClick={() => router.push(`/dashboard?tab=tech-scanner&scan=${encodeURIComponent(domain)}`)}
+                          <button onClick={() => { window.location.href = portalUrl(); }}
                             className="text-[13px] font-semibold text-[#C94C1E] dark:text-[#E86335] hover:opacity-80 transition-opacity flex items-center gap-1">
                             Full scan <ChevronRight size={14} />
                           </button>
@@ -870,7 +871,7 @@ export default function AccountDetailPage() {
                         <Layers className="text-blue-500" size={18} /> Similar Accounts
                     </h2>
                     {account.similar.length > 0 && (
-                      <button onClick={() => router.push(`/dashboard?tab=lookalike-brands&domain=${encodeURIComponent(account.normalizedDomain)}`)} className="text-[13px] font-semibold text-[#C94C1E] dark:text-[#E86335] hover:opacity-80 transition-opacity flex items-center gap-1">
+                      <button onClick={() => { window.location.href = portalTab('lookalike'); }} className="text-[13px] font-semibold text-[#C94C1E] dark:text-[#E86335] hover:opacity-80 transition-opacity flex items-center gap-1">
                         Explore all <ChevronRight size={14} />
                       </button>
                     )}

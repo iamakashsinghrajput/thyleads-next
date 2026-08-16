@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { portalUrl } from '@/lib/portal';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -17,7 +18,7 @@ import { useModal } from '@/components/ModalContext';
 
 type DropdownKey = 'solutions' | 'services' | 'resources' | null;
 
-const PORTAL = 'https://www.portal-thyleads.com';
+const PORTAL = portalUrl();
 const EXTENSION_URL =
   'https://chromewebstore.google.com/detail/harvinai-tech-scanner/blmojockpggdpchlonagnhmgecbiapng';
 

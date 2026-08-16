@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { portalUrl } from '@/lib/portal';
 
 /* ── Nav data ─────────────────────────────────────────────────────────────
    Every href below resolves to a real route in /app. The previous footer
@@ -15,15 +16,14 @@ const NAV_COLS = [
       { label: 'Overview', href: '/platform' },
       { label: 'Platform', href: '/platform' },
       { label: 'Pricing', href: '/pricing' },
-      { label: 'Tech Scanner', href: '/dashboard?tab=tech-scanner' },
+      { label: 'Tech Scanner', href: portalUrl(), external: true },
     ],
   },
   {
     heading: 'Account',
     links: [
-      { label: 'Sign in', href: '/signin' },
-      { label: 'Create account', href: '/signup' },
-      { label: 'Dashboard', href: '/dashboard' },
+      { label: 'Sign in', href: portalUrl(), external: true },
+      { label: 'Dashboard', href: portalUrl(), external: true },
     ],
   },
   {
@@ -121,17 +121,19 @@ export default function Footer() {
           <nav key={col.heading} aria-label={col.heading} className="flex flex-col gap-4">
             <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/40">{col.heading}</p>
             <ul className="flex flex-col gap-3">
-              {col.links.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="w-fit text-[14px] text-white/60 transition-colors hover:text-white
-                               focus-visible:outline-none focus-visible:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              {col.links.map((link) => {
+                const cls = `w-fit text-[14px] text-white/60 transition-colors hover:text-white
+                               focus-visible:outline-none focus-visible:text-white`;
+                return (
+                  <li key={link.label}>
+                    {'external' in link && link.external ? (
+                      <a href={link.href} className={cls}>{link.label}</a>
+                    ) : (
+                      <Link href={link.href} className={cls}>{link.label}</Link>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         ))}
