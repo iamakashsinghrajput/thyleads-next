@@ -12,7 +12,7 @@ const NAV_COLS = [
   {
     heading: 'Product',
     links: [
-      { label: 'Overview', href: '/product' },
+      { label: 'Overview', href: '/platform' },
       { label: 'Platform', href: '/platform' },
       { label: 'Pricing', href: '/pricing' },
       { label: 'Tech Scanner', href: '/dashboard?tab=tech-scanner' },

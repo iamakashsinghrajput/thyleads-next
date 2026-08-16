@@ -15,14 +15,18 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useModal } from '@/components/ModalContext';
 
-type DropdownKey = 'solutions' | 'resources' | null;
+type DropdownKey = 'solutions' | 'services' | 'resources' | null;
 
 const PORTAL = 'https://www.portal-thyleads.com';
 const EXTENSION_URL =
   'https://chromewebstore.google.com/detail/harvinai-tech-scanner/blmojockpggdpchlonagnhmgecbiapng';
 
+/**
+ * PRODUCT and PLATFORM pointed at the same page, so the pair is now one
+ * dropdown labelled PLATFORM — see the MenuTrigger below. What is left here is
+ * the flat links only.
+ */
 const TOP_LINKS = [
-  { name: 'PRODUCT', href: '/product' },
   { name: 'PRICING', href: '/pricing' },
 ];
 
@@ -35,7 +39,7 @@ const UTILITY_LINKS = [
 
 /** Flat list for the full (hamburger) menu. */
 const EXPLORE_LINKS = [
-  { name: 'Product', href: '/product' },
+  { name: 'Platform', href: '/platform' },
   { name: 'Pricing', href: '/pricing' },
   { name: 'Blog', href: '/blog' },
   { name: 'Privacy', href: '/privacy' },
@@ -51,6 +55,20 @@ type MenuItem = {
   image?: string;
 };
 
+/**
+ * The Platform menu mirrors /platform one-to-one.
+ *
+ * /product used to hold a second copy of this material; the two have been
+ * collapsed onto /platform, so every entry here deep-links to the anchor of the
+ * thing it names. Adding an entry that has no matching section on /platform
+ * gives the visitor a link that lands nowhere in particular — if something new
+ * belongs in this menu, it needs a card or a section on the page first.
+ *
+ * Intelligence + Workflow are the six cards in The Platform grid; For teams are
+ * the three segments in "How teams use Harvin". Slugs are the card titles
+ * lowercased with non-alphanumerics collapsed to hyphens, matching the ids
+ * PlatformGrid and the use-case section generate.
+ */
 const SOLUTIONS: {
   byStage: MenuItem[];
   byService: MenuItem[];
@@ -59,71 +77,90 @@ const SOLUTIONS: {
   byStage: [
     {
       name: 'Account Intelligence',
-      href: '/product',
-      desc: 'Every account is a living intelligence entity.',
+      href: '/platform#account-intelligence',
+      desc: 'Every account is a living record, kept current automatically.',
       image: '/nav/series-a.jpg',
     },
     {
       name: 'AI Signal Detection',
-      href: '/product',
+      href: '/platform#ai-signal-detection',
       desc: 'Funding, hiring, scaling, M&A and layoffs — scored.',
       image: '/nav/series-b.jpg',
     },
   ],
   byService: [
     {
-      name: 'Campaign Orchestration',
-      href: '/product',
-      desc: 'Intelligence-led outbound, built from account signals.',
-      image: '/nav/outbound-strategy.jpg',
-    },
-    {
-      name: 'Verified Database',
-      href: '/product',
-      desc: 'Verified accounts and decision-makers',
-      image: '/nav/lead-generation.jpg',
-    },
-    {
-      name: 'Meeting Intelligence',
-      href: '/product',
-      desc: 'Track the full post-outbound journey',
-      image: '/nav/meeting-booking.jpg',
-    },
-    {
-      name: 'Look-a-like Accounts',
-      href: '/product',
-      desc: 'Find accounts like your best customers',
+      name: 'Watchlists',
+      href: '/platform#watchlists',
+      desc: 'Group accounts the way your team sells, and get told when one moves.',
       image: '/nav/pipeline-management.jpg',
     },
     {
-      name: 'Reports & Analytics',
-      href: '/product',
-      desc: 'Strategic visibility into outbound',
+      name: 'Look-a-like Accounts',
+      href: '/platform#look-a-like-accounts',
+      desc: 'Find accounts like your best customers',
+      image: '/nav/lead-generation.jpg',
+    },
+    {
+      name: 'Campaign Reports',
+      href: '/platform#campaign-reports',
+      desc: 'Sends, replies and the window each persona answers in',
       image: '/nav/gtm-execution.jpg',
+    },
+    {
+      name: 'Template Builder',
+      href: '/platform#template-builder',
+      desc: 'Build campaign templates from reusable blocks',
+      image: '/nav/outbound-strategy.jpg',
     },
   ],
   byVertical: [
     {
-      name: 'SaaS & B2B',
-      href: '/product',
-      desc: 'Pipeline for modern GTM teams',
+      name: 'SaaS & Software Vendors',
+      href: '/platform#saas-software-vendors',
+      desc: 'Reach accounts while the migration window is open',
       image: '/nav/martech.jpg',
     },
     {
-      name: 'FinTech',
-      href: '/product',
-      desc: 'Signal-led outbound for FinTech',
-      image:
-        '/nav/fintech.jpg',
+      name: 'Agencies & Consultants',
+      href: '/platform#agencies-consultants',
+      desc: 'Pitch against a funding or leadership change',
+      image: '/nav/fintech.jpg',
     },
     {
-      name: 'HealthTech',
-      href: '/product',
-      desc: 'Reach the right healthcare buyers',
+      name: 'Services & Solution Providers',
+      href: '/platform#services-solution-providers',
+      desc: 'Win expansion work before the shortlist is drawn',
       image: '/nav/hrtech.jpg',
     },
   ],
 };
+
+/**
+ * The three verticals Harvin sells into, each with its own page. Content is
+ * carried over from the thyleads-project site and rebuilt to this design
+ * system — see app/services/[vertical]/page.tsx.
+ */
+const SERVICES: MenuItem[] = [
+  {
+    name: 'FinTech',
+    href: '/services/fintech',
+    desc: 'Signal-led outbound for payments, lending and infrastructure.',
+    image: '/nav/fintech.jpg',
+  },
+  {
+    name: 'MarTech',
+    href: '/services/martech',
+    desc: 'Reach marketing and growth buyers while budget is moving.',
+    image: '/nav/martech.jpg',
+  },
+  {
+    name: 'HRTech',
+    href: '/services/hrtech',
+    desc: 'Find HR and people-ops teams at the moment they are scaling.',
+    image: '/nav/hrtech.jpg',
+  },
+];
 
 const RESOURCES: MenuItem[] = [
   {
@@ -140,7 +177,7 @@ const RESOURCES: MenuItem[] = [
   },
   {
     name: 'Product Tour',
-    href: '/product',
+    href: '/platform',
     desc: 'See the platform end to end',
     image: '/nav/ai-tools.jpg',
   },
@@ -257,7 +294,7 @@ const Navbar: React.FC = () => {
   // Hovering the bar (or opening a menu) resolves it to solid white.
   //
   // Add a route here when you give it a dark hero — otherwise it gets the white
-  // bar sitting on black, which is what /product had.
+  // bar sitting on black, which is what /platform had.
   const hasDarkHero = DARK_HERO_ROUTES.includes(pathname);
   const overlay = hasDarkHero && !scrolled && !navHovered && !openDropdown;
 
@@ -441,6 +478,22 @@ const Navbar: React.FC = () => {
         </Link>
 
         <div className="hidden lg:flex flex-1 items-center gap-0.5">
+          <MenuTrigger
+            label="PLATFORM"
+            active={openDropdown === 'solutions'}
+            overlay={overlay}
+            onOpen={() => openIt('solutions')}
+            onClose={scheduleClose}
+          />
+
+          <MenuTrigger
+            label="SERVICES"
+            active={openDropdown === 'services'}
+            overlay={overlay}
+            onOpen={() => openIt('services')}
+            onClose={scheduleClose}
+          />
+
           {TOP_LINKS.map((l) => (
             <Link
               key={l.name}
@@ -450,14 +503,6 @@ const Navbar: React.FC = () => {
               {l.name}
             </Link>
           ))}
-
-          <MenuTrigger
-            label="PLATFORM"
-            active={openDropdown === 'solutions'}
-            overlay={overlay}
-            onOpen={() => openIt('solutions')}
-            onClose={scheduleClose}
-          />
 
           <MenuTrigger
             label="RESOURCES"
@@ -538,6 +583,29 @@ const Navbar: React.FC = () => {
 
               <div className="relative mx-auto max-w-[1600px] px-6 py-8 lg:px-10">
                 {openDropdown === 'solutions' ? (
+                  <motion.div variants={groupVariants}>
+                    {/* The trigger is a hover target, not a link, so without
+                        this row the panel offers no way to reach /platform
+                        itself — only the individual anchors within it. */}
+                    <Link
+                      href="/platform"
+                      onClick={close}
+                      className="group mb-5 flex items-center gap-3 rounded-xl border border-neutral-900/10 bg-white px-5 py-3.5 transition-colors hover:border-primary-600/40 hover:bg-primary-50/60"
+                    >
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[13px] font-bold tracking-[-0.01em] text-neutral-900">
+                          Platform overview
+                        </span>
+                        <span className="block text-[12px] text-neutral-500">
+                          Every module, how it works, and who it&rsquo;s for — on one page.
+                        </span>
+                      </span>
+                      <ArrowRight
+                        className="h-4 w-4 flex-shrink-0 text-neutral-400 transition-all group-hover:translate-x-0.5 group-hover:text-primary-600"
+                        strokeWidth={2.2}
+                      />
+                    </Link>
+
                   <motion.div
                     variants={groupVariants}
                     className="grid grid-cols-12 gap-5"
@@ -562,16 +630,13 @@ const Navbar: React.FC = () => {
                       className="col-span-5 flex flex-col"
                     >
                       <PanelLabel>Workflow</PanelLabel>
+                      {/* Plain 2×2. A wide first card plus three below leaves a
+                          hole in the fourth slot whenever the count is even. */}
                       <motion.div
                         variants={groupVariants}
                         className="grid flex-1 grid-cols-2 gap-5"
                       >
-                        <MenuCard
-                          item={SOLUTIONS.byService[0]}
-                          onClick={close}
-                          className="col-span-2"
-                        />
-                        {SOLUTIONS.byService.slice(1).map((item) => (
+                        {SOLUTIONS.byService.map((item) => (
                           <MenuCard key={item.name} item={item} onClick={close} />
                         ))}
                       </motion.div>
@@ -597,6 +662,13 @@ const Navbar: React.FC = () => {
                         ))}
                       </motion.div>
                     </motion.div>
+                  </motion.div>
+                  </motion.div>
+                ) : openDropdown === 'services' ? (
+                  <motion.div variants={groupVariants} className="grid grid-cols-3 gap-5">
+                    {SERVICES.map((item) => (
+                      <MenuCard key={item.name} item={item} onClick={close} />
+                    ))}
                   </motion.div>
                 ) : (
                   <motion.div
@@ -645,10 +717,14 @@ const Navbar: React.FC = () => {
 
                 <motion.div variants={groupVariants} className="lg:col-span-6">
                   <PanelLabel>Platform</PanelLabel>
+                  <MenuLink href="/platform" onClose={closeMobile}>
+                    Platform overview
+                  </MenuLink>
                   <div className="grid gap-x-8 sm:grid-cols-3">
                     <MenuColumn label="Intelligence" items={SOLUTIONS.byStage} onClose={closeMobile} />
                     <MenuColumn label="Workflow" items={SOLUTIONS.byService} onClose={closeMobile} />
                     <MenuColumn label="For teams" items={SOLUTIONS.byVertical} onClose={closeMobile} />
+                    <MenuColumn label="Services" items={SERVICES} onClose={closeMobile} />
                   </div>
                 </motion.div>
 

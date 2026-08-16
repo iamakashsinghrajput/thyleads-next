@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { Bookmark, Building2, ChartColumn, Check, Clock, Copy, Gauge, LayoutTemplate, Radar } from 'lucide-react';
 import {
@@ -17,9 +16,10 @@ import {
  * a fragment fully contained inside the tint reads as an illustration, one cut
  * off by the edge reads as a real screen continuing underneath.
  *
- * Every "Explore …" link points at the matching module row on /platform, which
- * carries an id slugged from its own title (see ModuleRow in Platform.tsx). The
- * `href` slugs below must stay in step with those titles.
+ * Each card carries an id slugged from its own title, which is what the
+ * navbar's Platform menu deep-links to. /product used to hold a second copy of
+ * this material and now redirects to /platform, so the cards no longer carry an
+ * "Explore …" link — it would only have pointed at the page you are on.
  *
  * The four visuals render the SAME data as the deep-dive rows on /platform —
  * ACCOUNT_FIELDS, SCORED_ACCOUNTS, WATCHLISTS and LOOKALIKE_MATCHES are
@@ -624,48 +624,36 @@ const CARDS = [
     Icon: Building2,
     title: 'Account Intelligence',
     desc: 'Every account is a living record, not a row in a spreadsheet. Firmographics, tech stack, funding and buying committee stay current automatically.',
-    cta: 'Explore accounts',
-    href: '/platform#account-intelligence',
     Visual: AccountRecordCard,
   },
   {
     Icon: Radar,
     title: 'AI Signal Detection',
     desc: 'Funding, hiring, scaling, M&A and layoffs, watched across your whole universe. Every signal moves the score, and every point traces back to its evidence.',
-    cta: 'Explore signals',
-    href: '/platform#ai-signal-detection',
     Visual: SignalShortlistCard,
   },
   {
     Icon: Bookmark,
     title: 'Watchlists',
     desc: 'Group accounts the way your team actually sells, then let rules do the upkeep — a score threshold adds the account and tells its owner the same moment.',
-    cta: 'Explore watchlists',
-    href: '/platform#watchlists',
     Visual: WatchlistCard,
   },
   {
     Icon: Copy,
     title: 'Look-a-like Accounts',
     desc: 'Point at one account that already worked and get the companies that resemble it — ranked by how closely they match, ready to shortlist.',
-    cta: 'Explore look-a-likes',
-    href: '/platform#look-a-like-accounts',
     Visual: LookalikeCard,
   },
   {
     Icon: ChartColumn,
     title: 'Campaign Reports',
     desc: 'Every campaign reports back — how many emails went out, how many replied, and the send window each persona actually answers in.',
-    cta: 'Explore reports',
-    href: '/platform',
     Visual: ReportsCard,
   },
   {
     Icon: LayoutTemplate,
     title: 'Template Builder',
     desc: 'Build your own campaign templates from reusable blocks, with account and signal fields dropped in as merge tokens rather than retyped.',
-    cta: 'Explore templates',
-    href: '/platform',
     Visual: TemplateCard,
   },
 ];
@@ -691,7 +679,9 @@ function PlatformCard({ card, index }: { card: typeof CARDS[0]; index: number })
   return (
     <article
       ref={r.ref}
-      className={`overflow-hidden rounded-[20px] border border-slate-200/80 bg-white transition-all duration-700
+      /* slug anchor — the navbar's Platform menu deep-links to these */
+      id={card.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
+      className={`scroll-mt-28 overflow-hidden rounded-[20px] border border-slate-200/80 bg-white transition-all duration-700
                   dark:border-white/[0.08] dark:bg-[#16130F]
                   ${r.visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
       style={{ transitionDelay: `${(index % 2) * 90}ms` }}
@@ -709,14 +699,6 @@ function PlatformCard({ card, index }: { card: typeof CARDS[0]; index: number })
         <p className="mt-3 max-w-[460px] text-[15px] leading-[1.6] text-slate-500 dark:text-slate-400">
           {card.desc}
         </p>
-
-        <Link
-          href={card.href}
-          className="mt-7 inline-block border-b-2 border-ember-500 pb-[3px] text-[14px] font-semibold text-slate-900 transition-colors
-                     hover:text-ember-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 dark:text-white dark:hover:text-ember-300"
-        >
-          {card.cta}
-        </Link>
       </div>
     </article>
   );
