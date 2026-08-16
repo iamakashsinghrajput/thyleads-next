@@ -41,7 +41,7 @@ function useFadeIn(threshold = 0.1) {
  * so a funding-round value would be nonsense on this account. If this card is
  * ever pointed at a venture-backed company, that row flips back.
  */
-const ACCOUNT_FIELDS: {
+export const ACCOUNT_FIELDS: {
   Icon: typeof Building2;
   label: string;
   value: string;
@@ -140,8 +140,8 @@ function AccountRecordVisual() {
    approximations of five more trademarks would be worse than none.
    ─────────────────────────────────────────────────────────────────────── */
 
-const SHORTLIST_CUTOFF = 80;
-const BELOW_CUTOFF_COUNT = 182;
+export const SHORTLIST_CUTOFF = 80;
+export const BELOW_CUTOFF_COUNT = 182;
 
 /**
  * US enterprise targets, deliberately NOT Harvin's own customer list — this
@@ -160,7 +160,7 @@ const BELOW_CUTOFF_COUNT = 182;
  * how a real console handles it and keeps any named company off the page as
  * low-scoring.
  */
-const SCORED_ACCOUNTS = [
+export const SCORED_ACCOUNTS = [
   { name: 'Snowflake', logo: '/logos/snowflake.svg', cat: 'Data cloud',
     score: 93, delta: 6,  signal: '42 open GTM roles',        when: '2d' },
   { name: 'Datadog',   logo: '/logos/datadog.svg',   cat: 'Observability',
@@ -277,27 +277,39 @@ function SignalScoringVisual() {
    it read as structure rather than three stacked cards.
    ─────────────────────────────────────────────────────────────────────── */
 
-const WATCHLISTS = [
+export const WATCHLISTS = [
   {
     name: 'FinTech',
     tint: '#2F6AE8',
     total: 24,
     fresh: 3,
-    logos: ['/logos/stripe.svg', '/logos/paypal.svg', '/logos/coinbase.svg'],
+    members: [
+      { name: 'Stripe', logo: '/logos/stripe.svg', cat: 'Payments' },
+      { name: 'PayPal', logo: '/logos/paypal.svg', cat: 'Payments' },
+      { name: 'Coinbase', logo: '/logos/coinbase.svg', cat: 'Crypto exchange' },
+    ],
   },
   {
     name: 'MarTech',
     tint: '#C94C1E',
     total: 38,
     fresh: 5,
-    logos: ['/logos/hubspot.svg', '/logos/salesforce.svg', '/logos/mailchimp.svg'],
+    members: [
+      { name: 'HubSpot', logo: '/logos/hubspot.svg', cat: 'CRM & marketing' },
+      { name: 'Salesforce', logo: '/logos/salesforce.svg', cat: 'CRM' },
+      { name: 'Mailchimp', logo: '/logos/mailchimp.svg', cat: 'Email marketing' },
+    ],
   },
   {
     name: 'HRTech',
     tint: '#6455C8',
     total: 19,
     fresh: 2,
-    logos: ['/logos/gusto.svg', '/logos/adp.svg', '/logos/greenhouse.svg'],
+    members: [
+      { name: 'Gusto', logo: '/logos/gusto.svg', cat: 'Payroll & HR' },
+      { name: 'ADP', logo: '/logos/adp.svg', cat: 'Payroll & HR' },
+      { name: 'Greenhouse', logo: '/logos/greenhouse.svg', cat: 'Recruiting ATS' },
+    ],
   },
 ];
 
@@ -306,8 +318,8 @@ const WATCHLISTS = [
  *  instead of measured positions. */
 const BRANCH_STOPS = ['16.667%', '50%', '83.333%'];
 
-const UNIVERSE_TOTAL = 248;
-const TRACKED_TOTAL = WATCHLISTS.reduce((n, w) => n + w.total, 0);
+export const UNIVERSE_TOTAL = 248;
+export const TRACKED_TOTAL = WATCHLISTS.reduce((n, w) => n + w.total, 0);
 
 /**
  * Root node as a segmented donut rather than a plain count.
@@ -467,17 +479,17 @@ function WatchlistDiagram() {
                 <div className="mt-2 flex items-center gap-2">
                   {/* Overlapping stack — the accounts held inside this list */}
                   <span className="flex items-center">
-                    {w.logos.map((src, i) => (
+                    {w.members.map(({ logo: src }, i) => (
                       <span
                         key={src}
                         className="grid h-[26px] w-[26px] place-items-center rounded-lg border border-slate-200 bg-white p-1 ring-2 ring-white dark:border-white/10 dark:ring-[#16130F]"
-                        style={{ marginLeft: i === 0 ? 0 : '-7px', zIndex: w.logos.length - i }}
+                        style={{ marginLeft: i === 0 ? 0 : '-7px', zIndex: w.members.length - i }}
                       >
                         <img src={src} alt="" aria-hidden="true" className="h-auto w-full object-contain" />
                       </span>
                     ))}
                     <span className="ml-1.5 text-[11px] tabular-nums text-slate-400 dark:text-slate-500">
-                      +{w.total - w.logos.length}
+                      +{w.total - w.members.length}
                     </span>
                   </span>
 
@@ -520,7 +532,7 @@ const BASELINE_SERIES = [24, 16, 38, 55, 42, 66, 52, 58];
 /** Real data-platform companies — genuine peers of the seed account, which is
  *  the point: a lookalike list only lands if the matches are recognisably
  *  similar. Match percentages are Harvin's output and illustrative. */
-const LOOKALIKE_MATCHES = [
+export const LOOKALIKE_MATCHES = [
   { name: 'Databricks', logo: '/logos/databricks.svg', cat: 'Data + AI platform', match: 96, picked: true },
   { name: 'MongoDB',    logo: '/logos/mongodb.svg',    cat: 'Developer data platform', match: 91, picked: true },
   { name: 'ClickHouse', logo: '/logos/clickhouse.svg', cat: 'Analytics database', match: 88, picked: true },
@@ -529,14 +541,14 @@ const LOOKALIKE_MATCHES = [
 
 /** The traits the match is running on — this is the control the user actually
  *  operates, so it belongs on screen, not just in the copy. */
-const MATCH_TRAITS = [
+export const MATCH_TRAITS = [
   { label: 'Category',   on: true },
   { label: 'Tech stack', on: true },
   { label: 'Headcount',  on: true },
   { label: 'Region',     on: false },
 ];
 
-const PICKED_COUNT = LOOKALIKE_MATCHES.filter((m) => m.picked).length;
+export const PICKED_COUNT = LOOKALIKE_MATCHES.filter((m) => m.picked).length;
 
 function LookalikeVisual() {
   const W = 200;
@@ -830,7 +842,9 @@ function ModuleRow({ mod, index, flipped, isDark }: {
   return (
     <div
       ref={row.ref}
-      className={`flex flex-col ${flipped ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-10 md:gap-12 lg:gap-16 mb-14 sm:mb-18 lg:mb-24 last:mb-0
+      /* slug anchor so PlatformGrid's "Explore …" links land on this module */
+      id={mod.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
+      className={`scroll-mt-28 flex flex-col ${flipped ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-10 md:gap-12 lg:gap-16 mb-14 sm:mb-18 lg:mb-24 last:mb-0
                    transition-all duration-700 ${row.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
       style={{ transitionDelay: `${index * 80}ms` }}
     >
@@ -883,7 +897,7 @@ function ModuleRow({ mod, index, flipped, isDark }: {
           <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-white/[0.08] shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_40px_rgba(0,0,0,0.3)] bg-sand-100 dark:bg-white/[0.02]">
             <img
               src={isDark ? mod.screenshotDark : mod.screenshot}
-              alt={`${mod.title} — HarvinAI`}
+              alt={`${mod.title} — Harvin`}
               className="w-full h-auto block"
               loading="lazy"
             />

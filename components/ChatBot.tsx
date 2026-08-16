@@ -95,7 +95,7 @@ export default function ChatBot() {
                 </svg>
               </div>
               <div>
-                <span className="text-[13px] font-bold text-slate-800 dark:text-white">HarvinAI</span>
+                <span className="text-[13px] font-bold text-slate-800 dark:text-white">Harvin</span>
                 <span className="text-[10px] text-emerald-500 font-semibold ml-2 inline-flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />Online
                 </span>
@@ -123,7 +123,7 @@ export default function ChatBot() {
                   </svg>
                 </div>
                 <p className="text-[14px] font-bold text-slate-800 dark:text-white mb-1">How can I help?</p>
-                <p className="text-[12px] text-slate-400 dark:text-neutral-500 mb-5">Ask me anything about HarvinAI</p>
+                <p className="text-[12px] text-slate-400 dark:text-neutral-500 mb-5">Ask me anything about Harvin</p>
                 <div className="flex flex-wrap gap-1.5 justify-center">
                   {SUGGESTIONS.map(s => (
                     <button key={s} onClick={() => sendMessage(s)}

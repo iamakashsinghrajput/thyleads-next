@@ -34,7 +34,7 @@ const bricolageGrotesque = Bricolage_Grotesque({
 
 /* ── Metadata ─────────────────────────────────────────────────────────────── */
 export const metadata: Metadata = {
-  title:       'HarvinAI — The AI-Native GTM Intelligence Platform',
+  title:       'Harvin — The AI-Native GTM Intelligence Platform',
   description: 'Detect buying signals, prioritize accounts dynamically, and launch intelligence-led outbound campaigns — from one continuously learning GTM operating system.',
 };
 

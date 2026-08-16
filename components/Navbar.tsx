@@ -424,7 +424,7 @@ const Navbar: React.FC = () => {
             <div className="relative w-7 h-7 rounded-lg overflow-hidden">
               <Image
                 src="/logo1.png"
-                alt="HarvinAI"
+                alt="Harvin"
                 width={28}
                 height={28}
                 className="w-full h-full object-cover"

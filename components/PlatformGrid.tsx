@@ -1,0 +1,754 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import { Bookmark, Building2, ChartColumn, Check, Clock, Copy, Gauge, LayoutTemplate, Radar } from 'lucide-react';
+import {
+  ACCOUNT_FIELDS, BELOW_CUTOFF_COUNT, LOOKALIKE_MATCHES, MATCH_TRAITS,
+  PICKED_COUNT, SCORED_ACCOUNTS, SHORTLIST_CUTOFF, TRACKED_TOTAL, WATCHLISTS,
+} from '@/components/Platform';
+
+/**
+ * The Platform, as a 2×2 card grid.
+ *
+ * Each card is a tinted visual panel with a product fragment floating in it,
+ * over a white block carrying the icon, name, description and a link into the
+ * deep dive. The fragments deliberately BLEED past the panel's bottom edge —
+ * a fragment fully contained inside the tint reads as an illustration, one cut
+ * off by the edge reads as a real screen continuing underneath.
+ *
+ * Every "Explore …" link points at the matching module row on /platform, which
+ * carries an id slugged from its own title (see ModuleRow in Platform.tsx). The
+ * `href` slugs below must stay in step with those titles.
+ *
+ * The four visuals render the SAME data as the deep-dive rows on /platform —
+ * ACCOUNT_FIELDS, SCORED_ACCOUNTS, WATCHLISTS and LOOKALIKE_MATCHES are
+ * imported from Platform.tsx rather than restated here, so the summary card
+ * and the module it links to can never disagree. Edit the data there.
+ */
+
+/* ── shared bits ───────────────────────────────────────────────────────── */
+
+/** Tinted ground for a visual. `bleed` cards run their fragment off the bottom. */
+function Panel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative h-[286px] overflow-hidden bg-sand-200 dark:bg-[#141210] sm:h-[318px]">
+      {children}
+    </div>
+  );
+}
+
+function Logo({ slug }: { slug: string }) {
+  return (
+    <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-lg border border-slate-200 bg-white p-1 dark:border-white/10">
+      <img src={`/logos/${slug}.svg`} alt="" aria-hidden="true" className="h-auto w-full object-contain" />
+    </span>
+  );
+}
+
+
+/* ── 01 · Account Intelligence ─────────────────────────────────────────── */
+/**
+ * The record, laid out rather than listed.
+ *
+ * Nine equal rows read as a data dump and ran past the panel's bottom edge; a
+ * fragment that bleeds only works when what's cut off is obviously more of the
+ * same. Here the fields are ranked instead: the score is the headline, four
+ * firmographics sit in a 2×2 block, and the three live counts run along a
+ * footer strip. That fits the panel with room to spare and gives the card a
+ * shape.
+ *
+ * Fields are still looked up from Platform's ACCOUNT_FIELDS by label, so the
+ * values stay sourced from the deep dive. A renamed label drops its tile
+ * rather than crashing — see `field`.
+ */
+const field = (label: string) => ACCOUNT_FIELDS.find((f) => f.label === label);
+
+const RECORD_GRID = ['Employees', 'Headquarters', 'Listing', 'Tech stack'];
+/** Footer tiles are narrow, so each carries a short unit instead of its full
+ *  label — a bare "5" says nothing. '' means the value already reads alone. */
+const RECORD_FOOT: [label: string, unit: string][] = [
+  ['Buying signals', 'signals'],
+  ['Decision makers', 'contacts'],
+  ['Last signal', ''],
+];
+
+/** '96 / 100' → 96, so the ring can never drift from the printed value. */
+const HARVIN_SCORE = parseInt(field('Harvin score')?.value ?? '0', 10);
+
+function AccountRecordCard() {
+  const R = 21;
+  const C = 2 * Math.PI * R;
+  const industry = field('Industry');
+
+  return (
+    <Panel>
+      <div className="absolute inset-x-7 inset-y-7 flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.13)] dark:border-white/10 dark:bg-[#16130F]">
+        {/* ── Who, and the score that ranks them ───────────────────────── */}
+        <div className="flex items-center gap-3 border-b border-slate-200/70 px-4 py-3 dark:border-white/[0.06]">
+          <Logo slug="walmart" />
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[14px] font-bold tracking-[-0.01em] text-slate-900 dark:text-white">Walmart</p>
+            <p className="truncate text-[11px] text-slate-500 dark:text-slate-400">{industry?.value}</p>
+          </div>
+
+          <span className="relative grid h-[54px] w-[54px] flex-shrink-0 place-items-center">
+            <svg viewBox="0 0 54 54" className="absolute inset-0 h-full w-full -rotate-90" aria-hidden="true">
+              <circle cx="27" cy="27" r={R} fill="none" strokeWidth="5" className="stroke-slate-200 dark:stroke-white/[0.12]" />
+              <circle
+                cx="27" cy="27" r={R} fill="none" strokeWidth="5" strokeLinecap="round"
+                className="stroke-ember-500" strokeDasharray={C} strokeDashoffset={C * (1 - HARVIN_SCORE / 100)}
+              />
+            </svg>
+            <span className="relative font-bricolage text-[16px] font-bold tabular-nums leading-none text-slate-900 dark:text-white">
+              {HARVIN_SCORE}
+            </span>
+          </span>
+        </div>
+
+        {/* ── The firmographics, as tiles ──────────────────────────────── */}
+        <div className="grid flex-1 grid-cols-2">
+          {RECORD_GRID.map((label, i) => {
+            const f = field(label);
+            if (!f) return null;
+            return (
+              <div
+                key={label}
+                className={`min-w-0 px-4 py-3 ${i % 2 === 0 ? 'border-r' : ''} ${i < 2 ? 'border-b' : ''}
+                            border-slate-200/70 dark:border-white/[0.06]`}
+              >
+                <p className="flex items-center gap-1.5 text-[10.5px] font-medium uppercase tracking-[0.07em] text-slate-400 dark:text-slate-500">
+                  <f.Icon size={11} strokeWidth={2.1} className="flex-shrink-0" />
+                  <span className="truncate">{f.label}</span>
+                </p>
+                <p className="mt-1.5 truncate text-[14px] font-bold tracking-[-0.01em] text-slate-900 dark:text-white">
+                  {f.value}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* ── What's live on the account right now ─────────────────────── */}
+        <div className="flex items-center gap-2 border-t border-slate-200/70 bg-sand-50 px-3 py-2.5 dark:border-white/[0.06] dark:bg-white/[0.03]">
+          {RECORD_FOOT.map(([label, unit]) => {
+            const f = field(label);
+            if (!f) return null;
+            return (
+              <span
+                key={label}
+                className="flex min-w-0 flex-1 items-center gap-1.5 rounded-lg bg-white px-2 py-1.5 ring-1 ring-slate-200/80 dark:bg-white/[0.06] dark:ring-white/10"
+              >
+                <f.Icon size={12} strokeWidth={2.2} className="flex-shrink-0 text-ember-500" />
+                <span className="min-w-0 truncate text-[11.5px] font-bold tabular-nums text-slate-900 dark:text-white">
+                  {f.value}
+                </span>
+                {unit && (
+                  <span className="truncate text-[11px] text-slate-500 dark:text-slate-400">{unit}</span>
+                )}
+              </span>
+            );
+          })}
+        </div>
+      </div>
+    </Panel>
+  );
+}
+
+/* ── 02 · AI Signal Detection ──────────────────────────────────────────── */
+/**
+ * The detection path, not another ranked list.
+ *
+ * Cards 03 and 04 are already row lists, and card 01 is a record — a fourth
+ * list said nothing new. This one draws what the module actually claims: five
+ * signal types feed one score, and the score is what splits the universe into
+ * a named shortlist and a collapsed tail.
+ *
+ * The fan converges on the scoring box rather than decorating around it, so
+ * the direction of the diagram carries the meaning. Strand x-positions are the
+ * chip column centres, derived from SIGNAL_TYPES.length.
+ */
+const SIGNAL_TYPES = ['Funding', 'Hiring', 'Scaling', 'M&A', 'Layoffs'];
+
+function SignalFan() {
+  const W = 100;
+  const H = 34;
+  const cx = W / 2;
+  const step = W / SIGNAL_TYPES.length;
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="h-[34px] w-full" aria-hidden="true" fill="none">
+      {SIGNAL_TYPES.map((t, i) => {
+        const x = step * i + step / 2;
+        return (
+          <path
+            key={t}
+            d={`M ${x} 0 C ${x} ${H * 0.55}, ${cx} ${H * 0.45}, ${cx} ${H}`}
+            stroke="#C94C1E"
+            strokeOpacity={0.42}
+            strokeWidth="0.7"
+            vectorEffect="non-scaling-stroke"
+          />
+        );
+      })}
+    </svg>
+  );
+}
+
+function SignalShortlistCard() {
+  return (
+    <Panel>
+      <div className="absolute inset-x-7 inset-y-7 flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.13)] dark:border-white/10 dark:bg-[#16130F]">
+        <div className="flex items-center justify-between gap-2 border-b border-slate-200/70 px-4 py-2.5 dark:border-white/[0.06]">
+          <p className="flex items-center gap-2 text-[12.5px] font-bold text-slate-900 dark:text-white">
+            <Radar size={13} strokeWidth={2.4} className="text-ember-500" />
+            Signal detection
+          </p>
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">
+            {SIGNAL_TYPES.length} types
+          </span>
+        </div>
+
+        <div className="flex flex-1 flex-col justify-center px-3.5 py-3">
+          {/* what is watched */}
+          <div className="grid grid-cols-5 gap-1">
+            {SIGNAL_TYPES.map((t) => (
+              <span
+                key={t}
+                className="truncate rounded-md bg-sand-100 px-1 py-[5px] text-center text-[10px] font-semibold text-slate-700 dark:bg-white/[0.07] dark:text-slate-200"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+
+          <SignalFan />
+
+          {/* what they feed */}
+          <div className="mx-auto flex items-center gap-2 rounded-lg bg-ember-500 px-3 py-1.5 shadow-[0_6px_16px_rgba(201,76,30,0.28)]">
+            <Gauge size={13} className="text-white" strokeWidth={2.3} />
+            <span className="text-[11.5px] font-bold text-white">Harvin score</span>
+            <span className="rounded-full bg-white/20 px-1.5 py-[1px] font-mono text-[10px] font-semibold tabular-nums text-white">
+              ≥ {SHORTLIST_CUTOFF}
+            </span>
+          </div>
+
+          <span aria-hidden="true" className="mx-auto h-4 w-px bg-ember-500/40" />
+
+          {/* what comes out — only the shortlist is named */}
+          <div className="grid grid-cols-4 gap-1.5">
+            {SCORED_ACCOUNTS.map((a) => (
+              <span
+                key={a.name}
+                className="flex min-w-0 flex-col items-center gap-1 rounded-lg border border-slate-200 bg-white px-1 py-2 dark:border-white/10 dark:bg-white/[0.05]"
+              >
+                <img src={a.logo} alt="" aria-hidden="true" className="h-[15px] w-[15px] object-contain" />
+                <span className="font-bricolage text-[13px] font-bold tabular-nums leading-none text-slate-900 dark:text-white">
+                  {a.score}
+                </span>
+                <span className="w-full truncate text-center text-[9px] leading-none text-slate-400 dark:text-slate-500">
+                  {a.name}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <p className="border-t border-slate-200/70 bg-sand-50 px-4 py-2 text-[11px] text-slate-400 dark:border-white/[0.06] dark:bg-white/[0.03] dark:text-slate-500">
+          <span className="font-semibold tabular-nums text-slate-500 dark:text-slate-400">{BELOW_CUTOFF_COUNT}</span>{' '}
+          accounts below cutoff
+        </p>
+      </div>
+    </Panel>
+  );
+}
+
+/* ── 03 · Watchlists ───────────────────────────────────────────────────── */
+/**
+ * The My Watchlists tab as it appears in the app.
+ *
+ * Charts and diagrams read as marketing illustration; the point of these cards
+ * is that the product already looks like this. So the fragment is built to the
+ * dashboard's own idiom — left rail of lists, toolbar with a result count,
+ * account rows with a checkbox, mark, name, category chip and a badge in the
+ * 38×24 bordered style app/dashboard uses for Harvin score.
+ *
+ * Only the first watchlist's members are listed, because that is what a rail
+ * selection actually does. The rail counts still come from WATCHLISTS.
+ */
+const ACTIVE_LIST = WATCHLISTS[0];
+
+function Checkbox({ on }: { on: boolean }) {
+  return (
+    <span
+      className={`grid h-[15px] w-[15px] flex-shrink-0 place-items-center rounded-[4px] border ${
+        on ? 'border-ember-500 bg-ember-500' : 'border-slate-300 bg-white dark:border-white/20 dark:bg-transparent'
+      }`}
+    >
+      {on && <Check size={10} className="text-white" strokeWidth={3.4} />}
+    </span>
+  );
+}
+
+function WatchlistCard() {
+  return (
+    <Panel>
+      <div className="absolute inset-x-7 inset-y-7 flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.13)] dark:border-white/10 dark:bg-[#16130F]">
+        {/* toolbar */}
+        <div className="flex items-center justify-between gap-2 border-b border-slate-200/70 px-3 py-2 dark:border-white/[0.06]">
+          <p className="flex items-center gap-2 text-[12.5px] font-bold text-slate-900 dark:text-white">
+            <Bookmark size={13} strokeWidth={2.4} className="text-ember-500" />
+            My Watchlists
+          </p>
+          <span className="rounded-md bg-sand-100 px-2 py-[2px] text-[10.5px] font-bold tabular-nums text-slate-500 dark:bg-white/[0.07] dark:text-slate-400">
+            {TRACKED_TOTAL} accounts
+          </span>
+        </div>
+
+        <div className="flex min-h-0 flex-1">
+          {/* rail */}
+          <div className="w-[104px] flex-shrink-0 space-y-1 border-r border-slate-200/70 p-2 dark:border-white/[0.06]">
+            {WATCHLISTS.map((w, i) => (
+              <div
+                key={w.name}
+                className={`rounded-lg px-2 py-1.5 ${
+                  i === 0 ? 'bg-ember-500/[0.10] ring-1 ring-ember-500/25' : ''
+                }`}
+              >
+                <p className="flex items-center gap-1.5">
+                  <span aria-hidden="true" className="h-[6px] w-[6px] flex-shrink-0 rounded-full" style={{ background: w.tint }} />
+                  <span className="min-w-0 truncate text-[11px] font-bold text-slate-900 dark:text-white">{w.name}</span>
+                </p>
+                <p className="mt-0.5 pl-[13px] text-[10px] tabular-nums text-slate-400 dark:text-slate-500">
+                  {w.total} · +{w.fresh} new
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* rows */}
+          <div className="min-w-0 flex-1 divide-y divide-slate-200/70 dark:divide-white/[0.06]">
+            {ACTIVE_LIST.members.map((m) => (
+              <div key={m.name} className="flex items-center gap-2 px-3 py-[9px]">
+                <Checkbox on />
+                <span className="grid h-6 w-6 flex-shrink-0 place-items-center rounded-md border border-slate-200 bg-white p-1 dark:border-white/10">
+                  <img src={m.logo} alt="" aria-hidden="true" className="h-auto w-full object-contain" />
+                </span>
+                <span className="min-w-0 flex-1 truncate text-[12px] font-bold text-slate-900 dark:text-white">
+                  {m.name}
+                </span>
+                <span className="hidden flex-shrink-0 truncate rounded-full border border-slate-200/80 bg-sand-100 px-2 py-[2px] text-[10px] font-medium text-slate-600 dark:border-white/[0.08] dark:bg-white/[0.06] dark:text-slate-300 sm:block">
+                  {m.cat}
+                </span>
+              </div>
+            ))}
+
+            <p className="px-3 py-[9px] text-[10.5px] text-slate-400 dark:text-slate-500">
+              +{ACTIVE_LIST.total - ACTIVE_LIST.members.length} more in {ACTIVE_LIST.name}
+            </p>
+          </div>
+        </div>
+      </div>
+    </Panel>
+  );
+}
+
+/* ── 04 · Look-a-like Accounts ─────────────────────────────────────────── */
+/**
+ * The LookALike Brands tab: seed at the top, traits you match on, results with
+ * their scores, and the action bar that turns a selection into a watchlist.
+ *
+ * The match percentage uses the dashboard's own score-badge treatment — a
+ * fixed-width bordered pill, tinted by band — so a visitor who later opens the
+ * product recognises the screen.
+ */
+function LookalikeCard() {
+  return (
+    <Panel>
+      <div className="absolute inset-x-7 inset-y-7 flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.13)] dark:border-white/10 dark:bg-[#16130F]">
+        {/* seed */}
+        <div className="flex items-center gap-2 border-b border-slate-200/70 p-2 dark:border-white/[0.06]">
+          <span className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-slate-200 bg-sand-50 px-2 py-1.5 dark:border-white/10 dark:bg-white/[0.05]">
+            <img src="/logos/snowflake.svg" alt="" aria-hidden="true" className="h-3.5 w-3.5 flex-shrink-0 object-contain" />
+            <span className="min-w-0 truncate text-[11.5px] font-semibold text-slate-900 dark:text-white">snowflake.com</span>
+          </span>
+          <span className="flex flex-shrink-0 items-center gap-1.5 rounded-lg bg-ember-500 px-2.5 py-1.5 text-[11px] font-bold text-white shadow-[0_4px_12px_rgba(201,76,30,0.28)]">
+            <Copy size={11} strokeWidth={2.5} />
+            Find similar
+          </span>
+        </div>
+
+        {/* traits */}
+        <div className="flex flex-wrap items-center gap-1.5 border-b border-slate-200/70 px-3 py-2 dark:border-white/[0.06]">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400 dark:text-slate-500">
+            Match on
+          </span>
+          {MATCH_TRAITS.map((t) => (
+            <span
+              key={t.label}
+              className={`inline-flex items-center gap-1 rounded-md px-1.5 py-[2px] text-[10.5px] font-semibold ${
+                t.on
+                  ? 'bg-ember-500/[0.12] text-ember-500 ring-1 ring-ember-500/30 dark:text-ember-300'
+                  : 'bg-sand-100 text-slate-400 dark:bg-white/[0.06] dark:text-slate-500'
+              }`}
+            >
+              {t.on && <Check size={9} strokeWidth={3.4} />}
+              {t.label}
+            </span>
+          ))}
+        </div>
+
+        {/* results */}
+        <div className="min-h-0 flex-1 divide-y divide-slate-200/70 dark:divide-white/[0.06]">
+          {LOOKALIKE_MATCHES.map((m) => (
+            <div key={m.name} className="flex items-center gap-2 px-3 py-[7px]">
+              <Checkbox on={m.picked} />
+              <span className="grid h-6 w-6 flex-shrink-0 place-items-center rounded-md border border-slate-200 bg-white p-1 dark:border-white/10">
+                <img src={m.logo} alt="" aria-hidden="true" className="h-auto w-full object-contain" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[12px] font-bold text-slate-900 dark:text-white">{m.name}</p>
+                <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">{m.cat}</p>
+              </div>
+              {/* the app's own score badge: fixed width, bordered, banded */}
+              <span
+                className={`inline-flex h-[24px] w-[42px] flex-shrink-0 items-center justify-center rounded-lg border text-[11px] font-bold tabular-nums ${
+                  m.match >= 90
+                    ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-400'
+                    : 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-400'
+                }`}
+              >
+                {m.match}%
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* action bar */}
+        <div className="flex items-center justify-between gap-2 border-t border-slate-200/70 bg-sand-50 px-3 py-2 dark:border-white/[0.06] dark:bg-white/[0.03]">
+          <span className="text-[10.5px] font-semibold tabular-nums text-slate-500 dark:text-slate-400">
+            {PICKED_COUNT} selected
+          </span>
+          <span className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[10.5px] font-bold text-slate-900 dark:border-white/10 dark:bg-white/[0.06] dark:text-white">
+            <Bookmark size={10} strokeWidth={2.6} className="text-ember-500" />
+            Add to watchlist
+          </span>
+        </div>
+      </div>
+    </Panel>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Cards 05–06 use a different visual treatment: the screen is ZOOMED and
+   cropped, running off the panel's right and bottom edges instead of sitting
+   fully inside it. At this scale the labels are readable at card size, which
+   the contained fragments above can only manage by shrinking type. Both are
+   built to the same shape — title, a left column of fields, a chart or preview
+   on the right — so the pair reads as two views of one reporting surface.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/** Zoomed screen: left and top edges visible, right and bottom cropped away. */
+function ZoomFrame({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <Panel>
+      <div className="absolute -bottom-8 -right-12 left-8 top-7 overflow-hidden rounded-tl-2xl border-l border-t border-slate-200/80 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.13)] dark:border-white/10 dark:bg-[#16130F]">
+        <div className="flex items-center border-b border-slate-200/70 px-5 py-3 dark:border-white/[0.06]">
+          <img src="/logo1.png" alt="" aria-hidden="true" className="h-[18px] w-auto" />
+        </div>
+        <p className="px-5 py-4 text-[19px] font-bold tracking-[-0.02em] text-slate-900 dark:text-white">
+          {title}
+        </p>
+        <div className="grid grid-cols-[152px_1fr] border-t border-slate-200/70 dark:border-white/[0.06]">
+          {children}
+        </div>
+      </div>
+    </Panel>
+  );
+}
+
+/** The left rail both zoomed screens share. */
+function ZoomRail({ label, items, note }: { label: string; items: string[]; note: string }) {
+  return (
+    <div className="border-r border-slate-200/70 px-5 py-4 dark:border-white/[0.06]">
+      <p className="text-[13px] font-bold text-slate-900 dark:text-white">{label}</p>
+      <div className="mt-3 space-y-2">
+        {items.map((it) => (
+          <span
+            key={it}
+            className="block truncate rounded-md bg-sand-100 px-2.5 py-[7px] text-[12px] font-medium text-slate-700 dark:bg-white/[0.07] dark:text-slate-200"
+          >
+            {it}
+          </span>
+        ))}
+      </div>
+      <p className="mt-4 text-[13px] font-bold text-slate-900 dark:text-white">{note}</p>
+    </div>
+  );
+}
+
+/* ── 05 · Campaign Reports ─────────────────────────────────────────────── */
+/**
+ * Reply rate by send hour, split by persona.
+ *
+ * The chart answers the question the module exists for — WHEN to send — so the
+ * winning bar is the only one in ember and is labelled outright. Totals sit
+ * above it because "how many sent, how many replied" is the first thing anyone
+ * opens a report for. Figures are Harvin's own output and illustrative.
+ */
+const SEND_HOURS = [
+  { hour: '8a',  rate: 4.1 },
+  { hour: '10a', rate: 9.6 },
+  { hour: '12p', rate: 6.2 },
+  { hour: '2p',  rate: 7.4 },
+  { hour: '4p',  rate: 5.0 },
+];
+const RATE_MAX = Math.max(...SEND_HOURS.map((h) => h.rate));
+const BEST_HOUR = SEND_HOURS.reduce((b, h) => (h.rate > b.rate ? h : b));
+
+function ReportsCard() {
+  return (
+    <ZoomFrame title="Campaign Performance Report">
+      <ZoomRail
+        label="Metrics"
+        items={['Emails sent', 'Replies', 'Reply rate', 'Best send time']}
+        note="Filters"
+      />
+
+      <div className="min-w-0 px-5 py-4">
+        <div className="flex gap-5">
+          {[
+            { v: '12,480', l: 'Sent' },
+            { v: '1,032', l: 'Replies' },
+            { v: '8.3%', l: 'Reply rate' },
+          ].map((k) => (
+            <div key={k.l} className="min-w-0">
+              <p className="font-bricolage text-[19px] font-bold tabular-nums leading-none text-slate-900 dark:text-white">
+                {k.v}
+              </p>
+              <p className="mt-1 truncate text-[11px] text-slate-500 dark:text-slate-400">{k.l}</p>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-5 text-[13.5px] font-bold text-slate-900 dark:text-white">Reply rate by send hour</p>
+
+        <div className="mt-3 flex gap-3">
+          <div className="flex h-[104px] flex-shrink-0 flex-col justify-between pt-[2px] text-right font-mono text-[9.5px] tabular-nums text-slate-400 dark:text-slate-500">
+            <span>10%</span><span>5%</span><span>0</span>
+          </div>
+          <div className="flex min-w-0 flex-1 items-end gap-2.5">
+            {SEND_HOURS.map((h) => (
+              <span key={h.hour} className="flex h-[104px] min-w-0 flex-1 flex-col justify-end">
+                <span
+                  className={`w-full rounded-t-[3px] ${h === BEST_HOUR ? 'bg-ember-500' : 'bg-slate-200 dark:bg-white/[0.14]'}`}
+                  style={{ height: `${(h.rate / RATE_MAX) * 100}%` }}
+                />
+                <span className="mt-1.5 truncate text-center font-mono text-[9.5px] text-slate-400 dark:text-slate-500">
+                  {h.hour}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <p className="mt-3 flex items-center gap-1.5 text-[11.5px] text-slate-500 dark:text-slate-400">
+          <Clock size={11} strokeWidth={2.4} className="flex-shrink-0 text-ember-500" />
+          Best window ·{' '}
+          <span className="font-semibold text-slate-900 dark:text-white">
+            {BEST_HOUR.hour} · {BEST_HOUR.rate}% reply
+          </span>
+        </p>
+      </div>
+    </ZoomFrame>
+  );
+}
+
+/* ── 06 · Template Builder ─────────────────────────────────────────────── */
+/**
+ * The template as it is authored — blocks on the left, live preview on the
+ * right, with merge fields rendered as tokens rather than typed text. Same
+ * device the campaign drafts in ProductSteps use, for the same reason: a token
+ * shows the copy is assembled from the account record.
+ */
+const TEMPLATE_BLOCKS = ['Subject line', 'Opening', 'Signal line', 'Call to action', 'Signature'];
+
+function TemplateCard() {
+  return (
+    <ZoomFrame title="New Campaign Template">
+      <ZoomRail label="Blocks" items={TEMPLATE_BLOCKS} note="Variables" />
+
+      <div className="min-w-0 px-5 py-4">
+        <div className="flex items-center gap-2">
+          <p className="text-[13.5px] font-bold text-slate-900 dark:text-white">Preview</p>
+          <span className="rounded-md bg-ember-500/[0.12] px-1.5 py-[2px] text-[10.5px] font-semibold text-ember-500 dark:text-ember-300">
+            Persona · VP Marketing
+          </span>
+        </div>
+
+        <div className="mt-3 rounded-lg border border-slate-200 bg-sand-50 p-3.5 dark:border-white/10 dark:bg-white/[0.04]">
+          <p className="text-[12px] leading-[2] text-slate-500 dark:text-slate-400">
+            <span className="font-mono text-[10px] uppercase tracking-[0.08em]">Subject</span>{' '}
+            <span className="rounded bg-ember-500/[0.12] px-1 py-[2px] font-semibold text-ember-500 dark:text-ember-300">
+              {'{{company}}'}
+            </span>{' '}
+            <span className="font-semibold text-slate-900 dark:text-white">is hiring across GTM</span>
+          </p>
+
+          <p className="mt-2.5 border-t border-slate-200/70 pt-2.5 text-[12px] leading-[2] text-slate-600 dark:border-white/[0.06] dark:text-slate-300">
+            Hi{' '}
+            <span className="rounded bg-ember-500/[0.12] px-1 py-[2px] font-semibold text-ember-500 dark:text-ember-300">
+              {'{{first_name}}'}
+            </span>
+            , noticed{' '}
+            <span className="rounded bg-ember-500/[0.12] px-1 py-[2px] font-semibold text-ember-500 dark:text-ember-300">
+              {'{{signal}}'}
+            </span>{' '}
+            at your team — worth a look?
+          </p>
+        </div>
+
+        <div className="mt-3 flex items-center gap-2">
+          <span className="rounded-lg bg-ember-500 px-3 py-1.5 text-[11.5px] font-bold text-white">Save template</span>
+          <span className="rounded-lg border border-slate-200 px-3 py-1.5 text-[11.5px] font-semibold text-slate-600 dark:border-white/10 dark:text-slate-300">
+            Send test
+          </span>
+        </div>
+      </div>
+    </ZoomFrame>
+  );
+}
+
+/* ── Cards ─────────────────────────────────────────────────────────────── */
+const CARDS = [
+  {
+    Icon: Building2,
+    title: 'Account Intelligence',
+    desc: 'Every account is a living record, not a row in a spreadsheet. Firmographics, tech stack, funding and buying committee stay current automatically.',
+    cta: 'Explore accounts',
+    href: '/platform#account-intelligence',
+    Visual: AccountRecordCard,
+  },
+  {
+    Icon: Radar,
+    title: 'AI Signal Detection',
+    desc: 'Funding, hiring, scaling, M&A and layoffs, watched across your whole universe. Every signal moves the score, and every point traces back to its evidence.',
+    cta: 'Explore signals',
+    href: '/platform#ai-signal-detection',
+    Visual: SignalShortlistCard,
+  },
+  {
+    Icon: Bookmark,
+    title: 'Watchlists',
+    desc: 'Group accounts the way your team actually sells, then let rules do the upkeep — a score threshold adds the account and tells its owner the same moment.',
+    cta: 'Explore watchlists',
+    href: '/platform#watchlists',
+    Visual: WatchlistCard,
+  },
+  {
+    Icon: Copy,
+    title: 'Look-a-like Accounts',
+    desc: 'Point at one account that already worked and get the companies that resemble it — ranked by how closely they match, ready to shortlist.',
+    cta: 'Explore look-a-likes',
+    href: '/platform#look-a-like-accounts',
+    Visual: LookalikeCard,
+  },
+  {
+    Icon: ChartColumn,
+    title: 'Campaign Reports',
+    desc: 'Every campaign reports back — how many emails went out, how many replied, and the send window each persona actually answers in.',
+    cta: 'Explore reports',
+    href: '/platform',
+    Visual: ReportsCard,
+  },
+  {
+    Icon: LayoutTemplate,
+    title: 'Template Builder',
+    desc: 'Build your own campaign templates from reusable blocks, with account and signal fields dropped in as merge tokens rather than retyped.',
+    cta: 'Explore templates',
+    href: '/platform',
+    Visual: TemplateCard,
+  },
+];
+
+function useReveal(threshold = 0.12) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => e.isIntersecting && (setVisible(true), io.disconnect()),
+      { threshold }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [threshold]);
+  return { ref, visible };
+}
+
+function PlatformCard({ card, index }: { card: typeof CARDS[0]; index: number }) {
+  const r = useReveal();
+  return (
+    <article
+      ref={r.ref}
+      className={`overflow-hidden rounded-[20px] border border-slate-200/80 bg-white transition-all duration-700
+                  dark:border-white/[0.08] dark:bg-[#16130F]
+                  ${r.visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+      style={{ transitionDelay: `${(index % 2) * 90}ms` }}
+    >
+      <card.Visual />
+
+      <div className="p-6 sm:p-8">
+        <span className="grid h-12 w-12 place-items-center rounded-xl bg-ember-500">
+          <card.Icon size={21} className="text-white" strokeWidth={2.1} />
+        </span>
+
+        <h3 className="mt-6 text-[clamp(22px,2.2vw,27px)] font-bold tracking-[-0.02em] text-slate-900 dark:text-white">
+          {card.title}
+        </h3>
+        <p className="mt-3 max-w-[460px] text-[15px] leading-[1.6] text-slate-500 dark:text-slate-400">
+          {card.desc}
+        </p>
+
+        <Link
+          href={card.href}
+          className="mt-7 inline-block border-b-2 border-ember-500 pb-[3px] text-[14px] font-semibold text-slate-900 transition-colors
+                     hover:text-ember-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 dark:text-white dark:hover:text-ember-300"
+        >
+          {card.cta}
+        </Link>
+      </div>
+    </article>
+  );
+}
+
+export default function PlatformGrid() {
+  const header = useReveal();
+
+  return (
+    <section className="border-y border-slate-200 bg-sand-100 px-4 py-20 dark:border-white/[0.06] dark:bg-[#040404] sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-[1180px]">
+        <div
+          ref={header.ref}
+          className={`mb-12 max-w-[680px] transition-all duration-700 lg:mb-14
+                      ${header.visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
+        >
+          <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">The Platform</p>
+          <h2 className="mt-4 text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+            Four modules, one account graph
+          </h2>
+          <p className="mt-5 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">
+            Find the companies worth your time, watch for the moment they enter the market, and
+            launch outbound the same day — without stitching four tools together to do it.
+          </p>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2 lg:gap-6">
+          {CARDS.map((c, i) => (
+            <PlatformCard key={c.title} card={c} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

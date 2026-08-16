@@ -73,7 +73,7 @@ export default function EarlyAccessModal({ open, type, onClose }: Props) {
                 <p className="mt-1.5 text-[14px] text-slate-500 dark:text-slate-400">
                   {isSales
                     ? "Tell us about your team and we'll get back within 24 hours."
-                    : 'Be among the first to find D2C opportunities with HarvinAI.'}
+                    : 'Be among the first to find D2C opportunities with Harvin.'}
                 </p>
               </div>
 
@@ -189,7 +189,7 @@ export default function EarlyAccessModal({ open, type, onClose }: Props) {
               <p className="text-[14px] leading-relaxed text-slate-500 dark:text-slate-400 max-w-[320px]">
                 {isSales
                   ? 'Our sales team will reach out within 24 hours.'
-                  : "We'll send early access details to your email. Thanks for your interest in HarvinAI!"}
+                  : "We'll send early access details to your email. Thanks for your interest in Harvin!"}
               </p>
               <button
                 onClick={handleClose}

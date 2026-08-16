@@ -4,15 +4,13 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CTA from '@/components/CTA';
 import { useModal } from '@/components/ModalContext';
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import {
-  Search, Zap, Monitor, TrendingUp,
-  Check, ArrowRight, Building2, ShoppingBag, Cpu, Briefcase,
-  Target, Users, Layers, DollarSign, Store, Smartphone,
-  ExternalLink, Star, Pencil, Trash2, ChevronDown,
-  Radar, Bell, Plus, Bookmark,
+  Building2, ShoppingBag, Cpu, Briefcase, Target, Users,
 } from 'lucide-react';
 import PromptFunnel from '@/components/PromptFunnel';
+import PlatformGrid from '@/components/PlatformGrid';
+import ProductSteps from '@/components/ProductSteps';
 
 /* ── Keyframe styles ─────────────────────────────────────────────────────── */
 const pageStyles = `
@@ -98,573 +96,149 @@ function useReveal(threshold = 0.12) {
 
 
 /* ── Animated counter hook ───────────────────────────────────────────────── */
-function useCounter(end: number, start: boolean, duration = 1400) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!start) return;
-    const startTime = performance.now();
-    const step = (now: number) => {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(eased * end));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [start, end, duration]);
-  return count;
-}
 
 /* ── Data ────────────────────────────────────────────────────────────────── */
 
+/**
+ * Personas, in parallel structure: what today looks like, what changes, and
+ * which modules they actually live in.
+ *
+ * The old entries carried outcome stats — "3× more qualified meetings",
+ * "60% faster ICP matching" — which were invented. They are gone rather than
+ * restated; a number on a marketing page reads as measured, and these were not.
+ */
 const AUDIENCE = [
   {
+    n: '01',
     icon: Target,
-    title: 'Sales & BDR Teams',
-    desc: 'Find high-intent target accounts ready to buy. Stop cold-calling — start warm-selling with real-time buying signals.',
-    stat: '3×',
-    statLabel: 'more qualified meetings',
-    gradient: 'from-[#C94C1E]/10 to-[#C94C1E]/5',
+    role: 'Sales & BDR teams',
+    today: 'A cold list, and no idea which of those accounts is in market this week.',
+    shift:
+      'A shortlist that reorders itself as signals land, so the first call of the day is the best one available — with the evidence for why it ranked.',
+    modules: ['AI Signal Detection', 'Watchlists'],
   },
   {
+    n: '02',
     icon: Users,
-    title: 'Account-Based Marketing',
-    desc: 'Build target account lists with account intelligence. Track competitor customers, surface look-a-like accounts, and time your outreach perfectly.',
-    stat: '60%',
-    statLabel: 'faster ICP matching',
-    gradient: 'from-[#1A9A82]/10 to-[#1A9A82]/5',
+    role: 'Account-based marketing',
+    today: 'Target lists built by hand, already stale the week after they ship.',
+    shift:
+      'Lists seeded from the customers you already won and kept current — look-a-likes, competitor footprints, and accounts entering your category.',
+    modules: ['Look-a-like Accounts', 'Account Intelligence'],
   },
   {
+    n: '03',
     icon: Briefcase,
-    title: 'Revenue & Growth Leaders',
-    desc: 'Get a real-time view of account movements — funding, hiring, scaling, and M&A. Build pipeline around the signals that actually predict deals.',
-    stat: '10–15',
-    statLabel: 'qualified accounts/month',
-    gradient: 'from-[#2563EB]/10 to-[#2563EB]/5',
+    role: 'Revenue & growth leaders',
+    today: 'Pipeline reviews assembled from what reps happen to remember.',
+    shift:
+      'A live view of account movement — funding, hiring, scaling, M&A — so the forecast starts from evidence instead of recall.',
+    modules: ['Account Intelligence', 'AI Signal Detection'],
   },
 ];
 
-
+/**
+ * Three buyer types and the play each one runs.
+ *
+ * The previous cards ended on an outcome line — "closed 8 deals", "4× pipeline
+ * in 60 days", "landed 6 new enterprise clients". None of those are sourced to
+ * a real customer, so they are invented results presented as case studies and
+ * have been dropped. What replaces them is what the team actually DOES, which
+ * is both defensible and more useful to a reader deciding whether the product
+ * fits their motion.
+ *
+ * Find / Watch / Reach is the same order the product works in, so the three
+ * cards can be read straight down the column as well as across.
+ */
 const USE_CASES = [
   {
     icon: Cpu,
     title: 'SaaS & Software Vendors',
-    desc: 'Selling platforms, infrastructure, or data tools to enterprise accounts? Find the ones actively scaling, hiring, or evaluating a switch from a competitor.',
-    example: 'A data-platform team used HarvinAI to spot 34 accounts scaling their infrastructure in Q1 — closed 8 deals.',
-    color: '#C94C1E',
+    desc: 'Selling platforms, infrastructure or data tools into enterprise accounts, where the buying window opens and closes around a migration.',
+    play: [
+      ['Find', 'Accounts running a competing tool in your category'],
+      ['Watch', 'Infrastructure hiring and funding rounds'],
+      ['Reach', 'While the evaluation window is still open'],
+    ],
   },
   {
     icon: Building2,
     title: 'Agencies & Consultants',
-    desc: 'Growth, GTM, and advisory teams can prioritize accounts by size, industry, and buying signals to pitch at the exact right moment.',
-    example: 'A GTM agency built a watchlist of recently-funded accounts — 4× pipeline in 60 days.',
-    color: '#1A9A82',
+    desc: 'Growth, GTM and advisory teams pitching retained work, where timing against a funding or leadership change decides the deal.',
+    play: [
+      ['Find', 'Recently funded accounts in the industries you serve'],
+      ['Watch', 'Leadership hires and headcount growth'],
+      ['Reach', 'With a proposal shaped to the signal that fired'],
+    ],
   },
   {
     icon: ShoppingBag,
     title: 'Services & Solution Providers',
-    desc: 'Identify accounts expanding into new markets or opening new offices. Reach out with a tailored proposal before they sign with a competitor.',
-    example: 'A solutions provider tracked expansion signals — landed 6 new enterprise clients in a single quarter.',
-    color: '#2563EB',
+    desc: 'Regional and implementation teams selling into expansion, where the work is won before a vendor shortlist is drawn up.',
+    play: [
+      ['Find', 'Accounts opening locations or entering new regions'],
+      ['Watch', 'Expansion and scaling signals by region'],
+      ['Reach', 'Before the shortlist is set'],
+    ],
   },
 ];
 
 
 /* ── HIW Animated Visuals ─────────────────────────────────────────────── */
 
-const ALL_ACCOUNTS_HIW = [
-  { i: 'H', c: '#C94C1E', name: 'Hooli', cat: 'Technology · US · Enterprise', tech: 8, signals: 1, tags: ['Scaling', 'Hiring'] },
-  { i: 'N', c: '#1A9A82', name: 'Northwind Analytics', cat: 'Data · UK · Mid-Market', tech: 9, signals: 2, tags: ['Hiring', 'Funding'] },
-  { i: 'G', c: '#0058A3', name: 'Globex Cloud', cat: 'Cloud · Singapore · Enterprise', tech: 29, signals: 2, tags: ['Expansion', 'Scaling'] },
-  { i: 'W', c: '#A93D18', name: 'Wonka Industries', cat: 'Manufacturing · US · Enterprise', tech: 12, signals: 3, tags: ['Funding', 'M&A'] },
-  { i: 'P', c: '#343330', name: 'Pied Piper', cat: 'Software · US · Growth', tech: 15, signals: 1, tags: ['Funding', 'Hiring'] },
-  { i: 'U', c: '#4A4842', name: 'Umbrella Health', cat: 'Healthcare · US · Enterprise', tech: 11, signals: 2, tags: ['Expansion', 'Hiring'] },
-];
 
-const ALL_FILTERS_HIW = [
-  ['SaaS & Cloud', 'United States', 'Series B+', 'Hiring Surge'],
-  ['Data & Analytics', 'United Kingdom', 'Series A+', 'Recently Funded'],
-  ['Healthcare', 'Singapore', 'Enterprise', 'Expansion'],
-];
 
-function DiscoverVisual() {
-  const [cycle, setCycle] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setCycle(c => c + 1), 3000);
-    return () => clearInterval(t);
-  }, []);
 
-  const filterSet = ALL_FILTERS_HIW[cycle % ALL_FILTERS_HIW.length];
-  const startIdx = (cycle * 2) % ALL_ACCOUNTS_HIW.length;
-  const cards = [0, 1, 2].map(j => ALL_ACCOUNTS_HIW[(startIdx + j) % ALL_ACCOUNTS_HIW.length]);
-
-  return (
-    <div className="flex w-full flex-col gap-3">
-      <div className="flex items-center gap-2.5 rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-slate-800/60 px-4 py-2.5 shadow-sm">
-        <svg className="h-4 w-4 flex-shrink-0 text-slate-400" viewBox="0 0 16 16" fill="none">
-          <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M11 11L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-        <span className="font-sans text-[12px] text-slate-400">Search accounts by ICP...</span>
-        <span className="w-px h-4 bg-[#C94C1E] ml-auto" style={{ animation: 'subtleFadeIn 0.8s ease infinite alternate' }} />
-      </div>
-
-      <div className="flex flex-wrap gap-1.5 min-h-[28px]">
-        {filterSet.map((f, i) => (
-          <span key={`${cycle}-${f}`}
-            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-medium border transition-all duration-500 ${
-              i < 2 ? 'border-[#C94C1E]/30 bg-[#C94C1E]/5 text-[#C94C1E] dark:border-[#C94C1E]/40 dark:bg-[#C94C1E]/10' : 'border-slate-200 dark:border-white/[0.08] bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400'
-            }`}
-            style={{ animation: 'slideUpFade 0.4s ease forwards', animationDelay: `${i * 80}ms` }}>
-            {f} {i < 2 && <span className="opacity-50">×</span>}
-          </span>
-        ))}
-      </div>
-
-      {cards.map((a, idx) => (
-        <div key={`${cycle}-${a.name}`}
-          className="rounded-xl border border-slate-100 dark:border-white/[0.06] bg-white dark:bg-slate-800/80 p-3 shadow-sm"
-          style={{ animation: 'slideUpFade 0.45s ease forwards', animationDelay: `${200 + idx * 100}ms`, opacity: 0 }}>
-          <div className="flex items-center justify-between mb-1.5">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-[11px] font-bold" style={{ backgroundColor: a.c }}>{a.i}</div>
-              <span className="text-[13px] font-bold text-slate-900 dark:text-white">{a.name}</span>
-              <span className="px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-bold">{a.tech} leads</span>
-              <span className="px-1.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[9px] font-bold">{a.signals} signal{a.signals > 1 ? 's' : ''}</span>
-            </div>
-          </div>
-          <p className="text-[10px] text-slate-400 dark:text-slate-500 ml-9">{a.cat}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-const ALL_SIGNALS_HIW = [
-  { icon: '💰', label: 'Raised $60M Series C', brand: 'Wonka Industries', type: 'Funding', color: '#C94C1E' },
-  { icon: '🏢', label: 'Expanding into 12 new states', brand: 'Umbrella Health', type: 'Expansion', color: '#1A9A82' },
-  { icon: '⚙️', label: 'Scaling data center footprint', brand: 'Hooli', type: 'Scaling', color: '#7C3AED' },
-  { icon: '👤', label: 'Hiring 30+ across GTM', brand: 'Northwind Analytics', type: 'Hiring', color: '#2563EB' },
-  { icon: '💰', label: 'Raised $45M Series D', brand: 'Soylent Foods', type: 'Funding', color: '#C94C1E' },
-  { icon: '🤝', label: 'Acquired an analytics startup', brand: 'Pied Piper', type: 'M&A', color: '#1A9A82' },
-  { icon: '⚙️', label: 'Rolling out a new product line', brand: 'Globex Cloud', type: 'Scaling', color: '#7C3AED' },
-  { icon: '👤', label: 'New VP of Sales appointed', brand: 'Initech Systems', type: 'Hiring', color: '#2563EB' },
-];
-
-function SignalsVisual() {
-  const [offset, setOffset] = useState(0);
-  const [count, setCount] = useState(284);
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setOffset(o => o + 1);
-      setCount(c => c + 1);
-    }, 2200);
-    return () => clearInterval(t);
-  }, []);
-
-  const visible = [0, 1, 2, 3].map(j => ALL_SIGNALS_HIW[(offset + j) % ALL_SIGNALS_HIW.length]);
-  const times = ['Just now', '2m ago', '18m ago', '1h ago'];
-
-  return (
-    <div className="flex w-full flex-col gap-2">
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-[12px] font-bold text-slate-700 dark:text-slate-200">Live Signals</span>
-        <span className="flex items-center gap-1.5 text-[10px] text-slate-400 dark:text-slate-500">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" style={{ animation: 'subtleFadeIn 1s ease infinite alternate' }} />
-          {count} today
-        </span>
-      </div>
-
-      {visible.map((s, i) => (
-        <div key={`${offset}-${i}`} className="relative"
-          style={{ animation: 'slideUpFade 0.4s ease forwards', animationDelay: `${i * 60}ms`, opacity: 0 }}>
-          <div className={`flex items-center gap-3 rounded-xl border bg-white dark:bg-slate-800/80 p-3 shadow-sm transition-all duration-300 ${
-            i === 0 ? 'border-[#C94C1E]/20 ring-1 ring-[#C94C1E]/10' : 'border-slate-100 dark:border-white/[0.06]'
-          }`}>
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-100 dark:border-white/[0.06] bg-slate-50 dark:bg-slate-700/60 text-[18px] leading-none flex-shrink-0">
-              {s.icon}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="text-[12px] font-semibold text-slate-900 dark:text-white leading-tight">{s.label}</p>
-              <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">{s.brand} · {times[i]}</p>
-            </div>
-            <span className="rounded-md border px-1.5 py-0.5 text-[9px] font-bold flex-shrink-0"
-              style={{ backgroundColor: `${s.color}10`, color: s.color, borderColor: `${s.color}20` }}>
-              {s.type}
-            </span>
-          </div>
-          {i < 3 && <div className="absolute -bottom-2.5 left-[28px] z-0 h-3 w-px border-l border-dashed border-slate-300 dark:border-slate-600" />}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-const ALL_TECH_HIW = ['Funding', 'Hiring', 'Expansion', 'Scaling', 'Product Launch', 'Leadership Hire', 'M&A', 'Traffic Spike'];
-
-function TimingVisual() {
-  const [visibleTech, setVisibleTech] = useState(0);
-  const [score, setScore] = useState(0);
-  const [showWindow, setShowWindow] = useState(false);
-
-  useEffect(() => {
-    const techTimer = setInterval(() => {
-      setVisibleTech(v => v >= 8 ? 8 : v + 1);
-    }, 350);
-    const scoreTimer = setInterval(() => {
-      setScore(s => s >= 92 ? 92 : s + 3);
-    }, 80);
-    const windowTimer = setTimeout(() => setShowWindow(true), 3500);
-    const resetTimer = setTimeout(() => {
-      setVisibleTech(0);
-      setScore(0);
-      setShowWindow(false);
-    }, 6000);
-    return () => {
-      clearInterval(techTimer);
-      clearInterval(scoreTimer);
-      clearTimeout(windowTimer);
-      clearTimeout(resetTimer);
-    };
-  }, [visibleTech === 0 && score === 0 ? 0 : 1]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (visibleTech === 0 && score === 0 && !showWindow) {
-      const t = setTimeout(() => setVisibleTech(1), 400);
-      return () => clearTimeout(t);
-    }
-  }, [visibleTech, score, showWindow]);
-
-  return (
-    <div className="flex w-full flex-col gap-4">
-      <div className="rounded-2xl border border-slate-100 dark:border-white/[0.08] bg-white dark:bg-slate-800/80 p-4 shadow-md">
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl text-[14px] font-bold text-white shadow-sm" style={{ backgroundColor: '#C94C1E' }}>W</div>
-            <div>
-              <p className="text-[14px] font-bold text-slate-900 dark:text-white">Wonka Industries</p>
-              <p className="text-[11px] text-slate-400 dark:text-slate-500">Manufacturing · US · Enterprise</p>
-            </div>
-          </div>
-          <span className="rounded-lg border border-[#C94C1E]/20 bg-[#C94C1E]/10 px-2.5 py-1 font-mono text-[15px] font-bold text-[#C94C1E] tabular-nums transition-all">
-            {Math.min(score, 92)}
-          </span>
-        </div>
-
-        <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700 mb-3">
-          <div className="h-full rounded-full bg-gradient-to-r from-[#e87f58] to-[#C94C1E] transition-all duration-300 ease-out" style={{ width: `${Math.min(score, 92)}%` }} />
-        </div>
-
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          {['2M+ Web Visits', 'Enterprise', 'Late Stage', 'New Product Launch'].map((p, i) => (
-            <span key={p} className={`inline-flex items-center px-2 py-0.5 rounded-full border text-[9px] font-medium transition-all duration-300 ${
-              i === 2 ? 'border-green-200 dark:border-green-500/30 bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400' :
-              i === 3 ? 'border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400' :
-              'border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-slate-700/50 text-slate-600 dark:text-slate-400'
-            }`} style={{ opacity: i < visibleTech / 2 ? 1 : 0.3, transition: 'opacity 0.3s ease' }}>{p}</span>
-          ))}
-        </div>
-
-        <p className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">Signals Detected</p>
-        <div className="flex flex-wrap gap-1.5">
-          {ALL_TECH_HIW.map((t, i) => (
-            <span key={t}
-              className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/60 border border-slate-200 dark:border-white/[0.06] text-[9px] font-semibold text-slate-600 dark:text-slate-400 transition-all duration-300"
-              style={{
-                opacity: i < visibleTech ? 1 : 0,
-                transform: i < visibleTech ? 'scale(1)' : 'scale(0.8)',
-                transition: `opacity 0.3s ease ${i * 50}ms, transform 0.3s ease ${i * 50}ms`,
-              }}>
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex flex-col items-center gap-1.5" style={{ opacity: showWindow ? 1 : 0, transform: showWindow ? 'translateY(0)' : 'translateY(8px)', transition: 'all 0.5s ease' }}>
-        <div className="h-5 w-px border-l-2 border-dashed border-[#C94C1E]/40" />
-        <div className="flex items-center gap-2 rounded-full border border-[#C94C1E]/20 bg-[#C94C1E]/10 px-4 py-2 shadow-sm">
-          <span className="h-2 w-2 rounded-full bg-[#C94C1E] shadow-[0_0_8px_#C94C1E]" style={{ animation: 'subtleFadeIn 1s ease infinite alternate' }} />
-          <span className="text-[12px] font-semibold text-[#C94C1E]">Prime buying window — reach out now</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DealVisual() {
-  const [synced, setSynced] = useState(0);
-  const [phase, setPhase] = useState<'list' | 'syncing' | 'done'>('list');
-
-  useEffect(() => {
-    const t1 = setTimeout(() => setPhase('syncing'), 1500);
-    const t2 = setTimeout(() => {
-      const interval = setInterval(() => {
-        setSynced(s => {
-          if (s >= 12) { clearInterval(interval); return 12; }
-          return s + 1;
-        });
-      }, 150);
-      return () => clearInterval(interval);
-    }, 1800);
-    const t3 = setTimeout(() => setPhase('done'), 4000);
-    const t4 = setTimeout(() => {
-      setPhase('list');
-      setSynced(0);
-    }, 6500);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
-  }, [phase === 'list' && synced === 0 ? 0 : 1]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (phase === 'list' && synced === 0) {
-      const t = setTimeout(() => setPhase('list'), 200);
-      return () => clearTimeout(t);
-    }
-  }, [phase, synced]);
-
-  const accounts = [
-    { i: 'W', c: '#C94C1E', n: 'Wonka Industries', s: 92 },
-    { i: 'N', c: '#A93D18', n: 'Northwind Analytics', s: 85 },
-    { i: 'P', c: '#343330', n: 'Pied Piper', s: 94 },
-  ];
-
-  return (
-    <div className="flex w-full flex-col gap-3">
-      <div className="rounded-xl border border-slate-100 dark:border-white/[0.08] bg-white dark:bg-slate-800/80 p-4 shadow-md">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-[13px] font-bold text-slate-800 dark:text-white">🎯 High-Intent Accounts</span>
-          <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">12 accounts</span>
-        </div>
-
-        {accounts.map((a, idx) => (
-          <div key={a.n} className="flex items-center justify-between py-2 border-b border-slate-50 dark:border-white/[0.04] last:border-0">
-            <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-[10px] font-bold" style={{ backgroundColor: a.c }}>{a.i}</div>
-              <span className="text-[12px] font-semibold text-slate-800 dark:text-slate-200">{a.n}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <svg className="w-3.5 h-3.5 transition-all duration-300"
-                style={{ opacity: synced > idx ? 1 : 0, transform: synced > idx ? 'scale(1)' : 'scale(0)' }}
-                viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="7" fill="#10B981" />
-                <path d="M5 8l2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span className="text-[12px] font-bold font-mono text-[#C94C1E]">{a.s}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="flex gap-2">
-        <div className="flex-1 relative overflow-hidden flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#C94C1E] text-white shadow-md">
-          {phase === 'syncing' && (
-            <div className="absolute inset-y-0 left-0 bg-white/20 transition-all duration-300 ease-out" style={{ width: `${(synced / 12) * 100}%` }} />
-          )}
-          <span className="relative text-[11px] font-bold">
-            {phase === 'syncing' ? `Syncing ${synced}/12...` : phase === 'done' ? '✓ Synced!' : 'Export to CRM'}
-          </span>
-        </div>
-        <div className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 shadow-sm">
-          <span className="text-[11px] font-bold">Download CSV</span>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-2.5 rounded-full border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-2 shadow-sm mx-auto transition-all duration-500"
-        style={{ opacity: phase === 'done' ? 1 : 0, transform: phase === 'done' ? 'translateY(0) scale(1)' : 'translateY(8px) scale(0.95)' }}>
-        <svg className="h-3.5 w-3.5 text-emerald-500" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-        <span className="text-[12px] font-bold text-emerald-600 dark:text-emerald-400">12 accounts synced to HubSpot</span>
-      </div>
-    </div>
-  );
-}
 
 /* ── HIW Steps data ──────────────────────────────────────────────────────── */
-const HIW_STEPS = [
-  {
-    number: '01',
-    icon: Search,
-    title: 'Discover your ICP accounts',
-    desc: 'Filter your target accounts by industry, geography, funding stage, business motion, headcount growth, and more. Find the accounts that match your Ideal Customer Profile in seconds.',
-    features: ['Advanced account filters', 'Verified account intelligence', 'Priority scores per account'],
-    color: '#C94C1E',
-    Visual: DiscoverVisual,
-  },
-  {
-    number: '02',
-    icon: Zap,
-    title: 'Track real-time buying signals',
-    desc: 'Get notified the moment a target account raises funding, scales its team, expands into new markets, makes an acquisition, or hires key roles — the signals that predict buying windows.',
-    features: ['Funding, hiring & expansion alerts', '<5 min average latency', 'Slack, email & CRM delivery'],
-    color: '#1A9A82',
-    Visual: SignalsVisual,
-  },
-  {
-    number: '03',
-    icon: Monitor,
-    title: 'Score accounts & time your outreach',
-    desc: 'See every account\'s full signal history — funding, hiring, scaling, expansion, and M&A. Prioritize the accounts in an active buying window and calculate intent scores.',
-    features: ['AI signal detection across sources', 'Business motion analysis', 'Intent score 0–100'],
-    color: '#2563EB',
-    Visual: TimingVisual,
-  },
-  {
-    number: '04',
-    icon: TrendingUp,
-    title: 'Launch campaigns & close deals',
-    desc: 'Build watchlists, orchestrate outbound campaigns, sync to HubSpot or Salesforce, or export as CSV. Reach out with full context — signals, contacts, intent score — at the perfect moment.',
-    features: ['Campaign orchestration', 'HubSpot & Salesforce sync', 'Custom watchlists & CSV export'],
-    color: '#7C3AED',
-    Visual: DealVisual,
-  },
-];
 
 /* ── HIW Step component — content left, animated visual right ────────────── */
-function HowItWorksStep({ step, index }: { step: typeof HIW_STEPS[0]; index: number }) {
-  const reveal = useReveal(0.15);
-  const isEven = index % 2 === 0;
-
-  return (
-    <div ref={reveal.ref} className="relative">
-      <div
-        className={`group rounded-2xl border border-slate-200 dark:border-white/[0.08]
-                     bg-white dark:bg-slate-900/60
-                     hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)]
-                     hover:border-slate-300 dark:hover:border-white/[0.14]
-                     transition-all duration-500 overflow-hidden
-                     ${reveal.visible ? (isEven ? 'animate-slide-left' : 'animate-slide-right') : 'opacity-0'}`}
-        style={reveal.visible ? { animationDelay: `${index * 100}ms` } : undefined}
-      >
-        {/* Top accent line */}
-        <div className="h-[2px] w-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-             style={{ background: `linear-gradient(to right, transparent, ${step.color}, transparent)` }} />
-
-        <div className="flex flex-col lg:flex-row">
-          {/* Left — content */}
-          <div className="flex-1 px-8 py-8 lg:py-10 lg:px-10 flex flex-col justify-center">
-            <div className="flex items-center gap-4 mb-5">
-              <span className="font-mono text-[28px] font-bold tracking-wide"
-                    style={{ color: step.color }}>
-                {step.number}
-              </span>
-              <div className="h-12 w-12 rounded-2xl flex items-center justify-center
-                              transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
-                   style={{ backgroundColor: `${step.color}15`, boxShadow: `0 0 0 1px ${step.color}20` }}>
-                <step.icon size={22} style={{ color: step.color }} />
-              </div>
-            </div>
-
-            <h3 className="text-[22px] font-semibold tracking-[-0.01em] text-slate-900 dark:text-white mb-3
-                           group-hover:text-[#C94C1E] dark:group-hover:text-[#C94C1E] transition-colors duration-300">
-              {step.title}
-            </h3>
-            <p className="text-[15px] leading-relaxed text-slate-500 dark:text-slate-400 mb-6 max-w-[440px]">
-              {step.desc}
-            </p>
-
-            <div className="flex flex-col gap-3">
-              {step.features.map((f, fi) => (
-                <div key={f}
-                     className="flex items-center gap-2.5 text-[14px] text-slate-700 dark:text-slate-300
-                                transition-all duration-300 hover:translate-x-1"
-                     style={reveal.visible ? { animation: `floatUp 0.5s cubic-bezier(0.16,1,0.3,1) ${300 + index * 100 + fi * 80}ms both` } : { opacity: 0 }}>
-                  <div className="h-5 w-5 rounded-full flex items-center justify-center flex-shrink-0
-                                  transition-transform duration-300 group-hover:scale-110"
-                       style={{ backgroundColor: `${step.color}15` }}>
-                    <Check size={12} style={{ color: step.color }} strokeWidth={2.5} />
-                  </div>
-                  {f}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right — live animated visual */}
-          <div className="lg:w-[480px] flex-shrink-0 border-t lg:border-t-0 lg:border-l border-slate-100 dark:border-white/[0.06]
-                          relative overflow-hidden">
-            {/* Radial glow background */}
-            <div className="absolute inset-0 pointer-events-none"
-                 style={{ background: `radial-gradient(circle at 50% 50%, ${step.color}08, transparent 70%)` }} />
-
-            {/* Scan sweep */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-full" style={{ animation: 'scanSweep 4.2s cubic-bezier(0.37, 0, 0.63, 1) infinite' }}>
-              <div className="absolute left-0 right-0 top-0 h-[80px]"
-                   style={{ background: `linear-gradient(to bottom, ${step.color}15, ${step.color}06, transparent)` }} />
-              <div className="absolute left-0 right-0 top-0 h-[1.5px]"
-                   style={{
-                     background: `linear-gradient(to right, transparent 2%, ${step.color}80 15%, ${step.color} 40%, ${step.color}80 85%, transparent 98%)`,
-                     boxShadow: `0 0 6px 1px ${step.color}50, 0 2px 16px ${step.color}30`,
-                   }} />
-            </div>
-
-            <div className="relative z-10 p-6 lg:p-8 flex items-center justify-center min-h-[320px] lg:min-h-[380px]">
-              <div className="w-full max-w-[380px]">
-                <step.Visual />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Connector */}
-      {index < HIW_STEPS.length - 1 && (
-        <div className="hidden md:flex justify-center py-1">
-          <div className={`w-px h-8 transition-all duration-700 ${reveal.visible ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0'}`}
-               style={{
-                 background: `linear-gradient(to bottom, ${step.color}40, ${HIW_STEPS[index + 1].color}40)`,
-                 transitionDelay: `${400 + index * 100}ms`,
-               }} />
-        </div>
-      )}
-    </div>
-  );
-}
 
 /* ── Audience card with own scroll trigger ───────────────────────────────── */
-function AudienceCard({ item, index }: { item: typeof AUDIENCE[0]; index: number }) {
+function AudienceRow({ item, index }: { item: typeof AUDIENCE[0]; index: number }) {
   const reveal = useReveal(0.15);
 
   return (
     <div
       ref={reveal.ref}
-      className={`group relative rounded-2xl border border-slate-200 dark:border-white/[0.08]
-                   bg-white dark:bg-slate-900/60 p-8 overflow-hidden
-                   hover:shadow-[0_12px_40px_rgba(0,0,0,0.07)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)]
-                   hover:border-slate-300 dark:hover:border-white/[0.14]
-                   transition-all duration-500 hover:-translate-y-1
-                   ${reveal.visible ? 'animate-float-up' : 'opacity-0'}`}
-      style={reveal.visible ? { animationDelay: `${index * 120}ms` } : undefined}
+      className={`group grid gap-6 border-b border-slate-200 py-9 transition-all duration-700
+                  dark:border-white/[0.08] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.35fr)] md:gap-12 lg:py-11
+                  ${reveal.visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
+      style={{ transitionDelay: `${index * 110}ms` }}
     >
-      {/* Gradient bg on hover */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
-
-      <div className="relative">
-        <div className="flex items-start justify-between mb-6">
-          <div className="h-13 w-13 rounded-2xl bg-[#C94C1E]/10 flex items-center justify-center
-                          ring-1 ring-[#C94C1E]/10 group-hover:bg-[#C94C1E]/[0.18]
-                          transition-all duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]"
-               style={{ height: 52, width: 52 }}>
-            <item.icon size={24} className="text-[#C94C1E] transition-transform duration-300 group-hover:scale-110" />
-          </div>
-          <div className="text-right">
-            <p className="text-[28px] font-bold tracking-[-0.02em] text-slate-900 dark:text-white leading-none
-                          transition-transform duration-300 group-hover:scale-105 origin-right">
-              {item.stat}
-            </p>
-            <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">
-              {item.statLabel}
-            </p>
-          </div>
-        </div>
-        <h3 className="text-[20px] font-semibold tracking-[-0.01em] text-slate-900 dark:text-white mb-2.5
-                       transition-colors duration-300 group-hover:text-[#C94C1E]">
-          {item.title}
+      {/* index · icon · role */}
+      <div className="flex items-start gap-4">
+        <span className="font-mono text-[12px] font-semibold tabular-nums text-ember-500">{item.n}</span>
+        <span className="grid h-11 w-11 flex-shrink-0 place-items-center rounded-xl bg-ember-50 transition-colors duration-300 group-hover:bg-ember-100 dark:bg-ember-500/15">
+          <item.icon size={20} className="text-ember-500" strokeWidth={1.9} />
+        </span>
+        <h3 className="mt-1.5 text-[19px] font-semibold leading-[1.25] tracking-[-0.015em] text-slate-900 dark:text-white sm:text-[21px]">
+          {item.role}
         </h3>
-        <p className="text-[14px] leading-relaxed text-slate-500 dark:text-slate-400">
-          {item.desc}
-        </p>
+      </div>
+
+      {/* the before/after, on one baseline across all three rows */}
+      <div>
+        <div className="flex gap-3">
+          <span className="mt-[7px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-slate-300 dark:bg-white/25" />
+          <p className="text-[15px] leading-[1.65] text-slate-500 dark:text-slate-500">{item.today}</p>
+        </div>
+        <div className="mt-3 flex gap-3">
+          <span className="mt-[7px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-ember-500" />
+          <p className="text-[15.5px] leading-[1.65] text-slate-800 dark:text-slate-200">{item.shift}</p>
+        </div>
+
+        <div className="mt-5 flex flex-wrap gap-2 pl-[18px]">
+          {item.modules.map((m) => (
+            <span
+              key={m}
+              className="rounded-full border border-slate-200 bg-sand-50 px-2.5 py-1 text-[11.5px] font-medium text-slate-600
+                         dark:border-white/[0.10] dark:bg-white/[0.04] dark:text-slate-300"
+            >
+              {m}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -677,559 +251,41 @@ function UseCaseCard({ uc, index }: { uc: typeof USE_CASES[0]; index: number }) 
   return (
     <div
       ref={reveal.ref}
-      className={`group relative rounded-2xl border border-slate-200 dark:border-white/[0.08]
-                   bg-white dark:bg-slate-900/60 p-8 flex flex-col overflow-hidden
-                   hover:shadow-[0_12px_40px_rgba(0,0,0,0.07)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)]
-                   hover:border-slate-300 dark:hover:border-white/[0.14]
-                   transition-all duration-500 hover:-translate-y-1
-                   ${reveal.visible ? 'animate-scale-in' : 'opacity-0'}`}
-      style={reveal.visible ? { animationDelay: `${index * 120}ms` } : undefined}
+      className={`group flex flex-col rounded-2xl border border-slate-200 bg-white p-7 transition-all duration-700
+                  hover:border-ember-500/40 hover:shadow-[0_16px_44px_rgba(15,23,42,0.08)]
+                  dark:border-white/[0.08] dark:bg-white/[0.02] dark:hover:border-ember-500/40
+                  ${reveal.visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+      style={{ transitionDelay: `${index * 110}ms` }}
     >
-      {/* Corner accent glow */}
-      <div className="absolute top-0 right-0 w-32 h-32 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-           style={{ background: `radial-gradient(circle at 100% 0%, ${uc.color}12, transparent 70%)` }} />
-
-      <div className="relative">
-        <div className="h-13 w-13 rounded-2xl flex items-center justify-center
-                        ring-1 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 mb-6"
-             style={{ height: 52, width: 52, backgroundColor: `${uc.color}15`, boxShadow: `0 0 0 1px ${uc.color}20` }}>
-          <uc.icon size={24} style={{ color: uc.color }} />
-        </div>
-
-        <h3 className="text-[20px] font-semibold tracking-[-0.01em] text-slate-900 dark:text-white mb-2.5
-                       transition-colors duration-300 group-hover:text-[#C94C1E]">
-          {uc.title}
-        </h3>
-        <p className="text-[14px] leading-relaxed text-slate-500 dark:text-slate-400 mb-6">
-          {uc.desc}
-        </p>
-      </div>
-
-      {/* Example quote */}
-      <div className="mt-auto pt-5 border-t border-slate-100 dark:border-white/[0.06] relative">
-        <div className="absolute top-5 left-0 text-[40px] leading-none font-serif opacity-10"
-             style={{ color: uc.color }}>&ldquo;</div>
-        <p className="text-[13px] leading-relaxed text-slate-600 dark:text-slate-300 pl-6">
-          {uc.example}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   FEATURE MOCKUPS — exact replicas of real dashboard UI
-═══════════════════════════════════════════════════════════════════════════ */
-
-/* ── 1. Account Explorer Mockup ──────────────────────────────────────────── */
-function AccountExplorerMockup() {
-  return (
-    <div className="rounded-xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#141414]/60 overflow-hidden shadow-sm">
-      {/* Header bar */}
-      <div className="flex items-center justify-between px-5 py-3 border-b border-slate-100 dark:border-white/[0.06] bg-white dark:bg-[#141414]">
-        <div className="flex items-center gap-2.5">
-          <span className="w-2 h-2 rounded-full bg-[#C94C1E]" />
-          <span className="text-[14px] font-bold text-slate-800 dark:text-white">Account Explorer</span>
-          <span className="text-[10px] font-medium text-slate-400 bg-slate-100 dark:bg-white/[0.06] px-2 py-0.5 rounded">3,924 results</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-medium text-slate-500 border border-slate-200 dark:border-white/[0.1] px-2 py-0.5 rounded-md">Sort</span>
-          <span className="text-[10px] font-medium text-slate-500 border border-slate-200 dark:border-white/[0.1] px-2 py-0.5 rounded-md">Export</span>
-        </div>
-      </div>
-
-      {/* Filter pills */}
-      <div className="px-5 py-2.5 flex items-center gap-2 border-b border-slate-50 dark:border-white/[0.03] flex-wrap">
-        {['SaaS & Cloud', 'United States', 'Series B+', 'Hiring Surge'].map(f => (
-          <span key={f} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-medium border border-[#C94C1E]/20 bg-[#C94C1E]/5 text-[#C94C1E]">
-            {f} <span className="opacity-50 cursor-pointer">×</span>
-          </span>
-        ))}
-        <span className="text-[10px] text-[#C94C1E] font-medium cursor-pointer ml-1">Clear all</span>
-      </div>
-
-      {/* Account cards */}
-      <div className="p-3 space-y-2">
-        {[
-          { name: 'Wonka Industries', domain: 'wonkaindustries.com', cat: 'Manufacturing', region: 'United States', model: 'Enterprise', tech: 8, signals: 1, traffic: '2M+', app: 'Email + LinkedIn', funding: 'Late Stage', techTags: ['Funding', 'Hiring', 'M&A'], signalTags: ['New Product Launch'], bg: '#C94C1E', i: 'W' },
-          { name: 'Northwind Analytics', domain: 'northwindanalytics.com', cat: 'Data & Analytics', region: 'United Kingdom', model: 'Mid-Market', tech: 12, signals: 3, traffic: '500K-2M', app: 'Email + LinkedIn', funding: 'Series A+', techTags: ['Hiring', 'Funding'], signalTags: ['Recently Funded', 'Hiring Surge'], bg: '#A93D18', i: 'N' },
-          { name: 'Pied Piper', domain: 'piedpiper.com', cat: 'Software', region: 'United States', model: 'Growth', tech: 15, signals: 1, traffic: '100K-500K', app: 'No Outreach', funding: 'Series B+', techTags: ['Funding', 'Hiring'], signalTags: ['Recently Funded'], bg: '#343330', i: 'P' },
-        ].map(a => (
-          <div key={a.name} className="bg-white dark:bg-[#141414]/60 border border-slate-200 dark:border-white/[0.08] rounded-xl overflow-hidden hover:border-slate-300 dark:hover:border-white/[0.12] transition-all group">
-            <div className="flex">
-              {/* Checkbox */}
-              <div className="w-9 flex items-start justify-center pt-3.5 border-r border-slate-100 dark:border-white/[0.04] flex-shrink-0">
-                <div className="w-3.5 h-3.5 rounded border border-slate-300 dark:border-white/[0.12]" />
-              </div>
-              <div className="flex-1 min-w-0 px-3 py-3">
-                {/* Row 1 */}
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0" style={{ backgroundColor: a.bg }}>{a.i}</div>
-                  <span className="text-[13px] font-bold text-slate-800 dark:text-white group-hover:text-[#C94C1E] transition-colors">{a.name}</span>
-                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[9px] font-bold">
-                    <Layers size={8} />{a.tech} leads
-                  </span>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 text-[9px] font-bold">{a.signals} signal{a.signals > 1 ? 's' : ''}</span>
-                  <div className="ml-auto flex items-center gap-1 flex-shrink-0">
-                    {a.techTags.map(t => (
-                      <span key={t} className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/[0.06] border border-slate-200 dark:border-white/[0.08] text-[8px] font-semibold text-slate-600 dark:text-neutral-300">{t}</span>
-                    ))}
-                  </div>
-                </div>
-                {/* Row 2 */}
-                <p className="text-[10px] text-slate-500 dark:text-neutral-400 mb-1 ml-9">{a.cat} · {a.region} · {a.model}</p>
-                {/* Row 3 */}
-                <div className="flex items-center gap-1.5 ml-9 mb-1 flex-wrap">
-                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border border-slate-200 dark:border-white/[0.06] bg-slate-50 dark:bg-white/[0.04] text-[8px] font-medium text-slate-600 dark:text-neutral-300">
-                    <TrendingUp size={8} className="text-blue-400" />{a.traffic} visits/mo
-                  </span>
-                  {a.app !== 'No Outreach' && (
-                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border border-slate-200 dark:border-white/[0.06] bg-slate-50 dark:bg-white/[0.04] text-[8px] font-medium text-slate-600 dark:text-neutral-300">
-                      <Smartphone size={8} className="text-violet-400" />{a.app}
-                    </span>
-                  )}
-                </div>
-                {/* Row 4 */}
-                <div className="flex items-center gap-2 ml-9">
-                  <span className="inline-flex items-center gap-0.5 text-[9px] font-medium text-green-600">
-                    <DollarSign size={9} className="text-green-500" />{a.funding}
-                  </span>
-                  {a.signalTags.map(s => (
-                    <span key={s} className="inline-flex items-center gap-0.5 text-[9px] text-slate-500 dark:text-neutral-400">
-                      <Target size={8} className="text-amber-400" />{s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              {/* Visit */}
-              <div className="w-8 flex items-start justify-center pt-3.5 border-l border-slate-100 dark:border-white/[0.04] flex-shrink-0 text-slate-300 dark:text-neutral-600">
-                <ExternalLink size={12} />
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ── 2. Watchlists Mockup ────────────────────────────────────────────────── */
-function WatchlistsMockup() {
-  return (
-    <div className="space-y-3">
-      {/* Watchlist grid */}
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-[12px] text-slate-500 dark:text-neutral-400">4 watchlists</span>
-        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#C94C1E] text-white text-[10px] font-bold">
-          <Plus size={12} /> New Watchlist
+      <div className="flex items-center gap-3">
+        <span className="font-mono text-[11px] font-bold tabular-nums text-ember-500">
+          0{index + 1}
         </span>
+        <span className="h-px flex-1 bg-slate-200 dark:bg-white/[0.08]" />
+        <uc.icon size={17} strokeWidth={1.9} className="flex-shrink-0 text-slate-400 dark:text-slate-500" />
       </div>
 
-      <div className="grid grid-cols-2 gap-2.5">
-        {[
-          { name: 'Competitor Customers', count: 24, date: '2d ago', color: '#EF4444' },
-          { name: 'Recently Funded', count: 18, date: '1d ago', color: '#3B82F6' },
-          { name: 'Greenfield Opportunities', count: 31, date: 'Today', color: '#22C55E' },
-          { name: 'High-Intent SaaS', count: 12, date: '5d ago', color: '#F59E0B' },
-        ].map(wl => (
-          <div key={wl.name}
-            className="bg-white dark:bg-[#141414]/60 rounded-xl border border-slate-200 dark:border-white/[0.08] p-4 hover:shadow-md hover:border-slate-300 dark:hover:border-white/[0.12] transition-all cursor-pointer group">
-            <div className="flex items-start justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: wl.color }} />
-                <h3 className="text-[13px] font-bold text-slate-800 dark:text-white group-hover:text-[#C94C1E] transition-colors">{wl.name}</h3>
-              </div>
-              <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="p-1 rounded hover:bg-slate-100 dark:hover:bg-white/[0.06] text-slate-400"><Pencil size={10} /></span>
-                <span className="p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-500"><Trash2 size={10} /></span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 text-[10px] text-slate-400 dark:text-neutral-500">
-              <span className="font-semibold text-slate-600 dark:text-neutral-300">{wl.count} accounts</span>
-              <span className="text-slate-200 dark:text-white/10">&bull;</span>
-              <span>Updated {wl.date}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+      <h3 className="mt-5 text-[19px] font-bold leading-[1.25] tracking-[-0.015em] text-slate-900 dark:text-white">
+        {uc.title}
+      </h3>
+      <p className="mt-2.5 text-[14px] leading-[1.65] text-slate-500 dark:text-slate-400">
+        {uc.desc}
+      </p>
 
-      {/* Live watchlist detail preview */}
-      <div className="mt-3 rounded-xl bg-slate-900 dark:bg-slate-800/90 p-2.5 space-y-1.5">
-        <div className="flex items-center justify-between px-2 py-1">
-          <div className="flex items-center gap-1.5">
-            <Bell size={10} className="text-slate-400" />
-            <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-slate-400">Active Signals</span>
-          </div>
-          <span className="text-[9px] font-medium text-emerald-500 flex items-center gap-1">
-            <span className="w-1 h-1 rounded-full bg-emerald-500" /> Live
-          </span>
-        </div>
-        {[
-          { name: 'Competitor Customers', signals: 5, trend: '+12%', color: '#EF4444' },
-          { name: 'Recently Funded', signals: 12, trend: '+34%', color: '#3B82F6' },
-          { name: 'Greenfield Opportunities', signals: 8, trend: '+18%', color: '#22C55E' },
-        ].map(r => (
-          <div key={r.name} className="flex items-center justify-between rounded-lg bg-white/[0.06] hover:bg-white/[0.1] px-3 py-2.5 transition-colors">
-            <div className="flex items-center gap-2.5">
-              <span className="h-2 w-2 rounded-full flex-shrink-0 ring-2 ring-white/10" style={{ backgroundColor: r.color }} />
-              <span className="text-[11px] font-medium text-slate-200">{r.name}</span>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <span className="text-[9px] font-medium text-emerald-400 flex items-center gap-0.5">
-                <TrendingUp size={8} />{r.trend}
-              </span>
-              <span className="text-[10px] font-semibold text-[#C94C1E] bg-[#C94C1E]/10 px-1.5 py-0.5 rounded-md">{r.signals} new</span>
-            </div>
+      {/* ── The play, in the order the product runs it ──────────────── */}
+      <dl className="mt-6 space-y-3 border-t border-slate-200 pt-5 dark:border-white/[0.08]">
+        {uc.play.map(([step, detail]) => (
+          <div key={step} className="flex gap-3">
+            <dt className="w-[46px] flex-shrink-0 pt-[1px] font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-ember-500">
+              {step}
+            </dt>
+            <dd className="min-w-0 flex-1 text-[13px] leading-[1.5] text-slate-700 dark:text-slate-300">
+              {detail}
+            </dd>
           </div>
         ))}
-        <div className="flex items-center justify-between px-2 pt-1">
-          <span className="text-[9px] text-slate-500">25 total signals this week</span>
-          <span className="text-[9px] font-medium text-[#C94C1E]">View all</span>
-        </div>
-      </div>
+      </dl>
     </div>
-  );
-}
-
-/* ── 3. Market Intelligence Mockup ───────────────────────────────────────── */
-function MarketIntelMockup() {
-  return (
-    <div className="space-y-3">
-      {/* Period toggle */}
-      <div className="flex items-center justify-between">
-        <span className="text-[10px] text-slate-400 dark:text-neutral-500">SaaS, Data & Healthcare · United States</span>
-        <div className="flex items-center gap-0.5 bg-white dark:bg-[#141414] border border-slate-200 dark:border-white/[0.08] rounded-lg p-0.5">
-          {['This Week', 'Last 2 Weeks', 'Last Month'].map((p, i) => (
-            <span key={p} className={`px-2.5 py-1 rounded-md text-[9px] font-semibold transition-all ${i === 0 ? 'bg-[#C94C1E] text-white shadow-sm' : 'text-slate-500 dark:text-neutral-400'}`}>{p}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* Stat cards */}
-      <div className="grid grid-cols-5 gap-2">
-        {[
-          { label: 'FUNDING', value: '7', sub: '+3 vs last week', icon: <DollarSign size={12} /> },
-          { label: 'EXPANSION', value: '18', sub: 'across 5 accounts', icon: <Store size={12} /> },
-          { label: 'M&A', value: '4', sub: '3 acquisitions', icon: <Smartphone size={12} /> },
-          { label: 'HIRES', value: '11', sub: 'VP+ level', icon: <Users size={12} /> },
-          { label: 'SCALING', value: '9', sub: '>30% QoQ', icon: <TrendingUp size={12} /> },
-        ].map(c => (
-          <div key={c.label} className="bg-white dark:bg-[#141414]/60 border border-slate-200 dark:border-white/[0.08] rounded-xl p-3 hover:border-slate-300 transition-all">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[7px] font-bold text-slate-400 dark:text-neutral-500 uppercase tracking-widest">{c.label}</span>
-              <span className="text-slate-300 dark:text-neutral-600">{c.icon}</span>
-            </div>
-            <p className="text-[20px] font-extrabold leading-none text-slate-800 dark:text-white mb-0.5">{c.value}</p>
-            <p className="text-[8px] text-slate-400 dark:text-neutral-500 font-medium">{c.sub}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Signal accordion sections */}
-      <div className="space-y-1.5">
-        {[
-          { label: 'Funding Activity', icon: <DollarSign size={14} />, color: 'text-amber-400', bg: 'bg-amber-400/10', count: 3, expanded: true,
-            signals: [
-              { brand: 'Wonka Industries', domain: 'wonkaindustries.com', headline: 'Raised $60M Series C led by Sequoia Capital', date: '2 days ago' },
-              { brand: 'Soylent Foods', domain: 'soylentfoods.com', headline: 'Raised $45M Series D — valued at $1.5B', date: '3 days ago' },
-            ]},
-          { label: 'Scaling & Expansion', icon: <Store size={14} />, color: 'text-blue-400', bg: 'bg-blue-400/10', count: 2, expanded: false, signals: [] },
-          { label: 'M&A Activity', icon: <Smartphone size={14} />, color: 'text-violet-400', bg: 'bg-violet-400/10', count: 2, expanded: false, signals: [] },
-          { label: 'Key Hiring', icon: <Users size={14} />, color: 'text-cyan-400', bg: 'bg-cyan-400/10', count: 2, expanded: false, signals: [] },
-        ].map(section => (
-          <div key={section.label} className={`bg-white dark:bg-[#141414]/60 border rounded-xl transition-all ${section.expanded ? 'border-slate-300 dark:border-white/[0.12] shadow-sm' : 'border-slate-200 dark:border-white/[0.08]'}`}>
-            <div className="flex items-center justify-between px-4 py-2.5">
-              <div className="flex items-center gap-2.5">
-                <div className={`w-7 h-7 rounded-lg ${section.bg} flex items-center justify-center ${section.color}`}>
-                  {section.icon}
-                </div>
-                <span className="text-[12px] font-bold text-slate-800 dark:text-white">{section.label}</span>
-                <span className="w-5 h-5 rounded-full bg-[#C94C1E]/10 text-[#C94C1E] text-[9px] font-bold flex items-center justify-center">{section.count}</span>
-              </div>
-              <ChevronDown size={14} className={`text-slate-300 dark:text-neutral-600 transition-transform duration-200 ${section.expanded ? 'rotate-180' : ''}`} />
-            </div>
-            {section.expanded && section.signals.length > 0 && (
-              <div className="px-4 pb-3 space-y-2 border-t border-slate-100 dark:border-white/[0.06] pt-2.5">
-                {section.signals.map((s, i) => (
-                  <div key={i} className="flex items-start gap-3 p-3 bg-slate-50/70 dark:bg-white/[0.04] rounded-lg group/sig">
-                    <div className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.06] flex items-center justify-center flex-shrink-0 text-[10px] font-bold text-slate-500">{s.brand[0]}</div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5 mb-0.5">
-                        <span className="text-[11px] font-bold text-slate-800 dark:text-white">{s.brand}</span>
-                        <span className="text-[9px] text-slate-400 dark:text-neutral-500">{s.domain}</span>
-                      </div>
-                      <p className="text-[10px] text-slate-600 dark:text-neutral-300 leading-snug">{s.headline}</p>
-                    </div>
-                    <span className="text-[9px] text-slate-400 dark:text-neutral-500 font-medium flex-shrink-0">{s.date}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ── 4. Smart Alerts Mockup ──────────────────────────────────────────────── */
-function SmartAlertsMockup() {
-  return (
-    <div className="space-y-2.5">
-      <div className="flex items-center justify-between mb-1">
-        <div className="flex items-center gap-2">
-          <Zap size={12} className="text-[#C94C1E]" strokeWidth={2.5} />
-          <span className="text-[11px] font-semibold tracking-[0.06em] uppercase text-slate-500 dark:text-slate-400">Live Account Signals</span>
-        </div>
-        <span className="text-[9px] font-mono text-emerald-500 flex items-center gap-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Updated just now
-        </span>
-      </div>
-
-      {[
-        { initial: 'P', bg: '#C94C1E', name: 'Pied Piper', sub: 'Software · United States', signal: 'Raised $8.2M Series B from Foundry Capital', score: 94, tag: 'Funding', tagColor: 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400', ago: '2d ago' },
-        { initial: 'I', bg: '#343330', name: 'Initech Systems', sub: 'IT Services · Singapore', signal: 'Hired a VP of Growth — tool purchases expected in 90d', score: 82, tag: 'Hiring', tagColor: 'bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400', ago: '5d ago' },
-        { initial: 'U', bg: '#A93D18', name: 'Umbrella Health', sub: 'Healthcare · United States', signal: 'Expanding telemedicine into 12 new states', score: 91, tag: 'Expansion', tagColor: 'bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400', ago: '1d ago' },
-      ].map(b => (
-        <div key={b.name} className="rounded-xl p-3.5 bg-white dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] shadow-[0_1px_4px_rgba(0,0,0,0.04)] dark:shadow-none">
-          <div className="flex items-start justify-between mb-1.5">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 text-white font-bold text-[11px]" style={{ backgroundColor: b.bg }}>{b.initial}</div>
-              <div>
-                <p className="text-[12px] font-semibold text-slate-900 dark:text-white leading-tight">{b.name}</p>
-                <p className="text-[9px] text-slate-400 dark:text-slate-500">{b.sub}</p>
-              </div>
-            </div>
-            <span className="text-[11px] font-bold font-mono text-[#C94C1E] bg-[#C94C1E]/10 px-1.5 py-0.5 rounded-md flex-shrink-0">{b.score}</span>
-          </div>
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed mb-2">{b.signal}</p>
-          <div className="flex items-center justify-between">
-            <span className={`text-[8px] font-medium px-1.5 py-0.5 rounded-full ${b.tagColor}`}>{b.tag}</span>
-            <span className="text-[9px] font-mono text-slate-400 dark:text-slate-600">{b.ago}</span>
-          </div>
-        </div>
-      ))}
-
-      <p className="text-center text-[9px] text-slate-400 dark:text-slate-600 mt-1">Your target accounts monitored in real time</p>
-    </div>
-  );
-}
-
-/* ── 5. Tech Scanner Mockup ──────────────────────────────────────────────── */
-function TechScannerMockup() {
-  return (
-    <div className="space-y-3">
-      {/* Scanner input */}
-      <div className="flex items-center gap-2 rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.04] px-3 py-2">
-        <Radar size={14} className="text-[#C94C1E] flex-shrink-0" />
-        <span className="text-[11px] text-slate-400 flex-1">wonkaindustries.com</span>
-        <span className="px-3 py-1 rounded-lg bg-[#C94C1E] text-white text-[10px] font-bold">Detect</span>
-      </div>
-
-      {/* Results header */}
-      <div className="flex items-center gap-3 px-1">
-        <div className="w-8 h-8 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] flex items-center justify-center text-[12px] font-bold text-[#C94C1E]">W</div>
-        <div>
-          <p className="text-[13px] font-bold text-slate-800 dark:text-white">Wonka Industries</p>
-          <p className="text-[9px] text-slate-400"><span className="font-mono text-[#C94C1E]">wonkaindustries.com</span> · 8 signals across 5 categories</p>
-        </div>
-      </div>
-
-      {/* Signal categories */}
-      <div className="space-y-2.5">
-        {[
-          { cat: 'Funding', color: 'text-emerald-500', bg: 'bg-emerald-500/10', icon: <DollarSign size={12} />, techs: ['Series C $60M'] },
-          { cat: 'Hiring', color: 'text-blue-500', bg: 'bg-blue-500/10', icon: <Users size={12} />, techs: ['VP Sales', '30+ GTM roles', 'New CRO'] },
-          { cat: 'Scaling & Expansion', color: 'text-pink-500', bg: 'bg-pink-500/10', icon: <TrendingUp size={12} />, techs: ['12 new states', 'New EU office'] },
-          { cat: 'M&A', color: 'text-green-500', bg: 'bg-green-500/10', icon: <Store size={12} />, techs: ['Acquired analytics startup'] },
-          { cat: 'Web Presence', color: 'text-sky-500', bg: 'bg-sky-500/10', icon: <Monitor size={12} />, techs: ['Traffic spike'] },
-        ].map(c => (
-          <div key={c.cat}>
-            <div className="flex items-center gap-1.5 mb-1.5">
-              <span className={`w-5 h-5 rounded-md ${c.bg} flex items-center justify-center ${c.color}`}>{c.icon}</span>
-              <span className="text-[10px] font-bold text-slate-600 dark:text-neutral-300 uppercase tracking-wide">{c.cat}</span>
-            </div>
-            <div className="flex flex-wrap gap-1.5 pl-6">
-              {c.techs.map(t => (
-                <span key={t} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] text-[10px] font-medium text-slate-700 dark:text-neutral-200 hover:border-slate-300 transition-colors">
-                  <span className="w-3 h-3 rounded-sm bg-slate-300 dark:bg-white/[0.1] flex-shrink-0" />
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ── Features Section — assembles all mockups ────────────────────────────── */
-const FEATURES = [
-  {
-    id: 'explorer',
-    title: 'Account Explorer',
-    desc: 'The most comprehensive verified account database. Filter by geography, industry, business motion, headcount, buying signals, and funding status. Find exactly the accounts that match your ICP.',
-    bullets: ['Advanced account filters', 'Verified account intelligence at scale', 'Priority scores per account', 'Bulk select and add to watchlists'],
-    stat: '500K+',
-    statLabel: 'accounts indexed',
-    icon: Search,
-    Mockup: AccountExplorerMockup,
-    mockupWide: true,
-  },
-  {
-    id: 'watchlists',
-    title: 'Watchlists',
-    desc: 'The core of HarvinAI. Create custom watchlists for competitive tracking, account monitoring, deal sourcing, or prospect management. Get alerted the moment something changes.',
-    bullets: ['Build from filters, manual add, or CSV import', 'Real-time Slack and email alerts', 'Aggregate trends across your watchlist', 'CRM sync to HubSpot & Salesforce'],
-    stat: 'Real-time',
-    statLabel: 'signal monitoring',
-    icon: Bookmark,
-    Mockup: WatchlistsMockup,
-    mockupWide: false,
-  },
-  {
-    id: 'market-intel',
-    title: 'Market Intelligence',
-    desc: 'Weekly account movements — funding activity, scaling and expansion, M&A, and hiring momentum. The context that makes you the smartest person on the call.',
-    bullets: ['Funding rounds tracked in real-time', 'Business motion analysis', 'Geographic expansion tracking', '6 signal categories with expandable detail'],
-    stat: '2,400+',
-    statLabel: 'signals tracked weekly',
-    icon: TrendingUp,
-    Mockup: MarketIntelMockup,
-    mockupWide: true,
-  },
-  {
-    id: 'alerts',
-    title: 'Smart Alerts',
-    desc: 'Push signals directly to Slack, email, or your CRM. Know the moment a target account fires a buying signal — with intent scores so you prioritize the right outreach.',
-    bullets: ['Slack, email & CRM delivery', 'Intent scores 0–100 per account', 'Custom trigger rules', '<5 min average alert latency'],
-    stat: '<5 min',
-    statLabel: 'average alert latency',
-    icon: Zap,
-    Mockup: SmartAlertsMockup,
-    mockupWide: false,
-  },
-  {
-    id: 'tech-scanner',
-    title: 'AI Signal Detection',
-    desc: 'Detect exactly when an account raises funding, hires key roles, scales its team, expands into new markets, or makes an acquisition. Powered by AI across thousands of sources.',
-    bullets: ['5 signal types detected — Funding, Hiring, Scaling & Expansion, M&A, Firing', 'Competitive displacement insights', 'Buying-window timing signals', 'Detect any account instantly'],
-    stat: 'AI-native',
-    statLabel: 'signal detection',
-    icon: Radar,
-    Mockup: TechScannerMockup,
-    mockupWide: false,
-  },
-];
-
-function FeatureBlock({ feature, index }: { feature: typeof FEATURES[0]; index: number }) {
-  const reveal = useReveal(0.1);
-  const isReversed = index % 2 !== 0;
-
-  return (
-    <div ref={reveal.ref}>
-      <div
-        className={`group rounded-2xl border border-slate-200 dark:border-white/[0.08]
-                     bg-white dark:bg-slate-900/60 overflow-hidden
-                     hover:shadow-[0_12px_40px_rgba(0,0,0,0.07)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)]
-                     hover:border-slate-300 dark:hover:border-white/[0.14]
-                     transition-all duration-500
-                     ${reveal.visible ? 'animate-float-up' : 'opacity-0'}`}
-        style={reveal.visible ? { animationDelay: `${index * 80}ms` } : undefined}
-      >
-        {/* Top accent */}
-        <div className="h-[2px] w-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-             style={{ background: 'linear-gradient(to right, transparent, #C94C1E, transparent)' }} />
-
-        <div className={`flex flex-col ${feature.mockupWide ? 'lg:flex-col' : isReversed ? 'lg:flex-row-reverse' : 'lg:flex-row'}`}>
-          {/* Text content */}
-          <div className={`${feature.mockupWide ? 'w-full' : 'lg:w-[45%]'} p-8 lg:p-10 flex flex-col justify-center`}>
-            <div className="flex items-start justify-between mb-5">
-              <div className="h-12 w-12 rounded-xl bg-[#C94C1E]/10 flex items-center justify-center
-                              ring-1 ring-[#C94C1E]/10 group-hover:bg-[#C94C1E]/[0.18]
-                              transition-all duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]">
-                <feature.icon size={22} className="text-[#C94C1E]" />
-              </div>
-              <div className="text-right">
-                <p className="text-[22px] font-semibold tracking-[-0.02em] text-slate-900 dark:text-white leading-none">{feature.stat}</p>
-                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">{feature.statLabel}</p>
-              </div>
-            </div>
-
-            <h3 className="text-[24px] font-semibold tracking-[-0.02em] text-slate-900 dark:text-white mb-3
-                           group-hover:text-[#C94C1E] transition-colors duration-300">
-              {feature.title}
-            </h3>
-            <p className="text-[15px] leading-relaxed text-slate-500 dark:text-slate-400 mb-6">
-              {feature.desc}
-            </p>
-
-            <div className="h-px bg-slate-100 dark:bg-white/[0.06] mb-5" />
-
-            <ul className="space-y-3">
-              {feature.bullets.map((b) => (
-                <li key={b} className="flex items-start gap-3 text-[14px] text-slate-700 dark:text-slate-300
-                                       transition-all duration-300 hover:translate-x-1">
-                  <div className="mt-0.5 h-5 w-5 rounded-full bg-[#C94C1E]/10 flex items-center justify-center flex-shrink-0">
-                    <Check size={12} className="text-[#C94C1E]" strokeWidth={2.5} />
-                  </div>
-                  {b}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Mockup */}
-          <div className={`${feature.mockupWide ? 'w-full' : 'lg:w-[55%]'}
-                          ${isReversed && !feature.mockupWide ? 'lg:border-r' : feature.mockupWide ? 'border-t' : 'lg:border-l'}
-                          border-slate-100 dark:border-white/[0.06]
-                          bg-slate-50/60 dark:bg-white/[0.02]
-                          p-5 lg:p-6 overflow-hidden`}>
-            <feature.Mockup />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function FeaturesSection() {
-  const headerReveal = useReveal();
-
-  return (
-    <>
-      {/* Header */}
-      <div
-        ref={headerReveal.ref}
-        className={`max-w-[620px] mx-auto text-center mb-16 transition-all duration-700
-                    ${headerReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-      >
-        <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full
-                        border border-[#C94C1E]/20 bg-[#C94C1E]/[0.06] mb-6
-                        transition-all duration-500 delay-100
-                        ${headerReveal.visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-          
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#C94C1E]">
-            Platform Features
-          </span>
-        </div>
-        <h2 className="text-[clamp(26px,4vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]
-                       text-slate-900 dark:text-white mb-4">
-          Everything you need to own your market
-        </h2>
-        <p className="text-[16px] leading-relaxed text-slate-500 dark:text-slate-400">
-          Five integrated modules with the exact interface your team will use — from discovery to deal close.
-        </p>
-      </div>
-
-      {/* Feature blocks */}
-      <div className="space-y-8">
-        {FEATURES.map((feature, i) => (
-          <FeatureBlock key={feature.id} feature={feature} index={i} />
-        ))}
-      </div>
-    </>
   );
 }
 
@@ -1243,7 +299,6 @@ export default function ProductPage() {
 
   const heroReveal = useReveal(0.05);
   const audienceHeader = useReveal();
-  const stepsHeader = useReveal();
   const useCasesHeader = useReveal();
 
   /* Hero text animation state */
@@ -1344,110 +399,61 @@ export default function ProductPage() {
         </section>
 
 
-        {/* ═══ WHO IT'S FOR ══════════════════════════════════════════════════ */}
-        <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900/40
-                            border-y border-slate-200 dark:border-white/[0.06]
-                            relative overflow-hidden">
-
-          <div className="relative max-w-[1100px] mx-auto">
-            {/* Header */}
+        {/* ═══ WHO IT'S FOR ══════════════════════════════════════════════════
+             A divided list rather than a card grid: the three personas share a
+             parallel structure (today → with Harvin → modules), and rows on a
+             common baseline let you read DOWN a column to compare them. Three
+             separate cards make that comparison impossible. ───────────────── */}
+        <section className="relative border-y border-slate-200 bg-sand-100 px-4 py-20 dark:border-white/[0.06] dark:bg-[#040404] sm:px-6 lg:px-8 lg:py-24">
+          <div className="mx-auto max-w-[1180px]">
             <div
               ref={audienceHeader.ref}
-              className={`max-w-[620px] mx-auto text-center mb-16 transition-all duration-700
-                          ${audienceHeader.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`mb-12 max-w-[680px] transition-all duration-700 lg:mb-14
+                          ${audienceHeader.visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
             >
-              <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full
-                              border border-[#C94C1E]/20 bg-[#C94C1E]/[0.06] mb-6
-                              transition-all duration-500 delay-100
-                              ${audienceHeader.visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-                
-                <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#C94C1E]">
-                  Who it&apos;s for
-                </span>
-              </div>
-              <h2 className="text-[clamp(26px,4vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]
-                             text-slate-900 dark:text-white mb-4">
-                Built for modern GTM teams
+              <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">
+                Who it&apos;s for
+              </p>
+              <h2 className="mt-4 text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+                Built for the people who own pipeline
               </h2>
-              <p className="text-[16px] leading-relaxed text-slate-500 dark:text-slate-400">
-                Whether you&apos;re a SaaS vendor, agency, or service provider —
-                HarvinAI gives you the intelligence edge to find, qualify, and close deals faster.
+              <p className="mt-5 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">
+                Three jobs, one account graph. Whichever seat you sit in, the change is the same —
+                you stop assembling the list and start working it.
               </p>
             </div>
 
-            {/* Cards — each triggers individually */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {AUDIENCE.map((item, i) => (
-                <AudienceCard key={item.title} item={item} index={i} />
+            <div className="border-t border-slate-200 dark:border-white/[0.08]">
+              {AUDIENCE.map((a, i) => (
+                <AudienceRow key={a.role} item={a} index={i} />
               ))}
             </div>
           </div>
         </section>
 
-        {/* ═══ HOW IT WORKS — 4 STEPS ════════════════════════════════════════ */}
-        <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900/30
-                            border-y border-slate-200 dark:border-white/[0.06]">
-          <div className="max-w-[1100px] mx-auto">
-            {/* Header */}
-            <div
-              ref={stepsHeader.ref}
-              className={`max-w-[620px] mx-auto text-center mb-16 transition-all duration-700
-                          ${stepsHeader.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-            >
-              <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full
-                              border border-[#C94C1E]/20 bg-[#C94C1E]/[0.06] mb-6
-                              transition-all duration-500 delay-100
-                              ${stepsHeader.visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-                
-                <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#C94C1E]">
-                  How it works
-                </span>
-              </div>
-              <h2 className="text-[clamp(26px,4vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]
-                             text-slate-900 dark:text-white mb-4">
-                From signal to signed deal in 4 steps
-              </h2>
-              <p className="text-[16px] leading-relaxed text-slate-500 dark:text-slate-400">
-                HarvinAI turns raw account intelligence into qualified pipeline — automatically.
-              </p>
-            </div>
+        <ProductSteps />
 
-            {/* Steps — each triggers individually with animated visuals */}
-            <div className="space-y-3">
-              {HIW_STEPS.map((step, i) => (
-                <HowItWorksStep key={step.number} step={step} index={i} />
-              ))}
-            </div>
-          </div>
-        </section>
+        <PlatformGrid />
 
-        {/* ═══ FEATURES — LIVE UI PREVIEWS ═════════════════════════════════ */}
-        <section className="py-24 px-6">
-          <div className="max-w-[1200px] mx-auto">
-            <FeaturesSection />
-          </div>
-        </section>
-
-        {/* ═══ USE CASES ═════════════════════════════════════════════════════ */}
-        <section className="py-24 px-6 bg-slate-50 dark:bg-slate-900/30 border-y border-slate-200 dark:border-white/[0.06]">
-          <div className="max-w-[1100px] mx-auto">
-            {/* Header */}
+        {/* ═══ USE CASES ═════════════════════════════════════════════════ */}
+        <section className="border-t border-slate-200 bg-sand-100 px-4 py-20 dark:border-white/[0.06] dark:bg-[#040404] sm:px-6 lg:px-8 lg:py-24">
+          <div className="mx-auto max-w-[1180px]">
             <div
               ref={useCasesHeader.ref}
-              className={`max-w-[620px] mx-auto text-center mb-16 transition-all duration-700
-                          ${useCasesHeader.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`mb-12 max-w-[680px] transition-all duration-700 lg:mb-14
+                          ${useCasesHeader.visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
             >
-              <h2 className="text-[clamp(26px,4vw,44px)] font-semibold leading-[1.1] tracking-[-0.025em]
-                             text-slate-900 dark:text-white mb-4">
-                How teams use HarvinAI
+              <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Use cases</p>
+              <h2 className="mt-4 text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+                How teams use Harvin
               </h2>
-              <p className="text-[16px] leading-relaxed text-slate-500 dark:text-slate-400">
-                Real results from teams running intelligence-led outbound.
+              <p className="mt-5 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">
+                The motion is the same in every seat — find the accounts, watch for the move, reach
+                while the window is open. What changes is which signal you are waiting on.
               </p>
             </div>
 
-            {/* Cards — each triggers individually */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:gap-6">
               {USE_CASES.map((uc, i) => (
                 <UseCaseCard key={uc.title} uc={uc} index={i} />
               ))}

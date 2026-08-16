@@ -57,7 +57,7 @@ export default function ThankYouPage() {
             Thank you{name ? `, ${name}` : ''}!
           </h1>
           <p className="text-[15px] text-slate-500 leading-relaxed mb-2">
-            We appreciate your interest in HarvinAI.
+            We appreciate your interest in Harvin.
           </p>
           <p className="text-[14px] text-slate-400 leading-relaxed mb-8 max-w-[380px] mx-auto">
             Our platform is currently in early access. We&apos;ll review your account and notify you as soon as access is available for you.

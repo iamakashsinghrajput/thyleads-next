@@ -327,7 +327,7 @@ export default function Pricing() {
             No minimum seats. No annual lock-in. Cancel anytime.
           </p>
           <p className="text-[15px] font-sans text-slate-600 dark:text-slate-300">
-            Most teams recover HarvinAI&rsquo;s cost with{' '}
+            Most teams recover Harvin&rsquo;s cost with{' '}
             <strong className="font-semibold text-slate-900 dark:text-white">
               one qualified deal.
             </strong>

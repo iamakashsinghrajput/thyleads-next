@@ -162,7 +162,7 @@ export default function DashboardTour({ onComplete }: { onComplete?: () => void 
               </div>
               <div>
                 <h2 className="text-[18px] font-bold text-slate-900 dark:text-white leading-tight">
-                  Welcome to HarvinAI
+                  Welcome to Harvin
                 </h2>
                 <p className="text-[12px] text-slate-400 dark:text-slate-500">Quick tour · 30 seconds</p>
               </div>
