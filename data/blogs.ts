@@ -1033,8 +1033,8 @@ export const blogPosts: BlogPost[] = [
             "Want to see how Harvin would approach your specific ICP and market?",
             {
               type: 'cta',
-              text: 'See the platform and book a demo',
-              href: '/platform'
+              text: 'Book a strategy call',
+              href: '/contact'
             }
           ]
         }
@@ -1670,7 +1670,7 @@ export const blogPosts: BlogPost[] = [
             {
               type: 'cta',
               text: 'Book a demo',
-              href: '/platform'
+              href: '/contact'
             }
           ]
         }
@@ -2285,7 +2285,7 @@ export const blogPosts: BlogPost[] = [
     ,
             "Want to build your outreach around this? Harvin runs signal-based prospecting at scale for B2B SaaS companies."
     ,
-            "[See the platform](/platform) and we'll show you how a job posting turns into qualified pipeline. If you are working out how to run a team around signals like these, start with [what an SDR management platform is](/sdr-management-platform)."
+            "[Contact us](/contact) and we'll show you how a job posting turns into qualified pipeline. If you are working out how to run a team around signals like these, start with [what an SDR management platform is](/sdr-management-platform)."
     ,
             {
               type: 'subheading',

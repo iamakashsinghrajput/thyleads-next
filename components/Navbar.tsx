@@ -53,6 +53,7 @@ const TOP_LINKS: { name: string; href: string }[] = [];
 /** Small secondary row above the main bar. */
 const UTILITY_LINKS = [
   { name: 'BLOG', href: '/blog' },
+  { name: 'CONTACT', href: '/contact' },
   { name: 'PRIVACY', href: '/privacy' },
   { name: 'TERMS', href: '/terms' },
 ];
@@ -61,6 +62,7 @@ const UTILITY_LINKS = [
 const EXPLORE_LINKS = [
   { name: 'Platform', href: '/platform' },
   { name: 'Blog', href: '/blog' },
+  { name: 'Contact', href: '/contact' },
   { name: 'Privacy', href: '/privacy' },
   { name: 'Terms', href: '/terms' },
 ];

@@ -26,6 +26,7 @@ const NAV_COLS = [
       { label: 'Fintech', href: '/solutions/fintech' },
       { label: 'Martech', href: '/solutions/martech' },
       { label: 'HR tech', href: '/solutions/hrtech' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {
