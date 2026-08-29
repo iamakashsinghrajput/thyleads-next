@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Bookmark, Building2, ChartColumn, Check, Clock, Copy, Gauge, LayoutTemplate, Radar } from 'lucide-react';
+import {
+  Bookmark, Building2, CalendarDays, ChartColumn, Check, Copy, Gauge, LayoutTemplate, Mail, Network, Phone, Radar, Users,
+} from 'lucide-react';
 import {
   ACCOUNT_FIELDS, BELOW_CUTOFF_COUNT, LOOKALIKE_MATCHES, MATCH_TRAITS,
   PICKED_COUNT, SCORED_ACCOUNTS, SHORTLIST_CUTOFF, TRACKED_TOTAL, WATCHLISTS,
@@ -486,83 +488,6 @@ function ZoomRail({ label, items, note }: { label: string; items: string[]; note
   );
 }
 
-/* ── 05 · Campaign Reports ─────────────────────────────────────────────── */
-/**
- * Reply rate by send hour, split by persona.
- *
- * The chart answers the question the module exists for — WHEN to send — so the
- * winning bar is the only one in ember and is labelled outright. Totals sit
- * above it because "how many sent, how many replied" is the first thing anyone
- * opens a report for. Figures are Harvin's own output and illustrative.
- */
-const SEND_HOURS = [
-  { hour: '8a',  rate: 4.1 },
-  { hour: '10a', rate: 9.6 },
-  { hour: '12p', rate: 6.2 },
-  { hour: '2p',  rate: 7.4 },
-  { hour: '4p',  rate: 5.0 },
-];
-const RATE_MAX = Math.max(...SEND_HOURS.map((h) => h.rate));
-const BEST_HOUR = SEND_HOURS.reduce((b, h) => (h.rate > b.rate ? h : b));
-
-function ReportsCard() {
-  return (
-    <ZoomFrame title="Campaign Performance Report">
-      <ZoomRail
-        label="Metrics"
-        items={['Emails sent', 'Replies', 'Reply rate', 'Best send time']}
-        note="Filters"
-      />
-
-      <div className="min-w-0 px-5 py-4">
-        <div className="flex gap-5">
-          {[
-            { v: '12,480', l: 'Sent' },
-            { v: '1,032', l: 'Replies' },
-            { v: '8.3%', l: 'Reply rate' },
-          ].map((k) => (
-            <div key={k.l} className="min-w-0">
-              <p className="font-bricolage text-[19px] font-bold tabular-nums leading-none text-slate-900 dark:text-white">
-                {k.v}
-              </p>
-              <p className="mt-1 truncate text-[11px] text-slate-500 dark:text-slate-400">{k.l}</p>
-            </div>
-          ))}
-        </div>
-
-        <p className="mt-5 text-[13.5px] font-bold text-slate-900 dark:text-white">Reply rate by send hour</p>
-
-        <div className="mt-3 flex gap-3">
-          <div className="flex h-[104px] flex-shrink-0 flex-col justify-between pt-[2px] text-right font-mono text-[9.5px] tabular-nums text-slate-400 dark:text-slate-500">
-            <span>10%</span><span>5%</span><span>0</span>
-          </div>
-          <div className="flex min-w-0 flex-1 items-end gap-2.5">
-            {SEND_HOURS.map((h) => (
-              <span key={h.hour} className="flex h-[104px] min-w-0 flex-1 flex-col justify-end">
-                <span
-                  className={`w-full rounded-t-[3px] ${h === BEST_HOUR ? 'bg-ember-500' : 'bg-slate-200 dark:bg-white/[0.14]'}`}
-                  style={{ height: `${(h.rate / RATE_MAX) * 100}%` }}
-                />
-                <span className="mt-1.5 truncate text-center font-mono text-[9.5px] text-slate-400 dark:text-slate-500">
-                  {h.hour}
-                </span>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <p className="mt-3 flex items-center gap-1.5 text-[11.5px] text-slate-500 dark:text-slate-400">
-          <Clock size={11} strokeWidth={2.4} className="flex-shrink-0 text-ember-500" />
-          Best window ·{' '}
-          <span className="font-semibold text-slate-900 dark:text-white">
-            {BEST_HOUR.hour} · {BEST_HOUR.rate}% reply
-          </span>
-        </p>
-      </div>
-    </ZoomFrame>
-  );
-}
-
 /* ── 06 · Template Builder ─────────────────────────────────────────────── */
 /**
  * The template as it is authored — blocks on the left, live preview on the
@@ -618,6 +543,207 @@ function TemplateCard() {
   );
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   Modules 05–09 — the SDR-workflow surfaces, matching the module rows on this
+   same page. Each is a contained panel on the tinted ground, the same
+   treatment as cards 01–04, so the grid stays one family.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function Contained({ title, sub, right, children }: {
+  title: string; sub: string; right?: React.ReactNode; children: React.ReactNode;
+}) {
+  return (
+    <Panel>
+      <div className="absolute inset-x-7 inset-y-7 flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.13)] dark:border-white/10 dark:bg-[#16130F]">
+        <div className="flex items-center justify-between gap-2 border-b border-slate-200/70 px-4 py-2.5 dark:border-white/[0.06]">
+          <div className="min-w-0">
+            <p className="truncate text-[12.5px] font-bold text-slate-900 dark:text-white">{title}</p>
+            <p className="truncate text-[11px] text-slate-500 dark:text-slate-400">{sub}</p>
+          </div>
+          {right}
+        </div>
+        <div className="min-h-0 flex-1">{children}</div>
+      </div>
+    </Panel>
+  );
+}
+
+function Tag({ children, tone = 'slate' }: { children: React.ReactNode; tone?: 'slate' | 'ember' | 'green' }) {
+  const tones = {
+    slate: 'bg-sand-100 text-slate-600 dark:bg-white/[0.07] dark:text-slate-400',
+    ember: 'bg-ember-500/[0.12] text-ember-500 dark:text-ember-300',
+    green: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
+  };
+  return (
+    <span className={`flex-shrink-0 rounded-md px-1.5 py-[2px] text-[10px] font-semibold ${tones[tone]}`}>
+      {children}
+    </span>
+  );
+}
+
+/* ── 05 · Team & Territories ───────────────────────────────────────────── */
+const REPS = [
+  { who: 'SW', name: 'Sarah W.', terr: 'West', pct: 82 },
+  { who: 'MC', name: 'Marcus C.', terr: 'East', pct: 64 },
+  { who: 'PR', name: 'Priya R.', terr: 'Central', pct: 91 },
+  { who: 'DL', name: 'Dan L.', terr: 'Mid-market', pct: 38 },
+];
+const WEAKEST = REPS.reduce((a, b) => (b.pct < a.pct ? b : a));
+
+function TeamCard() {
+  return (
+    <Contained title="Team" sub="Ownership and coverage" right={<Tag tone="ember">4 SDRs</Tag>}>
+      <div className="divide-y divide-slate-200/70 dark:divide-white/[0.06]">
+        {REPS.map((r) => (
+          <div key={r.name} className="flex items-center gap-2.5 px-4 py-[9px]">
+            <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-ember-500/[0.14] text-[10px] font-bold text-ember-600 dark:text-ember-300">
+              {r.who}
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="flex items-center gap-1.5 text-[12px] font-bold text-slate-900 dark:text-white">
+                <span className="truncate">{r.name}</span>
+                <span className="truncate text-[10.5px] font-normal text-slate-400 dark:text-slate-500">{r.terr}</span>
+              </p>
+              <span className="mt-1 block h-1.5 w-full overflow-hidden rounded-full bg-sand-200 dark:bg-white/10">
+                <span
+                  className={`block h-full rounded-full ${r.name === WEAKEST.name ? 'bg-slate-300 dark:bg-white/25' : 'bg-ember-500'}`}
+                  style={{ width: `${r.pct}%` }}
+                />
+              </span>
+            </div>
+            <span className="w-[30px] flex-shrink-0 text-right text-[11px] tabular-nums text-slate-500 dark:text-slate-400">
+              {r.pct}%
+            </span>
+          </div>
+        ))}
+      </div>
+    </Contained>
+  );
+}
+
+/* ── 06 · Campaigns & Channels ─────────────────────────────────────────── */
+function CampaignsCard() {
+  return (
+    <Contained title="D2C hiring play" sub="Built from the signal" right={<Tag tone="green">Live</Tag>}>
+      <div className="flex flex-wrap gap-1.5 border-b border-slate-200/70 px-4 py-2.5 dark:border-white/[0.06]">
+        {['Email', 'Tasks', 'Inbox'].map((c) => (
+          <Tag key={c} tone="ember">{c}</Tag>
+        ))}
+      </div>
+      <div className="divide-y divide-slate-200/70 dark:divide-white/[0.06]">
+        {[
+          { Icon: Mail, l: 'Lead with the hiring signal', d: 'Day 0', on: true },
+          { Icon: Check, l: 'Task · check the record', d: 'Day 3', on: false },
+          { Icon: Mail, l: 'Case study, same category', d: 'Day 5', on: false },
+        ].map((st) => (
+          <div key={st.l} className="flex items-center gap-2.5 px-4 py-[9px]">
+            <span className={`grid h-4 w-4 flex-shrink-0 place-items-center rounded-full ${st.on ? 'bg-ember-500' : 'border border-slate-300 dark:border-white/20'}`}>
+              {st.on && <Check size={9} strokeWidth={3.4} className="text-white" />}
+            </span>
+            <st.Icon size={12} strokeWidth={2.2} className="flex-shrink-0 text-slate-400 dark:text-slate-500" />
+            <span className="min-w-0 flex-1 truncate text-[12px] font-semibold text-slate-900 dark:text-white">{st.l}</span>
+            <span className="flex-shrink-0 font-mono text-[10px] tabular-nums text-slate-400 dark:text-slate-500">{st.d}</span>
+          </div>
+        ))}
+      </div>
+    </Contained>
+  );
+}
+
+/* ── 07 · Dialer ───────────────────────────────────────────────────────── */
+/** 555 numbers are reserved for fiction, so nothing here dials a real line. */
+const CALLS = [
+  { slug: 'nike', name: 'Dana Whitfield', tel: '+1 (503) 555-0184', live: true },
+  { slug: 'peloton', name: 'Marcus Hale', tel: '+1 (212) 555-0143', live: false },
+  { slug: 'sonos', name: 'Priya Raman', tel: '+1 (805) 555-0176', live: false },
+  { slug: 'etsy', name: 'Alex Turner', tel: '+1 (718) 555-0119', live: false },
+];
+
+function DialerCard() {
+  return (
+    <Contained title="Call queue" sub="Ordered by ICP tier" right={<Tag tone="ember">8 today</Tag>}>
+      <div className="divide-y divide-slate-200/70 dark:divide-white/[0.06]">
+        {CALLS.map((c) => (
+          <div key={c.name} className="flex items-center gap-2.5 px-4 py-[9px]">
+            <Logo slug={c.slug} />
+            <div className="min-w-0 flex-1">
+              <p className="flex items-center gap-1.5 text-[12px] font-bold text-slate-900 dark:text-white">
+                <span className="truncate">{c.name}</span>
+                {c.live && <Tag tone="ember">Live</Tag>}
+              </p>
+              <p className="truncate font-mono text-[10.5px] text-slate-500 dark:text-slate-400">{c.tel}</p>
+            </div>
+            <Phone size={12} strokeWidth={2.4} className="flex-shrink-0 text-ember-500" />
+          </div>
+        ))}
+      </div>
+    </Contained>
+  );
+}
+
+/* ── 08 · Meetings & Handoff ───────────────────────────────────────────── */
+function MeetingsCard() {
+  return (
+    <Contained title="Meetings" sub="Assigned with full context" right={<Tag tone="ember">46 booked</Tag>}>
+      <div className="divide-y divide-slate-200/70 dark:divide-white/[0.06]">
+        {[
+          { slug: 'nike', name: 'Nike', ae: 'AE Dana · yesterday', out: 'Qualified' },
+          { slug: 'peloton', name: 'Peloton', ae: 'AE Rob · Tuesday', out: 'Opportunity' },
+          { slug: 'etsy', name: 'Etsy', ae: 'AE Dana · today', out: null },
+        ].map((m) => (
+          <div key={m.name} className="flex items-center gap-2.5 px-4 py-[10px]">
+            <Logo slug={m.slug} />
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[12px] font-bold text-slate-900 dark:text-white">{m.name}</p>
+              <p className="truncate text-[10.5px] text-slate-500 dark:text-slate-400">{m.ae}</p>
+            </div>
+            {m.out ? <Tag tone="green">{m.out}</Tag> : <Tag>Record outcome</Tag>}
+          </div>
+        ))}
+      </div>
+    </Contained>
+  );
+}
+
+/* ── 09 · Reporting & AI Coaching ──────────────────────────────────────── */
+/** Bar widths are each stage's share of the first, so the drawing cannot
+ *  disagree with the counts beside it. */
+const STAGES = [
+  { s: 'Accounts worked', n: 412 },
+  { s: 'Conversations', n: 138 },
+  { s: 'Meetings booked', n: 46 },
+  { s: 'Opportunities', n: 18 },
+];
+const STAGE_TOP = STAGES[0].n;
+
+function ReportingCard() {
+  return (
+    <Contained title="Pipeline contribution" sub="Accounts worked to pipeline" right={<Tag tone="ember">$1.4M</Tag>}>
+      <div className="space-y-2 px-4 py-3">
+        {STAGES.map((f, i) => (
+          <div key={f.s} className="flex items-center gap-2.5">
+            <span className="w-[104px] flex-shrink-0 truncate text-[11px] font-medium text-slate-600 dark:text-slate-300">
+              {f.s}
+            </span>
+            <span className="h-4 min-w-0 flex-1 overflow-hidden rounded-md bg-sand-200 dark:bg-white/10">
+              <span
+                className={`block h-full rounded-md ${i === 0 ? 'bg-ember-500' : 'bg-ember-500/70'}`}
+                style={{ width: `${(f.n / STAGE_TOP) * 100}%` }}
+              />
+            </span>
+            <span className="w-[30px] flex-shrink-0 text-right text-[11px] font-bold tabular-nums text-slate-900 dark:text-white">
+              {f.n}
+            </span>
+          </div>
+        ))}
+        <p className="border-t border-slate-200/70 pt-2 text-[10.5px] text-slate-400 dark:border-white/[0.06] dark:text-slate-500">
+          2 reps flagged for coaching this week
+        </p>
+      </div>
+    </Contained>
+  );
+}
+
 /* ── Cards ─────────────────────────────────────────────────────────────── */
 const CARDS = [
   {
@@ -645,10 +771,34 @@ const CARDS = [
     Visual: LookalikeCard,
   },
   {
+    Icon: Users,
+    title: 'Team & Territories',
+    desc: 'Manage reps, ownership, territories and targets in one place — every account has an owner, and coverage stops being something you reconstruct from a spreadsheet.',
+    Visual: TeamCard,
+  },
+  {
+    Icon: Network,
+    title: 'Campaigns & Channels',
+    desc: 'Build and manage prospecting sequences, then run them across email, tasks and the inbox — with every action attached to the account and the rep who took it.',
+    Visual: CampaignsCard,
+  },
+  {
+    Icon: Phone,
+    title: 'Dialer',
+    desc: 'Call lists built from people, not rows — each contact with their ICP tier and the number to dial, every call recorded and written back to the account.',
+    Visual: DialerCard,
+  },
+  {
+    Icon: CalendarDays,
+    title: 'Meetings & Handoff',
+    desc: 'Manage booked meetings and AE handoffs without losing the thread — the account context travels with the meeting, and the outcome is recorded in a click.',
+    Visual: MeetingsCard,
+  },
+  {
     Icon: ChartColumn,
-    title: 'Campaign Reports',
-    desc: 'Every campaign reports back — how many emails went out, how many replied, and the send window each persona actually answers in.',
-    Visual: ReportsCard,
+    title: 'Reporting & AI Coaching',
+    desc: 'Connect execution with business outcomes, from accounts worked through to pipeline generated — and surface which reps need coaching, and why.',
+    Visual: ReportingCard,
   },
   {
     Icon: LayoutTemplate,

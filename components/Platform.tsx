@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import {
-  Building2, Check, Clock, Gauge, Layers, MapPin, Radar, Send, SlidersHorizontal, TrendingUp,
-  UserRound, Users, Zap,
+  Building2, Check, Clock, Gauge, Layers, MapPin, Phone, Play, Radar, Send, SlidersHorizontal,
+  TrendingUp, UserRound, Users, Zap,
 } from 'lucide-react';
 import { useTheme } from '@/components/ThemeProvider';
 
@@ -714,6 +714,519 @@ function LookalikeVisual() {
   );
 }
 
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MODULES 05–08 — the surfaces that were previously listed as a flat
+   capability grid ("Team & Territory Management", "Accounts & Leads",
+   "Campaigns", "Email", "Dialer", "Tasks", "Unified Inbox", "Meetings",
+   "Reporting", "AI Coaching", "AI Recommendations"). A grid of thirteen
+   one-line cards restated what this section already shows properly, so the
+   items were folded in here as four modules instead, each with a screen.
+
+   They share `DeviceScreen`, which is LookalikeVisual's chrome extracted: a
+   sand tray holding a dark bezel that bleeds past the tray's padding, with the
+   tray's overflow-hidden doing the crop.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+function DeviceScreen({ title, toolbar, children }: {
+  title: string; toolbar?: React.ReactNode; children: React.ReactNode;
+}) {
+  return (
+    <div className="relative overflow-hidden rounded-2xl bg-sand-200 p-5 dark:bg-[#141210] sm:p-6">
+      <div className="relative -mb-20 -mr-14 ml-[5%] rounded-l-[32px] bg-[#141414] py-[13px] pl-[13px] shadow-[0_26px_64px_rgba(15,23,42,0.3)]">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 left-0 w-[3px] rounded-l-[32px] bg-gradient-to-b from-white/30 via-white/[0.06] to-transparent"
+        />
+        <div className="overflow-hidden rounded-l-[22px] bg-white pt-5 dark:bg-[#16130F]">
+          <h4 className="px-7 pb-3 text-[22px] font-bold tracking-[-0.025em] text-slate-900 dark:text-white">
+            {title}
+          </h4>
+          {toolbar && <div className="px-7 pb-4">{toolbar}</div>}
+          <div className="border-t border-slate-200/70 px-7 py-4 dark:border-white/[0.06]">{children}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Tabs({ items }: { items: string[] }) {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      {items.map((t, i) => (
+        <span
+          key={t}
+          className={`rounded-full px-2.5 py-1 text-[12.5px] font-medium ${
+            i === 0
+              ? 'bg-ember-50 text-ember-600 ring-1 ring-ember-200 dark:bg-ember-500/15 dark:text-ember-300 dark:ring-ember-500/30'
+              : 'text-slate-400 ring-1 ring-slate-200 dark:text-slate-500 dark:ring-white/10'
+          }`}
+        >
+          {t}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function SubCard({ title, meta, children, className = '' }: {
+  title: string; meta?: string; children: React.ReactNode; className?: string;
+}) {
+  return (
+    <div className={`rounded-2xl border border-slate-200/80 bg-sand-50 dark:border-white/[0.08] dark:bg-white/[0.03] ${className}`}>
+      <div className="flex items-baseline justify-between gap-3 border-b border-slate-200/70 px-4 py-2.5 dark:border-white/[0.06]">
+        <p className="truncate text-[15.5px] font-bold tracking-[-0.01em] text-slate-900 dark:text-white">{title}</p>
+        {meta && <p className="flex-shrink-0 text-[13px] text-slate-400 dark:text-slate-500">{meta}</p>}
+      </div>
+      <div className="px-4 py-1.5">{children}</div>
+    </div>
+  );
+}
+
+function RowDivider({ i }: { i: number }) {
+  return i > 0 ? <span aria-hidden="true" className="block border-t border-slate-200/70 dark:border-white/[0.05]" /> : null;
+}
+
+function Avatar({ v }: { v: string }) {
+  return (
+    <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-ember-500/[0.14] text-[11px] font-bold text-ember-600 dark:text-ember-300">
+      {v}
+    </span>
+  );
+}
+
+function MiniBar({ pct, muted = false }: { pct: number; muted?: boolean }) {
+  return (
+    <span className="block h-1.5 w-full overflow-hidden rounded-full bg-sand-200 dark:bg-white/10">
+      <span
+        className={`block h-full rounded-full ${muted ? 'bg-slate-300 dark:bg-white/25' : 'bg-ember-500'}`}
+        style={{ width: `${pct}%` }}
+      />
+    </span>
+  );
+}
+
+/* ── 05 · Team & territories ─────────────────────────────────────────── */
+const REPS = [
+  { who: 'SW', name: 'Sarah W.', territory: 'West · Enterprise', owned: 96, target: 8, booked: 7 },
+  { who: 'MC', name: 'Marcus C.', territory: 'East · Enterprise', owned: 88, target: 8, booked: 5 },
+  { who: 'PR', name: 'Priya R.', territory: 'Central · Mid-market', owned: 124, target: 10, booked: 9 },
+];
+const REP_OWNED = REPS.reduce((n, r) => n + r.owned, 0);
+const UNASSIGNED = 41;
+
+function TeamVisual() {
+  return (
+    <DeviceScreen title="Team & Territories" toolbar={<Tabs items={['Reps', 'Territories', 'Targets', 'Leads']} />}>
+      <SubCard title="Reps" meta={`${REP_OWNED} accounts owned`}>
+        {REPS.map((r, i) => (
+          <div key={r.name}>
+            <RowDivider i={i} />
+            <div className="flex items-center gap-3 py-[9px]">
+              <Avatar v={r.who} />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[13.5px] font-semibold text-slate-900 dark:text-white">{r.name}</p>
+                <p className="truncate text-[12px] text-slate-500 dark:text-slate-400">
+                  {r.territory} · {r.owned} accounts
+                </p>
+              </div>
+              <div className="w-[86px] flex-shrink-0">
+                {/* progress to the rep's own meeting target, not a shared scale */}
+                <MiniBar pct={Math.min(100, (r.booked / r.target) * 100)} />
+                <p className="mt-1 text-right text-[11px] tabular-nums text-slate-500 dark:text-slate-400">
+                  {r.booked}/{r.target}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+        <div className="border-t border-slate-200/70 py-[9px] dark:border-white/[0.05]">
+          <p className="flex items-center gap-2 text-[12.5px] text-slate-400 dark:text-slate-500">
+            <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-full border border-dashed border-slate-300 text-[13px] dark:border-white/20">
+              ?
+            </span>
+            {UNASSIGNED} accounts still unassigned
+          </p>
+        </div>
+      </SubCard>
+    </DeviceScreen>
+  );
+}
+
+/* ── 06 · Campaigns & channels ───────────────────────────────────────── */
+const STEPS_06 = [
+  { label: 'Email · lead with the hiring signal', day: 'Day 0', done: true },
+  { label: 'Call · same signal, spoken', day: 'Day 2', done: false },
+  { label: 'Task · check the account record', day: 'Day 3', done: false },
+  { label: 'Email · case study, same category', day: 'Day 5', done: false },
+];
+const INBOX_06 = [
+  { slug: 'nike', name: 'Nike · VP Marketing', line: 'Happy to take a look' },
+  { slug: 'peloton', name: 'Peloton · Head of Growth', line: 'Circle back next quarter' },
+  { slug: 'etsy', name: 'Etsy · Director of Data', line: 'Call booked · 2:30 PM' },
+];
+
+function CampaignsVisual() {
+  return (
+    <DeviceScreen title="Campaigns & Channels" toolbar={<Tabs items={['Campaigns', 'Email', 'Tasks', 'Inbox']} />}>
+      <div className="flex gap-4">
+        <SubCard title="D2C hiring play" meta={`${STEPS_06.length} steps`} className="w-[64%] flex-shrink-0">
+          {STEPS_06.map((s, i) => (
+            <div key={s.label}>
+              <RowDivider i={i} />
+              <div className="flex items-center gap-3 py-[9px]">
+                <span
+                  className={`grid h-[18px] w-[18px] flex-shrink-0 place-items-center rounded-full ${
+                    s.done ? 'bg-ember-500 text-white' : 'ring-1 ring-slate-300 dark:ring-white/20'
+                  }`}
+                >
+                  {s.done && <Check size={11} strokeWidth={3.4} />}
+                </span>
+                <span className="min-w-0 flex-1 truncate text-[13px] font-semibold text-slate-900 dark:text-white">
+                  {s.label}
+                </span>
+                <span className="flex-shrink-0 font-mono text-[11.5px] tabular-nums text-slate-400 dark:text-slate-500">
+                  {s.day}
+                </span>
+              </div>
+            </div>
+          ))}
+        </SubCard>
+
+        <SubCard title="Unified inbox" meta="3 new" className="w-[52%] flex-shrink-0">
+          {INBOX_06.map((m, i) => (
+            <div key={m.name}>
+              <RowDivider i={i} />
+              <div className="flex items-center gap-2.5 py-[9px]">
+                <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-lg border border-slate-200 bg-white p-1.5 dark:border-white/10">
+                  <img src={`/logos/${m.slug}.svg`} alt="" aria-hidden="true" className="h-auto w-full object-contain" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[13px] font-semibold text-slate-900 dark:text-white">{m.name}</p>
+                  <p className="truncate text-[11.5px] text-slate-500 dark:text-slate-400">{m.line}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </SubCard>
+      </div>
+    </DeviceScreen>
+  );
+}
+
+/* ── 07 · Dialer ─────────────────────────────────────────────────────── */
+/**
+ * A contact list, not a company list — the dialer is the one surface where the
+ * rep is calling a person, so the row leads with the name, their persona, the
+ * ICP tier they fall in and the number being dialled. The company is the small
+ * mark beside it.
+ *
+ * Numbers use the 555 range, which is reserved for fiction, so nothing here
+ * dials a real line. Contact names are fictional.
+ */
+const CONTACTS = [
+  { slug: 'nike', company: 'Nike', name: 'Dana Whitfield', title: 'VP Marketing', icp: 'ICP A', phone: '+1 (503) 555-0184', live: true },
+  { slug: 'peloton', company: 'Peloton', name: 'Marcus Hale', title: 'Head of Growth', icp: 'ICP A', phone: '+1 (212) 555-0143', live: false },
+  { slug: 'sonos', company: 'Sonos', name: 'Priya Raman', title: 'Director of Ops', icp: 'ICP B', phone: '+1 (805) 555-0176', live: false },
+  { slug: 'etsy', company: 'Etsy', name: 'Alex Turner', title: 'Director of Data', icp: 'ICP B', phone: '+1 (718) 555-0119', live: false },
+];
+const DISPOSITIONS = ['Connected', 'Voicemail', 'No answer', 'Callback'];
+/** Rows are the top of a longer queue, shown as "of N" the way the Look-a-like
+ *  matches are. The module's stat pill reads this same constant. */
+const QUEUED_TODAY = 8;
+/** Fixed waveform — deterministic so the server and client render the same bars. */
+const WAVE = [3, 6, 11, 7, 14, 9, 17, 12, 8, 15, 19, 13, 9, 16, 11, 6, 12, 8, 14, 10, 5, 9, 13, 7];
+/** Bars up to this index are played; the rest are the tail still to come. */
+const PLAYED = 15;
+
+function DialerVisual() {
+  const live = CONTACTS.find((c) => c.live) ?? CONTACTS[0];
+
+  return (
+    <DeviceScreen title="Dialer" toolbar={<Tabs items={['Contacts', 'Live call', 'Recordings']} />}>
+      <div className="flex gap-4">
+        {/* ── Who is being called ─────────────────────────────────────── */}
+        <SubCard title="Contacts" meta={`of ${QUEUED_TODAY}`} className="w-[58%] flex-shrink-0">
+          {CONTACTS.map((c, i) => (
+            <div key={c.name}>
+              <RowDivider i={i} />
+              <div className="flex items-center gap-2.5 py-[9px]">
+                <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-lg border border-slate-200 bg-white p-1.5 dark:border-white/10">
+                  <img src={`/logos/${c.slug}.svg`} alt="" aria-hidden="true" className="h-auto w-full object-contain" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="flex items-center gap-2 text-[13px] font-semibold text-slate-900 dark:text-white">
+                    <span className="truncate">{c.name}</span>
+                    <span
+                      className={`flex-shrink-0 rounded-md px-1.5 py-[2px] text-[10.5px] font-bold ${
+                        c.icp === 'ICP A'
+                          ? 'bg-ember-500/[0.12] text-ember-600 dark:text-ember-300'
+                          : 'bg-sand-200 text-slate-500 dark:bg-white/[0.08] dark:text-slate-400'
+                      }`}
+                    >
+                      {c.icp}
+                    </span>
+                    {c.live && (
+                      <span className="flex flex-shrink-0 items-center gap-1 text-[10.5px] font-bold text-ember-600 dark:text-ember-300">
+                        <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-ember-500" />
+                        Live
+                      </span>
+                    )}
+                  </p>
+                  <p className="truncate text-[11.5px] text-slate-500 dark:text-slate-400">
+                    {c.title} · {c.company}
+                  </p>
+                </div>
+                <span className="flex-shrink-0 font-mono text-[11.5px] tabular-nums text-slate-500 dark:text-slate-400">
+                  {c.phone}
+                </span>
+              </div>
+            </div>
+          ))}
+        </SubCard>
+
+        {/* ── The call, and its recording ─────────────────────────────── */}
+        <SubCard title="On the call" meta="02:14" className="w-[58%] flex-shrink-0">
+          <div className="py-2">
+            <div className="flex items-center gap-2.5">
+              <span className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg border border-slate-200 bg-white p-1.5 dark:border-white/10">
+                <img src={`/logos/${live.slug}.svg`} alt="" aria-hidden="true" className="h-auto w-full object-contain" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[14px] font-bold text-slate-900 dark:text-white">{live.name}</p>
+                <p className="truncate text-[12px] text-slate-500 dark:text-slate-400">
+                  {live.title} · {live.company}
+                </p>
+              </div>
+              <Phone size={14} strokeWidth={2.4} className="flex-shrink-0 text-ember-500" />
+            </div>
+
+            <p className="mt-2 font-mono text-[13px] tabular-nums text-slate-900 dark:text-white">{live.phone}</p>
+
+            {/* Recording — a played head in ember against the untouched tail,
+                so the bar reads as position rather than decoration. */}
+            <div className="mt-3 rounded-lg border border-slate-200 bg-white px-3 py-2.5 dark:border-white/10 dark:bg-white/[0.05]">
+              <div className="flex items-center justify-between gap-2">
+                <p className="flex items-center gap-1.5 text-[11px] font-bold text-slate-900 dark:text-white">
+                  <span aria-hidden="true" className="h-2 w-2 rounded-full bg-ember-500" />
+                  Recording
+                </p>
+                <span className="font-mono text-[11px] tabular-nums text-slate-400 dark:text-slate-500">02:14</span>
+              </div>
+
+              <div className="mt-2 flex items-center gap-2.5">
+                <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-ember-500 text-white">
+                  <Play size={11} strokeWidth={3} className="ml-[1px]" />
+                </span>
+                <span className="flex h-[26px] min-w-0 flex-1 items-center gap-[2px]">
+                  {WAVE.map((h, i) => (
+                    <span
+                      key={i}
+                      className={`w-full rounded-full ${i <= PLAYED ? 'bg-ember-500' : 'bg-slate-200 dark:bg-white/15'}`}
+                      style={{ height: `${(h / 19) * 100}%` }}
+                    />
+                  ))}
+                </span>
+              </div>
+
+              <p className="mt-2 text-[10.5px] text-slate-400 dark:text-slate-500">
+                Transcript and outcome saved to the account record.
+              </p>
+            </div>
+
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {DISPOSITIONS.map((d, n) => (
+                <span
+                  key={d}
+                  className={`rounded-lg px-2.5 py-1.5 text-[12px] font-semibold ${
+                    n === 0
+                      ? 'bg-ember-500 text-white'
+                      : 'border border-slate-200 bg-white text-slate-600 dark:border-white/10 dark:bg-white/[0.05] dark:text-slate-300'
+                  }`}
+                >
+                  {d}
+                </span>
+              ))}
+            </div>
+          </div>
+        </SubCard>
+      </div>
+    </DeviceScreen>
+  );
+}
+
+/* ── 08 · Meetings & handoff ─────────────────────────────────────────── */
+const MEETINGS_07 = [
+  { slug: 'nike', name: 'Nike', ae: 'AE Dana · yesterday', outcome: 'Qualified' },
+  { slug: 'peloton', name: 'Peloton', ae: 'AE Rob · Tuesday', outcome: 'Opportunity' },
+  { slug: 'etsy', name: 'Etsy', ae: 'AE Dana · today', outcome: null },
+];
+const OUTCOMES_07 = ['Qualified', 'Disqualified', 'Opportunity', 'Follow Up', 'No Show'];
+
+function MeetingsVisual() {
+  return (
+    <DeviceScreen title="Meetings" toolbar={<Tabs items={['Booked', 'Assigned to me', 'Outcomes']} />}>
+      <SubCard title="Booked this week" meta="46 total">
+        {MEETINGS_07.map((m, i) => (
+          <div key={m.name}>
+            <RowDivider i={i} />
+            <div className="py-[9px]">
+              <div className="flex items-center gap-3">
+                <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-lg border border-slate-200 bg-white p-1.5 dark:border-white/10">
+                  <img src={`/logos/${m.slug}.svg`} alt="" aria-hidden="true" className="h-auto w-full object-contain" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[13.5px] font-semibold text-slate-900 dark:text-white">{m.name}</p>
+                  <p className="truncate text-[12px] text-slate-500 dark:text-slate-400">{m.ae}</p>
+                </div>
+                {m.outcome && (
+                  <span className="flex-shrink-0 rounded-lg bg-emerald-50 px-2.5 py-1 text-[12px] font-bold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400">
+                    {m.outcome}
+                  </span>
+                )}
+              </div>
+
+              {/* the unrecorded meeting is the row the AE acts on, so it is the
+                  one that carries the buttons */}
+              {!m.outcome && (
+                <div className="mt-2.5 flex flex-wrap gap-1.5 pl-11">
+                  {OUTCOMES_07.map((o, n) => (
+                    <span
+                      key={o}
+                      className={`rounded-lg px-2.5 py-1.5 text-[12px] font-semibold ${
+                        n === 0
+                          ? 'bg-ember-500 text-white'
+                          : 'border border-slate-200 bg-white text-slate-600 dark:border-white/10 dark:bg-white/[0.05] dark:text-slate-300'
+                      }`}
+                    >
+                      {o}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </SubCard>
+    </DeviceScreen>
+  );
+}
+
+/* ── 09 · Reporting & AI coaching ────────────────────────────────────── */
+/** Bar widths are each stage's share of the first, so the drawing cannot
+ *  disagree with the counts printed beside it. */
+const FUNNEL_08 = [
+  { stage: 'Accounts worked', n: 412 },
+  { stage: 'Conversations', n: 138 },
+  { stage: 'Meetings booked', n: 46 },
+  { stage: 'Meetings qualified', n: 31 },
+  { stage: 'Opportunities', n: 18 },
+];
+const FUNNEL_08_TOP = FUNNEL_08[0].n;
+const FLAGS_08 = [
+  { who: 'DL', name: 'Dan L.', flag: 'Activity high, few conversations' },
+  { who: 'MC', name: 'Marcus C.', flag: 'Meetings rarely qualifying' },
+];
+
+function ReportingVisual() {
+  return (
+    <DeviceScreen title="Reporting & Coaching" toolbar={<Tabs items={['SDR', 'Territory', 'Sequence', 'Channel']} />}>
+      <div className="flex gap-4">
+        <SubCard title="Pipeline contribution" meta="$1.4M" className="w-[64%] flex-shrink-0">
+          <div className="space-y-2 py-2">
+            {FUNNEL_08.map((f, i) => (
+              <div key={f.stage} className="flex items-center gap-3">
+                <span className="w-[118px] flex-shrink-0 truncate text-[12.5px] font-medium text-slate-600 dark:text-slate-300">
+                  {f.stage}
+                </span>
+                <span className="h-5 min-w-0 flex-1 overflow-hidden rounded-md bg-sand-200 dark:bg-white/10">
+                  <span
+                    className={`block h-full rounded-md ${i === 0 ? 'bg-ember-500' : 'bg-ember-500/70'}`}
+                    style={{ width: `${(f.n / FUNNEL_08_TOP) * 100}%` }}
+                  />
+                </span>
+                <span className="w-[34px] flex-shrink-0 text-right text-[12.5px] font-bold tabular-nums text-slate-900 dark:text-white">
+                  {f.n}
+                </span>
+              </div>
+            ))}
+          </div>
+        </SubCard>
+
+        <SubCard title="Needs coaching" meta={`${FLAGS_08.length} reps`} className="w-[50%] flex-shrink-0">
+          {FLAGS_08.map((c, i) => (
+            <div key={c.name}>
+              <RowDivider i={i} />
+              <div className="flex items-start gap-2.5 py-[9px]">
+                <Avatar v={c.who} />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[13px] font-semibold text-slate-900 dark:text-white">{c.name}</p>
+                  <p className="text-[11.5px] leading-[1.4] text-slate-500 dark:text-slate-400">{c.flag}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </SubCard>
+      </div>
+    </DeviceScreen>
+  );
+}
+
+/* ── 10 · Template builder ───────────────────────────────────────────── */
+const TEMPLATE_BLOCKS = ['Subject line', 'Opening', 'Signal line', 'Call to action', 'Signature'];
+
+/** Renders {{…}} as data pulled from the account record, not typed copy. */
+function Tokenised({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\{\{[^}]+\}\})/g).map((part, i) =>
+        part.startsWith('{{') ? (
+          <span
+            key={i}
+            className="rounded bg-ember-500/[0.12] px-1 py-[2px] font-semibold text-ember-600 dark:bg-ember-500/20 dark:text-ember-300"
+          >
+            {part.slice(2, -2)}
+          </span>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
+function TemplateVisual() {
+  return (
+    <DeviceScreen title="New Campaign Template" toolbar={<Tabs items={['Blocks', 'Preview', 'Variables']} />}>
+      <div className="flex gap-4">
+        <SubCard title="Blocks" meta={`${TEMPLATE_BLOCKS.length} in use`} className="w-[46%] flex-shrink-0">
+          {TEMPLATE_BLOCKS.map((b, i) => (
+            <div key={b}>
+              <RowDivider i={i} />
+              <div className="flex items-center gap-2.5 py-[9px]">
+                <Check size={13} strokeWidth={3} className="flex-shrink-0 text-ember-500" />
+                <span className="min-w-0 flex-1 truncate text-[13px] font-semibold text-slate-900 dark:text-white">{b}</span>
+              </div>
+            </div>
+          ))}
+        </SubCard>
+
+        <SubCard title="Preview" meta="VP Marketing" className="w-[70%] flex-shrink-0">
+          <div className="space-y-2 py-2.5">
+            <p className="text-[12.5px] leading-[1.9] text-slate-500 dark:text-slate-400">
+              <span className="font-mono text-[10px] uppercase tracking-[0.08em]">Subject</span>{' '}
+              <Tokenised text="{{company}} is hiring across GTM" />
+            </p>
+            <p className="border-t border-slate-200/70 pt-2.5 text-[12.5px] leading-[1.9] text-slate-600 dark:border-white/[0.06] dark:text-slate-300">
+              <Tokenised text="Hi {{first_name}}, noticed {{signal}} at your team — worth a look?" />
+            </p>
+          </div>
+        </SubCard>
+      </div>
+    </DeviceScreen>
+  );
+}
+
 /* ── Module data ─────────────────────────────────────────────────────────── */
 type Module = {
   title: string;
@@ -733,12 +1246,12 @@ const MODULES: Module[] = [
   {
     title: 'Account Intelligence',
     Visual: AccountRecordVisual,
-    desc: 'Every account is a living record, not a row in a spreadsheet. Firmographics, tech stack, funding history, headcount and buying committee are kept current automatically, so the profile you open today reflects the company as it is today.',
+    desc: 'Better outreach starts with better context. Harvin brings relevant account intelligence into the same place your SDR works — company context, prospect information, account history, buying signals, previous engagement and relevant changes around the business — so nobody spends the first part of every prospecting block doing manual research. So an SDR can understand:',
     details: [
-      'Firmographics, stack and funding in one record',
-      'Filter by geography, category, size or motion',
-      'Priority score that moves with the evidence',
-      'Refreshed continuously — no manual enrichment',
+      'Why this account?',
+      'Why this prospect?',
+      'Why now?',
+      'What could I talk about?',
     ],
     stat: 'Live',
     statLabel: 'scoring',
@@ -791,7 +1304,104 @@ const MODULES: Module[] = [
     screenshot: '/Look-a-Like.png',
     screenshotDark: '/Look-a-Like-dark.png',
   },
+  {
+    title: 'Team & Territories',
+    Visual: TeamVisual,
+    wide: true,
+    desc: 'Manage reps, ownership, territories and targets in one place, and organize and distribute the book of business across them. Every account has an owner, and every owner has a number — so coverage stops being something you reconstruct from a spreadsheet.',
+    details: [
+      'Reps, ownership, territories and targets',
+      'Organize and distribute accounts and leads',
+      'Progress against each rep’s own target',
+      'Unassigned accounts surfaced, not lost',
+    ],
+    stat: '4',
+    statLabel: 'SDRs managed',
+    screenshot: '/dashboard-preview.png',
+    screenshotDark: '/dashboard-preview-dark.png',
+  },
+  {
+    title: 'Campaigns & Channels',
+    Visual: CampaignsVisual,
+    wide: true,
+    desc: 'Build and manage prospecting sequences, then run them across email and tasks — with every reply gathered into one inbox. The rep works the prospect; Harvin keeps the activity attached to the account and the rep who did it.',
+    details: [
+      'Campaigns and sequences built from the signal',
+      'Outbound email workflows',
+      'Tasks and follow-ups kept visible',
+      'Every reply gathered into one inbox',
+    ],
+    stat: '3',
+    statLabel: 'channels in one flow',
+    screenshot: '/dashboard-preview.png',
+    screenshotDark: '/dashboard-preview-dark.png',
+  },
+  {
+    title: 'Dialer',
+    Visual: DialerVisual,
+    wide: true,
+    desc: 'Call lists built from people, not rows — each contact with their persona, the ICP tier they fall in and the number to dial. Every call is recorded, transcribed and written back to the account, so the outcome lands without the rep typing it up afterwards.',
+    details: [
+      'Contacts ranked by ICP tier and persona',
+      'Direct numbers on the row, ready to dial',
+      'Calls recorded and transcribed automatically',
+      'Disposition in one click, saved to the account',
+    ],
+    stat: String(QUEUED_TODAY),
+    statLabel: 'calls queued today',
+    screenshot: '/dashboard-preview.png',
+    screenshotDark: '/dashboard-preview-dark.png',
+  },
+  {
+    title: 'Meetings & Handoff',
+    Visual: MeetingsVisual,
+    wide: true,
+    desc: 'Manage booked meetings and AE handoffs without losing the thread. The AE opens the meeting with the account context and previous conversations already attached, and records what happened in a click rather than a CRM workflow.',
+    details: [
+      'Meetings assigned with full account context',
+      'Previous conversations carried into the handoff',
+      'Outcome recorded in one click',
+      'Feedback loops back to the SDR who booked it',
+    ],
+    stat: '46',
+    statLabel: 'meetings booked',
+    screenshot: '/dashboard-preview.png',
+    screenshotDark: '/dashboard-preview-dark.png',
+  },
+  {
+    title: 'Reporting & AI Coaching',
+    Visual: ReportingVisual,
+    wide: true,
+    desc: 'Connect execution with business outcomes — from accounts worked through to pipeline generated — and surface where reps can improve, so managers spend less time finding the coaching opportunity and more time coaching.',
+    details: [
+      'The funnel from accounts worked to pipeline',
+      'Break performance down by rep, territory, sequence or channel',
+      'Patterns that show who needs coaching, and why',
+      'Recommendations on where the team should focus next',
+    ],
+    stat: '$1.4M',
+    statLabel: 'pipeline attributed',
+    screenshot: '/dashboard-preview.png',
+    screenshotDark: '/dashboard-preview-dark.png',
+  },
+  {
+    title: 'Template Builder',
+    Visual: TemplateVisual,
+    wide: true,
+    desc: 'Build your own campaign templates from reusable blocks — subject line, opening, the signal line, the call to action — with account and prospect fields dropped in as merge tokens rather than retyped for every send.',
+    details: [
+      'Reusable blocks rather than one long body',
+      'Account and signal fields as merge tokens',
+      'Preview against the persona it will reach',
+      'Shared across the team, versioned in one place',
+    ],
+    stat: '5',
+    statLabel: 'reusable blocks',
+    screenshot: '/dashboard-preview.png',
+    screenshotDark: '/dashboard-preview-dark.png',
+  },
 ];
+
 
 export default function Platform() {
   const header = useFadeIn();
@@ -807,15 +1417,15 @@ export default function Platform() {
       >
         <div className="max-w-[720px] mx-auto text-center">
           <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500 mb-5">
-            The Platform
+            One SDR management platform
           </p>
           <h2 className="text-[clamp(28px,4.2vw,48px)] font-semibold leading-[1.08] tracking-[-0.025em] text-slate-900 dark:text-white mb-4">
-            Everything you need to know<br className="hidden sm:block" /> who to sell to, and when
+            Built around the way an SDR<br className="hidden sm:block" /> team actually operates
           </h2>
           <p className="mx-auto max-w-[600px] text-[17px] leading-[1.7] text-slate-600 dark:text-slate-400">
-            Four modules that share one account graph. Find the companies worth your time, watch for
-            the moment they enter the market, and launch outbound the same day — without stitching
-            together four tools to do it.
+            Every surface an SDR team runs on, sharing one account graph: who owns what, which
+            accounts are worth the time, the channels the work happens in, and whether any of it
+            turned into pipeline.
           </p>
         </div>
       </div>
@@ -842,7 +1452,7 @@ function ModuleRow({ mod, index, flipped, isDark }: {
   return (
     <div
       ref={row.ref}
-      /* slug anchor so PlatformGrid's "Explore …" links land on this module */
+      /* slug anchor so the navbar's Platform menu lands on this module */
       id={mod.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
       className={`scroll-mt-28 flex flex-col ${flipped ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-10 md:gap-12 lg:gap-16 mb-14 sm:mb-18 lg:mb-24 last:mb-0
                    transition-all duration-700 ${row.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}

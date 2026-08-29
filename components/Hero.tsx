@@ -479,20 +479,35 @@ export default function Hero() {
 
         <div className="flex flex-1 flex-col items-start justify-center pt-44 pb-8 text-left">
           <div className="flex w-full max-w-[560px] flex-col items-start lg:max-w-[620px]">
+            <p
+              className="mb-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-500"
+              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both' }}
+            >
+              SDR Management Platform
+            </p>
+
             <h1
               className="font-bricolage font-bold tracking-[-0.02em] leading-[1.05]
                          text-[clamp(32px,4.2vw,52px)] text-white"
-              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both' }}
+              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.06s both' }}
             >
-              AI-native GTM platform that co-owns your pipeline
+              Run a high-performing SDR team from one place.
             </h1>
 
             <p
               className="mt-5 max-w-[540px] text-[14px] sm:text-[16px] leading-relaxed text-white/70"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both' }}
             >
-              Move from scattered tools to account intelligence, AI buying signals, and
-              intelligence-led outbound — on one platform.
+              Manage your team, territories, accounts, outreach, conversations, meetings and
+              performance with a clear view of what is happening and where your SDRs should focus
+              next.
+            </p>
+
+            <p
+              className="mt-4 text-[13px] italic text-white/45"
+              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.18s both' }}
+            >
+              Built for SDR Leaders, SDR Managers, CROs and Sales Leaders
             </p>
 
             <form

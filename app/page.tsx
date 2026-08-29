@@ -1,7 +1,8 @@
 import Navbar      from '@/components/Navbar';
 import Hero        from '@/components/Hero';
 import HowItWorks  from '@/components/HowItWorks';
-import Convergence from '@/components/Convergence';
+import SdrProblem  from '@/components/SdrProblem';
+import SdrStory    from '@/components/SdrStory';
 import TheData     from '@/components/TheData';
 import Platform    from '@/components/Platform';
 import Testimonials from '@/components/Testimonials';
@@ -15,7 +16,8 @@ export default function Home() {
       <div>
         <Hero />
         {/* <HowItWorks /> */}
-        <Convergence />
+        <SdrProblem />
+        <SdrStory />
         <TheData />
         <Platform />
         <Testimonials />

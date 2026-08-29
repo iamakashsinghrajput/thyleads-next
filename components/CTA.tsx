@@ -150,17 +150,19 @@ export default function CTA() {
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* ── Left: headline + form ─────────────────────────────────────── */}
           <div className="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Get started</p>
+            <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">
+              SDR management platform
+            </p>
 
             <h2 className="mt-4 font-bricolage text-[clamp(30px,3.5vw,46px)] font-bold leading-[1.06] tracking-[-0.03em] text-slate-900 dark:text-white">
-              See it working
+              Run a high-performing
               <br />
-              <span className="text-ember-500">on your target market</span>
+              <span className="text-ember-500">SDR team from one place</span>
             </h2>
 
             <p className="mt-4 max-w-[480px] text-[16px] leading-relaxed text-slate-600 dark:text-slate-400">
-              A 30-minute call where we pull live signals for the accounts you actually sell to — and
-              show you the buying windows you haven&rsquo;t found yet.
+              Give your managers the visibility to lead better, your SDRs the clarity to execute
+              better, and your revenue team a clear view of what&rsquo;s creating pipeline.
             </p>
 
             <form

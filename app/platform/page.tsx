@@ -9,7 +9,7 @@ import {
   Building2, ShoppingBag, Cpu, Briefcase, Target, Users,
 } from 'lucide-react';
 import PromptFunnel from '@/components/PromptFunnel';
-import PlatformGrid from '@/components/PlatformGrid';
+import Platform from '@/components/Platform';
 import ProductSteps from '@/components/ProductSteps';
 
 /* ── Keyframe styles ─────────────────────────────────────────────────────── */
@@ -435,7 +435,7 @@ export default function ProductPage() {
 
         <ProductSteps />
 
-        <PlatformGrid />
+        <Platform />
 
         {/* ═══ USE CASES ═════════════════════════════════════════════════ */}
         <section className="border-t border-slate-200 bg-sand-100 px-4 py-20 dark:border-white/[0.06] dark:bg-[#040404] sm:px-6 lg:px-8 lg:py-24">

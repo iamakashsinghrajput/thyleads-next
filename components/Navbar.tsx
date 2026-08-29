@@ -5,16 +5,35 @@ import { portalUrl } from '@/lib/portal';
 import {
   ArrowRight,
   ArrowUpRight,
-  Menu,
-  X,
+  Bookmark,
+  Briefcase,
+  Building2,
+  CalendarDays,
+  ChartColumn,
   ChevronDown,
+  Compass,
+  Copy,
+  Cpu,
+  Landmark,
   Mail,
+  Megaphone,
+  Menu,
+  Network,
+  Newspaper,
+  Phone,
+  Puzzle,
+  Radar,
+  ShoppingBag,
+  UserRound,
+  Users,
+  X,
 } from 'lucide-react';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useModal } from '@/components/ModalContext';
+import Wordmark from '@/components/Wordmark';
 
 type DropdownKey = 'platform' | 'solutions' | 'resources' | null;
 
@@ -66,7 +85,7 @@ type MenuItem = {
  * Intelligence + Workflow are the six cards in The Platform grid; For teams are
  * the three segments in "How teams use Harvin". Slugs are the card titles
  * lowercased with non-alphanumerics collapsed to hyphens, matching the ids
- * PlatformGrid and the use-case section generate.
+ * Platform's module rows and the use-case section generate.
  */
 /** The page the whole menu describes — rendered as the leading card. */
 const PLATFORM_OVERVIEW: MenuItem = {
@@ -76,70 +95,33 @@ const PLATFORM_OVERVIEW: MenuItem = {
   image: '/nav/gtm-framework.jpg',
 };
 
-const PLATFORM_MENU: {
-  byStage: MenuItem[];
-  byService: MenuItem[];
-  byVertical: MenuItem[];
-} = {
-  byStage: [
-    {
-      name: 'Account Intelligence',
-      href: '/platform#account-intelligence',
-      desc: 'Every account is a living record, kept current automatically.',
-      image: '/nav/series-a.jpg',
-    },
-    {
-      name: 'AI Signal Detection',
-      href: '/platform#ai-signal-detection',
-      desc: 'Funding, hiring, scaling, M&A and layoffs — scored.',
-      image: '/nav/series-b.jpg',
-    },
+const PLATFORM_MENU: { modules: NavLink[]; workflow: NavLink[]; teams: NavLink[] } = {
+  modules: [
+    { name: 'Account Intelligence', href: '/platform#account-intelligence', Icon: Building2 },
+    { name: 'AI Signal Detection', href: '/platform#ai-signal-detection', Icon: Radar },
+    { name: 'Watchlists', href: '/platform#watchlists', Icon: Bookmark },
+    { name: 'Look-a-like Accounts', href: '/platform#look-a-like-accounts', Icon: Copy },
   ],
-  byService: [
+  workflow: [
+    { name: 'Team & Territories', href: '/platform#team-territories', Icon: Users },
     {
-      name: 'Watchlists',
-      href: '/platform#watchlists',
-      desc: 'Group accounts the way your team sells, and get told when one moves.',
-      image: '/nav/pipeline-management.jpg',
+      name: 'Campaigns & Channels',
+      href: '/platform#campaigns-channels',
+      Icon: Network,
+      children: [
+        { name: 'Email', href: '/platform#campaigns-channels' },
+        { name: 'Tasks', href: '/platform#campaigns-channels' },
+        { name: 'Unified Inbox', href: '/platform#campaigns-channels' },
+      ],
     },
-    {
-      name: 'Look-a-like Accounts',
-      href: '/platform#look-a-like-accounts',
-      desc: 'Find accounts like your best customers',
-      image: '/nav/lead-generation.jpg',
-    },
-    {
-      name: 'Campaign Reports',
-      href: '/platform#campaign-reports',
-      desc: 'Sends, replies and the window each persona answers in',
-      image: '/nav/gtm-execution.jpg',
-    },
-    {
-      name: 'Template Builder',
-      href: '/platform#template-builder',
-      desc: 'Build campaign templates from reusable blocks',
-      image: '/nav/outbound-strategy.jpg',
-    },
+    { name: 'Dialer', href: '/platform#dialer', Icon: Phone },
+    { name: 'Meetings & Handoff', href: '/platform#meetings-handoff', Icon: CalendarDays },
+    { name: 'Reporting & AI Coaching', href: '/platform#reporting-ai-coaching', Icon: ChartColumn },
   ],
-  byVertical: [
-    {
-      name: 'SaaS & Software Vendors',
-      href: '/platform#saas-software-vendors',
-      desc: 'Reach accounts while the migration window is open',
-      image: '/nav/martech.jpg',
-    },
-    {
-      name: 'Agencies & Consultants',
-      href: '/platform#agencies-consultants',
-      desc: 'Pitch against a funding or leadership change',
-      image: '/nav/fintech.jpg',
-    },
-    {
-      name: 'Services & Solution Providers',
-      href: '/platform#services-solution-providers',
-      desc: 'Win expansion work before the shortlist is drawn',
-      image: '/nav/hrtech.jpg',
-    },
+  teams: [
+    { name: 'SaaS & Software Vendors', href: '/platform#saas-software-vendors', Icon: Cpu },
+    { name: 'Agencies & Consultants', href: '/platform#agencies-consultants', Icon: Briefcase },
+    { name: 'Services & Solution Providers', href: '/platform#services-solution-providers', Icon: ShoppingBag },
   ],
 };
 
@@ -169,25 +151,17 @@ const SOLUTIONS: MenuItem[] = [
   },
 ];
 
-const RESOURCES: MenuItem[] = [
-  {
-    name: 'Blog',
-    href: '/blog',
-    desc: 'Playbooks and field notes.',
-    image: '/nav/blogs.jpg',
-  },
-  {
-    name: 'Product Tour',
-    href: '/platform',
-    desc: 'See the platform end to end',
-    image: '/nav/ai-tools.jpg',
-  },
-  {
-    name: 'Get the Extension',
-    href: EXTENSION_URL,
-    desc: 'Scan any company from your browser.',
-    image: '/nav/gtm-framework.jpg',
-  },
+/** The same three, as links for the list-style panels. */
+const SOLUTION_LINKS: NavLink[] = [
+  { name: 'FinTech', href: '/solutions/fintech', Icon: Landmark },
+  { name: 'MarTech', href: '/solutions/martech', Icon: Megaphone },
+  { name: 'HRTech', href: '/solutions/hrtech', Icon: UserRound },
+];
+
+const RESOURCES: NavLink[] = [
+  { name: 'Blog', href: '/blog', Icon: Newspaper },
+  { name: 'Product Tour', href: '/platform', Icon: Compass },
+  { name: 'Get the Extension', href: EXTENSION_URL, Icon: Puzzle },
 ];
 
 /**
@@ -440,42 +414,14 @@ const Navbar: React.FC = () => {
       {/* Main bar — logo and links both hug the left, Bain-style. */}
       <div className="relative mx-auto flex max-w-[1600px] items-center gap-8 px-6 py-3.5 lg:px-10">
 
-        <button
-          type="button"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Open menu"
-          className={`hidden lg:flex shrink-0 flex-col justify-center gap-[5px] p-1 transition-colors ${
-            overlay ? 'text-white' : 'text-neutral-900'
-          }`}
-        >
-          <span className="block h-[2px] w-6 bg-current" />
-          <span className="block h-[2px] w-6 bg-current" />
-          <span className="block h-[2px] w-6 bg-current" />
-        </button>
-
         <Link
           href="/"
           className="flex items-center space-x-1 cursor-pointer hover:opacity-80 transition-opacity shrink-0"
         >
-          <div className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative w-7 h-7 rounded-lg overflow-hidden">
-              <Image
-                src="/logo1.png"
-                alt="Harvin"
-                width={28}
-                height={28}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-          <span
-            className={`text-[26px] font-bricolage font-bold tracking-wide transition-colors duration-500 ${
-              overlay ? 'text-white' : 'text-neutral-900'
-            }`}
-          >
-            Harvin
-          </span>
+          <Wordmark
+            size={26}
+            className={`transition-colors duration-500 ${overlay ? 'text-white' : 'text-neutral-900'}`}
+          />
         </Link>
 
         <div className="hidden lg:flex flex-1 items-center gap-0.5">
@@ -576,97 +522,78 @@ const Navbar: React.FC = () => {
               exit="exit"
               onMouseEnter={() => openIt(openDropdown)}
               onMouseLeave={scheduleClose}
-              className="origin-top border-b-2 border-neutral-900/90 bg-[#f4f5f7] shadow-[0_40px_80px_-24px_rgba(15,23,42,0.45)]"
+              /* Only Platform earns the full-bleed bar — it carries nine
+                 entries across three cards. Solutions and Resources hold three
+                 links each, so a bar the width of the viewport would be mostly
+                 empty ground; they render as a floating panel sized to their
+                 own content instead. */
+              className={
+                openDropdown === 'platform'
+                  ? 'origin-top border-b-2 border-neutral-900/90 bg-[#f4f5f7] shadow-[0_40px_80px_-24px_rgba(15,23,42,0.45)]'
+                  : 'origin-top'
+              }
             >
-              {/* Top bevel: a lit edge over a hairline shadow reads as thickness. */}
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white" />
-              <div className="pointer-events-none absolute inset-x-0 top-px h-px bg-neutral-900/10" />
+              {openDropdown === 'platform' && (
+                <>
+                  {/* Top bevel: a lit edge over a hairline shadow reads as thickness. */}
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white" />
+                  <div className="pointer-events-none absolute inset-x-0 top-px h-px bg-neutral-900/10" />
+                </>
+              )}
 
-              <div className="relative mx-auto max-w-[1600px] px-6 py-8 lg:px-10">
+              <div
+                className={`relative mx-auto max-w-[1600px] px-6 lg:px-10 ${
+                  openDropdown === 'platform' ? 'py-8' : 'w-fit pb-8 pt-3'
+                }`}
+              >
                 {openDropdown === 'platform' ? (
-                  <motion.div
-                    variants={groupVariants}
-                    className="grid grid-cols-12 gap-5"
-                  >
-                    {/* ── The page itself, as the leading card ──────────────
-                        The trigger is a hover target, not a link, so without
-                        this the panel offers no way to reach /platform — only
-                        the anchors within it. It sits first and full-height so
-                        it reads as the parent of the columns beside it. */}
-                    <motion.div variants={groupVariants} className="col-span-3 flex flex-col">
-                      <PanelLabel>Overview</PanelLabel>
-                      <div className="flex flex-1">
-                        <MenuCard item={PLATFORM_OVERVIEW} onClick={close} className="flex-1" />
+                  <motion.div variants={groupVariants} className="grid items-start gap-5 lg:grid-cols-[1.5fr_1fr_1fr]">
+                    <GroupCard label="Platform">
+                      <div className="grid grid-cols-2 gap-x-8">
+                        <div>
+                          {PLATFORM_MENU.modules.map((item) => (
+                            <NavItem key={item.name} item={item} onClick={close} />
+                          ))}
+                        </div>
+                        <div>
+                          {PLATFORM_MENU.workflow.map((item) => (
+                            <NavItem key={item.name} item={item} onClick={close} />
+                          ))}
+                        </div>
                       </div>
-                    </motion.div>
+                    </GroupCard>
 
-                    <motion.div
-                      variants={groupVariants}
-                      className="col-span-3 flex flex-col"
-                    >
-                      <PanelLabel>Intelligence</PanelLabel>
-                      <div className="flex flex-1 flex-col gap-5">
-                        <MenuCard
-                          item={PLATFORM_MENU.byStage[0]}
-                          onClick={close}
-                          className="flex-1"
-                        />
-                        <MenuCard item={PLATFORM_MENU.byStage[1]} onClick={close} />
-                      </div>
-                    </motion.div>
+                    <GroupCard label="For teams">
+                      {PLATFORM_MENU.teams.map((item) => (
+                        <NavItem key={item.name} item={item} onClick={close} />
+                      ))}
+                    </GroupCard>
 
-                    <motion.div
-                      variants={groupVariants}
-                      className="col-span-4 flex flex-col"
-                    >
-                      <PanelLabel>Workflow</PanelLabel>
-                      {/* Plain 2×2. A wide first card plus three below leaves a
-                          hole in the fourth slot whenever the count is even. */}
-                      <motion.div
-                        variants={groupVariants}
-                        className="grid flex-1 grid-cols-2 gap-5"
-                      >
-                        {PLATFORM_MENU.byService.map((item) => (
-                          <MenuCard key={item.name} item={item} onClick={close} />
-                        ))}
-                      </motion.div>
-                    </motion.div>
-
-                    <motion.div
-                      variants={groupVariants}
-                      className="col-span-2 flex flex-col"
-                    >
-                      <PanelLabel>For teams</PanelLabel>
-                      <motion.div
-                        variants={groupVariants}
-                        className="flex flex-1 flex-col gap-5"
-                      >
-                        {PLATFORM_MENU.byVertical.map((item) => (
-                          <MenuCard
-                            key={item.name}
-                            item={item}
-                            onClick={close}
-                            variant="ghost"
-                            className="flex-1"
-                          />
-                        ))}
-                      </motion.div>
-                    </motion.div>
+                    <FeaturedCard item={PLATFORM_OVERVIEW} onClick={close} />
                   </motion.div>
                 ) : openDropdown === 'solutions' ? (
-                  <motion.div variants={groupVariants} className="grid grid-cols-3 gap-5">
-                    {SOLUTIONS.map((item) => (
-                      <MenuCard key={item.name} item={item} onClick={close} />
-                    ))}
+                  <motion.div
+                    variants={groupVariants}
+                    className="grid items-start gap-4 rounded-2xl border border-neutral-900/10 bg-[#f4f5f7] p-4 shadow-[0_30px_64px_-20px_rgba(15,23,42,0.42)] lg:grid-cols-[260px_320px]"
+                  >
+                    <GroupCard label="By industry">
+                      {SOLUTION_LINKS.map((item) => (
+                        <NavItem key={item.name} item={item} onClick={close} />
+                      ))}
+                    </GroupCard>
+                    <FeaturedCard item={PLATFORM_OVERVIEW} onClick={close} />
                   </motion.div>
                 ) : (
                   <motion.div
                     variants={groupVariants}
-                    className="grid grid-cols-4 gap-5"
+                    className="grid items-start gap-4 rounded-2xl border border-neutral-900/10 bg-[#f4f5f7] p-4 shadow-[0_30px_64px_-20px_rgba(15,23,42,0.42)] lg:grid-cols-[260px_320px]"
                   >
-                    {RESOURCES.map((item) => (
-                      <MenuCard key={item.name} item={item} onClick={close} />
-                    ))}
+                    <GroupCard label="Resources">
+                      {RESOURCES.map((item) => (
+                        <NavItem key={item.name} item={item} onClick={close} />
+                      ))}
+                    </GroupCard>
+                    <FeaturedCard item={PLATFORM_OVERVIEW} onClick={close} />
                   </motion.div>
                 )}
               </div>
@@ -679,10 +606,12 @@ const Navbar: React.FC = () => {
         {mobileMenuOpen && (
           <motion.div
             variants={panelVariants}
+            /* lg:hidden — the desktop hamburger is gone, so this drawer must
+               not survive a resize past the breakpoint while it is open */
             initial="hidden"
             animate="show"
             exit="exit"
-            className="relative origin-top overflow-hidden border-b-2 border-neutral-900/90 bg-[#f4f5f7] shadow-[0_40px_80px_-24px_rgba(15,23,42,0.45)]"
+            className="relative origin-top overflow-hidden border-b-2 border-neutral-900/90 bg-[#f4f5f7] shadow-[0_40px_80px_-24px_rgba(15,23,42,0.45)] lg:hidden"
           >
             {/* Same bevelled top edge as the mega menu. */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white" />
@@ -710,10 +639,10 @@ const Navbar: React.FC = () => {
                     Platform overview
                   </MenuLink>
                   <div className="grid gap-x-8 sm:grid-cols-3">
-                    <MenuColumn label="Intelligence" items={PLATFORM_MENU.byStage} onClose={closeMobile} />
-                    <MenuColumn label="Workflow" items={PLATFORM_MENU.byService} onClose={closeMobile} />
-                    <MenuColumn label="For teams" items={PLATFORM_MENU.byVertical} onClose={closeMobile} />
-                    <MenuColumn label="Solutions" items={SOLUTIONS} onClose={closeMobile} />
+                    <MenuColumn label="Platform" items={PLATFORM_MENU.modules} onClose={closeMobile} />
+                    <MenuColumn label="Workflow" items={PLATFORM_MENU.workflow} onClose={closeMobile} />
+                    <MenuColumn label="For teams" items={PLATFORM_MENU.teams} onClose={closeMobile} />
+                    <MenuColumn label="Solutions" items={SOLUTION_LINKS} onClose={closeMobile} />
                   </div>
                 </motion.div>
 
@@ -797,6 +726,98 @@ function MenuTrigger({
   );
 }
 
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Link-list dropdown panels.
+
+   Each panel is a row of white cards: a small-caps group label over a hairline
+   rule, then icon-and-label links in one or two columns, with child items
+   indented under an L-shaped tree line. A featured card closes the row.
+
+   Nesting is drawn, not implied: a child renders a vertical rule down its left
+   edge and a short horizontal tick into the label, and the LAST child stops its
+   vertical rule halfway so the tree closes instead of running past the final
+   item. That is the whole trick — `last:before:h-1/2` below.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+type NavLink = { name: string; href: string; Icon?: typeof Radar; children?: { name: string; href: string }[] };
+
+function GroupCard({ label, children, className = '' }: {
+  label: string; children: React.ReactNode; className?: string;
+}) {
+  return (
+    <motion.div
+      variants={cardVariants}
+      className={`rounded-2xl border border-neutral-900/[0.07] bg-white p-7 shadow-[0_1px_2px_rgba(15,23,42,0.04)] ${className}`}
+    >
+      <p className="border-b border-neutral-900/10 pb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-400">
+        {label}
+      </p>
+      <div className="pt-5">{children}</div>
+    </motion.div>
+  );
+}
+
+function NavItem({ item, onClick }: { item: NavLink; onClick: () => void }) {
+  return (
+    <div>
+      <Link
+        href={item.href}
+        onClick={onClick}
+        className="group/nav flex items-center gap-3 py-[7px] text-[15px] text-neutral-800 transition-colors hover:text-primary-600"
+      >
+        {item.Icon ? (
+          <item.Icon size={16} strokeWidth={1.9} className="flex-shrink-0 text-neutral-400 transition-colors group-hover/nav:text-primary-600" />
+        ) : (
+          <span aria-hidden="true" className="w-4 flex-shrink-0" />
+        )}
+        {item.name}
+      </Link>
+
+      {item.children && (
+        <div className="ml-[7px]">
+          {item.children.map((c) => (
+            <Link
+              key={c.name}
+              href={c.href}
+              onClick={onClick}
+              className="relative block py-[7px] pl-6 text-[15px] text-neutral-800 transition-colors before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-neutral-900/15 before:content-[''] after:absolute after:left-0 after:top-1/2 after:h-px after:w-[14px] after:bg-neutral-900/15 after:content-[''] last:before:h-1/2 hover:text-primary-600"
+            >
+              {c.name}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FeaturedCard({ item, onClick }: { item: MenuItem; onClick: () => void }) {
+  return (
+    <motion.div variants={cardVariants} className="rounded-2xl border border-neutral-900/[0.07] bg-white p-7 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <Link href={item.href} onClick={onClick} className="group/feat block">
+        {item.image && (
+          <span className="relative block aspect-[16/10] overflow-hidden rounded-xl bg-neutral-100">
+            <Image
+              src={item.image}
+              alt=""
+              fill
+              sizes="(max-width: 1024px) 100vw, 380px"
+              className="object-cover transition-transform duration-[900ms] ease-out group-hover/feat:scale-105"
+            />
+          </span>
+        )}
+        <p className="mt-5 text-[16px] font-bold leading-[1.3] tracking-[-0.015em] text-neutral-900">{item.name}</p>
+        <p className="mt-2 text-[13.5px] leading-[1.55] text-neutral-500">{item.desc}</p>
+        <span className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary-600">
+          See the platform
+          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover/feat:translate-x-0.5" strokeWidth={2.2} />
+        </span>
+      </Link>
+    </motion.div>
+  );
+}
+
 function PanelLabel({
   children,
   className = '',
@@ -830,71 +851,7 @@ function CardArrow() {
  * Stacked shadows give each card a physical thickness; on hover it lifts
  * toward the viewer instead of just changing colour.
  */
-const CARD_SURFACE =
-  'rounded-2xl bg-neutral-950 ring-1 ring-neutral-900/10 ' +
-  'shadow-[0_1px_1px_rgba(15,23,42,0.06),0_4px_8px_-2px_rgba(15,23,42,0.10),0_12px_24px_-8px_rgba(15,23,42,0.14)] ' +
-  'transition-all duration-300 ' +
-  'hover:-translate-y-1 hover:ring-primary-400/60 ' +
-  'hover:shadow-[0_2px_4px_rgba(15,23,42,0.08),0_12px_20px_-6px_rgba(132,92,245,0.28),0_28px_48px_-12px_rgba(132,92,245,0.40)]';
 
-function MenuCard({
-  item,
-  onClick,
-  className = '',
-  variant = 'solid',
-}: {
-  item: MenuItem;
-  onClick: () => void;
-  className?: string;
-  variant?: 'solid' | 'ghost';
-}) {
-  const ghost = variant === 'ghost';
-
-  return (
-    <motion.div
-      variants={cardVariants}
-      className={`${className}`}
-    >
-      <Link
-        href={item.href}
-        onClick={onClick}
-        className={`group/card relative flex h-full flex-col justify-end overflow-hidden p-4 ${
-          ghost ? 'min-h-[130px]' : 'min-h-[152px]'
-        } ${CARD_SURFACE}`}
-      >
-        {item.image && (
-          <Image
-            src={item.image}
-            alt=""
-            fill
-            sizes="(max-width: 1024px) 100vw, 480px"
-            className="object-cover transition-transform duration-[900ms] ease-out group-hover/card:scale-105"
-          />
-        )}
-
-        {/* Scrim — guarantees contrast for the label whatever the artwork is. */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-neutral-950/45 opacity-100 transition-opacity duration-500 group-hover/card:opacity-45" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary-700/45 via-primary-900/20 to-transparent opacity-70 transition-opacity duration-500 group-hover/card:opacity-25" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-neutral-950/95 via-neutral-950/55 to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/20" />
-
-        <div className="relative flex items-end justify-between gap-3">
-          <div className="min-w-0">
-            <div className="text-[15px] font-semibold leading-snug tracking-[-0.01em] text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
-              {item.name}
-            </div>
-            {item.desc && (
-              <p className="mt-1 text-[12px] leading-snug text-white/75 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
-                {item.desc}
-              </p>
-            )}
-          </div>
-          <CardArrow />
-        </div>
-      </Link>
-    </motion.div>
-  );
-}
 
 
 
