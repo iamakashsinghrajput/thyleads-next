@@ -44,18 +44,48 @@ export async function generateMetadata(
 }
 
 /** **bold** → <strong>. Splitting beats injecting HTML for foreign content. */
+const RICH_LINK = /^\[([^\]]+)\]\(([^)]+)\)$/;
+
+/**
+ * Blog prose supports **bold** and [label](/path) links.
+ *
+ * The link form used to fall through as literal text — six of them were on
+ * live posts, including a "[Contact us](…)" that readers saw as raw markdown —
+ * so both forms are captured in one split. Internal targets go through Link so
+ * they stay client-side navigations and read as internal links to a crawler;
+ * external ones open in a new tab.
+ */
 function Rich({ text }: { text: string }) {
+  const linkCls =
+    'font-semibold text-ember-600 underline underline-offset-4 transition-colors hover:text-ember-500 dark:text-ember-300 dark:hover:text-ember-200';
+
   return (
     <>
-      {text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-        part.startsWith('**') && part.endsWith('**') ? (
-          <strong key={i} className="font-bold text-slate-900 dark:text-white">
-            {part.slice(2, -2)}
-          </strong>
-        ) : (
-          <span key={i}>{part}</span>
-        )
-      )}
+      {text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g).map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return (
+            <strong key={i} className="font-bold text-slate-900 dark:text-white">
+              {part.slice(2, -2)}
+            </strong>
+          );
+        }
+
+        const link = RICH_LINK.exec(part);
+        if (link) {
+          const [, label, href] = link;
+          return href.startsWith('/') ? (
+            <Link key={i} href={href} className={linkCls}>
+              {label}
+            </Link>
+          ) : (
+            <a key={i} href={href} target="_blank" rel="noopener noreferrer" className={linkCls}>
+              {label}
+            </a>
+          );
+        }
+
+        return <span key={i}>{part}</span>;
+      })}
     </>
   );
 }

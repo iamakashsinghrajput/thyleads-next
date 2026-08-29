@@ -1033,8 +1033,8 @@ export const blogPosts: BlogPost[] = [
             "Want to see how Harvin would approach your specific ICP and market?",
             {
               type: 'cta',
-              text: 'Book a strategy call',
-              href: '/contact'
+              text: 'See the platform and book a demo',
+              href: '/platform'
             }
           ]
         }
@@ -1670,7 +1670,7 @@ export const blogPosts: BlogPost[] = [
             {
               type: 'cta',
               text: 'Book a demo',
-              href: '/contact'
+              href: '/platform'
             }
           ]
         }
@@ -2285,7 +2285,7 @@ export const blogPosts: BlogPost[] = [
     ,
             "Want to build your outreach around this? Harvin runs signal-based prospecting at scale for B2B SaaS companies."
     ,
-            "[Contact us](https://harvin.ai/contact-us) and we'll show you how a job posting turns into qualified pipeline."
+            "[See the platform](/platform) and we'll show you how a job posting turns into qualified pipeline. If you are working out how to run a team around signals like these, start with [what an SDR management platform is](/sdr-management-platform)."
     ,
             {
               type: 'subheading',
@@ -2485,8 +2485,8 @@ export const blogPosts: BlogPost[] = [
             "The teams winning in 2025 will not pick one data provider over another. They use all of them, in a deliberate order. The question is not whether to run waterfall enrichment, but how fast you can put it in place.",
             {
               type: 'cta',
-              text: 'Get the 2025 Waterfall Provider Scorecard',
-              href: '/contact'
+              text: 'See how Harvin enriches and scores accounts',
+              href: '/platform'
             }
           ]
         }
@@ -3004,7 +3004,8 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'Key Takeaway'
             },
-            "Strong GTM is not about volume, it is about relevance. Build your data-driven outbound around high-intent signals and clear triggers, and you can multiply meeting bookings without spamming a single soul."
+            "Strong GTM is not about volume, it is about relevance. Build your data-driven outbound around high-intent signals and clear triggers, and you can multiply meeting bookings without spamming a single soul.",
+            "Running these campaigns across a team rather than a single rep is a different problem — ownership, priorities and reporting. [What an SDR management platform is](/sdr-management-platform) covers that layer."
           ]
         }
       ]
@@ -3698,7 +3699,8 @@ export const blogPosts: BlogPost[] = [
           heading: "When In-House Makes Sense",
           content: [
             "To be fair, in-house is the right call in some situations. If you have already validated India product-market fit, if you are doing more than Rs 2Cr in annual India revenue, if your sales cycle needs deep technical discovery only a product expert can handle, or if you are building a long-term India HQ, then an in-house team is worth the investment. But for market entry, validation, and early pipeline, the outsourced model wins on cost, speed, and risk-adjusted return.",
-            "**The smart play: start with an outsourced outbound partner to validate the market in 90 days. Use the data from that pilot to make an informed hiring decision. You will know exactly what works, what messaging lands, and what your true cost-per-SQL is before you commit to headcount.**"
+            "**The smart play: start with an outsourced outbound partner to validate the market in 90 days. Use the data from that pilot to make an informed hiring decision. You will know exactly what works, what messaging lands, and what your true cost-per-SQL is before you commit to headcount.**",
+            "When you do bring it in-house, the tooling question follows immediately: a CRM records what happened and a sequencer sends the email, but neither decides who works which account. That gap is what [an SDR management platform](/sdr-management-platform) fills."
           ]
         }
       ]
