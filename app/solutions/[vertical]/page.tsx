@@ -39,6 +39,8 @@ import CTA from '@/components/CTA';
 type Vertical = {
   slug: string;
   name: string;
+  /** Subject only — app/layout.tsx appends '| Harvin' via the title template.
+   *  Including the brand here renders it twice. */
   seoTitle: string;
   seoDesc: string;
   badge: string;
@@ -60,7 +62,7 @@ const VERTICALS: Vertical[] = [
   {
     slug: 'fintech',
     name: 'FinTech',
-    seoTitle: 'Harvin | FinTech B2B lead generation',
+    seoTitle: 'FinTech SDR Management & Outbound',
     seoDesc:
       'Outbound for FinTech SaaS. We engage decision-makers and move through compliance gates with a FinTech-specialised playbook.',
     badge: 'For FinTech SaaS',
@@ -156,7 +158,7 @@ const VERTICALS: Vertical[] = [
   {
     slug: 'martech',
     name: 'MarTech',
-    seoTitle: 'Harvin | MarTech B2B lead generation',
+    seoTitle: 'MarTech SDR Management & Outbound',
     seoDesc:
       'Outbound for MarTech SaaS. We engage CMOs, cut through the noise, and build high-intent pipeline with a MarTech-specialised playbook.',
     badge: 'For MarTech SaaS',
@@ -234,7 +236,7 @@ const VERTICALS: Vertical[] = [
   {
     slug: 'hrtech',
     name: 'HRTech',
-    seoTitle: 'Harvin | HRTech B2B lead generation',
+    seoTitle: 'HRTech SDR Management & Outbound',
     seoDesc:
       'Outbound for HRTech SaaS. We generate pipeline, engage CHROs, and scale enterprise sales with an HRTech-specialised playbook.',
     badge: 'For HRTech SaaS',

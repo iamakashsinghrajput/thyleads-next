@@ -14,7 +14,7 @@ export default function PrivacyPolicy() {
         <p>
           HarvinAI (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) operates the D2C Brand
           Intelligence Platform available at{' '}
-          <LegalLink href="https://www.harvin.ai">harvin.ai</LegalLink> and the HarvinAI Chrome
+          <LegalLink href="https://harvin.ai">harvin.ai</LegalLink> and the HarvinAI Chrome
           Extension (collectively, the &quot;Service&quot;). This Privacy Policy explains how we
           collect, use, store, and protect your information when you use our Service.
         </p>

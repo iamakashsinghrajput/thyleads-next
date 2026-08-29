@@ -187,7 +187,7 @@ function getFallbackAnswer(q: string): string | null {
     return "Search **\"HarvinAI\"** in the Chrome Web Store and install it. Then **pin it** to your toolbar. Visit any website and click the HarvinAI icon to scan it.";
   }
   if (/pricing|cost|how much|free|plan/i.test(q)) {
-    return "HarvinAI currently offers **Early Access**. Visit [harvin.ai](https://www.harvin.ai) or reach out to our team for details.";
+    return "HarvinAI currently offers **Early Access**. Visit [harvin.ai](https://harvin.ai) or reach out to our team for details.";
   }
   if (/where.*fund|find.*fund|funded.*brand|recently funded/i.test(q)) {
     return "Two places to find funded brands:\n\n- **Market Intelligence** (sidebar) — shows live funding rounds\n- **Account Explorer** → filter by **Active Signals → Recently Funded** or **Funding Stage** in the left panel";

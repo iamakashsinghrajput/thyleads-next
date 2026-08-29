@@ -13,7 +13,7 @@ export default function TermsAndConditions() {
       <LegalSection title="1. Agreement to Terms">
         <p>
           By accessing or using the HarvinAI platform at{' '}
-          <LegalLink href="https://www.harvin.ai">harvin.ai</LegalLink>, the HarvinAI Chrome
+          <LegalLink href="https://harvin.ai">harvin.ai</LegalLink>, the HarvinAI Chrome
           Extension, or any related services (collectively, the &quot;Service&quot;), you agree to
           be bound by these Terms and Conditions (&quot;Terms&quot;). If you do not agree to these
           Terms, you must not use the Service.

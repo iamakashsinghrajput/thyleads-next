@@ -106,11 +106,11 @@ export function LegalContact() {
             </div>
             admin@harvin.ai
           </a>
-          <a href="https://www.harvin.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[#C94C1E] hover:text-[#E86335] transition-colors font-medium">
+          <a href="https://harvin.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[#C94C1E] hover:text-[#E86335] transition-colors font-medium">
             <div className="w-9 h-9 rounded-lg bg-[#C94C1E]/10 flex items-center justify-center flex-shrink-0">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
             </div>
-            www.harvin.ai
+            harvin.ai
           </a>
         </div>
       </div>

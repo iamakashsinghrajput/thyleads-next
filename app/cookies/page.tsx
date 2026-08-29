@@ -16,7 +16,7 @@ export default function CookieNotice() {
           when you visit a website. They are widely used to make websites function properly, improve
           user experience, and provide information to site owners. This Cookie Notice explains how
           HarvinAI (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) uses cookies on{' '}
-          <LegalLink href="https://www.harvin.ai">harvin.ai</LegalLink>.
+          <LegalLink href="https://harvin.ai">harvin.ai</LegalLink>.
         </p>
       </LegalSection>
 
