@@ -22,7 +22,8 @@ const styles = `
 const PROMPT: [string, string] = ['How do I get my first meeting?', "What's my next move?"];
 
 /**
- * Shared by background.png AND heroman.png. Both plates are 2730×1536, so an
+ * Shared by background-1920.jpg AND heroman-1600.png. Both plates share the
+ * same aspect ratio and framing, so an
  * identical box + object-position is what re-registers the cut-out onto the
  * scene. Edit this in one place only — divergent crops slide the man off his
  * own chair.
@@ -361,7 +362,7 @@ function CohortCard() {
  * The card sequence. Each slide owns its artwork, its position, its dwell time
  * and — now that the man is a separate cut-out — which side of him it sits on.
  *
- *   behind: true  → drawn between background.png and heroman.png, so the man
+ *   behind: true  → drawn between the background and the man plate, so the man
  *                   physically covers any part of the card that overlaps him.
  *   behind: false → floats over the entire scene.
  */
@@ -406,9 +407,18 @@ export default function Hero() {
         className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[66%]"
         style={{ animation: 'heroImageIn 1.1s cubic-bezier(0.16,1,0.3,1) both' }}
       >
+        {/* The LCP element. The 2730px source was a 5.8 MB PNG of opaque
+            photography — re-encoded to JPEG at display width it is 156 KB,
+            which is the single biggest load-time win on the site. Explicit
+            width/height reserve the box so the hero does not shift while it
+            decodes. fetchPriority tells the browser this is the one image
+            worth fetching first. */}
         <img
-          src="/background.png"
+          src="/background-1920.jpg"
           alt=""
+          width={1920}
+          height={1080}
+          fetchPriority="high"
           className={SCENE_IMG}
           loading="eager"
         />
@@ -438,7 +448,16 @@ export default function Hero() {
         className="pointer-events-none absolute inset-y-0 right-0 z-[7] w-full lg:w-[66%]"
         style={{ animation: 'heroImageIn 1.1s cubic-bezier(0.16,1,0.3,1) both' }}
       >
-        <img src="/heroman.png" alt="" className={`${SCENE_IMG} ${MAN_TRANSFORM}`} loading="eager" />
+        {/* stays PNG — it is a cut-out and needs its alpha; downscaled from
+            2730px to 1600, which is still above its rendered size */}
+        <img
+          src="/heroman-1600.png"
+          alt=""
+          width={1600}
+          height={900}
+          className={`${SCENE_IMG} ${MAN_TRANSFORM}`}
+          loading="eager"
+        />
       </div>
 
       {/* ── Copy scrim — holds the left third near-black so the headline,

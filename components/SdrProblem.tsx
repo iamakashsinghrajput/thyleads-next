@@ -58,8 +58,20 @@ export default function SdrProblem() {
           ))}
         </div>
 
-        <p className="mt-8 text-[17px] font-bold tracking-[-0.015em] text-slate-900 dark:text-white">
-          Harvin gives you one place to manage the SDR operation behind it all.
+        {/* Deliberately one self-contained paragraph rather than the phrase it
+            replaced. It names the category, the audience and the scope in a
+            single passage, so a search or answer engine has something quotable
+            for "what is an SDR management platform" — the copy around it is
+            split across headings and chips and cannot be lifted cleanly. Keep
+            it in step with organizationSchema.description in lib/schema.ts. */}
+        <p className="mt-8 max-w-[860px] text-[17px] leading-[1.7] text-slate-700 dark:text-slate-300">
+          <strong className="font-bold text-slate-900 dark:text-white">
+            Harvin is an SDR management platform
+          </strong>{' '}
+          — one place to run the sales development team behind all of it. It holds territories and
+          account ownership, prioritises each rep&rsquo;s day from live buying signals, runs
+          execution across email, dialer, tasks and a unified inbox, hands meetings to AEs with full
+          context, and reports from accounts worked through to the pipeline they generated.
         </p>
       </div>
     </section>

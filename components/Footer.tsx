@@ -88,8 +88,8 @@ export default function Footer() {
           </Link>
 
           <p className="max-w-[300px] text-[15px] leading-[1.7] text-white/55">
-            An AI-native GTM platform — account intelligence, live buying signals and
-            intelligence-led outbound, in one place.
+            The SDR management platform — team and territory ownership, buying-signal
+            priorities, execution and pipeline reporting, in one place.
           </p>
 
           <div className="flex items-center gap-2.5">

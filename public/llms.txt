@@ -1,0 +1,58 @@
+# Harvin
+
+> Harvin is an SDR management platform: one place for sales leaders to run a sales
+> development team — territories and account ownership, prioritisation from live
+> buying signals, execution across email, dialer, tasks and a unified inbox,
+> meeting handoff to AEs with full context, and reporting from accounts worked
+> through to pipeline generated, with AI coaching on which reps need help and why.
+> Built for SDR leaders, SDR managers, CROs and sales leaders.
+
+An SDR management platform differs from a sales engagement platform: engagement
+tools help a rep execute sequences, calls and email; Harvin is the layer above
+that — deciding who works which accounts, what each rep should do today, and
+whether any of it created pipeline.
+
+## Product
+- [Platform overview](https://harvin.ai/platform): every module — team and
+  territory management, accounts and leads, account intelligence, AI buying-signal
+  detection, watchlists, look-a-like accounts, campaigns and channels, dialer,
+  meetings and handoff, reporting and AI coaching, template builder. Includes an
+  FAQ defining what an SDR management platform is.
+- [Homepage](https://harvin.ai/): the problem SDR managers have — plenty of
+  tools, no single place to run the team — and the platform narrative across the
+  manager, rep and CRO views.
+
+## Solutions by industry
+- [FinTech](https://harvin.ai/solutions/fintech)
+- [MarTech](https://harvin.ai/solutions/martech)
+- [HRTech](https://harvin.ai/solutions/hrtech)
+
+## Blog — outbound, intent data and sales development
+- [7 Best Intent Data Providers That Sales Teams Trust in 2026](https://harvin.ai/blog/7-best-intent-data-providers-that-sales-teams-trust-in-2026)
+- [5 Best Email Outreach Service Providers (2026 Edition)](https://harvin.ai/blog/5-best-email-outreach-service-providers-2026-edition)
+- [Top 5 Lead Generation Companies for 2026](https://harvin.ai/blog/top-5-lead-generation-companies-for-2026)
+- [5 Best Data Enrichment Service Providers (2026 Edition)](https://harvin.ai/blog/5-best-data-enrichment-service-providers-2026-edition)
+- [5 Best Appointment Scheduling Service Agencies (2026 Edition)](https://harvin.ai/blog/5-best-appointment-scheduling-service-agencies-2026)
+- [Every Job Posting Tells You Where a Company Is Going: Reading Hiring Signals Like a GTM Pro](https://harvin.ai/blog/every-job-posting-hiring-signals-gtm-pro)
+- [Waterfall Enrichment: The 2025 Playbook for Maximum Lead Coverage](https://harvin.ai/blog/waterfall-enrichment-2026-playbook)
+- [Reddit for B2B Lead Generation: The Untapped Goldmine](https://harvin.ai/blog/reddit-for-b2b-lead-generation-untapped-goldmine)
+- [10 Data-Driven Outbound Campaigns to Sharpen Your GTM Strategy](https://harvin.ai/blog/10-data-driven-outbound-campaigns-gtm-strategy)
+- [Winning in US RetailTech: A Data-Driven Playbook for 2024](https://harvin.ai/blog/winning-in-us-retailtech-2024)
+- [10 Hard-Earned Outreach Lessons from 2024 (What Actually Works)](https://harvin.ai/blog/10-hard-earned-outreach-lessons-2024)
+- [The Ultimate Guide to Automated, Hyper-Targeted Outreach Using Clay and RSS Feeds](https://harvin.ai/blog/ultimate-guide-automated-hyper-targeted-outreach-clay-rss)
+- [The India GTM Playbook: How SaaS Companies Like CleverTap and VWO Built Pipeline from Zero](https://harvin.ai/blog/india-gtm-playbook-how-saas-companies-like-clevertap-and-vwo-built-pipeline-from-zero)
+- [Outsourced SDR vs. In-House Sales Team in India: A Realistic Cost and Performance Comparison](https://harvin.ai/blog/outsourced-sdr-vs-in-house-sales-team-in-india-cost-and-performance-comparison)
+- [How Fintech SaaS Companies Are Winning Enterprise Deals in India (And What Most Get Wrong)](https://harvin.ai/blog/how-fintech-saas-companies-are-winning-enterprise-deals-in-india)
+- [The Martech Opportunity in India: Why 2026 Is the Year to Move](https://harvin.ai/blog/the-martech-opportunity-in-india-why-2026-is-the-year-to-move)
+
+## Company
+- Harvin AI Ltd, registered in England and Wales, company number 17080422.
+- Registered office: 124 City Road, London EC1V 2NX, United Kingdom.
+- Contact: admin@harvin.ai
+
+## Optional
+- [Privacy Policy](https://harvin.ai/privacy)
+- [Terms of Service](https://harvin.ai/terms)
+- [Cookie Policy](https://harvin.ai/cookies)
+- [Acceptable Use Policy](https://harvin.ai/acceptable-use)
+- [Refund Policy](https://harvin.ai/refund)

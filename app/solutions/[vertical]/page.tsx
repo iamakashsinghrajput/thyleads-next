@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ArrowRight, Check, ShieldCheck, TrendingUp, Users } from 'lucide-react';
 
+import JsonLd from '@/components/JsonLd';
+import { breadcrumbSchema, faqSchema, graph } from '@/lib/schema';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CTA from '@/components/CTA';
@@ -325,7 +327,12 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const v = bySlug((await params).vertical);
   if (!v) return {};
-  return { title: v.seoTitle, description: v.seoDesc };
+  return {
+    title: v.seoTitle,
+    description: v.seoDesc,
+    alternates: { canonical: `/solutions/${v.slug}` },
+    openGraph: { title: v.seoTitle, description: v.seoDesc, url: `/solutions/${v.slug}` },
+  };
 }
 
 /* ── Section header, matching /platform's left-aligned rhythm ─────────── */
@@ -349,6 +356,18 @@ export default async function VerticalPage(
 
   return (
     <div className="min-h-screen bg-sand-100 dark:bg-[#040404]">
+      {/* the FAQs marked up here are the ones rendered further down this page —
+          never mark up questions a visitor cannot see */}
+      <JsonLd
+        data={graph(
+          faqSchema(v.faq),
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Solutions', path: '/solutions' },
+            { name: v.name, path: `/solutions/${v.slug}` },
+          ])
+        )}
+      />
       <Navbar />
 
       {/* ═══ HERO ══════════════════════════════════════════════════════════ */}

@@ -56,7 +56,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Jan 10, 2026",
     readTime: "6 min read",
@@ -729,7 +729,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder and CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "May 10, 2026",
     readTime: "5 min read",
@@ -1050,7 +1050,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "May 20, 2026",
     readTime: "5 min read",
@@ -1362,7 +1362,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder. & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "May 5, 2026",
     readTime: "5 min read",
@@ -1686,7 +1686,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Feb 14, 2026",
     readTime: "3 min read",
@@ -2070,7 +2070,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Mar 18, 2026",
     readTime: "7 min read",
@@ -2307,7 +2307,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Apr 13, 2026",
     readTime: "7 min read",
@@ -2502,7 +2502,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Dec 22, 2025",
     readTime: "7 min read",
@@ -2810,7 +2810,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Apr 18, 2026",
     readTime: "7 min read",
@@ -3019,7 +3019,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Feb 13, 2026",
     readTime: "7 min read",
@@ -3179,7 +3179,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Feb 11, 2026",
     readTime: "7 min read",
@@ -3395,7 +3395,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Mar 14, 2026",
     readTime: "7 min read",
@@ -3566,7 +3566,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Feb 24, 2026",
     readTime: "7 min read",
@@ -3642,7 +3642,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Jan 14, 2026",
     readTime: "6 min read",
@@ -3713,7 +3713,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Mar 1, 2026",
     readTime: "7 min read",
@@ -3777,7 +3777,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin delivers premium, conversion-ready meetings for SaaS organizations through AI-enhanced personalization and data-centric prospecting."
+      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
     },
     date: "Jan 30, 2026",
     readTime: "7 min read",

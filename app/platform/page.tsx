@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import PromptFunnel from '@/components/PromptFunnel';
 import Platform from '@/components/Platform';
+import PlatformFaq from '@/components/PlatformFaq';
 import ProductSteps from '@/components/ProductSteps';
 
 /* ── Keyframe styles ─────────────────────────────────────────────────────── */
@@ -341,14 +342,14 @@ export default function ProductPage() {
                   className={`inline-block transition-all delay-[150ms] duration-700
                              ${heroReady ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
                 >
-                  The GTM intelligence platform
+                  The SDR management platform
                 </span>
                 <br />
                 <span
                   className={`inline-block transition-all delay-[300ms] duration-700
                              ${heroReady ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
                 >
-                  built for revenue teams
+                  built for sales leaders
                 </span>
               </h1>
 
@@ -356,10 +357,12 @@ export default function ProductPage() {
                 className={`mt-5 max-w-[560px] text-[14px] sm:text-[16px] leading-relaxed text-slate-600 dark:text-white/70 transition-all delay-[500ms] duration-700
                            ${heroReady ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
               >
-                Harvin tracks your target accounts, detects real-time buying signals, and tells your
-                team exactly{' '}
-                <em className="font-medium not-italic text-slate-900 dark:text-white">who to sell to and when</em>. Stop
-                guessing. Start closing.
+                Manage reps, territories and account ownership, prioritise every SDR&rsquo;s day from
+                live buying signals, run email, calls and tasks in one workflow, and see{' '}
+                <em className="font-medium not-italic text-slate-900 dark:text-white">
+                  what actually creates pipeline
+                </em>{' '}
+                — from one platform.
               </p>
 
               <form
@@ -462,6 +465,8 @@ export default function ProductPage() {
             </div>
           </div>
         </section>
+
+        <PlatformFaq />
 
         {/* ═══ CTA ═══════════════════════════════════════════════════════════ */}
         <CTA />

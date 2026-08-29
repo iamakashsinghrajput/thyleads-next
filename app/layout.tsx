@@ -1,4 +1,5 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
+import { SITE_URL } from '@/lib/site';
 import { JetBrains_Mono, Bricolage_Grotesque } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
@@ -33,9 +34,82 @@ const bricolageGrotesque = Bricolage_Grotesque({
 });
 
 /* ── Metadata ─────────────────────────────────────────────────────────────── */
+/**
+ * The site's SEO spine.
+ *
+ * `metadataBase` is what makes every relative OG/canonical URL in the app
+ * resolve to an absolute one — without it Next emits relative og:image paths,
+ * which most crawlers and every social unfurler ignore.
+ *
+ * The title template appends the brand to child pages, so a page only ever
+ * declares its own subject. The default is the one exception, written out in
+ * full for the homepage.
+ *
+ * PRIMARY TERM: "SDR management platform". It leads the title, the description
+ * and the H1 (components/Hero.tsx), because a term that appears in only one of
+ * the three reads as incidental rather than as what the page is about.
+ */
 export const metadata: Metadata = {
-  title:       'Harvin — The AI-Native GTM Intelligence Platform',
-  description: 'Detect buying signals, prioritize accounts dynamically, and launch intelligence-led outbound campaigns — from one continuously learning GTM operating system.',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Harvin — SDR Management Platform for Sales Teams',
+    template: '%s | Harvin',
+  },
+  description:
+    'Harvin is the SDR management platform that gives sales leaders one place to run the team — territories and account ownership, buying signals that set daily priorities, email, dialer and tasks, meeting handoffs, and reporting from accounts worked through to pipeline.',
+  applicationName: 'Harvin',
+  keywords: [
+    'SDR management platform',
+    'sales development platform',
+    'SDR team management software',
+    'account ownership and territory management',
+    'buying signals',
+    'sales engagement platform',
+    'SDR performance reporting',
+    'AI sales coaching',
+  ],
+  authors: [{ name: 'Harvin' }],
+  creator: 'Harvin',
+  publisher: 'Harvin',
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    siteName: 'Harvin',
+    url: SITE_URL,
+    title: 'Harvin — SDR Management Platform for Sales Teams',
+    description:
+      'One place to run a high-performing SDR team: ownership, priorities, execution, meetings and pipeline reporting.',
+    images: [{ url: '/dashboard-preview.png', width: 2940, height: 1600, alt: 'The Harvin SDR management workspace' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Harvin — SDR Management Platform for Sales Teams',
+    description:
+      'One place to run a high-performing SDR team: ownership, priorities, execution, meetings and pipeline reporting.',
+    images: ['/dashboard-preview.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 },
+  },
+  /* No `icons` field on purpose: app/icon.svg and app/favicon.ico are
+     file-convention icons that Next serves and links automatically. Declaring
+     them here as well emits a second <link rel="icon"> for the same asset. */
+};
+
+/**
+ * Next separates viewport from metadata; without this export the framework
+ * default applies but themeColor is never set, so mobile browser chrome does
+ * not pick up the brand colour.
+ */
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F7F3EB' },
+    { media: '(prefers-color-scheme: dark)', color: '#0D0D0C' },
+  ],
 };
 
 /* ── Root layout ──────────────────────────────────────────────────────────── */

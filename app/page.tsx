@@ -1,3 +1,7 @@
+import type { Metadata } from 'next';
+
+import JsonLd from '@/components/JsonLd';
+import { graph, organizationSchema, softwareSchema, websiteSchema } from '@/lib/schema';
 import Navbar      from '@/components/Navbar';
 import Hero        from '@/components/Hero';
 import HowItWorks  from '@/components/HowItWorks';
@@ -9,9 +13,18 @@ import Testimonials from '@/components/Testimonials';
 import CTA         from '@/components/CTA';
 import Footer      from '@/components/Footer';
 
+/** The homepage keeps the root title verbatim rather than templating the brand
+ *  on twice; everything else here narrows the root defaults. */
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-sand-100 dark:bg-slate-950 transition-colors duration-300">
+      {/* Declared once, here: every other page references these @ids rather
+          than redeclaring the entity. */}
+      <JsonLd data={graph(organizationSchema, websiteSchema, softwareSchema)} />
       <Navbar />
       <div>
         <Hero />

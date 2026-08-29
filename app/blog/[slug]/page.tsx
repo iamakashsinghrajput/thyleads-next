@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Calendar, Clock } from 'lucide-react';
 
+import JsonLd from '@/components/JsonLd';
+import { articleSchema, breadcrumbSchema, graph } from '@/lib/schema';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CTA from '@/components/CTA';
@@ -32,8 +34,11 @@ export async function generateMetadata(
   const post = bySlug((await params).slug);
   if (!post) return {};
   return {
-    title: `${post.title} | Harvin`,
+    /* the root template already appends the brand — repeating it here gives
+       "Title | Harvin | Harvin" */
+    title: post.title,
     description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: { title: post.title, description: post.excerpt, images: post.image ? [post.image] : undefined },
   };
 }
@@ -135,8 +140,7 @@ function RelatedCard({ post }: { post: BlogPost }) {
       <div className="relative aspect-[16/9] overflow-hidden bg-sand-200">
         <img
           src={post.cardImage || post.image}
-          alt=""
-          aria-hidden="true"
+          alt={post.title}
           loading="lazy"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
         />
@@ -165,6 +169,23 @@ export default async function BlogPostPage(
 
   return (
     <div className="min-h-screen bg-sand-100 dark:bg-[#040404]">
+      <JsonLd
+        data={graph(
+          articleSchema({
+            slug: post.slug,
+            title: post.title,
+            excerpt: post.excerpt,
+            date: post.date,
+            image: post.image || undefined,
+            author: post.author.name,
+          }),
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Blog', path: '/blog' },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ])
+        )}
+      />
       <Navbar />
 
       <article>
@@ -219,7 +240,7 @@ export default async function BlogPostPage(
         {!post.hideHeroImage && post.image && (
           <div className="px-4 sm:px-6 lg:px-8">
             <figure className="mx-auto max-w-[1000px] overflow-hidden rounded-2xl border border-slate-200 dark:border-white/[0.08]">
-              <img src={post.image} alt="" aria-hidden="true" loading="eager" className="h-auto w-full object-cover" />
+              <img src={post.image} alt={post.title} loading="eager" className="h-auto w-full object-cover" />
             </figure>
           </div>
         )}

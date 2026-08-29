@@ -132,8 +132,7 @@ export default function BlogIndex() {
               <div className="relative aspect-[16/10] overflow-hidden bg-sand-200 lg:aspect-auto lg:min-h-[320px]">
                 <img
                   src={featured.cardImage || featured.image || FALLBACK_IMG}
-                  alt=""
-                  aria-hidden="true"
+                  alt={featured.title}
                   loading="eager"
                   className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
                 />
@@ -185,8 +184,7 @@ export default function BlogIndex() {
                   <div className="relative aspect-[16/9] overflow-hidden bg-sand-200">
                     <img
                       src={p.cardImage || p.image || FALLBACK_IMG}
-                      alt=""
-                      aria-hidden="true"
+                      alt={p.title}
                       loading="lazy"
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
                     />
