@@ -5,6 +5,7 @@ import { portalUrl } from '@/lib/portal';
 import {
   ArrowRight,
   ArrowUpRight,
+  BookOpen,
   Bookmark,
   Briefcase,
   Building2,
@@ -159,6 +160,7 @@ const SOLUTION_LINKS: NavLink[] = [
 ];
 
 const RESOURCES: NavLink[] = [
+  { name: 'SDR Management Platform', href: '/sdr-management-platform', Icon: BookOpen },
   { name: 'Blog', href: '/blog', Icon: Newspaper },
   { name: 'Product Tour', href: '/platform', Icon: Compass },
   { name: 'Get the Extension', href: EXTENSION_URL, Icon: Puzzle },

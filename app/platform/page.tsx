@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CTA from '@/components/CTA';
@@ -463,6 +464,21 @@ export default function ProductPage() {
                 <UseCaseCard key={uc.title} uc={uc} index={i} />
               ))}
             </div>
+
+            {/* The category page is the top of this funnel, not a footnote —
+                someone still deciding whether they need this kind of tool at
+                all should be able to get there from the product page. */}
+            <p className="mt-10 max-w-[680px] text-[15px] leading-[1.7] text-slate-600 dark:text-slate-400">
+              New to the category? Our guide to{' '}
+              <Link
+                href="/sdr-management-platform"
+                className="font-semibold text-ember-600 underline underline-offset-4 transition-colors hover:text-ember-500 dark:text-ember-300 dark:hover:text-ember-200"
+              >
+                SDR management platforms
+              </Link>{' '}
+              covers what they do, how they differ from a CRM and a sales engagement platform, and
+              when one is the wrong purchase.
+            </p>
           </div>
         </section>
 

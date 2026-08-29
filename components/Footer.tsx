@@ -14,9 +14,18 @@ const NAV_COLS = [
   {
     heading: 'Product',
     links: [
-      { label: 'Overview', href: '/platform' },
       { label: 'Platform', href: '/platform' },
       { label: 'Tech Scanner', href: portalUrl(), external: true },
+    ],
+  },
+  {
+    heading: 'Resources',
+    links: [
+      { label: 'SDR management platform', href: '/sdr-management-platform' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Fintech', href: '/solutions/fintech' },
+      { label: 'Martech', href: '/solutions/martech' },
+      { label: 'HR tech', href: '/solutions/hrtech' },
     ],
   },
   {
@@ -80,7 +89,7 @@ export default function Footer() {
       />
 
       {/* ── Main grid ─────────────────────────────────────────────────────── */}
-      <div className="mx-auto grid max-w-[1300px] grid-cols-2 gap-x-8 gap-y-12 px-6 py-20 md:grid-cols-[1.6fr_1fr_1fr_1fr] lg:px-8 lg:py-24">
+      <div className="mx-auto grid max-w-[1300px] grid-cols-2 gap-x-8 gap-y-12 px-6 py-20 md:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))] lg:px-8 lg:py-24">
         {/* Brand column */}
         <div className="col-span-2 flex flex-col gap-7 md:col-span-1 md:pr-8">
           <Link href="/" className="flex w-fit items-center gap-0.5">
