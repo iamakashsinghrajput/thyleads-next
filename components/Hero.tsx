@@ -507,7 +507,7 @@ export default function Hero() {
 
             <h1
               className="font-bricolage font-bold tracking-[-0.02em] leading-[1.05]
-                         text-[clamp(32px,4.2vw,52px)] text-white"
+                         text-[clamp(30px,3.55vw,44px)] text-white"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.06s both' }}
             >
               Run a high-performing SDR team from one place.
