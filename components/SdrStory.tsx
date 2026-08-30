@@ -859,16 +859,27 @@ function ForLeaders() {
 }
 
 /* ── The narrative, in wireframe order ────────────────────────────────── */
+/**
+ * Ordered as a persona arc, widening one tier at a time: the rep's own day
+ * first, then the manager reading across the team, then the exec reading the
+ * investment. The two always-dark blocks (ForManagers, Coaching) land on the
+ * tier boundaries, so the ground changing under the reader IS the handoff.
+ */
 export default function SdrStory() {
   return (
     <>
-      <ForManagers />
-      <PlanAssign />
+      {/* ── The SDR: their workspace, their execution, their booked meeting ── */}
       <ForSdrs />
-      <Intelligence />
       <SdrExecution />
       <MeetingToOutcome />
+
+      {/* ── The manager: the whole team, the book of business, the coaching ── */}
+      <ForManagers />
+      <PlanAssign />
+      <Intelligence />
       <Coaching />
+
+      {/* ── The leader: what the whole investment produced ── */}
       <ForLeaders />
     </>
   );

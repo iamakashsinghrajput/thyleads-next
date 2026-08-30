@@ -105,8 +105,8 @@ function TypedLines({ lines, delay }: { lines: [string, string]; delay: number }
   );
 }
 
-/** Card 1 — the Co-Marketer prompt, rising from behind the laptop lid. */
-function CoMarketerCard() {
+/** Card 1 — the Harvin Intelligence prompt, rising from behind the laptop lid. */
+function HarvinIntelligenceCard() {
   return (
     <div
       className="w-[360px]"
@@ -120,7 +120,7 @@ function CoMarketerCard() {
             <div className="min-w-0 flex-1">
               <span className="flex items-center gap-1.5 text-[#F2841C]">
                 <Sparkle />
-                <span className="font-bricolage text-[16.5px] font-bold tracking-[-0.01em]">Co-Marketer</span>
+                <span className="font-bricolage text-[16.5px] font-bold tracking-[-0.01em]">Harvin Intelligence</span>
               </span>
               <div className="mt-2.5">
                 <TypedLines lines={PROMPT} delay={1550} />
@@ -367,7 +367,7 @@ function CohortCard() {
  *   behind: false → floats over the entire scene.
  */
 const SLIDES: { key: string; pos: string; ms: number; behind: boolean; node: React.ReactNode }[] = [
-  { key: 'co-marketer', pos: 'bottom-[60%] left-[65%] -translate-x-1/2', ms: 8200, behind: false, node: <CoMarketerCard /> },
+  { key: 'harvin-intelligence', pos: 'bottom-[60%] left-[65%] -translate-x-1/2', ms: 8200, behind: false, node: <HarvinIntelligenceCard /> },
   // Sits to the man's LEFT, with its right edge inside his silhouette so his
   // arm crops that corner. It used to sit on his right, but once he moved over
   // there was less viewport left of the edge than the card is wide — it would

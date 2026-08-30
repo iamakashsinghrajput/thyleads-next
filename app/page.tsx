@@ -4,7 +4,7 @@ import JsonLd from '@/components/JsonLd';
 import { graph, organizationSchema, softwareSchema, websiteSchema } from '@/lib/schema';
 import Navbar      from '@/components/Navbar';
 import Hero        from '@/components/Hero';
-import HowItWorks  from '@/components/HowItWorks';
+import ProductSteps from '@/components/ProductSteps';
 import SdrProblem  from '@/components/SdrProblem';
 import SdrStory    from '@/components/SdrStory';
 import TheData     from '@/components/TheData';
@@ -28,13 +28,16 @@ export default function Home() {
       <Navbar />
       <div>
         <Hero />
-        {/* <HowItWorks /> */}
+        {/* Problem → mechanism → product → personas → proof → onboarding → ask.
+            Onboarding sits late on purpose: "live in three weeks" only means
+            something once the reader knows what goes live. */}
         <SdrProblem />
-        <SdrStory />
-        <TheData />
+        <ProductSteps />
         <Platform />
+        <SdrStory />
         <Testimonials />
-        {/* rides up over the sticky testimonials — the parallax reveal */}
+        <TheData />
+        {/* rides up over TheData's pinned panel — the parallax reveal */}
         <div className="relative z-10">
           <CTA />
         </div>
