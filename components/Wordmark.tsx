@@ -26,7 +26,7 @@
 export type WordmarkVariant = 'caps' | 'lower' | 'mark';
 
 /** The form the site uses. Change this one value to switch navbar + footer. */
-export const BRAND_VARIANT: WordmarkVariant = 'mark';
+export const BRAND_VARIANT: WordmarkVariant = 'lower';
 
 /**
  * Mark height as a multiple of the font size.
@@ -39,16 +39,38 @@ export const BRAND_VARIANT: WordmarkVariant = 'mark';
 const MARK_SCALE: Record<WordmarkVariant, number> = { caps: 1.62, lower: 1.62, mark: 1.34 };
 
 /**
- * The word sits optically high against a mark this much taller than it, so it
- * is dropped a touch. Centring is geometric; this is the optical correction.
+ * How far the word drops from geometric centre, per variant.
+ *
+ * 'caps'/'lower' drop the word so it reads as sitting on the mark's bottom
+ * rather than floating in the middle of a much taller logo.
+ *
+ * This is an OPTICAL value, chosen against rendered comparisons — not the
+ * geometric one. Aligning the baseline to the artwork's true lowest pixel
+ * needs 0.42em, but that looks dropped: the mark's bottom is a taper, falling
+ * from 256px wide to 46px over its last 20 rows, so its lowest pixels are a
+ * narrow tip the eye does not read as the edge. 0.24em sets the word against
+ * the bottom curve while it still carries mass.
+ *
+ * Re-judge by eye if the mark artwork is ever re-exported, or if MARK_SCALE
+ * changes; measuring to the pixel bottom will reintroduce the same problem.
+ *
+ * 'mark' keeps the original small correction: there the logo stands in for the
+ * H at a much smaller scale, so it is already on the baseline and dropping the
+ * word would pull it off.
  */
-const TEXT_NUDGE = 'translate-y-[0.06em]';
+const TEXT_NUDGE: Record<WordmarkVariant, string> = {
+  caps:  'translate-y-[0.24em]',
+  lower: 'translate-y-[0.24em]',
+  mark:  'translate-y-[0.06em]',
+};
 
 /**
  * The mark stands in for a capital H, which sits on the baseline while the
  * following lowercase letters do not — this drops it to match. It carries
- * TEXT_NUDGE's 0.06em too, so it keeps the same relationship to the word after
- * the correction above; change one and change the other.
+ * TEXT_NUDGE.mark's 0.06em too, so it keeps the same relationship to the word
+ * after that correction; change one and change the other. Only the 'mark'
+ * entry is coupled to this — 'caps'/'lower' place the mark beside the word, not
+ * inside it, so their nudge is independent.
  */
 const MARK_NUDGE = 'translate-y-[0.09em]';
 
@@ -66,7 +88,7 @@ export default function Wordmark({
 }) {
   const mark = (
     <img
-      src="/logo1.png"
+      src="/harvinlogo/logo.png"
       alt=""
       aria-hidden="true"
       className={`w-auto flex-shrink-0 object-contain ${markClassName}`}
@@ -84,7 +106,7 @@ export default function Wordmark({
       <span className={`inline-flex ${variant === 'mark' ? MARK_NUDGE : ''}`}>{mark}</span>
       <span
         aria-hidden="true"
-        className={`font-bricolage font-bold leading-none tracking-[-0.01em] ${TEXT_NUDGE} ${className}`}
+        className={`font-bricolage font-bold leading-none tracking-[-0.01em] ${TEXT_NUDGE[variant]} ${className}`}
         style={{ fontSize: `${size}px` }}
       >
         {variant === 'caps' && 'Harvin'}

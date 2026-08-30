@@ -79,14 +79,19 @@ export const metadata: Metadata = {
     title: 'Harvin — SDR Management Platform for Sales Teams',
     description:
       'One place to run a high-performing SDR team: ownership, priorities, execution, meetings and pipeline reporting.',
-    images: [{ url: '/dashboard-preview.png', width: 2940, height: 1600, alt: 'The Harvin SDR management workspace' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Harvin — the SDR management platform for sales teams' }],
   },
+  /* Points at app/opengraph-image.tsx (the generated card) rather than relying
+     on the file convention alone. The convention only reaches segments that do
+     not declare an `openGraph` block of their own — /platform, /contact,
+     /sdr-management-platform and /solutions/[vertical] all do, and would end up
+     with no card at all. Declared here, it inherits down to every one of them. */
   twitter: {
     card: 'summary_large_image',
     title: 'Harvin — SDR Management Platform for Sales Teams',
     description:
       'One place to run a high-performing SDR team: ownership, priorities, execution, meetings and pipeline reporting.',
-    images: ['/dashboard-preview.png'],
+    images: ['/opengraph-image'],
   },
   robots: {
     index: true,

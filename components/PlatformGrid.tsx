@@ -455,7 +455,7 @@ function ZoomFrame({ title, children }: { title: string; children: React.ReactNo
     <Panel>
       <div className="absolute -bottom-8 -right-12 left-8 top-7 overflow-hidden rounded-tl-2xl border-l border-t border-slate-200/80 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.13)] dark:border-white/10 dark:bg-[#16130F]">
         <div className="flex items-center border-b border-slate-200/70 px-5 py-3 dark:border-white/[0.06]">
-          <img src="/logo1.png" alt="" aria-hidden="true" className="h-[18px] w-auto" />
+          <img src="/harvinlogo/logo.png" alt="" aria-hidden="true" className="h-[18px] w-auto" />
         </div>
         <p className="px-5 py-4 text-[19px] font-bold tracking-[-0.02em] text-slate-900 dark:text-white">
           {title}

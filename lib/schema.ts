@@ -21,7 +21,7 @@ export const organizationSchema = {
   name: 'Harvin',
   legalName: LEGAL_NAME,
   url: SITE_URL,
-  logo: `${SITE_URL}/logo1.png`,
+  logo: `${SITE_URL}/harvinlogo/logo.png`,
   description:
     'Harvin is an SDR management platform that gives sales leaders one place to run a sales development team — territories and account ownership, buying-signal prioritisation, execution across email, dialer and tasks, meeting handoffs, and reporting from accounts worked through to pipeline.',
   email: 'admin@harvin.ai',
@@ -119,7 +119,7 @@ export const articleSchema = (a: {
   headline: a.title,
   description: a.excerpt,
   datePublished: a.date,
-  image: a.image ? `${SITE_URL}${a.image}` : `${SITE_URL}/dashboard-preview.png`,
+  image: a.image ? `${SITE_URL}${a.image}` : `${SITE_URL}/opengraph-image`,
   author: { '@type': 'Person', name: a.author },
   publisher: { '@id': ORG_ID },
   mainEntityOfPage: `${SITE_URL}/blog/${a.slug}`,

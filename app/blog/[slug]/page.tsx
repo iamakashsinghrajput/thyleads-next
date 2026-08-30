@@ -39,7 +39,16 @@ export async function generateMetadata(
     title: post.title,
     description: post.excerpt,
     alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: { title: post.title, description: post.excerpt, images: post.image ? [post.image] : undefined },
+    /* Names the site card explicitly for posts with no artwork of their own.
+       A page-level generateMetadata that declares `openGraph` does NOT inherit
+       the app/opengraph-image.tsx file convention the way a layout does, so
+       omitting `images` here left those posts with no social card at all.
+       `post.image` is '' (not undefined) on such posts, hence `||`. */
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: [post.image || '/opengraph-image'],
+    },
   };
 }
 

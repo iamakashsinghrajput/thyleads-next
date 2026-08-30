@@ -632,7 +632,7 @@ export default function Convergence() {
           />
           <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">
-              <img src="/logo1.png" alt="" aria-hidden="true" className="h-10 w-auto flex-shrink-0" />
+              <img src="/harvinlogo/logo.png" alt="" aria-hidden="true" className="h-10 w-auto flex-shrink-0" />
               <div className="min-w-0">
                 <p className="font-bricolage text-[19px] font-bold leading-none text-white">Harvin</p>
                 <p className="mt-1.5 text-[13px] text-white/55">

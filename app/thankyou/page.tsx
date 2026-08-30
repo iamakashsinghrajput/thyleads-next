@@ -40,7 +40,7 @@ export default function ThankYouPage() {
           {/* Logo */}
           <div className="flex items-center justify-center gap-0.5 mb-8">
             <div className="h-8 w-9 overflow-hidden flex-shrink-0">
-              <img src="/logo1.png" alt="" aria-hidden="true" className="h-8 w-auto max-w-none" />
+              <img src="/harvinlogo/logo.png" alt="" aria-hidden="true" className="h-8 w-auto max-w-none" />
             </div>
             <span className="font-bricolage font-bold text-[31px] tracking-normal text-slate-900 dark:text-white leading-none">Harvin</span>
           </div>

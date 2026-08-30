@@ -16,7 +16,10 @@ export const metadata: Metadata = {
     title: 'Harvin — SDR Management Platform, module by module',
     description: 'Ownership, priorities, execution, meetings and pipeline reporting in one platform.',
     url: '/platform',
-    images: ['/dashboard-preview.png'],
+    /* Next replaces a parent's `openGraph` wholesale rather than merging
+       `images` into it, so every segment that declares its own block has to
+       name the card (app/opengraph-image.tsx) again or ship with none. */
+    images: ['/opengraph-image'],
   },
 };
 

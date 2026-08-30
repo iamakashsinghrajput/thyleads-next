@@ -333,7 +333,15 @@ export async function generateMetadata(
     title: v.seoTitle,
     description: v.seoDesc,
     alternates: { canonical: `/solutions/${v.slug}` },
-    openGraph: { title: v.seoTitle, description: v.seoDesc, url: `/solutions/${v.slug}` },
+    /* `images` named explicitly: a child `openGraph` replaces the root's
+       rather than merging into it, so without this the page ships with no
+       social card at all. */
+    openGraph: {
+      title: v.seoTitle,
+      description: v.seoDesc,
+      url: `/solutions/${v.slug}`,
+      images: ['/opengraph-image'],
+    },
   };
 }
 

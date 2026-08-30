@@ -33,6 +33,10 @@ export const metadata: Metadata = {
     description:
       'Questions about the platform, a demo, or your SDR team’s setup — reach the team directly.',
     url: '/contact',
+    /* Next replaces a parent's `openGraph` wholesale rather than merging
+       `images` into it, so every segment that declares its own block has to
+       name the card (app/opengraph-image.tsx) again or ship with none. */
+    images: ['/opengraph-image'],
   },
 };
 
