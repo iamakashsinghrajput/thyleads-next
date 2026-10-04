@@ -1,9 +1,8 @@
 // The dashboard lives in the portal app, not on this site. Every "Sign in" /
-// "Dashboard" link points there. Override per-environment with
-// NEXT_PUBLIC_PORTAL_URL (production portal: https://www.portal-thyleads.com).
+// "Dashboard" link points there. Override per-environment with NEXT_PUBLIC_PORTAL_URL.
 export const PORTAL_URL =
   process.env.NEXT_PUBLIC_PORTAL_URL ||
-  'https://thyleads-stage-124505732717.asia-south1.run.app';
+  'https://portal-thyleads.com';
 
 export function portalUrl(path = ''): string {
   const base = PORTAL_URL.replace(/\/+$/, '');
