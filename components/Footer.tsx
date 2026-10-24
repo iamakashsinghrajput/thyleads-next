@@ -14,26 +14,36 @@ const NAV_COLS = [
   {
     heading: 'Product',
     links: [
-      { label: 'Platform', href: '/platform' },
-      { label: 'Tech Scanner', href: portalUrl(), external: true },
+      { label: 'Account Intelligence', href: '/account-intelligence' },
+      { label: 'Outreach & Engagement', href: '/outreach-and-engagement' },
+      { label: 'Performance & Insights', href: '/#sdr' },
+      { label: 'Integrations', href: '/#signals' },
+    ],
+  },
+  {
+    heading: 'Roles',
+    links: [
+      { label: 'SDR', href: '/sdr' },
+      { label: 'SDR Head', href: '/sdr-head' },
+      { label: 'AE', href: '/ae' },
     ],
   },
   {
     heading: 'Resources',
     links: [
-      { label: 'SDR management platform', href: '/sdr-management-platform' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Fintech', href: '/solutions/fintech' },
-      { label: 'Martech', href: '/solutions/martech' },
-      { label: 'HR tech', href: '/solutions/hrtech' },
-      { label: 'Contact', href: '/contact' },
+      { label: 'Product Tour', href: '/product-tour' },
+      { label: 'About Us', href: '/about' },
+      { label: 'Contact Us', href: '/contact' },
+      { label: 'Blogs', href: '/blog' },
     ],
   },
   {
     heading: 'Account',
     links: [
-      { label: 'Sign in', href: portalUrl(), external: true },
-      { label: 'Dashboard', href: portalUrl(), external: true },
+      { label: 'Pricing', href: '/pricing' },
+      { label: 'Log in', href: portalUrl(), external: true },
+      { label: 'Sign up for free', href: portalUrl(), external: true },
+      { label: 'Get a demo', href: portalUrl(), external: true },
     ],
   },
   {
@@ -72,9 +82,9 @@ const GitHubIcon = () => (
 );
 
 const SOCIALS = [
-  { icon: <TwitterIcon />,  href: 'https://twitter.com/harvinai',          label: 'Twitter'  },
+  { icon: <TwitterIcon />, href: 'https://twitter.com/harvinai', label: 'Twitter' },
   { icon: <LinkedInIcon />, href: 'https://linkedin.com/company/harvinai', label: 'LinkedIn' },
-  { icon: <GitHubIcon />,   href: 'https://github.com/harvinai',           label: 'GitHub'   },
+  { icon: <GitHubIcon />, href: 'https://github.com/harvinai', label: 'GitHub' },
 ];
 
 /* ── Component ────────────────────────────────────────────────────────────── */
@@ -89,17 +99,16 @@ export default function Footer() {
         className="h-px w-full bg-gradient-to-r from-transparent via-ember-500/40 to-transparent"
       />
 
-      {/* ── Main grid ─────────────────────────────────────────────────────── */}
-      <div className="mx-auto grid max-w-[1300px] grid-cols-2 gap-x-8 gap-y-12 px-6 py-20 md:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))] lg:px-8 lg:py-24">
+      {/* ── Main grid (Brand + 5 Nav columns in single row on desktop) ──────── */}
+      <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-12 px-6 py-16 sm:grid-cols-3 md:grid-cols-[1.3fr_repeat(5,minmax(0,1fr))] lg:gap-x-8 lg:px-8 lg:py-20">
         {/* Brand column */}
-        <div className="col-span-2 flex flex-col gap-7 md:col-span-1 md:pr-8">
-          <Link href="/" className="flex w-fit items-center gap-0.5">
-            <Wordmark size={31} className="text-white" />
+        <div className="col-span-2 flex flex-col gap-6 sm:col-span-3 md:col-span-1 md:pr-4">
+          <Link href="/" className="flex w-fit items-center gap-0.5 rounded-xl bg-white px-3 py-1.5 shadow-sm">
+            <Wordmark size={28} className="text-black" />
           </Link>
 
-          <p className="max-w-[300px] text-[15px] leading-[1.7] text-white/55">
-            The SDR management platform — team and territory ownership, buying-signal
-            priorities, execution and pipeline reporting, in one place.
+          <p className="max-w-[280px] text-[15px] font-normal leading-[1.65] text-white/55">
+            The SDR management platform connecting your team &amp; workflows in one place.
           </p>
 
           <div className="flex items-center gap-2.5">

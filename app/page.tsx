@@ -3,19 +3,23 @@ import type { Metadata } from 'next';
 import JsonLd from '@/components/JsonLd';
 import { graph, organizationSchema, softwareSchema, websiteSchema } from '@/lib/schema';
 import Navbar      from '@/components/Navbar';
-import Hero        from '@/components/Hero';
-import ProductSteps from '@/components/ProductSteps';
-import SdrProblem  from '@/components/SdrProblem';
-import SdrStory    from '@/components/SdrStory';
-import TheData     from '@/components/TheData';
-import Platform    from '@/components/Platform';
+import Hero from '@/components/Hero';
+import SdrProblem from '@/components/SdrProblem';
+import WorkspacesSection from '@/components/WorkspacesSection';
+import FeatureSection from '@/components/FeatureSection';
+import SdrStory from '@/components/SdrStory';
 import Testimonials from '@/components/Testimonials';
-import CTA         from '@/components/CTA';
-import Footer      from '@/components/Footer';
+import HomeFaq from '@/components/HomeFaq';
+import TheData from '@/components/TheData';
+import CTA from '@/components/CTA';
+import Footer from '@/components/Footer';
 
 /** The homepage keeps the root title verbatim rather than templating the brand
  *  on twice; everything else here narrows the root defaults. */
 export const metadata: Metadata = {
+  title: 'Harvin — Run your entire SDR operation from one platform',
+  description:
+    'Harvin brings sales intelligence, sales prospecting, outreach, meetings, and SDR team management into one connected workspace.',
   alternates: { canonical: '/' },
 };
 
@@ -28,14 +32,12 @@ export default function Home() {
       <Navbar />
       <div>
         <Hero />
-        {/* Problem → mechanism → product → personas → proof → onboarding → ask.
-            Onboarding sits late on purpose: "live in three weeks" only means
-            something once the reader knows what goes live. */}
         <SdrProblem />
-        <ProductSteps />
-        <Platform />
+        <WorkspacesSection />
+        <FeatureSection />
         <SdrStory />
         <Testimonials />
+        <HomeFaq />
         <TheData />
         {/* rides up over TheData's pinned panel — the parallax reveal */}
         <div className="relative z-10">
