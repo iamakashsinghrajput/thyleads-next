@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Clock, Mail, Phone, Zap } from 'lucide-react';
 import { useModal } from '@/components/ModalContext';
 import TrustedStrip from '@/components/TrustedStrip';
@@ -507,54 +508,58 @@ export default function Hero() {
 
             <h1
               className="font-bricolage font-bold tracking-[-0.02em] leading-[1.05]
-                         text-[clamp(30px,3.55vw,44px)] text-white"
+                         text-[clamp(32px,3.8vw,48px)] text-white"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.06s both' }}
             >
-              Run a high-performing SDR team from one place.
+              Run your entire SDR operation from one platform.
             </h1>
 
             <p
-              className="mt-5 max-w-[540px] text-[14px] sm:text-[16px] leading-relaxed text-white/70"
+              className="mt-5 max-w-[540px] text-[15px] sm:text-[16.5px] leading-relaxed text-white/75"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both' }}
             >
-              Manage your team, territories, accounts, outreach, conversations, meetings and
-              performance with a clear view of what is happening and where your SDRs should focus
-              next.
+              Harvin brings sales intelligence, sales prospecting, outreach, meetings, and SDR team
+              management into one connected workspace.
             </p>
 
-            <p
-              className="mt-4 text-[13px] italic text-white/45"
+            <ul
+              className="mt-5 flex flex-col gap-2 text-[14px] sm:text-[15px] text-white/85"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.18s both' }}
             >
-              Built for SDR Leaders, SDR Managers, CROs and Sales Leaders
-            </p>
+              <li className="flex items-center gap-2.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-ember-400 shrink-0" />
+                <span>SDRs can plan and execute</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-ember-400 shrink-0" />
+                <span>SDR Heads can prioritize and manage</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-ember-400 shrink-0" />
+                <span>AEs can collaborate and move opportunities forward.</span>
+              </li>
+            </ul>
 
-            <form
-              onSubmit={(e) => { e.preventDefault(); openModal('early-access'); }}
-              className="mt-9 flex w-full max-w-[500px] items-center gap-2 rounded-full
-                         bg-white p-1.5 pl-6 shadow-[0_10px_40px_rgba(0,0,0,0.45)]"
+            <div
+              className="mt-8 flex flex-wrap items-center gap-4"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.24s both' }}
             >
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your work email"
-                className="min-w-0 flex-1 bg-transparent text-[15px] text-slate-800 placeholder:text-slate-400 outline-none"
-              />
               <button
-                type="submit"
-                className="flex flex-shrink-0 items-center gap-1.5 rounded-full px-6 py-3 text-[14px] font-semibold text-white
-                           bg-ember-500
-                           shadow-[0_4px_14px_rgba(201,76,30,0.45)]
-                           hover:bg-ember-400 transition-colors whitespace-nowrap"
+                type="button"
+                onClick={() => openModal('talk-to-sales')}
+                className="flex items-center justify-center gap-2 rounded-xl bg-ember-500 px-6 py-3.5 text-[15px] font-semibold text-white
+                           shadow-[0_4px_14px_rgba(201,76,30,0.45)] hover:bg-ember-400 transition-all active:scale-95"
               >
-                Get demo
-                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 8h10M9 4l4 4-4 4" />
-                </svg>
+                Book a Demo
               </button>
-            </form>
+              <Link
+                href="/product-tour"
+                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3.5 text-[15px] font-semibold text-white
+                           hover:bg-white/15 hover:border-white/30 transition-all active:scale-95"
+              >
+                Explore Harvin
+              </Link>
+            </div>
           </div>
         </div>
 

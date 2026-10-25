@@ -131,9 +131,9 @@ export default function Testimonials() {
       <div className="mx-auto grid max-w-[1180px] items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         {/* ── Fixed column: heading, speaker, controls ─────────────────── */}
         <div>
-          <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">What teams say</p>
-          <h2 className="mt-4 text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
-            Revenue leaders who run outbound on Harvin
+          <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Testimonials</p>
+          <h2 className="mt-4 font-bricolage text-[clamp(28px,3.4vw,44px)] font-bold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+            What teams say about Harvin
           </h2>
 
           {/* the speaker changes, the slot does not — a fixed place to read

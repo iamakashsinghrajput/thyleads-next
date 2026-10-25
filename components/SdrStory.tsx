@@ -26,10 +26,11 @@ import SdrExecution from '@/components/SdrExecution';
  */
 
 /* ── shared shell ─────────────────────────────────────────────────────── */
-function Section({ dark = false, children }: { dark?: boolean; children: React.ReactNode }) {
+function Section({ id, dark = false, children }: { id?: string; dark?: boolean; children: React.ReactNode }) {
   return (
     <section
-      className={`border-t px-4 py-20 sm:px-6 lg:px-8 lg:py-24 ${
+      id={id}
+      className={`border-t px-4 py-20 sm:px-6 lg:px-8 lg:py-24 scroll-mt-24 ${
         dark
           ? 'border-white/[0.08] bg-[#0C0B09]'
           : 'border-slate-200 bg-sand-100 dark:border-white/[0.06] dark:bg-[#040404]'
@@ -526,7 +527,7 @@ const REP_QUESTIONS = [
 
 function ForSdrs() {
   return (
-    <Section>
+    <Section id="sdr">
       <div className="grid gap-12 lg:grid-cols-2 lg:items-stretch lg:gap-16">
         <div>
           <Head
@@ -750,7 +751,7 @@ function MeetingOutcome() {
 
 function MeetingToOutcome() {
   return (
-    <Section>
+    <Section id="ae">
       <div className="grid gap-12 lg:grid-cols-2 lg:items-stretch lg:gap-16">
         <div>
           <Head
@@ -827,7 +828,7 @@ const LEADER_VIEW = [
 
 function ForLeaders() {
   return (
-    <Section>
+    <Section id="sdr-head">
       <Head
         rawEyebrow
         eyebrow="FOR CROs, SALES LEADERS & FOUNDERS"

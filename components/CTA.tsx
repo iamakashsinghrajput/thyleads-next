@@ -154,19 +154,19 @@ export default function CTA() {
               SDR management platform
             </p>
 
-            <h2 className="mt-4 font-bricolage text-[clamp(30px,3.5vw,46px)] font-bold leading-[1.06] tracking-[-0.03em] text-slate-900 dark:text-white">
-              Run a high-performing
+            <h2 className="mt-4 font-bricolage text-[clamp(30px,3.5vw,46px)] font-bold leading-[1.08] tracking-[-0.03em] text-slate-900 dark:text-white">
+              Bring your SDR
               <br />
-              <span className="text-ember-500">SDR team from one place</span>
+              <span className="text-ember-500">operation together</span>
             </h2>
 
-            <p className="mt-4 max-w-[480px] text-[16px] leading-relaxed text-slate-600 dark:text-slate-400">
-              Give your managers the visibility to lead better, your SDRs the clarity to execute
-              better, and your revenue team a clear view of what&rsquo;s creating pipeline.
+            <p className="mt-4 max-w-[480px] text-[16px] leading-relaxed text-slate-600 dark:text-slate-300">
+              Give your SDRs, SDR Heads, and AEs one connected platform to plan, execute, manage, and
+              move opportunities forward.
             </p>
 
             <form
-              onSubmit={(e) => { e.preventDefault(); openModal('early-access'); }}
+              onSubmit={(e) => { e.preventDefault(); openModal('talk-to-sales'); }}
               className="mt-8 flex w-full max-w-[470px] flex-col overflow-hidden rounded-xl border border-slate-200 bg-sand-50
                          shadow-sm transition-colors focus-within:border-ember-400
                          dark:border-white/[0.12] dark:bg-white/[0.04] dark:focus-within:border-ember-500/60 sm:flex-row"
