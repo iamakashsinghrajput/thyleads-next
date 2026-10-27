@@ -65,11 +65,31 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastScrollY = useRef(0);
+  // Read inside the scroll listener without re-binding it on every menu toggle.
+  const menuOpen = useRef(false);
+  useEffect(() => {
+    menuOpen.current = openDropdown !== null || mobileMenuOpen;
+  }, [openDropdown, mobileMenuOpen]);
 
+  // Hide on scroll down, reveal on scroll up. Small deltas are ignored so
+  // trackpad jitter doesn't flicker it, and it always shows near the top.
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 12);
+      const y = window.scrollY;
+      const delta = y - lastScrollY.current;
+      setScrolled(y > 12);
+
+      if (y < 80 || menuOpen.current) {
+        setHidden(false);
+      } else if (Math.abs(delta) > 6) {
+        setHidden(delta > 0);
+      } else {
+        return; // keep lastScrollY so slow scrolls still accumulate past the threshold
+      }
+      lastScrollY.current = y;
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -109,18 +129,23 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md transition-all duration-200 border-b ${
+      className={[
+        'sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b',
+        'transition-[transform,opacity,filter,box-shadow,border-color] duration-[800ms] ease-in-out motion-reduce:transition-none',
         scrolled
           ? 'border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)]'
-          : 'border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)]'
-      }`}
+          : 'border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)]',
+        // No transform/filter classes while visible — either would make the nav a
+        // containing block for its children and can affect the dropdown layout.
+        hidden ? '-translate-y-full opacity-0 blur-md pointer-events-none' : '',
+      ].join(' ')}
     >
-      <div className="mx-auto flex max-w-[1340px] items-center justify-between px-6 py-4 lg:px-8">
+      <div className="mx-auto flex max-w-[1340px] items-center justify-between px-6 py-1 lg:px-8">
         {/* Left: Brand Logo */}
         <div className="flex items-center gap-8">
           <Link
             href="/"
-            className="flex items-center cursor-pointer hover:opacity-90 transition-opacity shrink-0"
+            className="flex items-center cursor-pointer hover:opacity-90 transition-opacity shrink-0 pb-3"
             onClick={close}
           >
             <Wordmark size={28} className="text-slate-900" />
@@ -138,17 +163,15 @@ export default function Navbar() {
                 type="button"
                 aria-expanded={openDropdown === 'product'}
                 onClick={() => setOpenDropdown(openDropdown === 'product' ? null : 'product')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${
-                  openDropdown === 'product'
-                    ? 'text-ember-500 bg-slate-50'
-                    : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70'
-                }`}
+                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${openDropdown === 'product'
+                  ? 'text-ember-500 bg-slate-50'
+                  : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70'
+                  }`}
               >
                 <span>Product</span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                    openDropdown === 'product' ? 'rotate-180 text-ember-500' : 'text-slate-400'
-                  }`}
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === 'product' ? 'rotate-180 text-ember-500' : 'text-slate-400'
+                    }`}
                   strokeWidth={2.2}
                 />
               </button>
@@ -164,17 +187,15 @@ export default function Navbar() {
                 type="button"
                 aria-expanded={openDropdown === 'roles'}
                 onClick={() => setOpenDropdown(openDropdown === 'roles' ? null : 'roles')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${
-                  openDropdown === 'roles'
-                    ? 'text-ember-500 bg-slate-50'
-                    : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70'
-                }`}
+                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${openDropdown === 'roles'
+                  ? 'text-ember-500 bg-slate-50'
+                  : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70'
+                  }`}
               >
                 <span>Roles</span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                    openDropdown === 'roles' ? 'rotate-180 text-ember-500' : 'text-slate-400'
-                  }`}
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === 'roles' ? 'rotate-180 text-ember-500' : 'text-slate-400'
+                    }`}
                   strokeWidth={2.2}
                 />
               </button>
@@ -198,17 +219,15 @@ export default function Navbar() {
                 type="button"
                 aria-expanded={openDropdown === 'resources'}
                 onClick={() => setOpenDropdown(openDropdown === 'resources' ? null : 'resources')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${
-                  openDropdown === 'resources'
-                    ? 'text-ember-500 bg-slate-50'
-                    : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70'
-                }`}
+                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${openDropdown === 'resources'
+                  ? 'text-ember-500 bg-slate-50'
+                  : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70'
+                  }`}
               >
                 <span>Resources</span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                    openDropdown === 'resources' ? 'rotate-180 text-ember-500' : 'text-slate-400'
-                  }`}
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === 'resources' ? 'rotate-180 text-ember-500' : 'text-slate-400'
+                    }`}
                   strokeWidth={2.2}
                 />
               </button>
@@ -632,9 +651,8 @@ export default function Navbar() {
                 >
                   <span>Product</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform ${
-                      mobileAccordion === 'product' ? 'rotate-180 text-ember-500' : 'text-slate-400'
-                    }`}
+                    className={`w-4 h-4 transition-transform ${mobileAccordion === 'product' ? 'rotate-180 text-ember-500' : 'text-slate-400'
+                      }`}
                   />
                 </button>
                 {mobileAccordion === 'product' && (
@@ -726,9 +744,8 @@ export default function Navbar() {
                 >
                   <span>Roles</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform ${
-                      mobileAccordion === 'roles' ? 'rotate-180 text-ember-500' : 'text-slate-400'
-                    }`}
+                    className={`w-4 h-4 transition-transform ${mobileAccordion === 'roles' ? 'rotate-180 text-ember-500' : 'text-slate-400'
+                      }`}
                   />
                 </button>
                 {mobileAccordion === 'roles' && (
@@ -778,9 +795,8 @@ export default function Navbar() {
                 >
                   <span>Resources</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform ${
-                      mobileAccordion === 'resources' ? 'rotate-180 text-ember-500' : 'text-slate-400'
-                    }`}
+                    className={`w-4 h-4 transition-transform ${mobileAccordion === 'resources' ? 'rotate-180 text-ember-500' : 'text-slate-400'
+                      }`}
                   />
                 </button>
                 {mobileAccordion === 'resources' && (
