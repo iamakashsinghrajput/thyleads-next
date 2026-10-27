@@ -59,9 +59,15 @@ const NAV_COLS = [
 ];
 
 const REGISTRATION = [
-  { label: 'Registered company', value: 'Harvin AI Ltd', sub: 'Registered in England and Wales' },
-  { label: 'Company number', value: '17080422', mono: true },
-  { label: 'Registered office', value: '124 City Road, London', sub: 'EC1V 2NX, United Kingdom' },
+  { label: 'Registered company', lines: [{ value: 'Harvin AI Ltd', sub: '' }], mono: true },
+
+  { label: 'Registered office', lines: [{ value: '124 City Road, London', sub: 'EC1V 2NX, United Kingdom' }], mono: false },
+
+  {
+    label: 'India office',
+    lines: [{ value: '#164, 1st Cross, 1st Main Road', sub: 'AECS Layout, Hebbal, Bengaluru, Karnataka 560094, India' }],
+    mono: false,
+  },
 ];
 
 /* ── Social icons ─────────────────────────────────────────────────────────── */
@@ -158,12 +164,18 @@ export default function Footer() {
         <div className="mx-auto grid max-w-[1300px] grid-cols-1 items-start gap-8 px-6 py-10 sm:grid-cols-[1fr_auto] lg:px-8">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-12">
             {REGISTRATION.map((r) => (
-              <div key={r.label}>
+              <div key={r.label} className={r.lines.length > 1 ? 'sm:col-span-2' : ''}>
                 <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/35">{r.label}</p>
-                <p className={`text-[13.5px] font-medium text-white/70 ${r.mono ? 'font-mono tracking-wide' : ''}`}>
-                  {r.value}
-                </p>
-                {r.sub && <p className="mt-1 text-[12.5px] leading-relaxed text-white/40">{r.sub}</p>}
+                <div className={`grid grid-cols-1 gap-5 ${r.lines.length > 1 ? 'sm:grid-cols-2 sm:gap-8' : ''}`}>
+                  {r.lines.map((line) => (
+                    <div key={line.value}>
+                      <p className={`text-[13.5px] font-medium text-white/70 ${r.mono ? 'font-mono tracking-wide' : ''}`}>
+                        {line.value}
+                      </p>
+                      {line.sub && <p className="mt-1 max-w-[230px] text-[12.5px] leading-relaxed text-white/40">{line.sub}</p>}
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -183,7 +195,7 @@ export default function Footer() {
       {/* ── Bottom bar ────────────────────────────────────────────────────── */}
       <div className="border-t border-white/[0.07]">
         <div className="mx-auto flex max-w-[1300px] flex-col items-center justify-between gap-4 px-6 py-6 sm:flex-row lg:px-8">
-          <p className="text-[12.5px] text-white/40">&copy; {year} Harvin AI Ltd. All rights reserved.</p>
+          <p className="text-[12.5px] text-white/40">&copy; {year} Thyleads Pvt. Ltd. All rights reserved.</p>
 
           <div className="flex items-center gap-6">
             {[
