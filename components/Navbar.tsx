@@ -301,7 +301,10 @@ export default function Navbar() {
               exit="exit"
               onMouseEnter={() => openIt(openDropdown)}
               onMouseLeave={scheduleClose}
-              className="mx-auto max-w-[1340px] px-6 lg:px-8 pt-2"
+              // Absolute so an exiting panel and the entering one overlap and
+              // cross-fade in place, instead of stacking in flow (the new one
+              // would appear under the old, then jump up when it unmounts).
+              className="absolute inset-x-0 top-0 mx-auto max-w-[1340px] px-6 lg:px-8 pt-2"
             >
               <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18)]">
                 {/* ── Product Dropdown ─────────────────────────────── */}
