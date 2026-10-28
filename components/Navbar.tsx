@@ -26,7 +26,6 @@ import {
 
 import { portalUrl } from '@/lib/portal';
 import { useModal } from '@/components/ModalContext';
-import Wordmark from '@/components/Wordmark';
 
 type DropdownKey = 'product' | 'roles' | 'resources' | null;
 
@@ -66,6 +65,8 @@ export default function Navbar() {
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  // True while the homepage hero (#hero) is still behind the nav — the nav goes black to match it.
+  const [overHero, setOverHero] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastScrollY = useRef(0);
   // Read inside the scroll listener without re-binding it on every menu toggle.
@@ -81,6 +82,8 @@ export default function Navbar() {
       const y = window.scrollY;
       const delta = y - lastScrollY.current;
       setScrolled(y > 12);
+      const hero = document.getElementById('hero');
+      setOverHero(!!hero && hero.getBoundingClientRect().bottom > 64);
 
       if (y < 80 || menuOpen.current) {
         setHidden(false);
@@ -94,7 +97,7 @@ export default function Navbar() {
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     return () => {
@@ -127,14 +130,30 @@ export default function Navbar() {
     setMobileAccordion((prev) => (prev === key ? null : key));
   };
 
+  // Top-bar colours flip between the light bar and the black over-hero bar.
+  const itemCls = (open: boolean) =>
+    open
+      ? overHero ? 'text-ember-400 bg-white/[0.07]' : 'text-ember-500 bg-slate-50'
+      : overHero
+        ? 'text-white/80 hover:text-white hover:bg-white/[0.07]'
+        : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70';
+  const chevronCls = (open: boolean) =>
+    open ? `rotate-180 ${overHero ? 'text-ember-400' : 'text-ember-500'}` : overHero ? 'text-white/50' : 'text-slate-400';
+
   return (
     <nav
       className={[
-        'sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b',
-        'transition-[transform,opacity,filter,box-shadow,border-color] duration-[800ms] ease-in-out motion-reduce:transition-none',
-        scrolled
-          ? 'border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)]'
-          : 'border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)]',
+        // On the homepage the nav floats over the hero (which pads itself for it),
+        // so the hero starts at the very top of the screen. Other pages keep the
+        // nav in the flow so their content isn't hidden underneath it.
+        'fixed inset-x-0 top-0',
+        'z-50 w-full backdrop-blur-md border-b',
+        'transition-[transform,opacity,filter,box-shadow,border-color,background-color] duration-[800ms] ease-in-out motion-reduce:transition-none',
+        overHero
+          ? 'bg-[#0D0D0C]/90 border-white/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.4)]'
+          : scrolled
+            ? 'bg-white/95 border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)]'
+            : 'bg-white/95 border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)]',
         // No transform/filter classes while visible — either would make the nav a
         // containing block for its children and can affect the dropdown layout.
         hidden ? '-translate-y-full opacity-0 blur-md pointer-events-none' : '',
@@ -145,10 +164,26 @@ export default function Navbar() {
         <div className="flex items-center gap-8">
           <Link
             href="/"
-            className="flex items-center cursor-pointer hover:opacity-90 transition-opacity shrink-0 pb-3"
+            className="flex items-center cursor-pointer hover:opacity-90 transition-opacity shrink-0 py-2.5"
             onClick={close}
           >
-            <Wordmark size={28} className="text-slate-900" />
+            {/* Full lockup (mark + "Harvin.AI"). Both inks are stacked and cross-faded
+                so the swap tracks the navbar's dark-over-hero transition. */}
+            <span className="relative block h-[30px]">
+              <img
+                src="/harvin-logo.png"
+                alt="Harvin"
+                loading="eager"
+                className={`h-full w-auto transition-opacity duration-300 ${overHero ? 'opacity-0' : 'opacity-100'}`}
+              />
+              <img
+                src="/harvin-logo-light.png"
+                alt=""
+                aria-hidden="true"
+                loading="eager"
+                className={`absolute inset-0 h-full w-auto transition-opacity duration-300 ${overHero ? 'opacity-100' : 'opacity-0'}`}
+              />
+            </span>
           </Link>
 
           {/* Desktop Nav Items */}
@@ -163,15 +198,11 @@ export default function Navbar() {
                 type="button"
                 aria-expanded={openDropdown === 'product'}
                 onClick={() => setOpenDropdown(openDropdown === 'product' ? null : 'product')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${openDropdown === 'product'
-                  ? 'text-ember-500 bg-slate-50'
-                  : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70'
-                  }`}
+                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${itemCls(openDropdown === 'product')}`}
               >
                 <span>Product</span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === 'product' ? 'rotate-180 text-ember-500' : 'text-slate-400'
-                    }`}
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${chevronCls(openDropdown === 'product')}`}
                   strokeWidth={2.2}
                 />
               </button>
@@ -187,15 +218,11 @@ export default function Navbar() {
                 type="button"
                 aria-expanded={openDropdown === 'roles'}
                 onClick={() => setOpenDropdown(openDropdown === 'roles' ? null : 'roles')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${openDropdown === 'roles'
-                  ? 'text-ember-500 bg-slate-50'
-                  : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70'
-                  }`}
+                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${itemCls(openDropdown === 'roles')}`}
               >
                 <span>Roles</span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === 'roles' ? 'rotate-180 text-ember-500' : 'text-slate-400'
-                    }`}
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${chevronCls(openDropdown === 'roles')}`}
                   strokeWidth={2.2}
                 />
               </button>
@@ -204,7 +231,7 @@ export default function Navbar() {
             {/* 3. Pricing Link */}
             <Link
               href="/pricing"
-              className="px-3.5 py-2 text-[15px] font-medium text-slate-800 hover:text-ember-500 hover:bg-slate-50/70 rounded-md transition-colors"
+              className={`px-3.5 py-2 text-[15px] font-medium rounded-md transition-colors ${itemCls(false)}`}
             >
               Pricing
             </Link>
@@ -219,15 +246,11 @@ export default function Navbar() {
                 type="button"
                 aria-expanded={openDropdown === 'resources'}
                 onClick={() => setOpenDropdown(openDropdown === 'resources' ? null : 'resources')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${openDropdown === 'resources'
-                  ? 'text-ember-500 bg-slate-50'
-                  : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70'
-                  }`}
+                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${itemCls(openDropdown === 'resources')}`}
               >
                 <span>Resources</span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === 'resources' ? 'rotate-180 text-ember-500' : 'text-slate-400'
-                    }`}
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${chevronCls(openDropdown === 'resources')}`}
                   strokeWidth={2.2}
                 />
               </button>
@@ -239,7 +262,7 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-5">
           <a
             href={PORTAL}
-            className="text-[15px] font-medium text-slate-800 hover:text-ember-500 transition-colors"
+            className={`text-[15px] font-medium transition-colors ${overHero ? 'text-white/80 hover:text-white' : 'text-slate-800 hover:text-ember-500'}`}
           >
             Log in
           </a>
@@ -259,7 +282,7 @@ export default function Navbar() {
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            className="p-2 text-slate-700 hover:text-slate-900 focus:outline-none"
+            className={`p-2 focus:outline-none ${overHero ? 'text-white/80 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

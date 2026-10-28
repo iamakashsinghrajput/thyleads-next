@@ -49,7 +49,7 @@ export default function HomeFaq() {
           <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">
             FAQs
           </p>
-          <h2 className="mt-3 font-bricolage text-[clamp(28px,3.4vw,44px)] font-bold tracking-[-0.025em] text-slate-900 dark:text-white">
+          <h2 className="font-instrument font-semibold mt-3 text-[clamp(28px,3.4vw,44px)] tracking-[-0.025em] text-slate-900 dark:text-white">
             Need some clarity?
           </h2>
           <p className="mt-3 text-[16px] text-slate-600 dark:text-slate-400">

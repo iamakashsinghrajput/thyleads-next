@@ -132,7 +132,7 @@ export default function Testimonials() {
         {/* ── Fixed column: heading, speaker, controls ─────────────────── */}
         <div>
           <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Testimonials</p>
-          <h2 className="mt-4 font-bricolage text-[clamp(28px,3.4vw,44px)] font-bold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+          <h2 className="font-instrument font-semibold mt-4 text-[clamp(28px,3.4vw,44px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
             What teams say about Harvin
           </h2>
 

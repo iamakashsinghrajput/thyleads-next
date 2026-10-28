@@ -568,7 +568,7 @@ function StageRow({ stage, index }: { stage: typeof STAGES[0]; index: number }) 
           </span>
         </div>
 
-        <h3 className="font-bricolage text-[30px] font-bold leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white sm:text-[38px]">
+        <h3 className="font-instrument font-semibold text-[30px] leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white sm:text-[38px]">
           {stage.title}
         </h3>
 
@@ -604,7 +604,7 @@ export default function Convergence() {
             <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">
               The SDR management layer
             </p>
-            <h2 className="mt-3.5 text-[clamp(27px,3vw,40px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h2 className="font-instrument font-semibold mt-3.5 text-[clamp(27px,3vw,40px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
               The place where your SDR team gets run
             </h2>
           </div>

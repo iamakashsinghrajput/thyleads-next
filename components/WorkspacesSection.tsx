@@ -100,7 +100,7 @@ export default function WorkspacesSection() {
           <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">
             Workspaces
           </span>
-          <h2 className="mt-3 font-bricolage text-[clamp(30px,3.6vw,46px)] font-bold tracking-[-0.025em] text-slate-900 dark:text-white">
+          <h2 className="font-instrument font-semibold mt-3 text-[clamp(30px,3.6vw,46px)] tracking-[-0.025em] text-slate-900 dark:text-white">
             Three Workspaces. One Platform.
           </h2>
           <p className="mt-4 text-[16.5px] leading-relaxed text-slate-600 dark:text-slate-400">
@@ -129,7 +129,7 @@ export default function WorkspacesSection() {
                 {ws.role}
               </p>
 
-              <h3 className="mt-1 font-bricolage text-[20px] font-bold text-slate-900 dark:text-white">
+              <h3 className="font-instrument font-semibold mt-1 text-[20px] text-slate-900 dark:text-white">
                 {ws.title}
               </h3>
 
@@ -172,7 +172,7 @@ export default function WorkspacesSection() {
             <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">
               Why Harvin
             </span>
-            <h3 className="mt-3 font-bricolage text-[clamp(28px,3.4vw,42px)] font-bold tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h3 className="font-instrument font-semibold mt-3 text-[clamp(28px,3.4vw,42px)] tracking-[-0.025em] text-slate-900 dark:text-white">
               Every role in sync with one connected workflow
             </h3>
             <p className="mt-4 text-[16.5px] leading-relaxed text-slate-600 dark:text-slate-400">

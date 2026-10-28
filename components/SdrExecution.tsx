@@ -288,7 +288,7 @@ function Copy() {
   return (
     <>
       <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Execution</p>
-      <h2 className="mt-4 max-w-[820px] text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+      <h2 className="font-instrument font-semibold mt-4 max-w-[820px] text-[clamp(27px,3.2vw,42px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
         Give your team the channels they need without losing management visibility.
       </h2>
       <p className="mt-4 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">
@@ -310,7 +310,7 @@ function ChannelCopy({ c, i, last }: { c: typeof CHANNELS[0]; i: number; last: b
         <c.Icon size={16} strokeWidth={2.1} className="flex-shrink-0 text-ember-500" />
       </div>
 
-      <h3 className="font-bricolage text-[30px] font-bold leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white sm:text-[38px]">
+      <h3 className="font-instrument font-semibold text-[30px] leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white sm:text-[38px]">
         {c.t}
       </h3>
 

@@ -76,9 +76,9 @@ function TypedLines({ lines, delay }: { lines: [string, string]; delay: number }
       const ch = full[i - 1];
       const pause =
         ch === '\n' ? 420 :        // beat before the second line
-        '?.,'.includes(ch) ? 260 : // settle on punctuation
-        ch === ' ' ? 70 :
-        40 + Math.random() * 60;
+          '?.,'.includes(ch) ? 260 : // settle on punctuation
+            ch === ' ' ? 70 :
+              40 + Math.random() * 60;
       tick = setTimeout(step, pause);
     };
     const start = setTimeout(step, delay);
@@ -165,7 +165,7 @@ function Bars() {
               // one accent, everything else recedes — a rainbow ramp here says
               // nothing about the data
               projected ? 'bg-[#F2841C] shadow-[0_0_12px_rgba(242,132,28,0.5)]' : 'bg-[#3B4C7D]'
-            }`}
+              }`}
             style={{
               height: (pct / 100) * PLOT_H,
               animation: 'heroBarGrow 0.5s cubic-bezier(0.33,1,0.68,1) both',
@@ -292,7 +292,7 @@ function CohortCard() {
       <div style={{ animation: 'heroCardFloat 9s ease-in-out infinite', animationDelay: '1.2s' }}>
         <div className="rounded-[22px] bg-[linear-gradient(152deg,#F2841C_0%,#E9701B_11%,#6455C8_40%,#2F6AE8_70%,#3F7DF5_100%)] p-[1.5px] shadow-[0_0_38px_rgba(47,106,232,0.22),0_18px_46px_rgba(0,0,0,0.55)]">
           <div className="rounded-[21px] bg-[linear-gradient(158deg,#0B1A3A_0%,#101F49_50%,#0A1631_100%)] px-[18px] py-[16px] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
-            <h3 className="font-bricolage text-[19px] font-bold leading-[1.18] tracking-[-0.02em] text-white">
+            <h3 className="font-instrument font-semibold text-[19px] leading-[1.18] tracking-[-0.02em] text-white">
               High-Intent,
               <br />
               Untouched Leads
@@ -391,7 +391,7 @@ export default function Hero() {
   }, [cardIdx]);
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#0d0703] text-white">
+    <section id="hero" className="relative isolate overflow-hidden bg-[#0d0703] text-white">
       <style>{styles}</style>
 
       {/* ── Base wash ───────────────────────────────────────────────────── */}
@@ -498,7 +498,7 @@ export default function Hero() {
       <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1240px] flex-col px-6 lg:max-w-[1340px]">
 
         <div className="flex flex-1 flex-col items-start justify-center pt-44 pb-8 text-left">
-          <div className="flex w-full max-w-[560px] flex-col items-start lg:max-w-[620px]">
+          <div className="flex w-full max-w-[560px] flex-col items-start lg:max-w-[680px]">
             <p
               className="mb-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-ember-400"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both' }}
@@ -507,8 +507,8 @@ export default function Hero() {
             </p>
 
             <h1
-              className="font-bricolage font-bold tracking-[-0.02em] leading-[1.05]
-                         text-[clamp(32px,3.8vw,48px)] text-white"
+              className="font-instrument font-semibold tracking-[-0.02em] leading-[1.05]
+ text-[clamp(32px,3.8vw,48px)] text-white"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.06s both' }}
             >
               Run your entire SDR operation from one platform.

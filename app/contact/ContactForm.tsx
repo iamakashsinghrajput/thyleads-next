@@ -54,7 +54,7 @@ export default function ContactForm() {
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/15">
           <Check size={18} strokeWidth={2.6} className="text-emerald-600 dark:text-emerald-400" />
         </div>
-        <h2 className="mt-5 text-[19px] font-bold tracking-[-0.015em] text-slate-900 dark:text-white">
+        <h2 className="font-instrument font-semibold mt-5 text-[19px] tracking-[-0.015em] text-slate-900 dark:text-white">
           Message sent
         </h2>
         <p className="mt-2.5 text-[15px] leading-[1.7] text-slate-600 dark:text-slate-400">

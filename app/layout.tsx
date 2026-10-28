@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { SITE_URL } from '@/lib/site';
-import { JetBrains_Mono, Bricolage_Grotesque } from 'next/font/google';
+import { JetBrains_Mono, Bricolage_Grotesque, Instrument_Sans } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
 import ThemeProvider from '@/components/ThemeProvider';
@@ -30,6 +30,14 @@ const jetbrainsMono = JetBrains_Mono({
 const bricolageGrotesque = Bricolage_Grotesque({
   subsets:  ['latin'],
   variable: '--font-bricolage',
+  display:  'swap',
+});
+
+/* Page H1s — Instrument Sans 600 (`font-instrument font-semibold`). */
+const instrumentSans = Instrument_Sans({
+  subsets:  ['latin'],
+  weight:   '600',
+  variable: '--font-instrument',
   display:  'swap',
 });
 
@@ -141,7 +149,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body
-        className={`${universalSans.variable} ${jetbrainsMono.variable} ${bricolageGrotesque.variable}`}
+        className={`${universalSans.variable} ${jetbrainsMono.variable} ${bricolageGrotesque.variable} ${instrumentSans.variable}`}
       >
         <SessionWrapper>
           <ThemeProvider>

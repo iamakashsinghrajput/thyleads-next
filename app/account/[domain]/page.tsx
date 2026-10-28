@@ -387,7 +387,7 @@ export default function AccountDetailPage() {
         <div className="flex-1 overflow-y-auto py-2 custom-scrollbar">
           <div className="space-y-4 px-3">
             <div>
-              <h3 className="px-3 mb-1 text-[11px] font-black text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Intelligence</h3>
+              <h3 className="font-instrument font-semibold px-3 mb-1 text-[11px] text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Intelligence</h3>
               <div className="space-y-0.5">
                 <NavBtn icon={<Satellite size={18} />} label="Intelligence Hub" onClick={() => { window.location.href = portalTab('intelligence'); }} />
                 <NavBtn icon={<Globe size={18} />} label="My Universe" onClick={() => { window.location.href = portalTab('accounts'); }} />
@@ -395,7 +395,7 @@ export default function AccountDetailPage() {
             </div>
 
             <div>
-              <h3 className="px-3 mb-1 text-[11px] font-black text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Discover</h3>
+              <h3 className="font-instrument font-semibold px-3 mb-1 text-[11px] text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Discover</h3>
               <div className="space-y-0.5">
                 <NavBtn icon={<Search size={18} />} label="Account Explorer" active onClick={() => { window.location.href = portalUrl(); }} />
                 <NavBtn icon={<Radar size={18} />} label="Tech Scanner" onClick={() => { window.location.href = portalUrl(); }} />
@@ -404,7 +404,7 @@ export default function AccountDetailPage() {
             </div>
 
             <div>
-              <h3 className="px-3 mb-1 text-[11px] font-black text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Watchlists</h3>
+              <h3 className="font-instrument font-semibold px-3 mb-1 text-[11px] text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Watchlists</h3>
               <div className="space-y-0.5">
                 <NavBtn icon={<Star size={18} />} label="My Watchlists" onClick={() => { window.location.href = portalTab('watchlist'); }} />
                 <NavBtn icon={<Target size={18} />} label="Recently Funded" onClick={() => { window.location.href = portalUrl(); }} />
@@ -413,7 +413,7 @@ export default function AccountDetailPage() {
             </div>
 
             <div>
-              <h3 className="px-3 mb-1 text-[11px] font-black text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Settings</h3>
+              <h3 className="font-instrument font-semibold px-3 mb-1 text-[11px] text-slate-500 dark:text-neutral-400 uppercase tracking-widest">Settings</h3>
               <div className="space-y-0.5">
                 <NavBtn icon={<Settings2 size={18} />} label="ICP & Preferences" onClick={() => { window.location.href = portalTab('settings'); }} />
                 <NavBtn icon={<Link2 size={18} />} label="Integrations" onClick={() => { window.location.href = portalTab('settings'); }} />
@@ -521,7 +521,7 @@ export default function AccountDetailPage() {
                         />
                       </div>
                       <div className="pt-1">
-                        <h1 className="text-[26px] lg:text-[30px] font-bold text-slate-900 dark:text-white tracking-tight mb-3 leading-none">
+                        <h1 className="font-instrument font-semibold text-[26px] lg:text-[30px] text-slate-900 dark:text-white tracking-tight mb-3 leading-none">
                           {account.name}
                         </h1>
                         <div className="flex flex-wrap items-center gap-2 mb-4">
@@ -688,7 +688,7 @@ export default function AccountDetailPage() {
                     {/* Technology Stack */}
                     <div className="fade-in-up delay-200 bg-white dark:bg-[#111111] border border-slate-200/60 dark:border-white/[0.05] rounded-2xl overflow-hidden shadow-sm">
                       <div className="px-6 py-5 border-b border-slate-100 dark:border-white/[0.05] flex items-center justify-between bg-slate-50/50 dark:bg-white/[0.01]">
-                        <h2 className="text-[16px] font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <h2 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white flex items-center gap-2">
                           <Cpu className="text-[#C94C1E] dark:text-[#E86335]" size={18} />
                           Technology Stack
                           {techCount > 0 && <span className="text-[12px] font-semibold text-slate-500 bg-slate-200 dark:bg-white/10 px-2 py-0.5 rounded-full ml-1">{techCount}</span>}
@@ -743,7 +743,7 @@ export default function AccountDetailPage() {
                     {/* Active Signals */}
                     <div className="fade-in-up delay-300 bg-white dark:bg-[#111111] border border-slate-200/60 dark:border-white/[0.05] rounded-2xl overflow-hidden shadow-sm">
                       <div className="px-6 py-5 border-b border-slate-100 dark:border-white/[0.05] bg-slate-50/50 dark:bg-white/[0.01]">
-                        <h2 className="text-[16px] font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <h2 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white flex items-center gap-2">
                             <Activity className="text-emerald-500" size={18} />
                             Active Signals
                         </h2>
@@ -780,7 +780,7 @@ export default function AccountDetailPage() {
                     {/* Firmographics */}
                     <div className="fade-in-up delay-200 bg-white dark:bg-[#111111] border border-slate-200/60 dark:border-white/[0.05] rounded-2xl overflow-hidden shadow-sm">
                       <div className="px-6 py-4 border-b border-slate-100 dark:border-white/[0.05] bg-slate-50/50 dark:bg-white/[0.01]">
-                        <h3 className="text-[14px] font-bold text-slate-800 dark:text-white">Firmographics</h3>
+                        <h3 className="font-instrument font-semibold text-[14px] text-slate-800 dark:text-white">Firmographics</h3>
                       </div>
                       <div className="p-2">
                         {[
@@ -803,7 +803,7 @@ export default function AccountDetailPage() {
                     {/* Data Confidence */}
                     <div className="fade-in-up delay-300 bg-white dark:bg-[#111111] border border-slate-200/60 dark:border-white/[0.05] rounded-2xl overflow-hidden shadow-sm">
                       <div className="px-6 py-4 border-b border-slate-100 dark:border-white/[0.05] flex items-center justify-between bg-slate-50/50 dark:bg-white/[0.01]">
-                        <h3 className="text-[14px] font-bold text-slate-800 dark:text-white">Data Confidence</h3>
+                        <h3 className="font-instrument font-semibold text-[14px] text-slate-800 dark:text-white">Data Confidence</h3>
                         <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${confidence.bg} ${confidence.color} uppercase tracking-wider`}>
                           {confidence.label}
                         </span>
@@ -827,7 +827,7 @@ export default function AccountDetailPage() {
                     {/* External Links */}
                     <div className="fade-in-up delay-[400ms] bg-white dark:bg-[#111111] border border-slate-200/60 dark:border-white/[0.05] rounded-2xl overflow-hidden shadow-sm">
                       <div className="px-6 py-4 border-b border-slate-100 dark:border-white/[0.05] bg-slate-50/50 dark:bg-white/[0.01]">
-                        <h3 className="text-[14px] font-bold text-slate-800 dark:text-white">External Links</h3>
+                        <h3 className="font-instrument font-semibold text-[14px] text-slate-800 dark:text-white">External Links</h3>
                       </div>
                       <div className="flex flex-col p-2">
                         <a href={`https://${account.normalizedDomain}`} target="_blank" rel="noopener noreferrer"
@@ -867,7 +867,7 @@ export default function AccountDetailPage() {
                 {/* Similar Accounts Bottom Section */}
                 <div className="mt-6 fade-in-up delay-[500ms] bg-white dark:bg-[#111111] border border-slate-200/60 dark:border-white/[0.05] rounded-2xl overflow-hidden shadow-sm">
                   <div className="px-6 py-5 border-b border-slate-100 dark:border-white/[0.05] flex items-center justify-between bg-slate-50/50 dark:bg-white/[0.01]">
-                    <h2 className="text-[16px] font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                    <h2 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white flex items-center gap-2">
                         <Layers className="text-blue-500" size={18} /> Similar Accounts
                     </h2>
                     {account.similar.length > 0 && (
@@ -1162,7 +1162,7 @@ function SimilarAccountsModal({ domain, brandName, open, onClose }: {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-white/[0.05] bg-slate-50/50 dark:bg-white/[0.01]">
           <div>
-            <h2 className="text-[18px] font-bold text-slate-900 dark:text-white">Similar to {brandName}</h2>
+            <h2 className="font-instrument font-semibold text-[18px] text-slate-900 dark:text-white">Similar to {brandName}</h2>
             <p className="text-[13px] text-slate-500 dark:text-neutral-400 mt-1 font-medium">{basisLabel || 'Discover related accounts'}</p>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] text-slate-500 hover:bg-slate-200 dark:hover:bg-white/[0.1] hover:text-slate-800 dark:hover:text-white transition-all">

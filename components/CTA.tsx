@@ -154,7 +154,7 @@ export default function CTA() {
               SDR management platform
             </p>
 
-            <h2 className="mt-4 font-bricolage text-[clamp(30px,3.5vw,46px)] font-bold leading-[1.08] tracking-[-0.03em] text-slate-900 dark:text-white">
+            <h2 className="font-instrument font-semibold mt-4 text-[clamp(30px,3.5vw,46px)] leading-[1.08] tracking-[-0.03em] text-slate-900 dark:text-white">
               Bring your SDR
               <br />
               <span className="text-ember-500">operation together</span>

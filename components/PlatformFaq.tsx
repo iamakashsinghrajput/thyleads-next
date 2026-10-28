@@ -47,7 +47,7 @@ export default function PlatformFaq() {
       <div className="mx-auto max-w-[1180px]">
         <div className="mb-12 max-w-[720px]">
           <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Common questions</p>
-          <h2 className="mt-4 text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+          <h2 className="font-instrument font-semibold mt-4 text-[clamp(27px,3.2vw,42px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
             What an SDR management platform is, and what it is not
           </h2>
         </div>
@@ -58,7 +58,7 @@ export default function PlatformFaq() {
               key={f.q}
               className="grid gap-3 border-b border-slate-200 py-7 dark:border-white/[0.08] md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-12"
             >
-              <h3 className="text-[17px] font-bold leading-[1.35] tracking-[-0.015em] text-slate-900 dark:text-white">
+              <h3 className="font-instrument font-semibold text-[17px] leading-[1.35] tracking-[-0.015em] text-slate-900 dark:text-white">
                 {f.q}
               </h3>
               <p className="text-[15.5px] leading-[1.7] text-slate-600 dark:text-slate-400">{f.a}</p>

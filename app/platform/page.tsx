@@ -214,7 +214,7 @@ function AudienceRow({ item, index }: { item: typeof AUDIENCE[0]; index: number 
         <span className="grid h-11 w-11 flex-shrink-0 place-items-center rounded-xl bg-ember-50 transition-colors duration-300 group-hover:bg-ember-100 dark:bg-ember-500/15">
           <item.icon size={20} className="text-ember-500" strokeWidth={1.9} />
         </span>
-        <h3 className="mt-1.5 text-[19px] font-semibold leading-[1.25] tracking-[-0.015em] text-slate-900 dark:text-white sm:text-[21px]">
+        <h3 className="font-instrument font-semibold mt-1.5 text-[19px] leading-[1.25] tracking-[-0.015em] text-slate-900 dark:text-white sm:text-[21px]">
           {item.role}
         </h3>
       </div>
@@ -269,7 +269,7 @@ function UseCaseCard({ uc, index }: { uc: typeof USE_CASES[0]; index: number }) 
         <uc.icon size={17} strokeWidth={1.9} className="flex-shrink-0 text-slate-400 dark:text-slate-500" />
       </div>
 
-      <h3 className="mt-5 text-[19px] font-bold leading-[1.25] tracking-[-0.015em] text-slate-900 dark:text-white">
+      <h3 className="font-instrument font-semibold mt-5 text-[19px] leading-[1.25] tracking-[-0.015em] text-slate-900 dark:text-white">
         {uc.title}
       </h3>
       <p className="mt-2.5 text-[14px] leading-[1.65] text-slate-500 dark:text-slate-400">
@@ -338,7 +338,7 @@ export default function ProductPage() {
             {/* ── Copy ─────────────────────────────────────────────────── */}
             <div className="text-left">
 
-              <h1 className="font-bricolage text-[clamp(30px,3.6vw,46px)] font-bold leading-[1.07] tracking-[-0.02em] text-slate-900 dark:text-white">
+              <h1 className="font-instrument font-semibold text-[clamp(30px,3.6vw,46px)] leading-[1.07] tracking-[-0.02em] text-slate-900 dark:text-white">
                 <span
                   className={`inline-block transition-all delay-[150ms] duration-700
                              ${heroReady ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
@@ -420,7 +420,7 @@ export default function ProductPage() {
               <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">
                 Who it&apos;s for
               </p>
-              <h2 className="mt-4 text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+              <h2 className="font-instrument font-semibold mt-4 text-[clamp(27px,3.2vw,42px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
                 Built for the people who own pipeline
               </h2>
               <p className="mt-5 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">
@@ -450,7 +450,7 @@ export default function ProductPage() {
                           ${useCasesHeader.visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
             >
               <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Use cases</p>
-              <h2 className="mt-4 text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+              <h2 className="font-instrument font-semibold mt-4 text-[clamp(27px,3.2vw,42px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
                 How teams use Harvin
               </h2>
               <p className="mt-5 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">

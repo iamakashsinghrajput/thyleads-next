@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, BarChart3, Database, Phone, Radar, Send, Sparkles, type LucideIcon } from 'lucide-react';
-import Wordmark from '@/components/Wordmark';
+import SquigglyText from '@/components/SquigglyText';
 
 /**
  * The problem and solution statement for Harvin.
@@ -44,9 +44,11 @@ export default function SdrProblem() {
               <span aria-hidden="true" className="h-px w-6 bg-ember-500" />
               The Problem
             </p>
-            <h2 className="mt-5 font-bricolage text-[clamp(30px,3.6vw,48px)] font-bold leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h2 className="font-instrument font-semibold mt-5 text-[clamp(30px,3.6vw,48px)] leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
               Your sales stack is connected.{' '}
-              <span className="text-slate-400 dark:text-slate-500">Your SDR operation isn&apos;t.</span>
+              <SquigglyText className="text-ember-600 dark:text-slate-500" scale={[3, 4]} stepDuration={110}>
+                Your SDR operation isn&apos;t.
+              </SquigglyText>
             </h2>
           </div>
           <div className="lg:col-span-5">
@@ -129,7 +131,7 @@ export default function SdrProblem() {
                 <Sparkles size={14} aria-hidden="true" />
                 The solution
               </span>
-              <h3 className="mt-4 font-bricolage text-[clamp(26px,3vw,40px)] font-bold leading-[1.1] tracking-[-0.02em] text-white">
+              <h3 className="font-instrument font-semibold mt-4 text-[clamp(26px,3vw,40px)] leading-[1.1] tracking-[-0.02em] text-white">
                 Bring the whole SDR operation together with Harvin.
               </h3>
               <p className="mt-5 text-[16px] leading-relaxed text-slate-400">
@@ -190,8 +192,8 @@ export default function SdrProblem() {
                 })}
               </svg>
 
-              <div className="flex shrink-0 items-center rounded-card border border-ember-500/40 bg-ember-500/[0.08] px-5 py-4 shadow-[0_0_40px_rgba(201,76,30,0.25)]">
-                <Wordmark size={20} className="text-white" />
+              <div className="flex shrink-0 items-center rounded-xl border border-ember-500/40 bg-white px-4 py-3 shadow-[0_0_40px_rgba(201,76,30,0.25)]">
+                <img src="/harvin-logo.png" alt="" loading="lazy" className="h-[26px] w-auto" />
               </div>
             </div>
           </div>

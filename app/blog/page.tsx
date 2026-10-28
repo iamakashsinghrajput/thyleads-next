@@ -24,7 +24,7 @@ import { blogPosts } from '@/data/blogs';
  * Insights" and "Outreach" posts were unreachable by filter.
  */
 
-const FALLBACK_IMG = '/blogs/the ultimate guide.webp';
+const FALLBACK_IMG = '/blogs/covers/ultimate-guide-automated-hyper-targeted-outreach-clay-rss.webp';
 
 function Meta({ date, readTime }: { date: string; readTime: string }) {
   return (
@@ -75,7 +75,7 @@ export default function BlogIndex() {
         <div className="mx-auto max-w-[1180px]">
           <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Blog</p>
           <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
-            <h1 className="max-w-[720px] font-bricolage text-[clamp(31px,4.2vw,52px)] font-bold leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h1 className="font-instrument font-semibold max-w-[720px] text-[clamp(31px,4.2vw,52px)] leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
               The playbook for modern B2B growth
             </h1>
 
@@ -142,7 +142,7 @@ export default function BlogIndex() {
                 <span className="inline-flex w-fit items-center gap-2 rounded-full bg-ember-500/[0.10] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-ember-500">
                   Featured · {featured.category}
                 </span>
-                <h2 className="mt-4 text-[clamp(21px,2.4vw,30px)] font-bold leading-[1.2] tracking-[-0.02em] text-slate-900 dark:text-white">
+                <h2 className="font-instrument font-semibold mt-4 text-[clamp(21px,2.4vw,30px)] leading-[1.2] tracking-[-0.02em] text-slate-900 dark:text-white">
                   {featured.title}
                 </h2>
                 <p className="mt-3 line-clamp-3 text-[15px] leading-[1.65] text-slate-500 dark:text-slate-400">
@@ -194,7 +194,7 @@ export default function BlogIndex() {
                     <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ember-500">
                       {p.category}
                     </span>
-                    <h3 className="mt-2.5 text-[17px] font-bold leading-[1.3] tracking-[-0.015em] text-slate-900 dark:text-white">
+                    <h3 className="font-instrument font-semibold mt-2.5 text-[17px] leading-[1.3] tracking-[-0.015em] text-slate-900 dark:text-white">
                       {p.title}
                     </h3>
                     <p className="mt-2.5 line-clamp-3 flex-1 text-[13.5px] leading-[1.6] text-slate-500 dark:text-slate-400">

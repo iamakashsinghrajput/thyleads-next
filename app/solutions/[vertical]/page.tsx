@@ -350,7 +350,7 @@ function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; 
   return (
     <div className="mb-12 max-w-[720px] lg:mb-14">
       <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">{eyebrow}</p>
-      <h2 className="mt-4 text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+      <h2 className="font-instrument font-semibold mt-4 text-[clamp(27px,3.2vw,42px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
         {title}
       </h2>
       <p className="mt-5 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">{sub}</p>
@@ -389,7 +389,7 @@ export default async function VerticalPage(
               {v.badge}
             </p>
 
-            <h1 className="mt-6 font-bricolage text-[clamp(31px,4.4vw,54px)] font-bold leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h1 className="font-instrument font-semibold mt-6 text-[clamp(31px,4.4vw,54px)] leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
               {v.headline[0]}
               <br />
               <span className="text-ember-500">{v.headline[1]}</span>
@@ -463,7 +463,7 @@ export default async function VerticalPage(
                 className="rounded-2xl border border-slate-200 bg-white p-7 dark:border-white/[0.08] dark:bg-white/[0.02]"
               >
                 <span className="font-mono text-[11px] font-bold tabular-nums text-ember-500">{w.n}</span>
-                <h3 className="mt-4 text-[19px] font-bold leading-[1.25] tracking-[-0.015em] text-slate-900 dark:text-white">
+                <h3 className="font-instrument font-semibold mt-4 text-[19px] leading-[1.25] tracking-[-0.015em] text-slate-900 dark:text-white">
                   {w.title}
                 </h3>
                 <p className="mt-3 text-[14px] leading-[1.65] text-slate-500 dark:text-slate-400">{w.body}</p>
@@ -491,7 +491,7 @@ export default async function VerticalPage(
                   <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-ember-500">
                     {m.n} · {m.tag}
                   </p>
-                  <h3 className="mt-3 text-[20px] font-bold leading-[1.25] tracking-[-0.015em] text-slate-900 dark:text-white">
+                  <h3 className="font-instrument font-semibold mt-3 text-[20px] leading-[1.25] tracking-[-0.015em] text-slate-900 dark:text-white">
                     {m.title}
                   </h3>
                 </div>
@@ -507,7 +507,7 @@ export default async function VerticalPage(
         <div className="mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-16">
           <div>
             <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Why Harvin</p>
-            <h2 className="mt-4 text-[clamp(27px,3.2vw,40px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h2 className="font-instrument font-semibold mt-4 text-[clamp(27px,3.2vw,40px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
               The outbound partner that learns your {v.name} category first
             </h2>
             <p className="mt-5 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">
@@ -584,7 +584,7 @@ export default async function VerticalPage(
                 key={f.q}
                 className="grid gap-3 border-b border-slate-200 py-7 dark:border-white/[0.08] md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-12"
               >
-                <h3 className="text-[16px] font-bold leading-[1.4] tracking-[-0.01em] text-slate-900 dark:text-white">
+                <h3 className="font-instrument font-semibold text-[16px] leading-[1.4] tracking-[-0.01em] text-slate-900 dark:text-white">
                   {f.q}
                 </h3>
                 <p className="text-[15px] leading-[1.7] text-slate-600 dark:text-slate-400">{f.a}</p>

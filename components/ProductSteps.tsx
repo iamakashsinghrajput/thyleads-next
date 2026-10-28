@@ -680,7 +680,7 @@ function StepRow({ step, index, flipped }: { step: typeof STEPS[0]; index: numbe
           </span>
         </div>
 
-        <h3 className="font-bricolage text-[30px] font-bold leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white sm:text-[38px]">
+        <h3 className="font-instrument font-semibold text-[30px] leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white sm:text-[38px]">
           {step.title}
         </h3>
 
@@ -710,7 +710,7 @@ export default function ProductSteps() {
     <section className="border-y border-slate-200 bg-sand-100 px-4 py-24 dark:border-white/[0.06] dark:bg-[#040404] sm:px-6 lg:px-8">
       <div className="mx-auto mb-14 max-w-[720px] text-center lg:mb-16">
         <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">How it works</p>
-        <h2 className="mt-4 text-[clamp(28px,3.4vw,44px)] font-semibold leading-[1.08] tracking-[-0.025em] text-slate-900 dark:text-white">
+        <h2 className="font-instrument font-semibold mt-4 text-[clamp(28px,3.4vw,44px)] leading-[1.08] tracking-[-0.025em] text-slate-900 dark:text-white">
           From signal to signed deal in four steps
         </h2>
         <p className="mx-auto mt-5 max-w-[600px] text-[17px] leading-[1.7] text-slate-600 dark:text-slate-400">

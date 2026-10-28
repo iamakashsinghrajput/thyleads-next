@@ -149,7 +149,7 @@ export default function SdrManagementPlatformPage() {
         <div className="mx-auto max-w-[1180px]">
           <div className="max-w-[820px]">
             <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Guide</p>
-            <h1 className="mt-4 font-bricolage text-[clamp(31px,4.2vw,50px)] font-bold leading-[1.07] tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h1 className="font-instrument font-semibold mt-4 text-[clamp(31px,4.2vw,50px)] leading-[1.07] tracking-[-0.025em] text-slate-900 dark:text-white">
               What is an SDR management platform?
             </h1>
 
@@ -178,7 +178,7 @@ export default function SdrManagementPlatformPage() {
       {/* ═══ THE STACK ════════════════════════════════════════════════════ */}
       <section className="border-b border-slate-200 px-4 py-16 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-[1180px]">
-          <h2 className="max-w-[720px] text-[clamp(25px,3vw,36px)] font-semibold leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white">
+          <h2 className="font-instrument font-semibold max-w-[720px] text-[clamp(25px,3vw,36px)] leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white">
             How it differs from a CRM and a sales engagement platform
           </h2>
           <p className="mt-4 max-w-[720px] text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">
@@ -193,7 +193,7 @@ export default function SdrManagementPlatformPage() {
                 className="grid gap-4 border-b border-slate-200 py-7 dark:border-white/[0.08] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-10"
               >
                 <div>
-                  <h3 className="text-[18px] font-bold leading-[1.3] tracking-[-0.015em] text-slate-900 dark:text-white">
+                  <h3 className="font-instrument font-semibold text-[18px] leading-[1.3] tracking-[-0.015em] text-slate-900 dark:text-white">
                     {s.layer}
                   </h3>
                   <p className="mt-2 text-[13.5px] italic leading-[1.5] text-ember-600 dark:text-ember-300">
@@ -211,7 +211,7 @@ export default function SdrManagementPlatformPage() {
       {/* ═══ WHAT IT COVERS ═══════════════════════════════════════════════ */}
       <section className="border-b border-slate-200 px-4 py-16 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-[1180px]">
-          <h2 className="max-w-[720px] text-[clamp(25px,3vw,36px)] font-semibold leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white">
+          <h2 className="font-instrument font-semibold max-w-[720px] text-[clamp(25px,3vw,36px)] leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white">
             What an SDR management platform covers
           </h2>
 
@@ -224,7 +224,7 @@ export default function SdrManagementPlatformPage() {
                 <span className="font-mono text-[11px] font-bold tabular-nums text-ember-500">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <h3 className="mt-3 text-[18px] font-bold leading-[1.3] tracking-[-0.015em] text-slate-900 dark:text-white">
+                <h3 className="font-instrument font-semibold mt-3 text-[18px] leading-[1.3] tracking-[-0.015em] text-slate-900 dark:text-white">
                   {c.t}
                 </h3>
                 <p className="mt-2.5 text-[15px] leading-[1.65] text-slate-500 dark:text-slate-400">{c.d}</p>
@@ -271,7 +271,7 @@ export default function SdrManagementPlatformPage() {
         <div className="mx-auto max-w-[1180px]">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
             <div>
-              <h2 className="text-[clamp(25px,3vw,36px)] font-semibold leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white">
+              <h2 className="font-instrument font-semibold text-[clamp(25px,3vw,36px)] leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white">
                 What to ask when you evaluate one
               </h2>
               <p className="mt-4 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">
@@ -295,7 +295,7 @@ export default function SdrManagementPlatformPage() {
       {/* ═══ FAQ ══════════════════════════════════════════════════════════ */}
       <section className="border-b border-slate-200 px-4 py-16 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-[1180px]">
-          <h2 className="mb-10 max-w-[720px] text-[clamp(25px,3vw,36px)] font-semibold leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white">
+          <h2 className="font-instrument font-semibold mb-10 max-w-[720px] text-[clamp(25px,3vw,36px)] leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white">
             Common questions
           </h2>
 
@@ -305,7 +305,7 @@ export default function SdrManagementPlatformPage() {
                 key={f.q}
                 className="grid gap-3 border-b border-slate-200 py-7 dark:border-white/[0.08] md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-12"
               >
-                <h3 className="text-[17px] font-bold leading-[1.35] tracking-[-0.015em] text-slate-900 dark:text-white">
+                <h3 className="font-instrument font-semibold text-[17px] leading-[1.35] tracking-[-0.015em] text-slate-900 dark:text-white">
                   {f.q}
                 </h3>
                 <p className="text-[15.5px] leading-[1.7] text-slate-600 dark:text-slate-400">{f.a}</p>

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import JsonLd from '@/components/JsonLd';
 import { graph, organizationSchema, softwareSchema, websiteSchema } from '@/lib/schema';
-import Navbar      from '@/components/Navbar';
+import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import SdrProblem from '@/components/SdrProblem';
 import WorkspacesSection from '@/components/WorkspacesSection';
@@ -38,7 +38,7 @@ export default function Home() {
         <SdrStory />
         <Testimonials />
         <HomeFaq />
-        <TheData />
+        {/* <TheData /> */}
         {/* rides up over TheData's pinned panel — the parallax reveal */}
         <div className="relative z-10">
           <CTA />

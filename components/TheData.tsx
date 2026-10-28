@@ -97,7 +97,7 @@ export default function TheData() {
           {/* ── Header ──────────────────────────────────────────────────── */}
           <div className="max-w-[720px]">
             <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">Onboarding</p>
-            <h2 className="mt-3 text-[clamp(26px,3.4vw,44px)] font-semibold leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h2 className="font-instrument font-semibold mt-3 text-[clamp(26px,3.4vw,44px)] leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
               Live in three weeks.<br className="hidden sm:block" /> Meetings from week four.
             </h2>
             <p className="mt-4 max-w-[620px] text-[15px] leading-relaxed text-slate-600 dark:text-white/45 sm:text-[17px]">
@@ -165,7 +165,7 @@ export default function TheData() {
           >
             <div key={active} className="min-w-0">
               <p className="text-[13px] font-semibold text-ember-500">{current.week}</p>
-              <h3 className="mt-1.5 text-[20px] font-semibold leading-[1.2] tracking-[-0.015em] text-slate-900 dark:text-white sm:text-[24px]">
+              <h3 className="font-instrument font-semibold mt-1.5 text-[20px] leading-[1.2] tracking-[-0.015em] text-slate-900 dark:text-white sm:text-[24px]">
                 {current.title}
               </h3>
               <p className="mt-3 text-[14.5px] leading-relaxed text-slate-600 dark:text-white/50 sm:text-[15.5px]">
