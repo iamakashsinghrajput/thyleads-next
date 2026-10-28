@@ -54,7 +54,7 @@ function Head({ eyebrow, title, body, dark = false, center = false, rawEyebrow =
       <p className={`text-[12px] font-semibold tracking-[0.16em] ${rawEyebrow ? '' : 'uppercase'} ${dark ? 'text-ember-300' : 'text-ember-500'}`}>
         {eyebrow}
       </p>
-      <h2 className={`mt-4 text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] ${dark ? 'text-white' : 'text-slate-900 dark:text-white'}`}>
+      <h2 className={`font-instrument font-semibold mt-4 text-[clamp(27px,3.2vw,42px)] leading-[1.09] tracking-[-0.025em] ${dark ? 'text-white' : 'text-slate-900 dark:text-white'}`}>
         {title}
       </h2>
       {body?.map((p) => (
@@ -200,7 +200,7 @@ function ForManagers() {
             <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-300">
               For SDR leaders &amp; managers
             </p>
-            <h2 className="mt-3.5 text-[clamp(26px,2.9vw,38px)] font-semibold leading-[1.09] tracking-[-0.025em] text-white">
+            <h2 className="font-instrument font-semibold mt-3.5 text-[clamp(26px,2.9vw,38px)] leading-[1.09] tracking-[-0.025em] text-white">
               See the whole team.
               <br />
               Know where to focus.
@@ -421,7 +421,7 @@ function PlanAssign() {
           <div className="-mt-5 grid gap-3 sm:grid-cols-2">
             {PLAN_CARDS.map((c) => (
               <div key={c.t} className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-white/[0.08] dark:bg-white/[0.02]">
-                <h3 className="text-[15px] font-bold leading-[1.3] tracking-[-0.015em] text-slate-900 dark:text-white">{c.t}</h3>
+                <h3 className="font-instrument font-semibold text-[15px] leading-[1.3] tracking-[-0.015em] text-slate-900 dark:text-white">{c.t}</h3>
                 <p className="mt-1.5 text-[13px] leading-[1.55] text-slate-500 dark:text-slate-400">{c.d}</p>
               </div>
             ))}

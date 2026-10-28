@@ -65,6 +65,7 @@ const config: Config = {
         sans:      ['var(--font-sans)', 'system-ui', 'sans-serif'],
         mono:      ['var(--font-mono)', 'monospace'],
         bricolage: ['var(--font-bricolage)', 'system-ui', 'sans-serif'],
+        instrument: ['var(--font-instrument)', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         btn:   '8px',
@@ -75,6 +76,10 @@ const config: Config = {
         marquee:  'marquee 45s linear infinite',
         scan:     'scan 6s linear infinite',
         'fade-up': 'fadeUp 0.6s ease-out forwards',
+        // FeatureSection product mocks
+        'focus-in':  'focusIn 0.9s cubic-bezier(0.16,1,0.3,1) both',
+        progress:    'progress 7s linear forwards',
+        wave:        'wave 0.9s ease-in-out infinite',
       },
       keyframes: {
         marquee: {
@@ -88,6 +93,19 @@ const config: Config = {
         fadeUp: {
           '0%':   { opacity: '0', transform: 'translateY(24px)' },
           '100%': { opacity: '1', transform: 'translateY(0)'    },
+        },
+        focusIn: {
+          '0%':   { opacity: '0', filter: 'blur(14px)', transform: 'scale(1.04)' },
+          '100%': { opacity: '1', filter: 'blur(0)',    transform: 'scale(1)'    },
+        },
+        progress: {
+          '0%':   { transform: 'scaleX(0)' },
+          '100%': { transform: 'scaleX(1)' },
+        },
+        // Audio-level bar on a live call (FeatureSection calling mock).
+        wave: {
+          '0%, 100%': { transform: 'scaleY(0.3)' },
+          '50%':      { transform: 'scaleY(1)'   },
         },
       },
     },

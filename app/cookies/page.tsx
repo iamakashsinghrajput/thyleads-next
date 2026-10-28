@@ -21,7 +21,7 @@ export default function CookieNotice() {
       </LegalSection>
 
       <LegalSection title="2. Types of Cookies We Use">
-        <h3 className="text-[16px] font-semibold text-slate-800 dark:text-white/80 mt-4 mb-2">2.1 Essential Cookies</h3>
+        <h3 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white/80 mt-4 mb-2">2.1 Essential Cookies</h3>
         <p>
           These cookies are strictly necessary for the Service to function. They enable core
           features such as authentication, session management, and security. Without these cookies,
@@ -56,7 +56,7 @@ export default function CookieNotice() {
           </table>
         </div>
 
-        <h3 className="text-[16px] font-semibold text-slate-800 dark:text-white/80 mt-8 mb-2">2.2 Analytics Cookies</h3>
+        <h3 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white/80 mt-8 mb-2">2.2 Analytics Cookies</h3>
         <p>
           These cookies help us understand how visitors interact with our website by collecting and
           reporting information anonymously. We use this data to improve our Service.
@@ -90,7 +90,7 @@ export default function CookieNotice() {
           </table>
         </div>
 
-        <h3 className="text-[16px] font-semibold text-slate-800 dark:text-white/80 mt-8 mb-2">2.3 Preference Cookies</h3>
+        <h3 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white/80 mt-8 mb-2">2.3 Preference Cookies</h3>
         <p>
           These cookies allow the Service to remember choices you make (such as theme preferences or
           display settings) and provide enhanced, personalized features.
@@ -138,7 +138,7 @@ export default function CookieNotice() {
           cookies may affect the functionality of the Service.
         </p>
 
-        <h3 className="text-[16px] font-semibold text-slate-800 dark:text-white/80 mt-6 mb-2">4.1 Browser Settings</h3>
+        <h3 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white/80 mt-6 mb-2">4.1 Browser Settings</h3>
         <p>
           Most browsers allow you to view, manage, and delete cookies through their settings. The
           process varies by browser:
@@ -152,7 +152,7 @@ export default function CookieNotice() {
           ]}
         />
 
-        <h3 className="text-[16px] font-semibold text-slate-800 dark:text-white/80 mt-6 mb-2">
+        <h3 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white/80 mt-6 mb-2">
           4.2 Google Analytics Opt-Out
         </h3>
         <p>

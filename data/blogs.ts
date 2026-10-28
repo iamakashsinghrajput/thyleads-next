@@ -60,7 +60,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Jan 10, 2026",
     readTime: "6 min read",
-    image: "",
+    image: "/blogs/covers/7-best-intent-data-providers-that-sales-teams-trust-in-2026.webp",
     featured: true,
     content: {
         introduction: [
@@ -733,8 +733,8 @@ export const blogPosts: BlogPost[] = [
     },
     date: "May 10, 2026",
     readTime: "5 min read",
-    image: "/blogs/Email outreach.webp",
-    cardImage: "/blogs/Email outreach.webp",
+    image: "/blogs/covers/5-best-email-outreach-service-providers-2026-edition.webp",
+    cardImage: "/blogs/covers/5-best-email-outreach-service-providers-2026-edition.webp",
     hideHeroImage: true,
     featured: false,
     content: {
@@ -745,7 +745,7 @@ export const blogPosts: BlogPost[] = [
 
         {
           type: 'image',
-          src: "/blogs/5 Best Email Outreach Service Providers secondary.webp",
+          src: "/blogs/figures/email-outreach-providers-compared.webp",
           alt: "best email outreach service providers",
         }
       ],
@@ -757,7 +757,7 @@ export const blogPosts: BlogPost[] = [
             "The core of how Harvin operates is the Waterfall Enrichment Engine, which pulls contact data from multiple sources and cross-verifies each record. That process keeps bounce rates low and protects domain reputation across campaigns. Domain warm-up, done properly, can improve email deliverability by up to 80%, and Harvin treats it as a launch requirement rather than a setup checkbox. Harvin has worked with 70+ SaaS clients and verifies over 100,000 emails per month. Outreach runs across email and LinkedIn, and each client gets a dedicated GTM engineer plus a shared Slack channel for live updates.",
             {
               type: 'image',
-              src: "/blogs/Tertiary Image.webp",
+              src: "/blogs/figures/waterfall-enrichment-engine.webp",
               alt: "Waterfall Enrichment Engine"
             },
 
@@ -1054,8 +1054,8 @@ export const blogPosts: BlogPost[] = [
     },
     date: "May 20, 2026",
     readTime: "5 min read",
-    image: "/blogs/Top 5 Lead Generation Companies.webp",
-    cardImage: "/blogs/Top 5 Lead Generation Companies.webp",
+    image: "/blogs/covers/top-5-lead-generation-companies-for-2026.webp",
+    cardImage: "/blogs/covers/top-5-lead-generation-companies-for-2026.webp",
     hideHeroImage: true,
     featured: false,
     content: {
@@ -1064,7 +1064,7 @@ export const blogPosts: BlogPost[] = [
         "Outsourcing lead generation to a specialist changes that equation. The five companies below approach the problem differently. Some are built for scale, some for precision, and one is built specifically for SaaS outbound. Here is how they compare.",
         {
           type: 'image',
-          src: "/blogs/Top 6 secondary image.webp",
+          src: "/blogs/figures/lead-generation-companies-2026.webp",
           alt: "Top lead generation companies for 2026",
         },
       ],
@@ -1366,8 +1366,8 @@ export const blogPosts: BlogPost[] = [
     },
     date: "May 5, 2026",
     readTime: "5 min read",
-    image: "/blogs/5 Best Data enrichment service providers.webp",
-    cardImage: "/blogs/5 Best Data enrichment service providers.webp",
+    image: "/blogs/covers/5-best-data-enrichment-service-providers-2026-edition.webp",
+    cardImage: "/blogs/covers/5-best-data-enrichment-service-providers-2026-edition.webp",
     hideHeroImage: true,
     featured: false,
     content: {
@@ -1388,8 +1388,8 @@ export const blogPosts: BlogPost[] = [
 
             {
               type: 'image',
-              src: "/blogs/5-best-data-enrichment-seconday-image.webp",
-              alt: "Top lead generation companies for 2026",
+              src: "/blogs/figures/data-enrichment-tools-compared.webp",
+              alt: "Top 5 data enrichment tools compared",
             },
           ]
         }
@@ -1690,7 +1690,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Feb 14, 2026",
     readTime: "3 min read",
-    image: "/blogs/5 best appointment scheduling service agencies.webp",
+    image: "/blogs/covers/5-best-appointment-scheduling-service-agencies-2026.webp",
     featured: false,
     content: {
       introduction: [
@@ -2074,7 +2074,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Mar 18, 2026",
     readTime: "7 min read",
-    image: "/blogs/Every job posting is a hiring signal.webp",
+    image: "/blogs/covers/every-job-posting-hiring-signals-gtm-pro.webp",
     featured: false,
     content: {
       introduction: [
@@ -2311,7 +2311,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Apr 13, 2026",
     readTime: "7 min read",
-    image: "/blogs/Waterfall enrichment.webp",
+    image: "/blogs/covers/waterfall-enrichment-2026-playbook.webp",
     featured: false,
     content: {
       introduction: [
@@ -2506,7 +2506,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Dec 22, 2025",
     readTime: "7 min read",
-    image: "/blogs/reddit for b2b lead generation.webp",
+    image: "/blogs/covers/reddit-for-b2b-lead-generation-untapped-goldmine.webp",
     featured: false,
     content: {
       introduction: [
@@ -2814,7 +2814,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Apr 18, 2026",
     readTime: "7 min read",
-    image: "/blogs/10 data-driven outbound campaign.webp",
+    image: "/blogs/covers/10-data-driven-outbound-campaigns-gtm-strategy.webp",
     featured: false,
     content: {
       introduction: [
@@ -3024,7 +3024,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Feb 13, 2026",
     readTime: "7 min read",
-    image: "/blogs/wining in us retailtech.webp",
+    image: "/blogs/covers/winning-in-us-retailtech-2024.webp",
     featured: false,
     content: {
       introduction: [
@@ -3184,7 +3184,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Feb 11, 2026",
     readTime: "7 min read",
-    image: "/blogs/10 hard-earned outreach lesson.webp",
+    image: "/blogs/covers/10-hard-earned-outreach-lessons-2024.webp",
     featured: false,
     content: {
       introduction: [
@@ -3400,7 +3400,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Mar 14, 2026",
     readTime: "7 min read",
-    image: "/blogs/the ultimate guide.webp",
+    image: "/blogs/covers/ultimate-guide-automated-hyper-targeted-outreach-clay-rss.webp",
     featured: false,
     content: {
       introduction: [
@@ -3571,7 +3571,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Feb 24, 2026",
     readTime: "7 min read",
-    image: "/blogs/india gtm playbook.webp",
+    image: "/blogs/covers/india-gtm-playbook-how-saas-companies-like-clevertap-and-vwo-built-pipeline-from-zero.webp",
     featured: false,
     content: {
       introduction: [
@@ -3647,7 +3647,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Jan 14, 2026",
     readTime: "6 min read",
-    image: "/blogs/outsourced sdr vs in-house sales team.webp",
+    image: "/blogs/covers/outsourced-sdr-vs-in-house-sales-team-in-india-cost-and-performance-comparison.webp",
     featured: false,
     content: {
       introduction: [
@@ -3719,7 +3719,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Mar 1, 2026",
     readTime: "7 min read",
-    image: "/blogs/how fintech saas companies are winning enterprise deals.webp",
+    image: "/blogs/covers/how-fintech-saas-companies-are-winning-enterprise-deals-in-india.webp",
     featured: false,
     content: {
       introduction: [
@@ -3783,7 +3783,7 @@ export const blogPosts: BlogPost[] = [
     },
     date: "Jan 30, 2026",
     readTime: "7 min read",
-    image: "/blogs/the martech opportunity in india.webp",
+    image: "/blogs/covers/the-martech-opportunity-in-india-why-2026-is-the-year-to-move.webp",
     featured: false,
     content: {
       introduction: [

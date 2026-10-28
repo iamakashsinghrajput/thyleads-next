@@ -1419,7 +1419,7 @@ export default function Platform() {
           <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500 mb-5">
             One SDR management platform
           </p>
-          <h2 className="text-[clamp(28px,4.2vw,48px)] font-semibold leading-[1.08] tracking-[-0.025em] text-slate-900 dark:text-white mb-4">
+          <h2 className="font-instrument font-semibold text-[clamp(28px,4.2vw,48px)] leading-[1.08] tracking-[-0.025em] text-slate-900 dark:text-white mb-4">
             Built around the way an SDR<br className="hidden sm:block" /> team actually operates
           </h2>
           <p className="mx-auto max-w-[600px] text-[17px] leading-[1.7] text-slate-600 dark:text-slate-400">
@@ -1477,7 +1477,7 @@ function ModuleRow({ mod, index, flipped, isDark }: {
 
         {/* Display face + tighter tracking: at this size the body sans reads
             flat, and negative tracking is what stops large type looking loose. */}
-        <h3 className="font-bricolage text-[30px] font-bold leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white sm:text-[38px]">
+        <h3 className="font-instrument font-semibold text-[30px] leading-[1.12] tracking-[-0.025em] text-slate-900 dark:text-white sm:text-[38px]">
           {mod.title}
         </h3>
 

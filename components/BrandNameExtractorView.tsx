@@ -266,7 +266,7 @@ export default function BrandNameExtractorView({
       {/* ── Header ─────────────────────────────────────────────────── */}
       <div className="flex items-center gap-3 mb-2">
         <Tag size={22} className="text-ember-500" />
-        <h2 className="text-[20px] font-bold text-slate-900 dark:text-white">Brand Name Extractor</h2>
+        <h2 className="font-instrument font-semibold text-[20px] text-slate-900 dark:text-white">Brand Name Extractor</h2>
       </div>
       <p className="text-[13px] text-slate-500 dark:text-neutral-400 mb-6">
         Paste up to 50,000 domains (one per line). For each, we&apos;ll resolve the

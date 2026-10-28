@@ -40,7 +40,7 @@ export default function LegalPageLayout({
               <span>Legal Document</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
+            <h1 className="font-instrument font-semibold text-4xl sm:text-5xl text-slate-900 dark:text-white tracking-tight mb-4">
               {title}
             </h1>
             <p className="text-[15px] text-slate-400 dark:text-white/40 font-medium">
@@ -64,7 +64,7 @@ export default function LegalPageLayout({
 export function LegalSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.06] rounded-2xl p-6 sm:p-8 shadow-sm dark:shadow-none">
-      <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white mb-4">{title}</h2>
+      <h2 className="font-instrument font-semibold text-[18px] sm:text-[20px] text-slate-900 dark:text-white mb-4">{title}</h2>
       <div className="text-[15px] text-slate-600 dark:text-white/60 leading-relaxed space-y-3">
         {children}
       </div>
@@ -96,7 +96,7 @@ export function LegalLink({ href, children }: { href: string; children: React.Re
 export function LegalContact() {
   return (
     <div className="bg-gradient-to-br from-[#C94C1E]/5 to-[#C94C1E]/[0.02] dark:from-[#C94C1E]/10 dark:to-[#C94C1E]/5 border border-[#C94C1E]/15 dark:border-[#C94C1E]/20 rounded-2xl p-6 sm:p-8">
-      <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white mb-4">Contact Us</h2>
+      <h2 className="font-instrument font-semibold text-[18px] sm:text-[20px] text-slate-900 dark:text-white mb-4">Contact Us</h2>
       <div className="text-[15px] text-slate-600 dark:text-white/60 leading-relaxed space-y-3">
         <p>If you have any questions about this document, please contact us:</p>
         <div className="space-y-2 mt-4">

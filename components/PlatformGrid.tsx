@@ -843,7 +843,7 @@ function PlatformCard({ card, index }: { card: typeof CARDS[0]; index: number })
           <card.Icon size={21} className="text-white" strokeWidth={2.1} />
         </span>
 
-        <h3 className="mt-6 text-[clamp(22px,2.2vw,27px)] font-bold tracking-[-0.02em] text-slate-900 dark:text-white">
+        <h3 className="font-instrument font-semibold mt-6 text-[clamp(22px,2.2vw,27px)] tracking-[-0.02em] text-slate-900 dark:text-white">
           {card.title}
         </h3>
         <p className="mt-3 max-w-[460px] text-[15px] leading-[1.6] text-slate-500 dark:text-slate-400">
@@ -866,7 +866,7 @@ export default function PlatformGrid() {
                       ${header.visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
         >
           <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">The Platform</p>
-          <h2 className="mt-4 text-[clamp(27px,3.2vw,42px)] font-semibold leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+          <h2 className="font-instrument font-semibold mt-4 text-[clamp(27px,3.2vw,42px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
             Four modules, one account graph
           </h2>
           <p className="mt-5 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">

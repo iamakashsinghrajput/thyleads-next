@@ -53,7 +53,7 @@ export default function ThankYouPage() {
           </div>
 
           {/* Message */}
-          <h1 className="text-[28px] font-extrabold text-slate-900 tracking-[-0.03em] leading-tight mb-3">
+          <h1 className="font-instrument font-semibold text-[28px] text-slate-900 tracking-[-0.03em] leading-tight mb-3">
             Thank you{name ? `, ${name}` : ''}!
           </h1>
           <p className="text-[15px] text-slate-500 leading-relaxed mb-2">

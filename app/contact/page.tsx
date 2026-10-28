@@ -103,14 +103,25 @@ export default function ContactPage() {
       <Navbar />
 
       {/* ═══ HEADER ═══════════════════════════════════════════════════════ */}
-      <section className="border-b border-slate-200 px-4 pb-14 pt-28 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:pt-32">
-        <div className="mx-auto max-w-[1180px]">
+      <section className="relative overflow-hidden border-b border-slate-200 px-4 pb-16 pt-28 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:pb-20 lg:pt-36">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_70%_at_15%_0%,rgba(201,76,30,0.12),transparent_70%)] dark:bg-[radial-gradient(50%_70%_at_15%_0%,rgba(201,76,30,0.2),transparent_70%)]"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(35,34,32,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(35,34,32,0.045)_1px,transparent_1px)] bg-[size:56px_56px]
+                     [mask-image:radial-gradient(60%_80%_at_20%_30%,#000,transparent)]
+                     dark:bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)]"
+        />
+        <div className="relative mx-auto max-w-[1180px]">
           <div className="max-w-[720px]">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">
+            <p className="inline-flex items-center gap-2 rounded-full border border-ember-200 bg-ember-50/80 px-4 py-1.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ember-600 dark:border-ember-500/30 dark:bg-ember-500/10 dark:text-ember-400">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-ember-500" />
               Contact
             </p>
-            <h1 className="mt-4 font-bricolage text-[clamp(31px,4.2vw,50px)] font-bold leading-[1.07] tracking-[-0.025em] text-slate-900 dark:text-white">
-              Talk to us
+            <h1 className="font-instrument font-semibold mt-6 text-[clamp(36px,5vw,64px)] leading-[1.04] tracking-[-0.035em] text-slate-950 dark:text-white">
+              Talk to <span className="text-ember-500">us</span>
             </h1>
             <p className="mt-6 text-[17px] leading-[1.7] text-slate-600 dark:text-slate-400">
               A demo, a question about how the platform handles your team’s setup, or something
@@ -124,8 +135,8 @@ export default function ContactPage() {
       {/* ═══ FORM + DETAILS ═══════════════════════════════════════════════ */}
       <section className="border-b border-slate-200 px-4 py-14 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:py-20">
         <div className="mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-20">
-          <div>
-            <h2 className="text-[20px] font-bold tracking-[-0.015em] text-slate-900 dark:text-white">
+          <div className="self-start rounded-modal border border-slate-200 bg-sand-50 p-6 shadow-[0_4px_32px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)] sm:p-9">
+            <h2 className="font-instrument font-semibold text-[22px] tracking-[-0.015em] text-slate-950 dark:text-white">
               Send us a message
             </h2>
             <p className="mb-8 mt-2 text-[14.5px] leading-[1.7] text-slate-600 dark:text-slate-400">
@@ -134,20 +145,17 @@ export default function ContactPage() {
             <ContactForm />
           </div>
 
-          <div>
-            <h2 className="text-[20px] font-bold tracking-[-0.015em] text-slate-900 dark:text-white">
+          <div className="lg:pt-9">
+            <h2 className="font-instrument font-semibold text-[22px] tracking-[-0.015em] text-slate-950 dark:text-white">
               Or reach us directly
             </h2>
 
             <dl className="mt-8 border-t border-slate-200 dark:border-white/[0.08]">
               {DETAILS.map(({ Icon, label, lines, href }) => (
                 <div key={label} className="flex gap-4 border-b border-slate-200 py-5 dark:border-white/[0.08]">
-                  <Icon
-                    size={17}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                    className="mt-0.5 flex-shrink-0 text-ember-500"
-                  />
+                  <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-btn bg-ember-500/10 text-ember-500">
+                    <Icon size={16} strokeWidth={2} aria-hidden="true" />
+                  </span>
                   <div className="min-w-0">
                     <dt className="text-[11.5px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
                       {label}

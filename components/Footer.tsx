@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Wordmark from '@/components/Wordmark';
 import { portalUrl } from '@/lib/portal';
 
 /* ── Nav data ─────────────────────────────────────────────────────────────
@@ -109,8 +108,8 @@ export default function Footer() {
       <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-12 px-6 py-16 sm:grid-cols-3 md:grid-cols-[1.3fr_repeat(5,minmax(0,1fr))] lg:gap-x-8 lg:px-8 lg:py-20">
         {/* Brand column */}
         <div className="col-span-2 flex flex-col gap-6 sm:col-span-3 md:col-span-1 md:pr-4">
-          <Link href="/" className="flex w-fit items-center gap-0.5 rounded-xl bg-white px-3 py-1.5 shadow-sm">
-            <Wordmark size={28} className="text-black" />
+          <Link href="/" className="flex w-fit items-center rounded-xl bg-white px-4 py-3 shadow-sm">
+            <img src="/harvin-logo.png" alt="Harvin" loading="lazy" className="h-[30px] w-auto" />
           </Link>
 
           <p className="max-w-[280px] text-[15px] font-normal leading-[1.65] text-white/55">

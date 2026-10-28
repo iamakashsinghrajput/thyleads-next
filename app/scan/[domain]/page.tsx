@@ -302,7 +302,7 @@ export default function ScanResultPage() {
               <div className="absolute inset-0 rounded-full border-[3px] border-slate-200 dark:border-white/[0.08]" />
               <div className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-[#C94C1E] animate-spin" />
             </div>
-            <h2 className="text-[18px] font-semibold mb-1">Scanning {domain}</h2>
+            <h2 className="font-instrument font-semibold text-[18px] mb-1">Scanning {domain}</h2>
             <p className="text-[13px] text-slate-500 dark:text-slate-400">Detecting technologies and company info&hellip;</p>
           </div>
         )}
@@ -315,7 +315,7 @@ export default function ScanResultPage() {
                 <circle cx="12" cy="12" r="10" /><path d="M12 8v4M12 16h.01" />
               </svg>
             </div>
-            <h2 className="text-[18px] font-semibold mb-1">Scan failed</h2>
+            <h2 className="font-instrument font-semibold text-[18px] mb-1">Scan failed</h2>
             <p className="text-[14px] text-slate-500 dark:text-slate-400 mb-5 max-w-md text-center">{error}</p>
             <div className="flex gap-3">
               <button onClick={() => window.location.reload()} className="px-5 py-2.5 rounded-lg text-[14px] font-semibold text-white bg-[#C94C1E] hover:bg-[#b5431a] transition-all">Retry</button>
@@ -352,7 +352,7 @@ export default function ScanResultPage() {
                         <path d="M12 9v4M12 17h.01" /><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
                       </svg>
                     </div>
-                    <h3 className="text-[16px] font-semibold text-slate-900 dark:text-white mb-2">This site has bot protection</h3>
+                    <h3 className="font-instrument font-semibold text-[16px] text-slate-900 dark:text-white mb-2">This site has bot protection</h3>
                     <p className="text-[14px] text-slate-500 dark:text-slate-400 mb-5 leading-relaxed">
                       {result.message || 'We couldn\'t scan this site from our servers. Use the HarvinAI Chrome extension to scan from your real browser.'}
                     </p>
@@ -456,7 +456,7 @@ export default function ScanResultPage() {
             className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-white/[0.06] p-0.5"
           />
           <div>
-            <h1 className="text-[24px] sm:text-[28px] font-bold tracking-[-0.02em] leading-tight">{brandName}</h1>
+            <h1 className="font-instrument font-semibold text-[24px] sm:text-[28px] tracking-[-0.02em] leading-tight">{brandName}</h1>
             <p className="text-[14px] text-slate-500 dark:text-slate-400 font-mono">{domain}</p>
           </div>
           {dedupedTechs.length > 0 && (

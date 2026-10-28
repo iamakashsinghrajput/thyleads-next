@@ -67,7 +67,7 @@ export default function EarlyAccessModal({ open, type, onClose }: Props) {
           {!submitted ? (
             <>
               <div className="mb-6">
-                <h2 className="text-[22px] font-semibold tracking-[-0.02em] text-slate-900 dark:text-white">
+                <h2 className="font-instrument font-semibold text-[22px] tracking-[-0.02em] text-slate-900 dark:text-white">
                   {isSales ? 'Talk to our sales team' : 'Get early access'}
                 </h2>
                 <p className="mt-1.5 text-[14px] text-slate-500 dark:text-slate-400">
@@ -183,7 +183,7 @@ export default function EarlyAccessModal({ open, type, onClose }: Props) {
               <div className="w-14 h-14 rounded-full bg-ember-50 dark:bg-ember-500/15 flex items-center justify-center mb-4">
                 <CheckCircle size={28} className="text-ember-500" strokeWidth={1.8} />
               </div>
-              <h2 className="text-[20px] font-semibold text-slate-900 dark:text-white mb-2">
+              <h2 className="font-instrument font-semibold text-[20px] text-slate-900 dark:text-white mb-2">
                 {isSales ? 'Message received!' : "You're on the list!"}
               </h2>
               <p className="text-[14px] leading-relaxed text-slate-500 dark:text-slate-400 max-w-[320px]">

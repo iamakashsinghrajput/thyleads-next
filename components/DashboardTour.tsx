@@ -161,7 +161,7 @@ export default function DashboardTour({ onComplete }: { onComplete?: () => void 
                 <span className="text-white dark:text-slate-900 text-[13px] font-bold">H</span>
               </div>
               <div>
-                <h2 className="text-[18px] font-bold text-slate-900 dark:text-white leading-tight">
+                <h2 className="font-instrument font-semibold text-[18px] text-slate-900 dark:text-white leading-tight">
                   Welcome to Harvin
                 </h2>
                 <p className="text-[12px] text-slate-400 dark:text-slate-500">Quick tour · 30 seconds</p>
@@ -251,7 +251,7 @@ export default function DashboardTour({ onComplete }: { onComplete?: () => void 
             </button>
           </div>
 
-          <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white mb-1 leading-snug">
+          <h3 className="font-instrument font-semibold text-[15px] text-slate-900 dark:text-white mb-1 leading-snug">
             {currentStep.title}
           </h3>
           <p className="text-[13px] text-slate-500 dark:text-slate-400 leading-relaxed mb-4">

@@ -524,7 +524,7 @@ export default function HowItWorks() {
       <div className="mx-auto w-full max-w-[1240px]">
         <div className="mx-auto mb-12 max-w-3xl text-center lg:mb-16">
           <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">How it works</p>
-          <h2 className="mt-4 text-[clamp(30px,3.5vw,48px)] font-semibold leading-[1.08] tracking-[-0.025em] text-slate-900 dark:text-white">
+          <h2 className="font-instrument font-semibold mt-4 text-[clamp(30px,3.5vw,48px)] leading-[1.08] tracking-[-0.025em] text-slate-900 dark:text-white">
             From cold list to closed deal in 4 steps
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-relaxed text-slate-500 dark:text-slate-400 sm:text-[18px]">
