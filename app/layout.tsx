@@ -6,6 +6,7 @@ import './globals.css';
 import ThemeProvider from '@/components/ThemeProvider';
 import { ModalProvider } from '@/components/ModalContext';
 import SessionWrapper from '@/components/SessionWrapper';
+import CookieConsent from '@/components/CookieConsent';
 
 /* ── Universal Sans (primary font) ────────────────────────────────────────── */
 const universalSans = localFont({
@@ -155,6 +156,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ThemeProvider>
             <ModalProvider>
               {children}
+              <CookieConsent />
             </ModalProvider>
           </ThemeProvider>
         </SessionWrapper>
