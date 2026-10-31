@@ -2,7 +2,7 @@
 // "Dashboard" link points there. Override per-environment with NEXT_PUBLIC_PORTAL_URL.
 export const PORTAL_URL =
   process.env.NEXT_PUBLIC_PORTAL_URL ||
-  'https://portal-thyleads.com';
+  'https://harvin.ai/dashboard';
 
 export function portalUrl(path = ''): string {
   const base = PORTAL_URL.replace(/\/+$/, '');

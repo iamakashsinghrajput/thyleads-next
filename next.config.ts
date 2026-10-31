@@ -11,6 +11,17 @@ const nextConfig: NextConfig = {
    * onto /platform. The old route is kept as a permanent redirect rather than
    * deleted outright, because it is linked from elsewhere on the web.
    */
+  async rewrites() {
+    return {
+      beforeFiles: [
+        { source: '/dashboard', destination: 'https://origin.portal-thyleads.com/dashboard' },
+        { source: '/dashboard/:path*', destination: 'https://origin.portal-thyleads.com/dashboard/:path*' },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
+
   async redirects() {
     return [
       { source: '/product', destination: '/platform', permanent: true },
