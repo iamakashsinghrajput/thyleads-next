@@ -1,5 +1,6 @@
 import {
-  ArrowRight, Check, Mail, MessageSquare, Phone, Radar, Target, TrendingDown, TrendingUp,
+  ArrowRight, Building2, CalendarDays, Check, ClipboardList, Home, Inbox, Mail, Megaphone,
+  MessageSquare, Phone, Radar, Radio, Target, TrendingDown, TrendingUp,
 } from 'lucide-react';
 
 import SdrExecution from '@/components/SdrExecution';
@@ -90,14 +91,6 @@ function Frame({ title, sub, right, fill = false, children }: {
         {children}
       </div>
     </div>
-  );
-}
-
-function Mark({ slug }: { slug: string }) {
-  return (
-    <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-lg border border-slate-200 bg-white p-1 dark:border-white/10">
-      <img src={`/logos/${slug}.svg`} alt="" aria-hidden="true" className="h-auto w-full object-contain" />
-    </span>
   );
 }
 
@@ -433,86 +426,171 @@ function PlanAssign() {
 }
 
 /* ══ 03 · For your SDRs ══════════════════════════════════════════════════ */
+/**
+ * The rep's workspace, drawn as the real Harvin SDR app rather than a generic
+ * card: the dark sidebar with the product's own navigation (Home, Inbox,
+ * Meetings, Data Building, Active TAL…) beside a white work area. Matches the
+ * shell in the product screenshots (/public/calling_page.png,
+ * /public/email_inbox2.png) so this section reads as the same app the visitor
+ * will log into.
+ *
+ * Accounts are the B2B demo accounts the product itself ships with, shown as
+ * initials (the product has no logos for them). Counts and scores are
+ * illustrative product output, not performance claims.
+ */
+const APP_NAV = [
+  { icon: Home, label: 'Home', on: true },
+  { icon: Inbox, label: 'Inbox', badge: 3 },
+  { icon: CalendarDays, label: 'Meetings' },
+  { icon: Building2, label: 'Data Building' },
+  { icon: Target, label: 'Active TAL' },
+  { icon: Radio, label: 'Intelligence' },
+  { icon: ClipboardList, label: 'Tasks' },
+  { icon: Megaphone, label: 'Campaigns' },
+  { icon: Phone, label: 'Dialer' },
+];
+
 const REP_QUEUE = [
-  { icon: Phone, label: 'Call before 11 AM', count: 8, tone: 'ember' as const },
-  { icon: MessageSquare, label: 'Replies waiting', count: 3, tone: 'green' as const },
-  { icon: Mail, label: 'Follow-ups due today', count: 12, tone: 'slate' as const },
+  { icon: Phone, label: 'Calls by 11 AM', count: 8 },
+  { icon: MessageSquare, label: 'Replies waiting', count: 3 },
+  { icon: Mail, label: 'Follow-ups due', count: 12 },
 ];
+
+/* Signal chip tones mirror the product: amber for intent signals, emerald for
+   funding, slate for activity. */
+const SIGNAL_TONE = {
+  amber: 'bg-amber-50 text-amber-700 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:ring-amber-500/20',
+  green: 'bg-emerald-50 text-emerald-700 ring-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:ring-emerald-500/20',
+  slate: 'bg-slate-100 text-slate-600 ring-slate-200 dark:bg-white/[0.06] dark:text-slate-300 dark:ring-white/10',
+} as const;
+
 const REP_ACCOUNTS = [
-  { slug: 'nike', name: 'Nike', why: 'Hiring · 58 open GTM roles', score: 94 },
-  { slug: 'peloton', name: 'Peloton', why: 'Scaling · headcount +14% QoQ', score: 89 },
-  { slug: 'sonos', name: 'Sonos', why: 'Hiring · 26 open engineering roles', score: 81 },
-  { slug: 'etsy', name: 'Etsy', why: 'Replied 2d ago · follow up', score: 74 },
-  { slug: 'target', name: 'Target', why: 'Stack change · 9 new tools', score: 68 },
+  { ini: 'FI', name: 'Finlytics', meta: 'Fintech · Bengaluru', signal: 'Hiring Surge', tone: 'amber' as const, score: 94, avatar: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300' },
+  { ini: 'SH', name: 'Shipnest', meta: 'Logistics SaaS · Mumbai', signal: 'Recently Funded', tone: 'green' as const, score: 89, avatar: 'bg-ember-100 text-ember-700 dark:bg-ember-500/15 dark:text-ember-300' },
+  { ini: 'DA', name: 'Datavine', meta: 'Data platform · Pune', signal: 'Tech Migration', tone: 'amber' as const, score: 81, avatar: 'bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300' },
+  { ini: 'CN', name: 'CloudNest', meta: 'Infra · Hyderabad', signal: 'Replied 2d ago', tone: 'slate' as const, score: 74, avatar: 'bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300' },
 ];
-/** The replies pane — the other half of a rep's morning, and what lets the
- *  panel fill a taller column with content rather than whitespace. */
+
 const REP_REPLIES = [
-  { slug: 'nike', who: 'Dana W. · VP Marketing', line: 'Happy to take a look — what does onboarding involve?', when: '18m' },
-  { slug: 'etsy', who: 'Alex T. · Director of Data', line: 'Can you send the case study first?', when: '2h' },
+  { ini: 'RM', who: 'Ritika Malhotra', org: 'Head of Sales · Finlytics', line: 'Wednesday afternoon works for me. Please send over an invite.', tag: 'Interested', when: '18m' },
+  { ini: 'RD', who: 'Rohan Desai', org: 'VP Ops · Shipnest', line: 'Let’s talk. Can we do 30 min next week?', tag: 'Meeting Request', when: '2h' },
 ];
 
 function RepDay() {
   return (
-    <Frame
-      fill
-      title="Sarah’s day"
-      sub="Her accounts, her prospects, her next actions"
-      right={<Chip tone="ember">Today</Chip>}
-    >
-      <div className="grid grid-cols-3 gap-2 border-b border-slate-200/70 px-4 py-3 dark:border-white/[0.06]">
-        {REP_QUEUE.map((q) => (
-          <div key={q.label} className="min-w-0 rounded-lg bg-white px-3 py-2.5 ring-1 ring-slate-200/80 dark:bg-white/[0.05] dark:ring-white/10">
-            <p className="flex items-center gap-1.5">
-              <q.icon size={11} strokeWidth={2.4} className="flex-shrink-0 text-ember-500" />
-              <span className="text-[15px] font-bold tabular-nums text-slate-900 dark:text-white">{q.count}</span>
-            </p>
-            <p className="mt-0.5 truncate text-[10.5px] text-slate-500 dark:text-slate-400">{q.label}</p>
+    <div className="flex h-full min-w-0 flex-col rounded-2xl bg-sand-200 p-4 dark:bg-[#141210] sm:p-5">
+      <div className="flex min-h-0 flex-1 overflow-hidden rounded-2xl border border-slate-200/80 shadow-[0_18px_44px_rgba(15,23,42,0.14)] dark:border-white/[0.08] dark:shadow-[0_18px_44px_rgba(0,0,0,0.5)]">
+        {/* ── Sidebar — the product's own nav ───────────────────────── */}
+        <aside className="hidden w-[150px] flex-shrink-0 flex-col bg-[#141414] sm:flex" aria-hidden="true">
+          <div className="flex items-center gap-2 px-3.5 pb-3 pt-4">
+            <img src="/harvinlogo/logo.png" alt="" className="h-5 w-auto" />
+            <div className="leading-none">
+              <p className="text-[13px] font-bold tracking-[-0.01em] text-white">Harvin</p>
+              <p className="mt-0.5 text-[9.5px] text-white/45">SDR</p>
+            </div>
           </div>
-        ))}
-      </div>
-
-      {/* flex-1 is where the row's extra height lands */}
-      <div className="flex min-h-0 flex-1 flex-col">
-        <p className="px-4 pt-3 font-mono text-[9.5px] font-semibold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">
-          Work these first
-        </p>
-        <div className="flex flex-1 flex-col justify-around divide-y divide-slate-200/70 px-1 dark:divide-white/[0.06]">
-          {REP_ACCOUNTS.map((a) => (
-            <div key={a.name} className="flex items-center gap-3 px-3 py-2.5">
-              <Mark slug={a.slug} />
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[13px] font-bold text-slate-900 dark:text-white">{a.name}</p>
-                <p className="truncate text-[11px] text-slate-500 dark:text-slate-400">{a.why}</p>
-              </div>
-              <span className="inline-flex h-[24px] w-[38px] flex-shrink-0 items-center justify-center rounded-lg border border-ember-500/30 bg-ember-500/[0.10] text-[11.5px] font-bold tabular-nums text-ember-500 dark:text-ember-300">
-                {a.score}
-              </span>
+          <nav className="flex-1 space-y-0.5 px-2">
+            {APP_NAV.map((n) => (
+              <p
+                key={n.label}
+                className={`flex items-center gap-2 rounded-lg px-2 py-[7px] text-[11.5px] ${
+                  n.on ? 'bg-ember-900/70 font-semibold text-white' : 'text-white/60'
+                }`}
+              >
+                <n.icon size={13} strokeWidth={2} className={n.on ? 'text-ember-300' : 'text-white/45'} />
+                <span className="flex-1 truncate">{n.label}</span>
+                {n.badge && (
+                  <span className="rounded-full bg-ember-500 px-1.5 text-[9px] font-bold tabular-nums text-white">{n.badge}</span>
+                )}
+              </p>
+            ))}
+          </nav>
+          <div className="flex items-center gap-2 border-t border-white/[0.08] px-3.5 py-3">
+            <span className="grid h-6 w-6 place-items-center rounded-full bg-ember-100 text-[10px] font-bold text-ember-700">S</span>
+            <div className="min-w-0 leading-tight">
+              <p className="truncate text-[11px] font-semibold text-white">Sarah W.</p>
+              <p className="text-[9.5px] text-white/45">SDR</p>
             </div>
-          ))}
+          </div>
+        </aside>
+
+        {/* ── Work area ─────────────────────────────────────────────── */}
+        <div className="flex min-w-0 flex-1 flex-col bg-white dark:bg-[#16130F]">
+          <div className="flex items-start justify-between gap-3 px-4 pb-3 pt-4">
+            <div className="min-w-0">
+              <p className="truncate text-[17px] font-bold tracking-[-0.02em] text-slate-900 dark:text-white">Good morning, Sarah</p>
+              <p className="truncate text-[11.5px] text-slate-500 dark:text-slate-400">Your accounts, prospects and next actions for today.</p>
+            </div>
+            <Chip tone="ember">Today</Chip>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 px-4 pb-3">
+            {REP_QUEUE.map((q) => (
+              <div key={q.label} className="min-w-0 rounded-xl border border-slate-200 px-3 py-2.5 dark:border-white/[0.08]">
+                <p className="flex items-center gap-1.5">
+                  <span className="grid h-5 w-5 place-items-center rounded-md bg-ember-50 dark:bg-ember-500/15">
+                    <q.icon size={11} strokeWidth={2.4} className="text-ember-500" />
+                  </span>
+                  <span className="text-[16px] font-bold tabular-nums text-slate-900 dark:text-white">{q.count}</span>
+                </p>
+                <p className="mt-1 truncate text-[10.5px] text-slate-500 dark:text-slate-400">{q.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* flex-1 is where the row's extra height lands */}
+          <div className="flex min-h-0 flex-1 flex-col border-t border-slate-200/70 dark:border-white/[0.06]">
+            <div className="flex items-center justify-between px-4 pt-3">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">Work these first</p>
+              <p className="text-[10px] text-slate-400 dark:text-slate-500">Sorted by Harvin score</p>
+            </div>
+            <div className="flex flex-1 flex-col justify-around divide-y divide-slate-200/70 dark:divide-white/[0.06]">
+              {REP_ACCOUNTS.map((a) => (
+                <div key={a.name} className="flex items-center gap-3 px-4 py-2.5">
+                  <span className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-full text-[11px] font-bold ${a.avatar}`}>{a.ini}</span>
+                  <div className="min-w-0 flex-1">
+                    <p className="flex items-center gap-2">
+                      <span className="truncate text-[13px] font-bold text-slate-900 dark:text-white">{a.name}</span>
+                      <span className={`hidden flex-shrink-0 rounded-full px-1.5 py-px text-[9.5px] font-semibold ring-1 sm:inline ${SIGNAL_TONE[a.tone]}`}>
+                        {a.signal}
+                      </span>
+                    </p>
+                    <p className="truncate text-[11px] text-slate-500 dark:text-slate-400">{a.meta}</p>
+                  </div>
+                  <span className="inline-flex h-[24px] w-[38px] flex-shrink-0 items-center justify-center rounded-lg border border-ember-500/30 bg-ember-500/[0.10] text-[11.5px] font-bold tabular-nums text-ember-500 dark:text-ember-300">
+                    {a.score}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="border-t border-slate-200/70 bg-sand-50 px-4 py-3 dark:border-white/[0.06] dark:bg-white/[0.02]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">Replies waiting</p>
+            <div className="mt-2 space-y-2">
+              {REP_REPLIES.map((r) => (
+                <div key={r.who} className="flex items-start gap-2.5 rounded-xl border border-slate-200 bg-white px-3 py-2.5 dark:border-white/[0.08] dark:bg-white/[0.03]">
+                  <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-amber-100 text-[10px] font-bold text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
+                    {r.ini}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="flex items-center gap-2">
+                      <span className="truncate text-[12px] font-bold text-slate-900 dark:text-white">{r.who}</span>
+                      <span className="flex-shrink-0 rounded-md bg-emerald-50 px-1.5 py-px text-[9.5px] font-semibold text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:ring-emerald-500/20">
+                        {r.tag}
+                      </span>
+                    </p>
+                    <p className="truncate text-[10.5px] text-slate-400 dark:text-slate-500">{r.org}</p>
+                    <p className="mt-0.5 truncate text-[11px] text-slate-600 dark:text-slate-300">{r.line}</p>
+                  </div>
+                  <span className="flex-shrink-0 text-[10px] tabular-nums text-slate-400 dark:text-slate-500">{r.when}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-
-      <div className="border-t border-slate-200/70 bg-sand-100/60 px-4 py-3 dark:border-white/[0.06] dark:bg-white/[0.03]">
-        <p className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500">
-          Replies waiting
-        </p>
-        <div className="mt-2 space-y-2">
-          {REP_REPLIES.map((r) => (
-            <div key={r.who} className="flex items-start gap-2.5 rounded-lg bg-white px-3 py-2 ring-1 ring-slate-200/80 dark:bg-white/[0.05] dark:ring-white/10">
-              <Mark slug={r.slug} />
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[12px] font-bold text-slate-900 dark:text-white">{r.who}</p>
-                <p className="truncate text-[11px] text-slate-500 dark:text-slate-400">{r.line}</p>
-              </div>
-              <span className="flex-shrink-0 font-mono text-[10px] tabular-nums text-slate-400 dark:text-slate-500">
-                {r.when}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </Frame>
+    </div>
   );
 }
 
@@ -617,23 +695,44 @@ const OUTCOMES = ['Qualified', 'Disqualified', 'Opportunity Created', 'Follow Up
  */
 const MEETING_VIEW = [
   { k: 'Assigned meetings', v: 'Nike · discovery call — assigned to AE Dana' },
-  { k: 'Account context', v: 'D2C retail · 2.1M employees · Harvin score 94' },
-  { k: 'Prospect information', v: 'Dana Whitfield · VP Marketing · dana.whitfield@nike.com' },
-  { k: 'Previous conversations', v: '2 emails opened · 1 call connected · booked by Sarah W.' },
+  { k: 'Account context', v: 'D2C retail · Harvin score 94' },
+  { k: 'Prospect information', v: 'Dana Whitfield · VP Marketing' },
+  { k: 'Previous conversations', v: '2 emails opened · 1 call · booked by Sarah W.' },
   { k: 'Meeting notes', v: '“Consolidating three vendors this quarter.”' },
-  { k: 'Next steps', v: 'Security review · owner AE Dana · due in 5 days' },
+  { k: 'Next steps', v: 'Security review · due in 5 days' },
 ];
 const MEETING_FIELDS = MEETING_VIEW.map((m) => m.k);
 
-/** The sidebar half: the AE's assigned meetings, first one open. */
-const MEETING_LIST = [
-  { slug: 'nike', name: 'Nike · discovery', when: 'Yesterday · 32 min', on: true },
-  { slug: 'peloton', name: 'Peloton · intro', when: 'Tuesday · 25 min', on: false },
-  { slug: 'etsy', name: 'Etsy · follow-up', when: 'Today · 3:30 PM', on: false },
-];
-/** The detail pane shows the rest — the first field is what the sidebar IS,
- *  so rendering it again in the pane would say the same thing twice. */
+/**
+ * The panel borrows the "Your Google Calendar" tab from FeatureSection: the
+ * week grid IS the "Assigned meetings" field, so the side column shows the
+ * rest for the one meeting that's selected (Nike, held yesterday).
+ */
 const MEETING_DETAIL = MEETING_VIEW.slice(1);
+const NEXT_STEP = MEETING_DETAIL[MEETING_DETAIL.length - 1];
+const BRIEF = MEETING_DETAIL.slice(0, -1);
+
+const WEEK = [
+  ['Mon', 26],
+  ['Tue', 27],
+  ['Wed', 28],
+  ['Thu', 29],
+] as const;
+const TODAY = 2; // Wednesday
+const WEEK_HOURS = ['9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM'];
+const ROW_H = 42;
+const GUTTER = 34;
+
+const WEEK_MEETINGS = [
+  { day: 0, start: 0.5, len: 1, title: 'Peloton', sub: 'Intro', on: false },
+  { day: 0, start: 4, len: 1, title: 'Okta', sub: 'Pricing', on: false },
+  { day: 1, start: 1.5, len: 1.5, title: 'Nike', sub: 'Discovery', on: true },
+  { day: 1, start: 6, len: 1, title: 'Adobe', sub: 'Intro', on: false },
+  { day: 2, start: 3.5, len: 1, title: 'Etsy', sub: 'Follow-up', on: false },
+  { day: 2, start: 7, len: 1.5, title: 'Twilio', sub: 'Demo', on: false },
+  { day: 3, start: 0.5, len: 1.5, title: 'Stripe', sub: 'Demo', on: false },
+  { day: 3, start: 5, len: 1, title: 'Gusto', sub: 'Follow-up', on: false },
+];
 
 function MeetingOutcome() {
   return (
@@ -644,101 +743,153 @@ function MeetingOutcome() {
           className="pointer-events-none absolute inset-y-0 left-0 w-[3px] rounded-l-[32px] bg-gradient-to-b from-white/30 via-white/[0.06] to-transparent"
         />
 
-        <div className="overflow-hidden rounded-l-[22px] bg-white dark:bg-[#16130F]">
-          <div className="flex items-center justify-between gap-4 px-6 py-4">
-            <h4 className="truncate text-[22px] font-bold tracking-[-0.03em] text-slate-900 dark:text-white">
-              Meetings
-            </h4>
-            <span className="flex-shrink-0 whitespace-nowrap rounded-full bg-ember-50 px-3.5 py-1.5 text-[13.5px] font-bold text-ember-600 dark:bg-ember-500/15 dark:text-ember-300">
-              46 booked
+        <div className="overflow-hidden rounded-l-[22px] bg-slate-50 pb-24 dark:bg-[#16130F]">
+          {/* ── header ─────────────────────────────────────────────── */}
+          <div className="flex items-center justify-between gap-3 px-5 pb-3.5 pt-4 pr-16">
+            <div className="flex min-w-0 items-baseline gap-2.5">
+              <h4 className="truncate text-[20px] font-bold tracking-[-0.03em] text-slate-900 dark:text-white">
+                Meetings
+              </h4>
+              <span className="whitespace-nowrap text-[11.5px] font-medium text-slate-500 dark:text-slate-400">Oct 26 – 29</span>
+            </div>
+            <span className="inline-flex flex-shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[10.5px] font-semibold text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              Google Calendar · synced
             </span>
           </div>
 
-          <div className="grid grid-cols-[188px_1fr] border-t border-slate-200/70 dark:border-white/[0.06]">
-            {/* ── Assigned meetings ─────────────────────────────────── */}
-            <div className="border-r border-slate-200/70 px-4 py-3.5 dark:border-white/[0.06]">
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">
-                Assigned to me
-              </p>
-              <div className="mt-2.5 space-y-1.5">
-                {MEETING_LIST.map((m) => (
-                  <div
-                    key={m.name}
-                    className={`flex items-center gap-2 rounded-lg px-2 py-2 ${
-                      m.on ? 'bg-ember-500/[0.10] ring-1 ring-ember-500/25' : ''
-                    }`}
-                  >
-                    <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md border border-slate-200 bg-white p-1 dark:border-white/10">
-                      <img src={`/logos/${m.slug}.svg`} alt="" aria-hidden="true" className="h-auto w-full object-contain" />
-                    </span>
-                    <div className="min-w-0">
-                      <p className={`truncate text-[12px] font-semibold ${m.on ? 'text-ember-600 dark:text-ember-300' : 'text-slate-600 dark:text-slate-300'}`}>
-                        {m.name}
-                      </p>
-                      <p className="truncate text-[10px] text-slate-400 dark:text-slate-500">{m.when}</p>
-                    </div>
+          <div className="grid gap-3 px-4 pr-16 sm:grid-cols-[1fr_200px]">
+            {/* ── week grid: the AE's assigned meetings ─────────────── */}
+            <div className="relative overflow-hidden rounded-card border border-slate-200 bg-white dark:border-white/[0.08] dark:bg-white/[0.02]">
+              <div
+                className="grid border-b border-slate-100 text-center dark:border-white/[0.06]"
+                style={{ gridTemplateColumns: `${GUTTER}px repeat(${WEEK.length}, 1fr)` }}
+              >
+                <span />
+                {WEEK.map(([d, n], i) => (
+                  <div key={d} className="py-1.5">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-slate-400 dark:text-slate-500">{d}</p>
+                    <p
+                      className={`text-[13px] font-bold ${
+                        i === TODAY ? 'text-ember-500 dark:text-ember-300' : 'text-slate-900 dark:text-white'
+                      }`}
+                    >
+                      {n}
+                    </p>
                   </div>
                 ))}
               </div>
 
-              <p className="mt-4 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">
-                Status
-              </p>
-              <div className="mt-2 space-y-1.5">
-                {[{ l: 'Awaiting outcome', on: true }, { l: 'Recorded', on: false }].map((f) => (
-                  <p key={f.l} className="flex items-center gap-2">
-                    <span
-                      className={`grid h-[15px] w-[15px] flex-shrink-0 place-items-center rounded-[4px] ${
-                        f.on ? 'bg-ember-500 text-white' : 'ring-1 ring-slate-300 dark:ring-white/20'
-                      }`}
+              <div
+                className="relative grid"
+                style={{ gridTemplateColumns: `${GUTTER}px repeat(${WEEK.length}, 1fr)` }}
+              >
+                <div>
+                  {WEEK_HOURS.map((h) => (
+                    <p
+                      key={h}
+                      style={{ height: ROW_H }}
+                      className="whitespace-nowrap pr-1.5 pt-0.5 text-right text-[8.5px] text-slate-400 dark:text-slate-500"
                     >
-                      {f.on && <Check size={10} strokeWidth={3.4} />}
-                    </span>
-                    <span className={`truncate text-[12px] ${f.on ? 'font-medium text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-500'}`}>
-                      {f.l}
-                    </span>
-                  </p>
+                      {h}
+                    </p>
+                  ))}
+                </div>
+                {WEEK.map(([d]) => (
+                  <div key={d} className="border-l border-slate-100 dark:border-white/[0.06]">
+                    {WEEK_HOURS.map((h) => (
+                      <div key={h} style={{ height: ROW_H }} className="border-t border-slate-100 dark:border-white/[0.06]" />
+                    ))}
+                  </div>
                 ))}
+
+                {WEEK_MEETINGS.map((m) => (
+                  <div
+                    key={m.title}
+                    style={{
+                      left: `calc(${GUTTER}px + (100% - ${GUTTER}px) * ${m.day} / ${WEEK.length} + 3px)`,
+                      width: `calc((100% - ${GUTTER}px) / ${WEEK.length} - 6px)`,
+                      top: m.start * ROW_H + 2,
+                      height: m.len * ROW_H - 4,
+                    }}
+                    className={[
+                      'absolute overflow-hidden rounded-[6px] border-l-2 px-1.5 py-1',
+                      m.on
+                        ? 'border-ember-500 bg-ember-500 text-white shadow-[0_4px_14px_rgba(201,76,30,0.4)]'
+                        : 'border-slate-300 bg-slate-100 text-slate-900 dark:border-white/20 dark:bg-white/[0.06] dark:text-white',
+                    ].join(' ')}
+                  >
+                    <p className="truncate text-[10px] font-bold leading-tight">{m.title}</p>
+                    <p className={`truncate text-[9px] ${m.on ? 'text-white/80' : 'text-slate-500 dark:text-slate-400'}`}>{m.sub}</p>
+                  </div>
+                ))}
+
+                {/* now line on Wednesday */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    left: `calc(${GUTTER}px + (100% - ${GUTTER}px) * ${TODAY} / ${WEEK.length})`,
+                    width: `calc((100% - ${GUTTER}px) / ${WEEK.length})`,
+                    top: 2.4 * ROW_H,
+                  }}
+                  className="absolute h-px bg-ember-500"
+                >
+                  <span className="absolute -left-1 -top-[3px] h-[7px] w-[7px] rounded-full bg-ember-500" />
+                </div>
               </div>
             </div>
 
-            {/* ── What the AE opens the meeting with ────────────────── */}
-            <div className="min-w-0 divide-y divide-slate-200/70 dark:divide-white/[0.06]">
-              {MEETING_DETAIL.map((r, i) => {
-                const last = i === MEETING_DETAIL.length - 1;
-                return (
-                  <div key={r.k} className={`px-5 py-2.5 ${last ? 'bg-ember-500/[0.06]' : ''}`}>
-                    <p
-                      className={`font-mono text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                        last ? 'text-ember-500' : 'text-slate-400 dark:text-slate-500'
-                      }`}
-                    >
-                      {r.k}
-                    </p>
-                    <p className="mt-1 text-[13.5px] font-semibold leading-[1.4] text-slate-900 dark:text-white">
-                      {r.v}
-                    </p>
+            {/* ── the selected meeting ─────────────────────────────── */}
+            <div className="flex min-w-0 flex-col gap-3">
+              <div className="rounded-card bg-[#0D0D0C] p-3.5 text-white shadow-[0_8px_30px_rgba(0,0,0,0.4)] dark:ring-1 dark:ring-white/[0.08]">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-white/50">Selected meeting</p>
+                  <span className="whitespace-nowrap rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] text-white/70">Yesterday</span>
+                </div>
+                <div className="mt-2 flex items-center gap-2">
+                  <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md bg-white p-1">
+                    <img src="/logos/nike.svg" alt="" aria-hidden="true" className="h-auto w-full object-contain" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="truncate text-[13px] font-bold">Nike · Discovery</p>
+                    <p className="truncate text-[10px] text-white/50">Tue · 10:30 AM · AE Dana</p>
                   </div>
-                );
-              })}
+                </div>
+                <div className="mt-3 space-y-2 border-t border-white/10 pt-2.5">
+                  {BRIEF.map((r) => (
+                    <div key={r.k}>
+                      <p className="font-mono text-[8.5px] font-semibold uppercase tracking-[0.12em] text-white/40">{r.k}</p>
+                      <p className="mt-0.5 text-[11px] font-medium leading-[1.4] text-white/85">{r.v}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-              <div className="px-5 py-3">
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
-                  Record what happened
-                </p>
-                <div className="mt-2 flex flex-wrap gap-1.5">
+              <div className="rounded-card border border-slate-200 bg-white p-3.5 dark:border-white/[0.08] dark:bg-white/[0.02]">
+                <p className="text-[12px] font-bold text-slate-900 dark:text-white">Awaiting outcome</p>
+                <p className="text-[10px] text-slate-400 dark:text-slate-500">Record what happened</p>
+                <div className="mt-2 flex flex-wrap gap-1">
                   {OUTCOMES.map((o, i) => (
                     <span
                       key={o}
-                      className={`rounded-lg px-2.5 py-1.5 text-[12px] font-semibold ${
+                      className={`rounded-[6px] px-2 py-1 text-[10px] font-semibold ${
                         i === 0
                           ? 'bg-ember-500 text-white'
-                          : 'border border-slate-200 bg-white text-slate-600 dark:border-white/10 dark:bg-white/[0.05] dark:text-slate-300'
+                          : 'border border-slate-200 text-slate-600 dark:border-white/10 dark:text-slate-300'
                       }`}
                     >
                       {o}
                     </span>
                   ))}
+                </div>
+                <div className="mt-2.5 border-t border-slate-100 pt-2 dark:border-white/[0.06]">
+                  <p className="font-mono text-[8.5px] font-semibold uppercase tracking-[0.12em] text-ember-500 dark:text-ember-300">
+                    {NEXT_STEP.k}
+                  </p>
+                  <p className="mt-0.5 flex items-center gap-1.5 text-[11px] font-semibold text-slate-900 dark:text-white">
+                    <Check size={11} strokeWidth={3} className="flex-shrink-0 text-emerald-500" />
+                    {NEXT_STEP.v}
+                  </p>
                 </div>
               </div>
             </div>

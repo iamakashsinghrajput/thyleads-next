@@ -1,161 +1,182 @@
 'use client';
 
-import LegalPageLayout, {
-  LegalSection,
-  LegalList,
-  LegalLink,
-  LegalContact,
-} from '@/components/LegalPageLayout';
+import LegalPageLayout, { LegalSection, LegalList, LegalLink, LegalContact } from '@/components/LegalPageLayout';
 
-export default function TermsAndConditions() {
+export default function TermsOfService() {
   return (
-    <LegalPageLayout type="terms" title="Terms and Conditions" lastUpdated="March 20, 2026">
-      <LegalSection title="1. Agreement to Terms">
+    <LegalPageLayout
+      type="terms"
+      title="Terms of Service"
+      effectiveDate="2 November 2026"
+      lastUpdated="2 November 2026"
+      entity="Thyleads Private Limited, operating Harvin.ai"
+      intro={
+        <>
+          These Terms of Service govern your use of Harvin.ai, a product operated by Thyleads Private Limited. By
+          creating an account, executing an Order Form, purchasing a subscription or otherwise using Harvin, you
+          agree to these Terms.
+        </>
+      }
+    >
+      <LegalSection title="1. Harvin Service">
         <p>
-          By accessing or using the HarvinAI platform at{' '}
-          <LegalLink href="https://harvin.ai">harvin.ai</LegalLink>, the HarvinAI Chrome
-          Extension, or any related services (collectively, the &quot;Service&quot;), you agree to
-          be bound by these Terms and Conditions (&quot;Terms&quot;). If you do not agree to these
-          Terms, you must not use the Service.
+          Harvin provides software for sales development, account intelligence, sales engagement, communications,
+          workflow management and related revenue operations activities. Features may include email, CRM
+          workflows, calling, calendar functionality, enrichment, account research, campaigns, reporting,
+          recommendations and third-party integrations.
         </p>
       </LegalSection>
 
-      <LegalSection title="2. Description of Service">
+      <LegalSection title="2. Accounts">
         <p>
-          HarvinAI is a D2C Brand Intelligence Platform that provides technology stack detection,
-          brand classification, market signal extraction, and related analytics tools. The Service
-          includes a web-based dashboard and a Chrome browser extension that enables users to scan
-          websites for technology and brand intelligence data.
+          You are responsible for maintaining the confidentiality of your login credentials and for activity
+          occurring through your account. Customers are responsible for managing authorised users and permissions.
         </p>
       </LegalSection>
 
-      <LegalSection title="3. Account Registration">
-        <p>
-          To access certain features of the Service, you must create an account. You agree to:
-        </p>
+      <LegalSection title="3. Permitted Use">
         <LegalList
           items={[
-            'Provide accurate, current, and complete information during registration.',
-            'Maintain and promptly update your account information to keep it accurate and complete.',
-            'Maintain the security and confidentiality of your login credentials.',
-            'Accept responsibility for all activities that occur under your account.',
-            'Notify us immediately of any unauthorized use of your account.',
+            'Use Harvin only for lawful business purposes',
+            'Follow these Terms and applicable law',
+            'Stay within the usage limits of your subscription or Order Form',
           ]}
         />
-        <p className="mt-2">
-          We reserve the right to suspend or terminate accounts that violate these Terms or that
-          have been inactive for an extended period.
-        </p>
       </LegalSection>
 
-      <LegalSection title="4. Acceptable Use">
-        <p>You agree not to use the Service to:</p>
+      <LegalSection title="4. Prohibited Use">
         <LegalList
           items={[
-            'Violate any applicable local, national, or international law or regulation.',
-            'Infringe upon the intellectual property rights of any third party.',
-            'Attempt to gain unauthorized access to any part of the Service, other accounts, or related systems.',
-            'Use automated means (bots, scrapers, crawlers) to access the Service beyond the intended functionality of the Chrome extension.',
-            'Reverse engineer, decompile, or disassemble any aspect of the Service.',
-            'Resell, redistribute, or sublicense any data obtained through the Service without prior written consent.',
-            'Interfere with or disrupt the integrity or performance of the Service.',
+            'Violate applicable law',
+            'Send unlawful spam or unsolicited communications',
+            'Engage in harassment, fraud or deception',
+            'Unlawfully collect or process personal information',
+            'Violate marketing, calling or messaging rules',
+            'Record calls unlawfully',
+            'Upload malware',
+            'Attempt unauthorised access',
+            'Interfere with platform security',
+            'Reverse engineer Harvin except where law expressly permits',
+            'Misuse third-party integrations',
+            'Infringe intellectual property rights',
+            'Use Harvin for illegal, discriminatory or abusive activities',
           ]}
         />
-        <p className="mt-2">
-          For full details, please see our{' '}
-          <LegalLink href="/acceptable-use">Acceptable Use Policy</LegalLink>.
+      </LegalSection>
+
+      <LegalSection title="5. Customer Data">
+        <p>
+          Customer retains ownership of Customer Data. Customer grants Harvin the limited rights necessary to host,
+          process, transmit and otherwise handle Customer Data to provide, secure, support and operate the service
+          in accordance with these Terms and the Data Processing Addendum.
         </p>
       </LegalSection>
 
-      <LegalSection title="5. Intellectual Property">
+      <LegalSection title="6. Privacy and Data Protection">
         <p>
-          All content, features, functionality, software, and design elements of the Service are
-          owned by HarvinAI and are protected by copyright, trademark, and other intellectual
-          property laws. You may not copy, modify, distribute, or create derivative works based on
-          our Service without our express written permission.
-        </p>
-        <p className="mt-2">
-          You retain ownership of any data you provide to us. By using the Service, you grant
-          HarvinAI a limited, non-exclusive license to process your data solely for the purpose of
-          providing and improving the Service.
+          Our <LegalLink href="/privacy">Privacy Policy</LegalLink> explains how we process personal information
+          for our own purposes. Where Harvin processes Customer Personal Data on behalf of Customer, the Data
+          Processing Addendum applies.
         </p>
       </LegalSection>
 
-      <LegalSection title="6. Data and Privacy">
+      <LegalSection title="7. Third-Party Services">
         <p>
-          Your use of the Service is also governed by our{' '}
-          <LegalLink href="/privacy">Privacy Policy</LegalLink>, which describes how we collect,
-          use, and protect your information. By using the Service, you consent to our data practices
-          as described in the Privacy Policy.
+          Harvin integrates with third-party services. Use of a third-party service may be subject to that
+          provider&apos;s terms and privacy practices. Harvin is not responsible for third-party services outside
+          our reasonable control.
         </p>
       </LegalSection>
 
-      <LegalSection title="7. Service Availability">
+      <LegalSection title="8. Email, Calling and Outreach">
         <p>
-          We strive to ensure that the Service is available at all times; however, we do not
-          guarantee uninterrupted or error-free operation. We reserve the right to modify, suspend,
-          or discontinue any part of the Service at any time, with or without notice. We shall not
-          be liable for any modification, suspension, or discontinuation of the Service.
+          Customer is responsible for ensuring that communications conducted through Harvin comply with applicable
+          laws governing commercial email, telemarketing, telephone calls, SMS, messaging, call recording, privacy,
+          consent, suppression and opt-out requirements.
         </p>
       </LegalSection>
 
-      <LegalSection title="8. Limitation of Liability">
+      <LegalSection title="9. AI-Assisted Features">
         <p>
-          To the maximum extent permitted by applicable law, HarvinAI and its officers, directors,
-          employees, and agents shall not be liable for any indirect, incidental, special,
-          consequential, or punitive damages, including but not limited to loss of profits, data, or
-          goodwill, arising out of or in connection with your use of the Service.
-        </p>
-        <p className="mt-2">
-          In no event shall our total liability exceed the amount you have paid to us in the twelve
-          (12) months preceding the event giving rise to the claim, or one hundred US dollars (USD
-          $100), whichever is greater.
+          Harvin may provide generated content, research, scoring, recommendations or other automated assistance.
+          Outputs may be incomplete or inaccurate. Users must review outputs before relying on or using them.
+          Unless expressly agreed otherwise, Harvin does not make legally binding or employment decisions on behalf
+          of customers based solely on generated recommendations.
         </p>
       </LegalSection>
 
-      <LegalSection title="9. Disclaimer of Warranties">
+      <LegalSection title="10. Intellectual Property">
         <p>
-          The Service is provided &quot;as is&quot; and &quot;as available&quot; without warranties
-          of any kind, whether express or implied, including but not limited to implied warranties of
-          merchantability, fitness for a particular purpose, and non-infringement. We do not warrant
-          that the data or insights provided through the Service will be accurate, complete, or
-          current.
+          Harvin and its licensors retain all rights in the Harvin platform, software, design, documentation,
+          trademarks and underlying technology. Customer retains ownership of Customer Data.
         </p>
       </LegalSection>
 
-      <LegalSection title="10. Indemnification">
+      <LegalSection title="11. Fees and Payment">
         <p>
-          You agree to indemnify, defend, and hold harmless HarvinAI and its officers, directors,
-          employees, and agents from and against any claims, liabilities, damages, losses, and
-          expenses (including reasonable legal fees) arising out of or in connection with your use of
-          the Service or your violation of these Terms.
+          Fees, billing cycles, usage allowances and payment terms are stated on the applicable pricing page,
+          checkout page or Order Form. Fees are exclusive of applicable taxes unless expressly stated otherwise.
         </p>
       </LegalSection>
 
-      <LegalSection title="11. Termination">
+      <LegalSection title="12. Suspension">
         <p>
-          We may terminate or suspend your access to the Service immediately, without prior notice
-          or liability, for any reason, including if you breach these Terms. Upon termination, your
-          right to use the Service will cease immediately. Provisions that by their nature should
-          survive termination shall remain in effect, including intellectual property provisions,
-          disclaimers, limitations of liability, and indemnification.
+          Harvin may suspend access where reasonably necessary due to non-payment, security threat, suspected
+          fraud, unlawful use, material breach, or conduct creating material risk to Harvin, another customer or a
+          third party.
         </p>
       </LegalSection>
 
-      <LegalSection title="12. Governing Law and Jurisdiction">
+      <LegalSection title="13. Termination">
         <p>
-          These Terms shall be governed by and construed in accordance with the laws of India. Any
-          disputes arising out of or relating to these Terms or the Service shall be subject to the
-          exclusive jurisdiction of the courts located in India.
+          Either party may terminate as permitted by the applicable Order Form or subscription terms. Upon
+          termination, Customer&apos;s right to use the service ends. Data return and deletion are governed by the
+          applicable agreement and DPA.
         </p>
       </LegalSection>
 
-      <LegalSection title="13. Changes to These Terms">
+      <LegalSection title="14. Warranty Disclaimer">
         <p>
-          We reserve the right to modify these Terms at any time. We will notify you of material
-          changes by posting the updated Terms on this page and updating the &quot;Last
-          updated&quot; date. Your continued use of the Service after any changes constitutes
-          acceptance of the revised Terms.
+          Harvin is provided on an &lsquo;as available&rsquo; basis. To the maximum extent permitted by applicable
+          law, Harvin does not warrant that the service will be uninterrupted, error-free or suitable for every
+          particular purpose.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="15. Limitation of Liability">
+        <p>
+          To the maximum extent permitted by applicable law, neither party will be liable for indirect,
+          incidental, special, punitive or consequential damages, or loss of profits, revenue, goodwill or
+          anticipated savings arising from use of the service.
+        </p>
+        <p>
+          Unless an Order Form or negotiated agreement provides otherwise, each party&apos;s aggregate liability
+          arising from the service will not exceed the fees paid or payable by Customer to Harvin during the twelve
+          months immediately preceding the event giving rise to the claim. This limitation does not apply where
+          liability cannot legally be limited.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="16. Indemnity">
+        <p>
+          Customer will defend and indemnify Harvin against third-party claims arising from Customer&apos;s
+          unlawful use of Harvin, Customer Data or Customer communications, to the extent caused by
+          Customer&apos;s violation of applicable law or these Terms.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="17. Governing Law">
+        <p>
+          These Terms are governed by the laws of India, without regard to conflict-of-law principles. The courts
+          having jurisdiction over the registered office of Thyleads Private Limited will have jurisdiction, unless
+          the parties agree otherwise in an Order Form or negotiated agreement.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="18. Changes">
+        <p>
+          Harvin may update these Terms from time to time. Material changes will become effective as stated in the
+          updated Terms or as otherwise communicated where required.
         </p>
       </LegalSection>
 

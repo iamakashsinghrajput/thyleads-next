@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
  */
 export const metadata: Metadata = {
   title: 'Cookie Policy',
-  description: 'The cookies Harvin sets, what each is for, and how to control them.',
+  description: 'How Harvin.ai uses cookies and similar technologies, and how to manage them.',
   alternates: { canonical: '/cookies' },
 };
 

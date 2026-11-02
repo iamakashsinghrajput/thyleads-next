@@ -23,16 +23,16 @@ import { useEffect, useRef, useState } from 'react';
  */
 
 const LOGOS = [
-  { src: '/logos/clevertap.svg', name: 'CleverTap', h: 'h-8' },
-  { src: '/logos/tazapay.svg', name: 'Tazapay', h: 'h-6' },
-  { src: '/logos/vwo.svg', name: 'VWO', h: 'h-7' },
-  { src: '/logos/increff.svg', name: 'Increff', h: 'h-7' },
-  { src: '/logos/airmeet.svg', name: 'Airmeet', h: 'h-6' },
-  { src: '/logos/nurix.svg', name: 'Nurix', h: 'h-6' },
-  { src: '/logos/mynd.svg', name: 'Mynd', h: 'h-7' },
-  { src: '/logos/venwiz.svg', name: 'Venwiz', h: 'h-7' },
   { src: '/logos/pazo.png', name: 'Pazo', h: 'h-8' },
   { src: '/logos/cometchat.png', name: 'CometChat', h: 'h-8' },
+  { src: '/logos/zaggle.png', name: 'Zaggle', h: 'h-8' },
+  { src: '/logos/mynd.svg', name: 'Mynd', h: 'h-7' },
+  { src: '/logos/nova.png', name: 'Nova', h: 'h-7' },
+  { src: '/logos/xflow.svg', name: 'Xflow', h: 'h-6' },
+  { src: '/logos/wise.svg', name: 'Wise', h: 'h-6' },
+  { src: '/logos/akamai.svg', name: 'Akamai', h: 'h-9' },
+  { src: '/logos/clevertap.svg', name: 'CleverTap', h: 'h-8' },
+  { src: '/logos/wingify.svg', name: 'Wingify', h: 'h-9' },
 ];
 
 const TILES = 5;      // must stay < LOGOS.length — see note 1 above

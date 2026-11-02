@@ -11,6 +11,7 @@ import {
   Building2,
   ChevronDown,
   Compass,
+  Database,
   Layers,
   Mail,
   Menu,
@@ -313,7 +314,7 @@ export default function Navbar() {
                     {/* Column 1: Core Platform */}
                     <div className="flex flex-col gap-5 border-r border-slate-100 pr-6">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
-                        Platform Foundation
+                        Product Overview
                       </p>
 
                       <Link
@@ -348,6 +349,24 @@ export default function Navbar() {
                           </p>
                           <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
                             Two-way sync with Salesforce, HubSpot, and your system of record.
+                          </p>
+                        </div>
+                      </Link>
+
+                      <Link
+                        href="/data-building"
+                        onClick={close}
+                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
+                      >
+                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
+                          <Database size={18} strokeWidth={2} />
+                        </span>
+                        <div>
+                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
+                            Data Building
+                          </p>
+                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
+                            Find the companies and decision-makers that fit your business best.
                           </p>
                         </div>
                       </Link>
@@ -756,6 +775,13 @@ export default function Navbar() {
                       className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1 pt-2 border-t border-slate-100"
                     >
                       Integrations
+                    </Link>
+                    <Link
+                      href="/data-building"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                    >
+                      Data Building
                     </Link>
                   </div>
                 )}

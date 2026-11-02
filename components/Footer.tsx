@@ -55,6 +55,9 @@ const NAV_COLS = [
       { label: 'Cookie Policy', href: '/cookies' },
       { label: 'Acceptable Use', href: '/acceptable-use' },
       { label: 'Refund Policy', href: '/refund' },
+      { label: 'Data Processing Addendum', href: '/dpa' },
+      { label: 'Subprocessors', href: '/subprocessors' },
+      { label: 'Your Privacy Choices', href: '/privacy-choices' },
     ],
   },
 ];
@@ -246,11 +249,12 @@ export default function Footer() {
         <div className="mx-auto flex max-w-[1300px] flex-col items-center justify-between gap-4 px-6 py-6 sm:flex-row lg:px-8">
           <p className="text-[12.5px] text-white/40">&copy; {year} Thyleads Pvt. Ltd. All rights reserved.</p>
 
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             {[
               { label: 'Privacy', href: '/privacy' },
               { label: 'Terms', href: '/terms' },
               { label: 'Cookies', href: '/cookies' },
+              { label: 'Do Not Sell or Share My Data', href: '/privacy-choices' },
             ].map((item) => (
               <Link
                 key={item.label}

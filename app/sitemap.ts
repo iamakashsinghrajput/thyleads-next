@@ -27,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/product-tour`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE_URL}/outreach-and-engagement`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE_URL}/account-intelligence`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE_URL}/data-building`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE_URL}/sdr`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE_URL}/sdr-head`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE_URL}/ae`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
@@ -50,7 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const legal: MetadataRoute.Sitemap = ['privacy', 'terms', 'acceptable-use', 'cookies', 'refund'].map((r) => ({
+  const legal: MetadataRoute.Sitemap = ['privacy', 'terms', 'acceptable-use', 'cookies', 'refund', 'privacy-choices', 'dpa', 'subprocessors'].map((r) => ({
     url: `${SITE_URL}/${r}`,
     lastModified: now,
     changeFrequency: 'yearly',

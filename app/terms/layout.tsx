@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
  */
 export const metadata: Metadata = {
   title: 'Terms of Service',
-  description: 'The terms governing use of the Harvin SDR management platform, website and Chrome extension.',
+  description: 'The terms governing use of Harvin.ai, operated by Thyleads Private Limited.',
   alternates: { canonical: '/terms' },
 };
 

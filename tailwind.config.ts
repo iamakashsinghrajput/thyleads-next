@@ -80,6 +80,8 @@ const config: Config = {
         'focus-in':  'focusIn 0.9s cubic-bezier(0.16,1,0.3,1) both',
         progress:    'progress 7s linear forwards',
         wave:        'wave 0.9s ease-in-out infinite',
+        // Data Building page: dashed SVG connectors that flow toward the next node.
+        flow:        'flow 1.2s linear infinite',
       },
       keyframes: {
         marquee: {
@@ -106,6 +108,10 @@ const config: Config = {
         wave: {
           '0%, 100%': { transform: 'scaleY(0.3)' },
           '50%':      { transform: 'scaleY(1)'   },
+        },
+        flow: {
+          '0%':   { strokeDashoffset: '20' },
+          '100%': { strokeDashoffset: '0'  },
         },
       },
     },
