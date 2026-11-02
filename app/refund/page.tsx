@@ -1,90 +1,66 @@
 'use client';
 
-import LegalPageLayout, {
-  LegalSection,
-  LegalList,
-  LegalLink,
-  LegalContact,
-} from '@/components/LegalPageLayout';
+import LegalPageLayout, { LegalSection, LegalContact } from '@/components/LegalPageLayout';
 
 export default function RefundPolicy() {
   return (
-    <LegalPageLayout type="refund" title="Refund Policy" lastUpdated="March 20, 2026">
-      <LegalSection title="1. Early Access Program">
+    <LegalPageLayout
+      type="refund"
+      title="Refund Policy"
+      effectiveDate="2 November 2026"
+      lastUpdated="2 November 2026"
+      entity="Thyleads Private Limited, operating Harvin.ai"
+      intro={
+        <>
+          This Refund Policy applies to Harvin.ai, a business-to-business software service operated by
+          Thyleads Private Limited, unless different terms are stated in an Order Form or other agreement
+          signed with the customer.
+        </>
+      }
+    >
+      <LegalSection title="1. Subscription Fees">
         <p>
-          HarvinAI is currently in <strong>Early Access</strong> and is offered free of charge.
-          During this period, no payments are collected, and therefore no refunds are applicable.
-        </p>
-        <p className="mt-2">
-          We may introduce paid subscription plans in the future. When paid plans become available,
-          this Refund Policy will govern all refund-related matters.
+          Subscription fees are generally non-refundable once a billing period has started. Customers remain
+          responsible for fees incurred during the applicable subscription period. Cancellation prevents future
+          renewal but does not ordinarily result in a refund for an already-paid subscription period.
         </p>
       </LegalSection>
 
-      <LegalSection title="2. Future Paid Plans">
+      <LegalSection title="2. Usage and Credit Purchases">
         <p>
-          When paid plans are introduced, the following refund terms will apply:
-        </p>
-        <LegalList
-          items={[
-            'All paid subscriptions will include a 14-day refund window from the date of purchase.',
-            'Refunds requested within this 14-day window will be processed in full, no questions asked.',
-            'Refund requests made after the 14-day window will be evaluated on a case-by-case basis at our discretion.',
-            'Refunds for annual plans will be prorated based on the unused portion of the subscription period, provided the request is made within the first 30 days.',
-          ]}
-        />
-      </LegalSection>
-
-      <LegalSection title="3. Non-Refundable Items">
-        <p>The following are not eligible for refunds:</p>
-        <LegalList
-          items={[
-            'One-time setup fees or onboarding charges, if applicable.',
-            'Add-on services or premium features that have been fully consumed or delivered.',
-          ]}
-        />
-        <p className="mt-2">
-          Accounts terminated for violation of our{' '}
-          <LegalLink href="/terms">Terms and Conditions</LegalLink> or{' '}
-          <LegalLink href="/acceptable-use">Acceptable Use Policy</LegalLink> are also not eligible
-          for refunds.
+          Credits, usage balances, data purchases or other consumption-based amounts are non-refundable once
+          used or consumed. Unused credits are not redeemable for cash unless expressly stated otherwise in the
+          applicable commercial agreement.
         </p>
       </LegalSection>
 
-      <LegalSection title="4. How to Request a Refund">
-        <p>To request a refund, please follow these steps:</p>
-        <LegalList
-          items={[
-            'Send an email to admin@harvin.ai with the subject line "Refund Request."',
-            'Include your account email address and the date of purchase.',
-            'Provide a brief reason for the refund request (optional but helpful).',
-          ]}
-        />
-        <p className="mt-2">
-          We will acknowledge your request within 2 business days and process approved refunds
-          within 7-10 business days. Refunds will be issued to the original payment method.
-        </p>
-      </LegalSection>
-
-      <LegalSection title="5. Cancellation">
+      <LegalSection title="3. Billing Errors">
         <p>
-          You may cancel your subscription at any time through your account settings or by
-          contacting us. Upon cancellation:
+          If you believe you were charged incorrectly or charged more than once, contact us promptly. Where
+          Harvin confirms a billing error, we will correct the charge or issue an appropriate refund or credit.
         </p>
-        <LegalList
-          items={[
-            'Your access will continue until the end of the current billing period.',
-            'No further charges will be made.',
-            'Cancellation alone does not entitle you to a refund; please submit a refund request separately if applicable.',
-          ]}
-        />
       </LegalSection>
 
-      <LegalSection title="6. Changes to This Policy">
+      <LegalSection title="4. Service-Specific Agreements">
         <p>
-          We may update this Refund Policy from time to time. Any changes will be posted on this
-          page with an updated &quot;Last updated&quot; date. Changes will not apply retroactively
-          to purchases made before the update.
+          Enterprise customers or customers purchasing through an Order Form may have separate refund,
+          cancellation or commercial terms. Where those terms conflict with this Refund Policy, the signed Order
+          Form or agreement controls.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="5. Legal Rights">
+        <p>
+          Nothing in this Refund Policy limits any refund or remedy that cannot legally be excluded under
+          applicable law.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="6. Requesting Billing Assistance">
+        <p>
+          Contact <a href="mailto:admin@harvin.ai" className="text-ember-500 hover:text-ember-400 dark:text-ember-300 underline underline-offset-2">admin@harvin.ai</a>{' '}
+          or <a href="tel:+918769673818" className="text-ember-500 hover:text-ember-400 dark:text-ember-300 underline underline-offset-2">+91 8769673818</a>{' '}
+          and provide your company name, account email and relevant invoice or transaction information.
         </p>
       </LegalSection>
 

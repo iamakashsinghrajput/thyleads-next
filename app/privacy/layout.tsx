@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
  */
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'How Harvin collects, uses and protects personal data across the platform, the website and the Chrome extension.',
+  description: 'How Thyleads Private Limited, operating Harvin.ai, collects, uses, discloses and protects personal information.',
   alternates: { canonical: '/privacy' },
 };
 
