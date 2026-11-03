@@ -7,6 +7,7 @@ import ThemeProvider from '@/components/ThemeProvider';
 import { ModalProvider } from '@/components/ModalContext';
 import SessionWrapper from '@/components/SessionWrapper';
 import CookieConsent from '@/components/CookieConsent';
+import ChatBot from '@/components/ChatBot';
 
 /* ── Universal Sans (primary font) ────────────────────────────────────────── */
 const universalSans = localFont({
@@ -156,6 +157,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ThemeProvider>
             <ModalProvider>
               {children}
+              <ChatBot />
               <CookieConsent />
             </ModalProvider>
           </ThemeProvider>
