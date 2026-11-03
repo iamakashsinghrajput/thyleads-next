@@ -46,9 +46,9 @@ export default function SdrProblem() {
             </p>
             <h2 className="font-instrument font-semibold mt-5 text-[clamp(30px,3.6vw,48px)] leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
               Your sales stack is connected.{' '}
-              <SquigglyText className="text-ember-600 dark:text-slate-500" scale={[3, 4]} stepDuration={110}>
+              <span className="text-ember-600 dark:text-slate-500" >
                 Your SDR operation isn&apos;t.
-              </SquigglyText>
+              </span>
             </h2>
           </div>
           <div className="lg:col-span-5">

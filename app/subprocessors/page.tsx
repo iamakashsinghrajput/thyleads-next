@@ -28,7 +28,7 @@ const SUBPROCESSORS = [
   },
   { label: 'Google Gemini', value: 'Classification and related model-assisted functions.' },
   { label: 'Groq', value: 'Model-assisted classification and related functionality.' },
-  { label: 'Apollo', value: 'Business-data enrichment.' },
+  // { label: 'Apollo', value: 'Business-data enrichment.' },
   {
     label: 'Apify',
     value: 'Collection and processing of permitted public web or professional information for supported workflows.',
