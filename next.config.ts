@@ -24,7 +24,11 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
-      { source: '/product', destination: '/platform', permanent: true },
+      // /platform is hidden (app/_platform). Temporary, so it can come back.
+      { source: '/platform', destination: '/', permanent: false },
+      { source: '/product', destination: '/', permanent: false },
+      // /outreach-and-engagement is hidden (app/_outreach-and-engagement). Temporary, so it can come back.
+      { source: '/outreach-and-engagement', destination: '/', permanent: false },
       // the vertical pages shipped briefly under /services
       { source: '/services/:vertical', destination: '/solutions/:vertical', permanent: true },
     ];

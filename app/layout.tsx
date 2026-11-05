@@ -55,28 +55,28 @@ const instrumentSans = Instrument_Sans({
  * declares its own subject. The default is the one exception, written out in
  * full for the homepage.
  *
- * PRIMARY TERM: "SDR management platform". It leads the title, the description
- * and the H1 (components/Hero.tsx), because a term that appears in only one of
- * the three reads as incidental rather than as what the page is about.
+ * PRIMARY TERM: "B2B company discovery" (v2 copy handoff §4.1). The defaults
+ * below are the homepage's SEO values, so any page without its own metadata
+ * still describes Harvin the same way.
  */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Harvin — SDR Management Platform for Sales Teams',
+    default: 'Harvin.AI: Find the B2B Customers Your Database Misses',
     template: '%s | Harvin',
   },
   description:
-    'Harvin is the SDR management platform that gives sales leaders one place to run the team — territories and account ownership, buying signals that set daily priorities, email, dialer and tasks, meeting handoffs, and reporting from accounts worked through to pipeline.',
+    'Harvin finds companies and buyers that databases file under the wrong category, shows why each one fits, and finds their work email and phone. Start free.',
   applicationName: 'Harvin',
   keywords: [
-    'SDR management platform',
-    'sales development platform',
-    'SDR team management software',
-    'account ownership and territory management',
-    'buying signals',
-    'sales engagement platform',
-    'SDR performance reporting',
-    'AI sales coaching',
+    'B2B company discovery',
+    'find B2B customers',
+    'B2B lead generation software',
+    'find companies not in databases',
+    'company research data',
+    'waterfall people search',
+    'B2B data enrichment',
+    'B2B buying signals',
   ],
   authors: [{ name: 'Harvin' }],
   creator: 'Harvin',
@@ -86,10 +86,9 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'Harvin',
     url: SITE_URL,
-    title: 'Harvin — SDR Management Platform for Sales Teams',
-    description:
-      'One place to run a high-performing SDR team: ownership, priorities, execution, meetings and pipeline reporting.',
-    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Harvin — the SDR management platform for sales teams' }],
+    title: 'Your best customers are filed under the wrong category',
+    description: "Harvin finds them, shows why they fit, and finds the right buyer's work email and phone.",
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Harvin.AI — find the B2B customers your database misses' }],
   },
   /* Points at app/opengraph-image.tsx (the generated card) rather than relying
      on the file convention alone. The convention only reaches segments that do
@@ -98,9 +97,8 @@ export const metadata: Metadata = {
      with no card at all. Declared here, it inherits down to every one of them. */
   twitter: {
     card: 'summary_large_image',
-    title: 'Harvin — SDR Management Platform for Sales Teams',
-    description:
-      'One place to run a high-performing SDR team: ownership, priorities, execution, meetings and pipeline reporting.',
+    title: 'Your best customers are filed under the wrong category',
+    description: "Harvin finds them, shows why they fit, and finds the right buyer's work email and phone.",
     images: ['/opengraph-image'],
   },
   robots: {

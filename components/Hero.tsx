@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Clock, Mail, Phone, Zap } from 'lucide-react';
-import { useModal } from '@/components/ModalContext';
+import { BOOK_DEMO_HREF, startFreeHref } from '@/lib/site';
+import { FREE_CREDITS, PREVIEW_COMPANIES } from '@/lib/pricing';
 import TrustedStrip from '@/components/TrustedStrip';
 
 const styles = `
@@ -20,7 +21,7 @@ const styles = `
 `;
 
 /** Card 1's prompt — typed out on screen. */
-const PROMPT: [string, string] = ['How do I get my first meeting?', "What's my next move?"];
+const PROMPT: [string, string] = ['Which customers am I missing?', 'Who should I reach first?'];
 
 /**
  * Shared by background-1920.jpg AND heroman-1600.png. Both plates share the
@@ -187,8 +188,10 @@ function CountUp({ to, delay }: { to: number; delay: number }) {
     let tick: ReturnType<typeof setInterval>;
     const start = setTimeout(() => {
       let v = 0;
+      // ~32 ticks whatever the target, so a larger figure lands just as fast
+      const step = Math.max(1, Math.ceil(to / 32));
       tick = setInterval(() => {
-        v += 1;
+        v = Math.min(to, v + step);
         setN(v);
         if (v >= to) clearInterval(tick);
       }, 60);
@@ -213,24 +216,24 @@ function PlaybookCard() {
           <div className="rounded-[23px] bg-[linear-gradient(158deg,#0B1A3A_0%,#101F49_50%,#0A1631_100%)] px-[21px] py-[19px] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
             {/* Salutation is context, not the message — it recedes so the offer
                 is the first thing read. Both at one weight read as a wall. */}
-            <p className="text-[13.5px] font-medium text-white/50">Hi Sophia,</p>
+            <p className="text-[13.5px] font-medium text-white/50">Cross-border payments</p>
             <p className="mt-1.5 text-[18px] font-semibold leading-[1.26] tracking-[-0.015em] text-white">
-              Start with the 38 accounts showing buying intent this week.
+              25 companies that fit, filed under the wrong category.
             </p>
 
             {/* Metric gets its own inset surface rather than being fenced by two
                 rules — structure instead of dividers. */}
             <div className="mt-[18px] rounded-[15px] border border-white/[0.07] bg-white/[0.035] px-4 py-3.5">
               <p className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#8FA3D8]">
-                Projected reply rate
+                Top Company Fit
               </p>
               <div className="mt-2.5 flex items-end justify-between gap-3">
                 <span className="font-bricolage text-[60px] font-bold leading-[0.8] tracking-[-0.045em] text-[#F2841C]">
-                  <CountUp to={32} delay={620} />
+                  <CountUp to={91} delay={620} />
                   {/* smaller, lighter, raised — the unit shouldn't carry the
                       same weight as the figure, and the gap widens as the
                       figure grows */}
-                  <span className="relative -top-[17px] ml-[1px] text-[25px] font-semibold text-[#F2841C]/65">%</span>
+                  <span className="relative -top-[17px] ml-[2px] text-[20px] font-semibold text-[#F2841C]/65">/100</span>
                 </span>
                 <Bars />
               </div>
@@ -242,13 +245,13 @@ function PlaybookCard() {
                            text-center text-[13.5px] font-semibold tracking-[-0.005em] text-white
                            shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_16px_rgba(228,112,15,0.32)]"
               >
-                Launch sequence
+                Find buyers
               </span>
               <span
                 className="block rounded-[12px] border border-white/[0.14] bg-white/[0.05] py-[11px]
                            text-center text-[12.5px] font-medium text-white/85"
               >
-                Ask a Harvin Growth Engineer
+                See why each one fits
               </span>
             </div>
           </div>
@@ -293,9 +296,9 @@ function CohortCard() {
         <div className="rounded-[22px] bg-[linear-gradient(152deg,#F2841C_0%,#E9701B_11%,#6455C8_40%,#2F6AE8_70%,#3F7DF5_100%)] p-[1.5px] shadow-[0_0_38px_rgba(47,106,232,0.22),0_18px_46px_rgba(0,0,0,0.55)]">
           <div className="rounded-[21px] bg-[linear-gradient(158deg,#0B1A3A_0%,#101F49_50%,#0A1631_100%)] px-[18px] py-[16px] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
             <h3 className="font-instrument font-semibold text-[19px] leading-[1.18] tracking-[-0.02em] text-white">
-              High-Intent,
+              Right buyers,
               <br />
-              Untouched Leads
+              contacts found
             </h3>
 
             <Rule />
@@ -303,37 +306,37 @@ function CohortCard() {
             {/* Channel accents are drawn from the card's own gradient rather
                 than each vendor's brand colour — these are outbound motions,
                 not logos. */}
-            <Meta>Preferred Channels</Meta>
+            <Meta>Contacts found</Meta>
             <div className="mt-2 grid grid-cols-2 gap-2">
               <span className="flex items-center justify-center gap-1.5 rounded-[10px] border border-[#3F7DF5]/55 bg-[#3F7DF5]/[0.10] py-[7px]">
                 <Mail size={14} className="flex-shrink-0 text-[#6C9BFF]" strokeWidth={2.2} />
-                <span className="text-[12px] font-bold text-white">Email</span>
+                <span className="text-[12px] font-bold text-white">Work email</span>
               </span>
               <span className="flex items-center justify-center gap-1.5 rounded-[10px] border border-[#F2841C]/55 bg-[#F2841C]/[0.10] py-[7px]">
                 <Phone size={14} className="flex-shrink-0 text-[#F79127]" strokeWidth={2.2} />
-                <span className="text-[12px] font-bold text-white">Cold Calling</span>
+                <span className="text-[12px] font-bold text-white">Phone</span>
               </span>
             </div>
 
             <Rule />
 
-            <Meta>Lead stage</Meta>
+            <Meta>Company Fit</Meta>
             <div className="mt-1.5 flex items-center gap-2">
               <Zap size={16} className="flex-shrink-0 text-[#F2841C]" strokeWidth={2.2} fill="#F2841C" />
-              <span className="text-[13.5px] font-bold text-[#F2841C]">Ready to engage</span>
+              <span className="text-[13.5px] font-bold text-[#F2841C]">Strong fit</span>
             </div>
 
             <Rule />
 
-            <Meta>Last buying signal</Meta>
+            <Meta>Listed in databases as</Meta>
             <div className="mt-1.5 flex items-center gap-2">
               <Clock size={16} className="flex-shrink-0 text-[#3F7DF5]" strokeWidth={2.2} />
-              <span className="text-[13.5px] font-bold text-white">3 days ago</span>
+              <span className="text-[13.5px] font-bold text-white">Software</span>
             </div>
 
             <Rule />
 
-            <Meta>Selected Leads</Meta>
+            <Meta>Matched buyers</Meta>
             <div className="mt-2.5 grid grid-cols-4 gap-1.5">
               {COHORT.map((c) => (
                 <span key={c.name} className="flex flex-col items-center gap-1.5">
@@ -381,7 +384,6 @@ const SLIDES: { key: string; pos: string; ms: number; behind: boolean; node: Rea
 ];
 
 export default function Hero() {
-  const { openModal } = useModal();
   const [email, setEmail] = useState('');
   const [cardIdx, setCardIdx] = useState(0);
 
@@ -503,7 +505,7 @@ export default function Hero() {
               className="mb-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-ember-400"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both' }}
             >
-              SDR Management Platform
+              B2B Company Discovery &amp; Research
             </p>
 
             <h1
@@ -511,15 +513,16 @@ export default function Hero() {
  text-[clamp(32px,3.8vw,48px)] text-white"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.06s both' }}
             >
-              Run your entire SDR operation from one platform.
+              A better way to find your next B2B customers
             </h1>
 
             <p
               className="mt-5 max-w-[540px] text-[15px] sm:text-[16.5px] leading-relaxed text-white/75"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both' }}
             >
-              Harvin brings sales intelligence, sales prospecting, outreach, meetings, and SDR team
-              management into one connected workspace.
+              Tell Harvin what you sell and who has bought from you. Harvin finds the companies that share your
+              customers&rsquo; need, whatever industry they&rsquo;re listed under, shows why each one fits, and finds
+              the right buyer&rsquo;s work email and phone.
             </p>
 
             <ul
@@ -528,15 +531,15 @@ export default function Hero() {
             >
               <li className="flex items-center gap-2.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-ember-400 shrink-0" />
-                <span>SDRs can plan and execute</span>
+                <span>Find companies by business need, in any industry</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-ember-400 shrink-0" />
-                <span>SDR Heads can prioritize and manage</span>
+                <span>See Company Fit, with the reasons</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-ember-400 shrink-0" />
-                <span>AEs can collaborate and move opportunities forward.</span>
+                <span>Reach the actual buyer&rsquo;s work email and phone</span>
               </li>
             </ul>
 
@@ -544,22 +547,27 @@ export default function Hero() {
               className="mt-8 flex flex-wrap items-center gap-4"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.24s both' }}
             >
-              <button
-                type="button"
-                onClick={() => openModal('talk-to-sales')}
+              <a
+                href={startFreeHref()}
                 className="flex items-center justify-center gap-2 rounded-xl bg-ember-500 px-6 py-3.5 text-[15px] font-semibold text-white
                            shadow-[0_4px_14px_rgba(201,76,30,0.45)] hover:bg-ember-400 transition-all active:scale-95"
               >
-                Book a Demo
-              </button>
+                Start free
+              </a>
               <Link
-                href="/product-tour"
+                href={BOOK_DEMO_HREF}
                 className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3.5 text-[15px] font-semibold text-white
                            hover:bg-white/15 hover:border-white/30 transition-all active:scale-95"
               >
-                Explore Harvin
+                Book a demo
               </Link>
             </div>
+            <p
+              className="mt-4 text-[13px] text-white/55"
+              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.28s both' }}
+            >
+              {FREE_CREDITS} free credits. No card. See {PREVIEW_COMPANIES} companies your database misses.
+            </p>
           </div>
         </div>
 

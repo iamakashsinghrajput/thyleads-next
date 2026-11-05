@@ -22,10 +22,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const core: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, lastModified: now, changeFrequency: 'weekly', priority: 1 },
-    { url: `${SITE_URL}/platform`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    // { url: `${SITE_URL}/platform`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 }, // hidden — see app/_platform
     { url: `${SITE_URL}/sdr-management-platform`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/product-tour`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE_URL}/outreach-and-engagement`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    // { url: `${SITE_URL}/outreach-and-engagement`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 }, // hidden — see app/_outreach-and-engagement
     { url: `${SITE_URL}/account-intelligence`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE_URL}/data-building`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE_URL}/sdr`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },

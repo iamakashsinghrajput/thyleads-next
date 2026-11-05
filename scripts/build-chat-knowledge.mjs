@@ -20,7 +20,7 @@ const OUT = path.join(process.cwd(), 'app/api/chat/knowledge.ts');
 /* Mirrors app/sitemap.ts. Blog posts are left out on purpose — they are long,
    change often and are not product facts; the bot links to /blog instead. */
 const PAGES = [
-  '/', '/platform', '/sdr-management-platform', '/product-tour', '/outreach-and-engagement',
+  '/', /* '/platform' hidden — see app/_platform */ '/sdr-management-platform', '/product-tour', /* '/outreach-and-engagement' hidden */
   '/account-intelligence', '/data-building', '/sdr', '/sdr-head', '/ae', '/pricing', '/about',
   '/contact', '/solutions/fintech', '/solutions/martech', '/solutions/hrtech',
   '/privacy', '/terms', '/acceptable-use', '/cookies', '/refund', '/privacy-choices', '/dpa', '/subprocessors',

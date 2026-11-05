@@ -11,14 +11,14 @@ import { openCookieSettings } from '@/components/CookieConsent';
    The legal column now also surfaces the cookie, refund and acceptable-use
    policies, which existed but were unreachable from anywhere.
    ─────────────────────────────────────────────────────────────────────── */
-const NAV_COLS = [
+const NAV_SECTIONS = [
   {
     heading: 'Product',
     links: [
       { label: 'Account Intelligence', href: '/account-intelligence' },
-      { label: 'Outreach & Engagement', href: '/outreach-and-engagement' },
+      // { label: 'Outreach & Engagement', href: '/outreach-and-engagement' }, // hidden — see app/_outreach-and-engagement
       { label: 'Performance & Insights', href: '/#sdr' },
-      { label: 'Integrations', href: '/#signals' },
+      // { label: 'Integrations', href: '/#signals' }, // hidden for now
     ],
   },
   {
@@ -32,8 +32,8 @@ const NAV_COLS = [
   {
     heading: 'Resources',
     links: [
-      { label: 'Product Tour', href: '/product-tour' },
-      { label: 'About Us', href: '/about' },
+      // { label: 'Product Tour', href: '/product-tour' }, // hidden for now
+      // { label: 'About Us', href: '/about' }, // hidden for now
       { label: 'Contact Us', href: '/contact' },
       { label: 'Blogs', href: '/blog' },
     ],
@@ -60,6 +60,14 @@ const NAV_COLS = [
       { label: 'Your Privacy Choices', href: '/privacy-choices' },
     ],
   },
+];
+
+/* Footer columns, each stacking one or more sections. */
+const sectionsFor = (...headings: string[]) => NAV_SECTIONS.filter((s) => headings.includes(s.heading));
+const NAV_COLS = [
+  sectionsFor('Product', 'Roles'),
+  sectionsFor('Resources', 'Account'),
+  sectionsFor('Legal'),
 ];
 
 const REGISTRATION = [
@@ -128,16 +136,18 @@ export default function Footer() {
         className="h-px w-full bg-gradient-to-r from-transparent via-ember-500/40 to-transparent"
       />
 
-      {/* ── Main grid (Brand + 5 Nav columns in single row on desktop) ──────── */}
-      <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-12 px-6 py-16 sm:grid-cols-3 md:grid-cols-[1.3fr_repeat(5,minmax(0,1fr))] lg:gap-x-8 lg:px-8 lg:py-20">
+      {/* ── Main grid (Brand + 3 Nav columns in single row on desktop) ──────── */}
+      <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-12 px-6 py-16 sm:grid-cols-3 md:grid-cols-[1.6fr_repeat(3,minmax(0,1fr))] lg:gap-x-8 lg:px-8 lg:py-20">
         {/* Brand column */}
         <div className="col-span-2 flex flex-col gap-6 sm:col-span-3 md:col-span-1 md:pr-4">
           <Link href="/" className="flex w-fit items-center rounded-xl bg-white px-4 py-3 shadow-sm">
             <img src="/harvin-logo.png" alt="Harvin" loading="lazy" className="h-[30px] w-auto" />
           </Link>
 
-          <p className="max-w-[280px] text-[15px] font-normal leading-[1.65] text-white/55">
-            The SDR management platform connecting your team &amp; workflows in one place.
+          {/* Brand line from the v2 copy handoff §3.3. */}
+          <p className="max-w-[300px] text-[15px] font-normal leading-[1.65] text-white/55">
+            Harvin.AI finds the companies and buyers your database misses, shows why each one fits, and finds their
+            work emails and phone numbers.
           </p>
 
           <div className="flex items-center gap-2.5">
@@ -159,26 +169,30 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Nav columns */}
-        {NAV_COLS.map((col) => (
-          <nav key={col.heading} aria-label={col.heading} className="flex flex-col gap-4">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/40">{col.heading}</p>
-            <ul className="flex flex-col gap-3">
-              {col.links.map((link) => {
-                const cls = `w-fit text-[14px] text-white/60 transition-colors hover:text-white
-                               focus-visible:outline-none focus-visible:text-white`;
-                return (
-                  <li key={link.label}>
-                    {'external' in link && link.external ? (
-                      <a href={link.href} className={cls}>{link.label}</a>
-                    ) : (
-                      <Link href={link.href} className={cls}>{link.label}</Link>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+        {/* Nav columns — each stacks its sections (e.g. Product above Roles) */}
+        {NAV_COLS.map((sections) => (
+          <div key={sections.map((s) => s.heading).join('-')} className="flex flex-col gap-10">
+            {sections.map((col) => (
+              <nav key={col.heading} aria-label={col.heading} className="flex flex-col gap-4">
+                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/40">{col.heading}</p>
+                <ul className="flex flex-col gap-3">
+                  {col.links.map((link) => {
+                    const cls = `w-fit text-[14px] text-white/60 transition-colors hover:text-white
+                                   focus-visible:outline-none focus-visible:text-white`;
+                    return (
+                      <li key={link.label}>
+                        {'external' in link && link.external ? (
+                          <a href={link.href} className={cls}>{link.label}</a>
+                        ) : (
+                          <Link href={link.href} className={cls}>{link.label}</Link>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+            ))}
+          </div>
         ))}
       </div>
 

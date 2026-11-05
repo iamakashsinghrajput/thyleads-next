@@ -1,52 +1,52 @@
 import type { Metadata } from 'next';
 
 import JsonLd from '@/components/JsonLd';
-import { graph, organizationSchema, softwareSchema, websiteSchema } from '@/lib/schema';
+import { faqSchema, graph, organizationSchema, softwareSchema, websiteSchema } from '@/lib/schema';
 import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import SdrProblem from '@/components/SdrProblem';
-import WorkspacesSection from '@/components/WorkspacesSection';
-import FeatureSection from '@/components/FeatureSection';
-import SdrStory from '@/components/SdrStory';
-import Testimonials from '@/components/Testimonials';
-import HomeFaq from '@/components/HomeFaq';
-import TheData from '@/components/TheData';
-import CTA from '@/components/CTA';
+import HomeClient from '@/app/HomeClient';
+import { HOME_FAQ, HOW_IT_WORKS_STEPS } from '@/app/home-content';
+import Faq from '@/components/Faq';
+import CtaStartFree from '@/components/CtaStartFree';
 import Footer from '@/components/Footer';
 
-/** The homepage keeps the root title verbatim rather than templating the brand
- *  on twice; everything else here narrows the root defaults. */
+/** Copy: harvin-website-copy-handoff.md §4.1. */
 export const metadata: Metadata = {
-  title: 'Harvin — Run your entire SDR operation from one platform',
+  title: { absolute: 'Harvin.AI: Find the B2B Customers Your Database Misses' },
   description:
-    'Harvin brings sales intelligence, sales prospecting, outreach, meetings, and SDR team management into one connected workspace.',
+    'Harvin finds companies and buyers that databases file under the wrong category, shows why each one fits, and finds their work email and phone. Start free.',
   alternates: { canonical: '/' },
+  openGraph: {
+    title: 'Your best customers are filed under the wrong category',
+    description: "Harvin finds them, shows why they fit, and finds the right buyer's work email and phone.",
+    url: '/',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Your best customers are filed under the wrong category',
+    description: "Harvin finds them, shows why they fit, and finds the right buyer's work email and phone.",
+  },
+};
+
+const howToSchema = {
+  '@type': 'HowTo',
+  name: 'How Harvin finds the companies and buyers that fit',
+  step: HOW_IT_WORKS_STEPS.map((s, i) => ({ '@type': 'HowToStep', position: i + 1, name: s.name, text: s.text })),
 };
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-sand-100 dark:bg-slate-950 transition-colors duration-300">
-      {/* Declared once, here: every other page references these @ids rather
-          than redeclaring the entity. */}
-      <JsonLd data={graph(organizationSchema, websiteSchema, softwareSchema)} />
+    <div className="min-h-screen bg-sand-100 transition-colors duration-300 dark:bg-slate-950">
+      {/* Organization/WebSite/SoftwareApplication are declared once, here: every
+          other page references these @ids rather than redeclaring the entity.
+          Add `offers` to SoftwareApplication only once PRICING_APPROVED. */}
+      <JsonLd data={graph(organizationSchema, websiteSchema, softwareSchema, howToSchema, faqSchema(HOME_FAQ))} />
       <Navbar />
-      <div>
-        <Hero />
-        <SdrProblem />
-        <WorkspacesSection />
-        <FeatureSection />
-        <SdrStory />
-        <Testimonials />
-        <HomeFaq />
-        {/* <TheData /> */}
-        {/* rides up over TheData's pinned panel — the parallax reveal */}
-        <div className="relative z-10">
-          <CTA />
-        </div>
-      </div>
-      <div className="relative z-10">
-        <Footer />
-      </div>
+      <main>
+        <HomeClient />
+        <Faq items={HOME_FAQ} />
+        <CtaStartFree />
+      </main>
+      <Footer />
     </div>
   );
 }

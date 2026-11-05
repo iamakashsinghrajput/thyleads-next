@@ -185,7 +185,7 @@ export default function ContactPage() {
               ))}
             </dl>
 
-            <p className="mt-8 text-[14.5px] leading-[1.7] text-slate-600 dark:text-slate-400">
+            {/* <p className="mt-8 text-[14.5px] leading-[1.7] text-slate-600 dark:text-slate-400">
               Still deciding whether the category fits your team? Start with{' '}
               <Link
                 href="/sdr-management-platform"
@@ -193,6 +193,7 @@ export default function ContactPage() {
               >
                 what an SDR management platform is
               </Link>
+              /platform is hidden — see app/_platform.
               , or walk the modules on the{' '}
               <Link
                 href="/platform"
@@ -200,8 +201,9 @@ export default function ContactPage() {
               >
                 platform page
               </Link>
+             
               .
-            </p>
+            </p> */}
           </div>
         </div>
       </section>

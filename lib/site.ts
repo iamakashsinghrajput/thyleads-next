@@ -1,3 +1,5 @@
+import { portalUrl } from '@/lib/portal';
+
 /**
  * One canonical origin for the whole site.
  *
@@ -20,3 +22,16 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://harvin.ai';
 
 /** Legal entity name, as it appears in Terms and Privacy. */
 export const LEGAL_NAME = 'Harvin AI Ltd';
+
+/**
+ * CTA destinations from the v2 copy handoff. The handoff targets /signup and
+ * /book-demo; until those routes exist, sign-up goes to the portal and demo
+ * requests to /contact. Switch here once the real routes ship — every CTA on
+ * the site reads from these.
+ */
+export const BOOK_DEMO_HREF = '/contact';
+
+export function startFreeHref(plan?: string): string {
+  const base = portalUrl();
+  return plan ? `${base}?plan=${encodeURIComponent(plan)}` : base;
+}

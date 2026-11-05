@@ -407,12 +407,14 @@ export default async function VerticalPage(
                 See how it works
                 <ArrowRight size={15} strokeWidth={2.4} />
               </a>
+              {/* /platform is hidden — see app/_platform.
               <a
                 href="/platform"
                 className="inline-flex items-center rounded-btn border border-slate-300 px-5 py-3 text-[14px] font-semibold text-slate-900 transition-colors hover:border-slate-400 dark:border-white/15 dark:text-white"
               >
                 See the platform
               </a>
+              */}
             </div>
           </div>
 

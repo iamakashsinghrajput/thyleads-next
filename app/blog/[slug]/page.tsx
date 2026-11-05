@@ -156,7 +156,7 @@ function Blocks({ content }: { content: string | ContentBlock[] }) {
         return (
           <Link
             key={i}
-            href={b.href ?? '/platform'}
+            href={b.href ?? '/data-building' /* was /platform, now hidden */}
             className="mt-8 flex items-center gap-3 rounded-2xl border border-ember-500/30 bg-ember-500/[0.06] px-5 py-4 transition-colors hover:border-ember-500/50"
           >
             <span className="min-w-0 flex-1 text-[15px] font-semibold leading-[1.5] text-slate-900 dark:text-white">
