@@ -30,6 +30,11 @@ import { useModal } from '@/components/ModalContext';
 
 type DropdownKey = 'product' | 'roles' | 'resources' | null;
 
+/* Roles menu (SDR / SDR Head / AE) is hidden for now — desktop button, its
+   dropdown panel and the mobile accordion all check this. Set to true to bring
+   it back. */
+const SHOW_ROLES = false;
+
 const PORTAL = portalUrl();
 
 /* ── Motion Variants ──────────────────────────────────────────────────────── */
@@ -213,7 +218,8 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* 2. Roles Dropdown */}
+            {/* 2. Roles Dropdown — hidden (SHOW_ROLES) */}
+            {SHOW_ROLES && (
             <div
               className="relative"
               onMouseEnter={() => openIt('roles')}
@@ -232,6 +238,7 @@ export default function Navbar() {
                 />
               </button>
             </div>
+            )}
 
             {/* 3. Pricing Link */}
             <Link
@@ -523,8 +530,8 @@ export default function Navbar() {
                   </div>
                 )}
 
-                {/* ── Roles Dropdown ──────────────────────────────── */}
-                {openDropdown === 'roles' && (
+                {/* ── Roles Dropdown — hidden (SHOW_ROLES) ─────────── */}
+                {SHOW_ROLES && openDropdown === 'roles' && (
                   <div className="max-w-[760px] mx-auto">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 mb-4">
                       Tailored by Role
@@ -802,7 +809,8 @@ export default function Navbar() {
                 )}
               </div>
 
-              {/* Mobile Accordion: Roles */}
+              {/* Mobile Accordion: Roles — hidden (SHOW_ROLES) */}
+              {SHOW_ROLES && (
               <div className="border-b border-slate-100 pb-3">
                 <button
                   type="button"
@@ -841,6 +849,7 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
+              )}
 
               {/* Mobile Link: Pricing */}
               <div className="border-b border-slate-100 pb-3">

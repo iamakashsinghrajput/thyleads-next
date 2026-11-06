@@ -65,8 +65,8 @@ const NAV_SECTIONS = [
 /* Footer columns, each stacking one or more sections. */
 const sectionsFor = (...headings: string[]) => NAV_SECTIONS.filter((s) => headings.includes(s.heading));
 const NAV_COLS = [
-  sectionsFor('Product', 'Roles'),
-  sectionsFor('Resources', 'Account'),
+  sectionsFor('Product', 'Resources' /* , 'Roles' — hidden for now */),
+  sectionsFor('Account'),
   sectionsFor('Legal'),
 ];
 
