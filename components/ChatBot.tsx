@@ -10,12 +10,13 @@ import { X, Send, Loader2, ChevronDown } from 'lucide-react';
 
 type Message = { role: 'user' | 'assistant'; content: string };
 
+/* Starter questions the v2 knowledge answers well (app/api/chat/knowledge.ts). */
 const SUGGESTIONS = [
   'What does Harvin do?',
-  'How does Harvin help SDR managers?',
-  'What do AEs get from Harvin?',
-  'Does it work with my CRM?',
-  'How do I get access?',
+  'How does Harvin decide Company Fit?',
+  'Will Harvin find the actual buyer?',
+  'How much does Harvin cost?',
+  'I already have a list. Do I need to start over?',
 ];
 
 const ChatIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (

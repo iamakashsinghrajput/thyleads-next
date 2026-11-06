@@ -14,10 +14,10 @@ import type { MetadataRoute } from 'next';
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Harvin — SDR Management Platform',
+    name: 'Harvin.AI — B2B Company Discovery & Research',
     short_name: 'Harvin',
     description:
-      'One place to run a high-performing SDR team: ownership, priorities, execution, meetings and pipeline reporting.',
+      'Harvin.AI finds the companies and buyers your database misses, shows why each one fits, and finds their work emails and phone numbers.',
     start_url: '/',
     display: 'standalone',
     orientation: 'portrait-primary',

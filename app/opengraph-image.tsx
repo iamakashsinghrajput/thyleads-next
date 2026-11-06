@@ -17,7 +17,7 @@ import { ImageResponse } from 'next/og';
  * block (there are five) replaces the parent's wholesale and would otherwise
  * ship with no card at all.
  */
-export const alt = 'Harvin — the SDR management platform for sales teams';
+export const alt = 'Harvin.AI — find the B2B customers your database misses';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -87,9 +87,9 @@ export default async function OpengraphImage() {
               color: SLATE_950,
             }}
           >
-            <span>Run a high-performing</span>
+            <span>A better way to find your</span>
             {/* the accent falls on the same half the site's CTA accents */}
-            <span style={{ color: EMBER_500 }}>SDR team from one place.</span>
+            <span style={{ color: EMBER_500 }}>next B2B customers.</span>
           </div>
 
           <div
@@ -102,8 +102,8 @@ export default async function OpengraphImage() {
               color: SLATE_500,
             }}
           >
-            Ownership, priorities, execution, meetings and pipeline reporting — for the whole
-            sales development team.
+            Harvin finds the companies and buyers your database misses, shows why each one
+            fits, and finds their work emails and phone numbers.
           </div>
         </div>
 
@@ -119,7 +119,7 @@ export default async function OpengraphImage() {
                 color: EMBER_500,
               }}
             >
-              SDR MANAGEMENT PLATFORM
+              B2B COMPANY DISCOVERY &amp; RESEARCH
             </span>
             <span style={{ fontFamily: 'Display', fontSize: 22, color: SLATE_950 }}>harvin.ai</span>
           </div>

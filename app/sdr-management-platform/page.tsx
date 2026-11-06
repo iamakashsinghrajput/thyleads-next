@@ -234,6 +234,7 @@ export default function SdrManagementPlatformPage() {
 
           <p className="mt-8 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">
             Harvin is built to this shape.{' '}
+            {/* /platform is hidden — see app/_platform.
             <Link
               href="/platform"
               className="font-semibold text-ember-600 underline underline-offset-4 dark:text-ember-300"
@@ -241,6 +242,8 @@ export default function SdrManagementPlatformPage() {
               See every module on the platform page
             </Link>
             , or read how the same loop looks for{' '}
+            */}
+            Read how the same loop looks for{' '}
             <Link
               href="/solutions/fintech"
               className="font-semibold text-ember-600 underline underline-offset-4 dark:text-ember-300"
@@ -313,6 +316,7 @@ export default function SdrManagementPlatformPage() {
             ))}
           </div>
 
+          {/* /platform is hidden — see app/_platform.
           <Link
             href="/platform"
             className="mt-10 inline-flex items-center gap-2 rounded-btn bg-ember-500 px-5 py-3 text-[14px] font-semibold text-white shadow-[0_1px_4px_rgba(201,76,30,0.3)] transition-all hover:bg-ember-400"
@@ -320,6 +324,7 @@ export default function SdrManagementPlatformPage() {
             See how Harvin does it
             <ArrowRight size={15} strokeWidth={2.4} />
           </Link>
+          */}
         </div>
       </section>
 

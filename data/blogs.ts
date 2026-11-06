@@ -2486,7 +2486,7 @@ export const blogPosts: BlogPost[] = [
             {
               type: 'cta',
               text: 'See how Harvin enriches and scores accounts',
-              href: '/platform'
+              href: '/data-building' // was /platform, now hidden
             }
           ]
         }

@@ -84,10 +84,11 @@ function BuyingWindowCard() {
   );
 }
 
+/* From the handoff's Book a demo page (§3.8). */
 const PROMISES = [
-  'No credit card required — free for the first 14 days',
-  'We pull live signals on your own account list',
-  '30 minutes, no slide deck',
+  'A 30-minute call with our team',
+  'We run Harvin on your market before or during the call',
+  'You see real companies, not slides',
 ];
 
 function LiveSignalsCard() {
@@ -151,18 +152,18 @@ export default function CTA() {
           {/* ── Left: headline + form ─────────────────────────────────────── */}
           <div className="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
             <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">
-              SDR management platform
+              Book a demo
             </p>
 
             <h2 className="font-instrument font-semibold mt-4 text-[clamp(30px,3.5vw,46px)] leading-[1.08] tracking-[-0.03em] text-slate-900 dark:text-white">
-              Bring your SDR
+              Give Harvin
               <br />
-              <span className="text-ember-500">operation together</span>
+              <span className="text-ember-500">one market</span>
             </h2>
 
             <p className="mt-4 max-w-[480px] text-[16px] leading-relaxed text-slate-600 dark:text-slate-300">
-              Give your SDRs, SDR Heads, and AEs one connected platform to plan, execute, manage, and
-              move opportunities forward.
+              Share your targeting criteria, your best customers, or the spreadsheet your SDR team is working
+              from today. We&rsquo;ll show you what Harvin finds.
             </p>
 
             <form

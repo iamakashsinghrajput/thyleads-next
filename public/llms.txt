@@ -13,11 +13,6 @@ that — deciding who works which accounts, what each rep should do today, and
 whether any of it created pipeline.
 
 ## Product
-- [Platform overview](https://harvin.ai/platform): every module — team and
-  territory management, accounts and leads, account intelligence, AI buying-signal
-  detection, watchlists, look-a-like accounts, campaigns and channels, dialer,
-  meetings and handoff, reporting and AI coaching, template builder. Includes an
-  FAQ defining what an SDR management platform is.
 - [Homepage](https://harvin.ai/): the problem SDR managers have — plenty of
   tools, no single place to run the team — and the platform narrative across the
   manager, rep and CRO views.

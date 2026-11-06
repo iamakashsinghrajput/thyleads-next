@@ -12,6 +12,14 @@ import { LEGAL_NAME, SITE_URL } from '@/lib/site';
  * fixed vocabulary, so the specific positioning lives in `applicationSubCategory`
  * and the description, which is where an LLM actually reads it from.
  */
+/**
+ * The entity sentence from the v2 copy handoff. It must read identically
+ * everywhere it appears (schema, homepage entity strip, llms.txt) — change it
+ * here and nowhere else.
+ */
+export const ENTITY_SENTENCE =
+  'Harvin.AI is a B2B company discovery and research platform that finds the companies and buyers your database misses, shows why each one fits your business, and finds their work emails and phone numbers.';
+
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const SITE_ID = `${SITE_URL}/#website`;
 
@@ -22,8 +30,7 @@ export const organizationSchema = {
   legalName: LEGAL_NAME,
   url: SITE_URL,
   logo: `${SITE_URL}/harvinlogo/logo.png`,
-  description:
-    'Harvin is an SDR management platform that gives sales leaders one place to run a sales development team — territories and account ownership, buying-signal prioritisation, execution across email, dialer and tasks, meeting handoffs, and reporting from accounts worked through to pipeline.',
+  description: ENTITY_SENTENCE,
   email: 'admin@harvin.ai',
   /* Company facts as published in components/Footer.tsx — keep the two in
      step; a registration number that disagrees with the footer is worse than
@@ -59,23 +66,21 @@ export const softwareSchema = {
   '@id': `${SITE_URL}/#software`,
   name: 'Harvin',
   applicationCategory: 'BusinessApplication',
-  applicationSubCategory: 'SDR Management Platform',
+  applicationSubCategory: 'B2B Company Discovery and Research',
   operatingSystem: 'Web',
-  url: `${SITE_URL}/platform`,
+  url: SITE_URL,
   publisher: { '@id': ORG_ID },
-  description:
-    'SDR management platform for sales leaders: manage reps, territories and account ownership; prioritise each rep’s day from live buying signals; run email, dialer, tasks and a unified inbox; hand meetings to AEs with full context; and report from accounts worked through to pipeline generated.',
+  description: ENTITY_SENTENCE,
   featureList: [
-    'Team and territory management',
-    'Account and lead distribution',
-    'Account intelligence',
-    'AI buying-signal detection',
-    'Watchlists',
-    'Look-a-like accounts',
-    'Campaign sequences across email, tasks and inbox',
-    'Dialer with call recording and dispositions',
-    'Meeting handoff and outcome tracking',
-    'Pipeline reporting and AI coaching',
+    'Company Profile',
+    'Company discovery by business need',
+    'Research fields',
+    'Company Fit scoring with reasons',
+    'Multi-source waterfall people search',
+    'Title, company-name and first-name normalization',
+    'Email and phone waterfall',
+    'Data enrichment for uploaded lists',
+    'Signals',
   ],
 };
 

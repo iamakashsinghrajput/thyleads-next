@@ -10,17 +10,17 @@ import {
   BarChart3,
   Building2,
   ChevronDown,
-  Compass,
+  // Compass, // used by the hidden Product Tour item
   Database,
   Layers,
   Mail,
   Menu,
-  Network,
+  // Network, // used by the hidden Integrations item
   Newspaper,
   Phone,
   Send,
   Target,
-  Users,
+  // Users, // used by the hidden About item
   X,
   Sparkles,
 } from 'lucide-react';
@@ -148,13 +148,17 @@ export default function Navbar() {
         // so the hero starts at the very top of the screen. Other pages keep the
         // nav in the flow so their content isn't hidden underneath it.
         'fixed inset-x-0 top-0',
-        'z-50 w-full backdrop-blur-md border-b',
+        'z-50 w-full border-b',
         'transition-[transform,opacity,filter,box-shadow,border-color,background-color] duration-[800ms] ease-in-out motion-reduce:transition-none',
         overHero
-          ? 'bg-[#0D0D0C]/90 border-white/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.4)]'
+          ? scrolled
+            ? // scrolled within the hero: a light translucent bar so links stay legible
+              'bg-[#0D0D0C]/55 backdrop-blur-md border-white/[0.06] shadow-[0_8px_30px_rgba(0,0,0,0.25)]'
+            : // at the top of the hero: fully see-through, the hero runs under the nav
+              'bg-transparent border-transparent shadow-none'
           : scrolled
-            ? 'bg-white/95 border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)]'
-            : 'bg-white/95 border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)]',
+            ? 'bg-white/95 backdrop-blur-md border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)]'
+            : 'bg-white/95 backdrop-blur-md border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)]',
         // No transform/filter classes while visible — either would make the nav a
         // containing block for its children and can affect the dropdown layout.
         hidden ? '-translate-y-full opacity-0 blur-md pointer-events-none' : '',
@@ -310,7 +314,7 @@ export default function Navbar() {
               <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18)]">
                 {/* ── Product Dropdown ─────────────────────────────── */}
                 {openDropdown === 'product' && (
-                  <div className="grid grid-cols-[1.1fr_1fr_1.1fr] gap-8">
+                  <div className="grid grid-cols-[1.1fr_1.1fr] gap-8">{/* was 1.1fr_1fr_1.1fr with the Outreach column */}
                     {/* Column 1: Core Platform */}
                     <div className="flex flex-col gap-5 border-r border-slate-100 pr-6">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
@@ -353,6 +357,7 @@ export default function Navbar() {
                         </div>
                       </Link>
 
+                      {/* /platform is hidden — see app/_platform.
                       <div className="mt-auto pt-3 border-t border-slate-100">
                         <Link
                           href="/platform"
@@ -365,9 +370,10 @@ export default function Navbar() {
                           <ArrowRight size={14} className="text-ember-500" />
                         </Link>
                       </div>
+                      */}
                     </div>
 
-                    {/* Column 2: Outreach & Engagement */}
+                    {/* Hidden for now: Outreach & Engagement (Campaign, Dialer, Email Inbox) and Integrations.
                     <div className="flex flex-col gap-3 border-r border-slate-100 pr-6">
                       <Link
                         href="/outreach-and-engagement"
@@ -444,6 +450,7 @@ export default function Navbar() {
                         </Link>
                       </div>
                     </div>
+                    */}
 
                     {/* Column 3: Performance & Insights */}
                     <div className="flex flex-col gap-3">
@@ -599,6 +606,7 @@ export default function Navbar() {
                       Resources &amp; Company
                     </p>
                     <div className="grid grid-cols-2 gap-4">
+                      {/* Hidden for now: Product Tour and About.
                       <Link
                         href="/product-tour"
                         onClick={close}
@@ -634,6 +642,7 @@ export default function Navbar() {
                           </p>
                         </div>
                       </Link>
+                      */}
 
                       <Link
                         href="/contact"
@@ -718,6 +727,7 @@ export default function Navbar() {
                     >
                       Account Intelligence
                     </Link>
+                    {/* Hidden for now: Outreach & Engagement (Campaign, Dialer, Email Inbox) and Integrations.
                     <div className="pt-2">
                       <Link
                         href="/outreach-and-engagement"
@@ -750,6 +760,7 @@ export default function Navbar() {
                         </Link>
                       </div>
                     </div>
+                    */}
                     <div className="pt-2">
                       <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         Performance &amp; Insights
@@ -778,6 +789,7 @@ export default function Navbar() {
                         </Link>
                       </div>
                     </div>
+                    {/* Hidden for now: Integrations.
                     <Link
                       href="/#signals"
                       onClick={() => setMobileMenuOpen(false)}
@@ -785,6 +797,7 @@ export default function Navbar() {
                     >
                       Integrations
                     </Link>
+                    */}
                   </div>
                 )}
               </div>
@@ -855,6 +868,7 @@ export default function Navbar() {
                 </button>
                 {mobileAccordion === 'resources' && (
                   <div className="flex flex-col gap-2 pt-2 pl-3">
+                    {/* Hidden for now: Product Tour and About.
                     <Link
                       href="/product-tour"
                       onClick={() => setMobileMenuOpen(false)}
@@ -869,6 +883,7 @@ export default function Navbar() {
                     >
                       About
                     </Link>
+                    */}
                     <Link
                       href="/contact"
                       onClick={() => setMobileMenuOpen(false)}
