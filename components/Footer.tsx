@@ -146,7 +146,7 @@ export default function Footer() {
 
           {/* Brand line from the v2 copy handoff §3.3. */}
           <p className="max-w-[300px] text-[15px] font-normal leading-[1.65] text-white/55">
-            Harvin.AI finds the companies and buyers your database misses, shows why each one fits, and finds their
+            Harvin AI finds the companies and buyers your database misses, shows why each one fits, and finds their
             work emails and phone numbers.
           </p>
 

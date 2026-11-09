@@ -1,26 +1,31 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Building, Check, Coins, Users } from 'lucide-react';
+
+import { useBilling } from '@/components/BillingProvider';
 
 import { BOOK_DEMO_HREF, startFreeHref } from '@/lib/site';
 import { PLANS, type Plan } from '@/lib/pricing';
 
 /**
- * Pricing §plans. Four self-serve plans as cards (Growth raised and dark),
+ * Pricing plans (Developer Handoff, Nov 2026). Four self-serve plans as cards (Growth raised and dark),
  * Enterprise as a full-width band below so its custom price never has to
  * squeeze into a fifth column.
  */
 
-function creditsLabel(plan: Plan) {
-  if (plan.monthlyCredits) return { big: plan.monthlyCredits.toLocaleString('en-US'), small: 'credits / month' };
+function creditsLabel(plan: Plan, annual: boolean) {
+  if (plan.monthlyCredits) {
+    return annual
+      ? { big: (plan.monthlyCredits * 12).toLocaleString('en-US'), small: 'credits / year, all up front' }
+      : { big: plan.monthlyCredits.toLocaleString('en-US'), small: 'credits / month' };
+  }
   if (plan.id === 'free') return { big: '250', small: 'credits, once' };
   return { big: 'Custom', small: 'credits, annual' };
 }
 
 export default function PricingPlans() {
-  const [annual, setAnnual] = useState(false);
+  const { annual, setAnnual } = useBilling();
   const selfServe = PLANS.filter((p) => p.id !== 'enterprise');
   const enterprise = PLANS.find((p) => p.id === 'enterprise')!;
 
@@ -75,7 +80,7 @@ export default function PricingPlans() {
         {selfServe.map((plan) => {
           const dark = Boolean(plan.badge);
           const price = (annual ? plan.annual : plan.monthly) ?? 0;
-          const credits = creditsLabel(plan);
+          const credits = creditsLabel(plan, annual);
           const href = startFreeHref(plan.id === 'free' ? undefined : plan.id);
 
           return (
@@ -121,7 +126,7 @@ export default function PricingPlans() {
                 <p className={`mt-1.5 h-5 text-[12.5px] ${dark ? 'text-white/50' : 'text-slate-500 dark:text-slate-400'}`}>
                   {price === 0 ? 'No card needed' : annual ? (
                     <>
-                      <span className="line-through opacity-70">${plan.monthly}</span> billed yearly
+                      ${((plan.annual ?? 0) * 12).toLocaleString('en-US')} billed yearly
                     </>
                   ) : (
                     'billed monthly'
@@ -146,7 +151,7 @@ export default function PricingPlans() {
                   </span>
                   <span className={`flex items-center gap-1.5 text-[12.5px] ${dark ? 'text-white/70' : 'text-slate-600 dark:text-slate-400'}`}>
                     <Users size={14} aria-hidden="true" />
-                    {plan.seats} {plan.seats === '1' ? 'seat' : 'seats'}
+                    {plan.seats}
                   </span>
                 </div>
 
@@ -163,6 +168,13 @@ export default function PricingPlans() {
                   {plan.cta}
                   <ArrowRight size={16} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
                 </a>
+                {plan.id === 'free' && (
+                  // [DECISION A] Recommended variant: phone code sent at the first contact reveal.
+                  <p className="mt-3 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
+                    Sign up with your work email. We&rsquo;ll verify your phone with a one-time code before your first
+                    contact reveal.
+                  </p>
+                )}
 
                 <p className={`mt-6 text-[11px] font-semibold uppercase tracking-[0.12em] ${dark ? 'text-white/45' : 'text-slate-400 dark:text-slate-500'}`}>
                   Best for: {plan.bestFor}
@@ -217,7 +229,11 @@ export default function PricingPlans() {
               <h2 className="font-instrument text-[22px] font-semibold text-slate-950 dark:text-white">{enterprise.name}</h2>
             </div>
             <p className="mt-4 font-instrument text-[30px] font-semibold leading-none tracking-[-0.02em] text-slate-950 dark:text-white">
-              {annual ? 'Custom' : enterprise.priceNote}
+              {enterprise.priceNote}
+            </p>
+            <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-ember-50 px-2.5 py-1 text-[12px] font-semibold text-ember-600 dark:bg-ember-500/10 dark:text-ember-300">
+              <Users size={13} aria-hidden="true" />
+              {enterprise.seats}
             </p>
             <p className="mt-3 text-[14px] leading-relaxed text-slate-600 dark:text-slate-400">{enterprise.oneLiner}</p>
           </div>
@@ -246,7 +262,8 @@ export default function PricingPlans() {
       </div>
 
       <p className="mt-6 text-center text-[13px] text-slate-500 dark:text-slate-400">
-        Annual plans are billed yearly, with all credits available from day one.
+        Every paid plan includes unlimited seats for people at your company. Annual plans are billed yearly, with all
+        credits available from day one.
       </p>
     </div>
   );
