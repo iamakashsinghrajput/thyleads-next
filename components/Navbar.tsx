@@ -158,9 +158,9 @@ export default function Navbar() {
         overHero
           ? scrolled
             ? // scrolled within the hero: a light translucent bar so links stay legible
-              'bg-[#0D0D0C]/55 backdrop-blur-md border-white/[0.06] shadow-[0_8px_30px_rgba(0,0,0,0.25)]'
+            'bg-[#0D0D0C]/55 backdrop-blur-md border-white/[0.06] shadow-[0_8px_30px_rgba(0,0,0,0.25)]'
             : // at the top of the hero: fully see-through, the hero runs under the nav
-              'bg-transparent border-transparent shadow-none'
+            'bg-transparent border-transparent shadow-none'
           : scrolled
             ? 'bg-white/95 backdrop-blur-md border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)]'
             : 'bg-white/95 backdrop-blur-md border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)]',
@@ -220,24 +220,24 @@ export default function Navbar() {
 
             {/* 2. Roles Dropdown — hidden (SHOW_ROLES) */}
             {SHOW_ROLES && (
-            <div
-              className="relative"
-              onMouseEnter={() => openIt('roles')}
-              onMouseLeave={scheduleClose}
-            >
-              <button
-                type="button"
-                aria-expanded={openDropdown === 'roles'}
-                onClick={() => setOpenDropdown(openDropdown === 'roles' ? null : 'roles')}
-                className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${itemCls(openDropdown === 'roles')}`}
+              <div
+                className="relative"
+                onMouseEnter={() => openIt('roles')}
+                onMouseLeave={scheduleClose}
               >
-                <span>Roles</span>
-                <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${chevronCls(openDropdown === 'roles')}`}
-                  strokeWidth={2.2}
-                />
-              </button>
-            </div>
+                <button
+                  type="button"
+                  aria-expanded={openDropdown === 'roles'}
+                  onClick={() => setOpenDropdown(openDropdown === 'roles' ? null : 'roles')}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 text-[15px] font-medium transition-colors rounded-md ${itemCls(openDropdown === 'roles')}`}
+                >
+                  <span>Roles</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${chevronCls(openDropdown === 'roles')}`}
+                    strokeWidth={2.2}
+                  />
+                </button>
+              </div>
             )}
 
             {/* 3. Pricing Link */}
@@ -321,48 +321,49 @@ export default function Navbar() {
               <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18)]">
                 {/* ── Product Dropdown ─────────────────────────────── */}
                 {openDropdown === 'product' && (
-                  <div className="grid grid-cols-[1.1fr_1.1fr] gap-8">{/* was 1.1fr_1fr_1.1fr with the Outreach column */}
+                  <div>{/* was grid grid-cols-[1.1fr_1.1fr] gap-8; collapsed to single column while Outreach & Insights are commented out */}
                     {/* Column 1: Core Platform */}
                     <div className="flex flex-col gap-5 border-r border-slate-100 pr-6">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
                         Product Overview
                       </p>
+                      <div className='flex flex-row'>
+                        <Link
+                          href="/data-building"
+                          onClick={close}
+                          className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
+                        >
+                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
+                            <Database size={18} strokeWidth={2} />
+                          </span>
+                          <div>
+                            <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
+                              Data Building
+                            </p>
+                            <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
+                              Find the companies and decision-makers that fit your business best.
+                            </p>
+                          </div>
+                        </Link>
 
-                      <Link
-                        href="/data-building"
-                        onClick={close}
-                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
-                      >
-                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
-                          <Database size={18} strokeWidth={2} />
-                        </span>
-                        <div>
-                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
-                            Data Building
-                          </p>
-                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
-                            Find the companies and decision-makers that fit your business best.
-                          </p>
-                        </div>
-                      </Link>
-
-                      <Link
-                        href="/account-intelligence"
-                        onClick={close}
-                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
-                      >
-                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
-                          <Building2 size={18} strokeWidth={2} />
-                        </span>
-                        <div>
-                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
-                            Account Intelligence
-                          </p>
-                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
-                            Continuous data enrichment, buyer signals, and live ICP scoring.
-                          </p>
-                        </div>
-                      </Link>
+                        <Link
+                          href="/account-intelligence"
+                          onClick={close}
+                          className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
+                        >
+                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
+                            <Building2 size={18} strokeWidth={2} />
+                          </span>
+                          <div>
+                            <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
+                              Account Intelligence
+                            </p>
+                            <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
+                              Continuous data enrichment, buyer signals, and live ICP scoring.
+                            </p>
+                          </div>
+                        </Link>
+                      </div>
 
                       {/* /platform is hidden — see app/_platform.
                       <div className="mt-auto pt-3 border-t border-slate-100">
@@ -460,7 +461,7 @@ export default function Navbar() {
                     */}
 
                     {/* Column 3: Performance & Insights */}
-                    <div className="flex flex-col gap-3">
+                    {/* <div className="flex flex-col gap-3">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 mb-2">
                         Performance &amp; Insights
                       </p>
@@ -526,7 +527,7 @@ export default function Navbar() {
                           </span>
                         </Link>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 )}
 
@@ -811,44 +812,44 @@ export default function Navbar() {
 
               {/* Mobile Accordion: Roles — hidden (SHOW_ROLES) */}
               {SHOW_ROLES && (
-              <div className="border-b border-slate-100 pb-3">
-                <button
-                  type="button"
-                  onClick={() => toggleMobileAccordion('roles')}
-                  className="flex w-full items-center justify-between py-2 text-[16px] font-semibold text-slate-900"
-                >
-                  <span>Roles</span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform ${mobileAccordion === 'roles' ? 'rotate-180 text-ember-500' : 'text-slate-400'
-                      }`}
-                  />
-                </button>
-                {mobileAccordion === 'roles' && (
-                  <div className="flex flex-col gap-2 pt-2 pl-3">
-                    <Link
-                      href="/sdr"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
-                    >
-                      SDR — Stay on Track
-                    </Link>
-                    <Link
-                      href="/sdr-head"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
-                    >
-                      SDR Head — See Team Health
-                    </Link>
-                    <Link
-                      href="/ae"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
-                    >
-                      AE — Track your pipeline
-                    </Link>
-                  </div>
-                )}
-              </div>
+                <div className="border-b border-slate-100 pb-3">
+                  <button
+                    type="button"
+                    onClick={() => toggleMobileAccordion('roles')}
+                    className="flex w-full items-center justify-between py-2 text-[16px] font-semibold text-slate-900"
+                  >
+                    <span>Roles</span>
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform ${mobileAccordion === 'roles' ? 'rotate-180 text-ember-500' : 'text-slate-400'
+                        }`}
+                    />
+                  </button>
+                  {mobileAccordion === 'roles' && (
+                    <div className="flex flex-col gap-2 pt-2 pl-3">
+                      <Link
+                        href="/sdr"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                      >
+                        SDR — Stay on Track
+                      </Link>
+                      <Link
+                        href="/sdr-head"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                      >
+                        SDR Head — See Team Health
+                      </Link>
+                      <Link
+                        href="/ae"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                      >
+                        AE — Track your pipeline
+                      </Link>
+                    </div>
+                  )}
+                </div>
               )}
 
               {/* Mobile Link: Pricing */}
