@@ -5,15 +5,24 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 import { BOOK_DEMO_HREF, startFreeHref } from '@/lib/site';
-import { CREDIT_COSTS, PLANS, recommendPlan } from '@/lib/pricing';
+import { CREDIT_COSTS, CREDIT_PACK, PLANS, recommendPlan } from '@/lib/pricing';
 
 /**
- * Pricing §calculator. A slider plus an exact number field per input; the
- * result panel recommends the smallest plan whose monthly credits cover the
- * estimate, and shows how much of that plan the estimate uses.
+ * Pricing calculator. A slider plus an exact number field per input; the
+ * result panel recommends the cheapest plan (alone or with 1–2 credit packs)
+ * that covers the estimate. Any Signals use makes Growth the minimum. The
+ * annual toggle never changes this — it always estimates monthly use.
  */
 const FIELDS = [
   { key: 'companies', label: 'Companies to research each month', helper: '2 credits each', initial: 1000, max: 10000, step: 100 },
+  {
+    key: 'standardFields',
+    label: 'Standard fields per company',
+    helper: 'Category, funding, tech stack: 1 credit each',
+    initial: 0,
+    max: 10,
+    step: 1,
+  },
   {
     key: 'deepFields',
     label: 'Deep-research fields per company',
@@ -24,7 +33,15 @@ const FIELDS = [
   },
   { key: 'emails', label: 'Work emails', helper: '3 credits each, only when found', initial: 600, max: 5000, step: 50 },
   { key: 'phones', label: 'Phone numbers', helper: '20 credits each, only when found', initial: 60, max: 1000, step: 10 },
-  { key: 'accounts', label: 'Accounts to monitor for signals', helper: '5 credits per account per month', initial: 0, max: 2000, step: 50 },
+  {
+    key: 'accounts',
+    label: 'Accounts to monitor for signals',
+    helper: '5 credits per account per month (Growth and above)',
+    initial: 0,
+    max: 2000,
+    step: 50,
+  },
+  { key: 'exports', label: 'People exported without an email or phone', helper: '1 credit each, once', initial: 0, max: 5000, step: 50 },
 ] as const;
 
 type Key = (typeof FIELDS)[number]['key'];
@@ -37,16 +54,21 @@ export default function CreditCalculator() {
 
   const parts = [
     { label: 'Research', value: values.companies * CREDIT_COSTS.company, cls: 'bg-ember-500' },
+    { label: 'Std fields', value: values.companies * values.standardFields * CREDIT_COSTS.standardField, cls: 'bg-ember-200' },
     { label: 'Deep fields', value: values.companies * values.deepFields * CREDIT_COSTS.deepField, cls: 'bg-ember-300' },
     { label: 'Emails', value: values.emails * CREDIT_COSTS.email, cls: 'bg-amber-400' },
     { label: 'Phones', value: values.phones * CREDIT_COSTS.phone, cls: 'bg-white' },
     { label: 'Signals', value: values.accounts * CREDIT_COSTS.signalAccount, cls: 'bg-white/40' },
+    { label: 'Exports', value: values.exports * CREDIT_COSTS.exportPerson, cls: 'bg-emerald-400' },
   ];
   const total = parts.reduce((s, p) => s + p.value, 0);
-  const plan = recommendPlan(total);
-  const isEnterprise = plan.id === 'enterprise';
-  const capacity = plan.monthlyCredits ?? total;
-  const usedPct = capacity > 0 ? Math.min(100, Math.round((total / capacity) * 100)) : 0;
+  const rec = recommendPlan(total, values.accounts > 0);
+  const fmt = (n: number) => n.toLocaleString('en-US');
+  const packLabel = (n: number) => `${n} credit pack${n === 1 ? '' : 's'}`;
+  const option = rec.kind === 'plan' ? rec : null;
+  const recName = rec.kind === 'none' ? null : rec.plan.name;
+  const barName = option ? (option.packs ? `${option.plan.name} + ${packLabel(option.packs)}` : option.plan.name) : '';
+  const usedPct = option ? Math.min(100, Math.round((total / option.credits) * 100)) : 0;
 
   return (
     <div className="grid overflow-hidden rounded-modal border border-slate-200 bg-sand-50 shadow-[0_4px_32px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)] lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
@@ -96,13 +118,29 @@ export default function CreditCalculator() {
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_50%_at_100%_0%,rgba(201,76,30,0.3),transparent_70%)]" />
         <div className="relative">
           <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">Your estimate</p>
-          <p className="mt-3 text-[16px] leading-relaxed text-white/75">
-            About{' '}
-            <span className="block font-instrument text-[56px] font-semibold leading-none tracking-[-0.035em] tabular-nums text-white">
-              {total.toLocaleString('en-US')}
-            </span>
-            credits a month. Recommended plan: <span className="font-semibold text-ember-300">{plan.name}</span>.
-          </p>
+          {rec.kind === 'none' ? (
+            <p className="mt-3 text-[16px] leading-relaxed text-white/75">Enter your expected monthly work</p>
+          ) : (
+            <p className="mt-3 text-[16px] leading-relaxed text-white/75">
+              About{' '}
+              <span className="block font-instrument text-[56px] font-semibold leading-none tracking-[-0.035em] tabular-nums text-white">
+                {fmt(total)}
+              </span>
+              credits a month. Recommended:{' '}
+              <span className="font-semibold text-ember-300">
+                {option?.packs ? `${option.plan.name} + ${packLabel(option.packs)}` : recName}
+              </span>
+              {option?.packs ? `, about $${fmt(option.price)} this month.` : '.'}
+              {option?.packs && option.next ? (
+                <span className="mt-2 block text-[14px] text-white/60">
+                  Needing this every month? {option.next.name} gives you more credits.
+                </span>
+              ) : null}
+              {values.accounts > 0 && option?.plan.id === 'growth' ? (
+                <span className="mt-2 block text-[13px] text-white/50">Signals need Growth or above.</span>
+              ) : null}
+            </p>
+          )}
 
           {/* breakdown bar */}
           <div className="mt-7 flex h-2.5 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
@@ -126,8 +164,8 @@ export default function CreditCalculator() {
           {/* Where the estimate lands across plans */}
           <ul className="mt-8 space-y-2 border-t border-white/[0.08] pt-6">
             {PLANS.filter((p) => p.monthlyCredits).map((p) => {
-              const fits = (p.monthlyCredits ?? 0) >= total;
-              const current = p.id === plan.id;
+              const fits = (p.monthlyCredits ?? 0) >= total && !(p.id === 'starter' && values.accounts > 0);
+              const current = rec.kind !== 'none' && p.id === rec.plan.id;
               return (
                 <li
                   key={p.id}
@@ -149,28 +187,32 @@ export default function CreditCalculator() {
         </div>
 
         <div className="relative mt-auto">
-          {!isEnterprise && (
+          {option && (
             <div className="mb-5">
-              <div className="flex justify-between text-[12.5px] text-white/60">
-                <span>Uses {usedPct}% of {plan.name}</span>
-                <span className="tabular-nums">{plan.monthlyCredits?.toLocaleString('en-US')} credits</span>
-              </div>
+              <p className="text-[12.5px] text-white/60">
+                Uses {usedPct}% of {barName}&rsquo;s {fmt(option.credits)} credits.
+              </p>
               <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
                 <div className="h-full rounded-full bg-ember-400 transition-all duration-300" style={{ width: `${usedPct}%` }} />
               </div>
             </div>
           )}
-          {isEnterprise ? (
+          {rec.kind === 'enterprise' ? (
             <Link href={BOOK_DEMO_HREF} className={BUTTON}>
               Talk to sales
               <ArrowRight size={16} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
             </Link>
-          ) : (
-            <a href={startFreeHref(plan.id)} className={BUTTON}>
-              Start with {plan.name}
+          ) : option ? (
+            <a href={startFreeHref(option.plan.id)} className={BUTTON}>
+              Start with {option.plan.name}
               <ArrowRight size={16} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
             </a>
-          )}
+          ) : null}
+          {option?.packs ? (
+            <p className="mt-3 text-center text-[12px] text-white/45">
+              Credit packs: {fmt(CREDIT_PACK.credits)} credits for ${CREDIT_PACK.price}, on paid plans.
+            </p>
+          ) : null}
         </div>
       </div>
     </div>

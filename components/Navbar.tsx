@@ -63,7 +63,12 @@ const panelVariants: Variants = {
 };
 
 /* ── Component ────────────────────────────────────────────────────────────── */
-export default function Navbar() {
+/**
+ * `alwaysDark` keeps the black on-dark bar for the whole page (e.g. /pricing,
+ * which is dark-only). `startFree` swaps the "Get Early Access" modal button
+ * for a "Start free" link to the portal.
+ */
+export default function Navbar({ alwaysDark = false, startFree = false }: { alwaysDark?: boolean; startFree?: boolean } = {}) {
   const { openModal } = useModal();
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null);
@@ -72,7 +77,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   // True while the homepage hero (#hero) is still behind the nav — the nav goes black to match it.
-  const [overHero, setOverHero] = useState(false);
+  const [overHeroState, setOverHero] = useState(false);
+  const overHero = alwaysDark || overHeroState;
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastScrollY = useRef(0);
   // Read inside the scroll listener without re-binding it on every menu toggle.
@@ -279,13 +285,22 @@ export default function Navbar() {
             Log in
           </a>
 
-          <button
-            type="button"
-            onClick={() => openModal('early-access')}
-            className="inline-flex items-center justify-center rounded-lg bg-ember-500 px-5 py-2.5 text-[14px] font-semibold text-white shadow-sm transition-all duration-200 hover:bg-ember-600 hover:shadow active:scale-95"
-          >
-            Get Early Access
-          </button>
+          {startFree ? (
+            <a
+              href={PORTAL}
+              className="inline-flex items-center justify-center rounded-lg bg-ember-500 px-5 py-2.5 text-[14px] font-semibold text-white shadow-sm transition-all duration-200 hover:bg-ember-600 hover:shadow active:scale-95"
+            >
+              Start free
+            </a>
+          ) : (
+            <button
+              type="button"
+              onClick={() => openModal('early-access')}
+              className="inline-flex items-center justify-center rounded-lg bg-ember-500 px-5 py-2.5 text-[14px] font-semibold text-white shadow-sm transition-all duration-200 hover:bg-ember-600 hover:shadow active:scale-95"
+            >
+              Get Early Access
+            </button>
+          )}
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -920,16 +935,25 @@ export default function Navbar() {
                 >
                   Log in
                 </a>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    openModal('early-access');
-                  }}
-                  className="flex w-full items-center justify-center rounded-lg bg-ember-500 py-3 text-[15px] font-semibold text-white shadow-sm hover:bg-ember-600 transition-colors"
-                >
-                  Get Early Access
-                </button>
+                {startFree ? (
+                  <a
+                    href={PORTAL}
+                    className="flex w-full items-center justify-center rounded-lg bg-ember-500 py-3 text-[15px] font-semibold text-white shadow-sm hover:bg-ember-600 transition-colors"
+                  >
+                    Start free
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      openModal('early-access');
+                    }}
+                    className="flex w-full items-center justify-center rounded-lg bg-ember-500 py-3 text-[15px] font-semibold text-white shadow-sm hover:bg-ember-600 transition-colors"
+                  >
+                    Get Early Access
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>

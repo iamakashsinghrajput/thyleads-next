@@ -1,16 +1,20 @@
 /**
- * Pricing from the v2 copy handoff (§4.8). Every number here is
- * PENDING APPROVAL (claims C7, C12–C15) — the homepage teaser, pricing page
- * and calculator all read from this file so an approved change lands in one
- * place.
+ * Pricing from "Harvin AI Pricing Page: Developer Handoff" (9 Nov 2026).
+ * The homepage teaser, pricing page and calculator all read from this file so
+ * an approved change lands in one place.
  *
- * Offer/Product JSON-LD is only emitted once PRICING_APPROVED is true.
+ * The handoff is the final, approved copy, so the Product/Offer JSON-LD is on.
+ * Open launch decisions (A: when the phone code is sent, B: who can buy packs,
+ * C: export-charge wording) use the handoff's recommended options.
  */
-export const PRICING_APPROVED = false;
+export const PRICING_APPROVED = true;
 
 export const FREE_CREDITS = 250;
 export const PREVIEW_COMPANIES = 25;
 export const FREE_REVEALS = 10;
+
+/** Credit pack — paid plans only [DECISION B]. */
+export const CREDIT_PACK = { credits: 2500, price: 59 } as const;
 
 export type PlanId = 'free' | 'starter' | 'growth' | 'agency' | 'enterprise';
 
@@ -22,11 +26,10 @@ export type Plan = {
   /** USD per month, billed annually. null = custom. */
   annual: number | null;
   priceNote?: string;
-  credits: string;
-  /** Monthly credit allowance, used by the calculator. */
+  /** Monthly credit allowance, used by the plan cards and the calculator. */
   monthlyCredits?: number;
+  /** Seat chip text. Paid plans are never differentiated by seats. */
   seats: string;
-  profiles: string;
   bestFor: string;
   oneLiner: string;
   inclusions: string[];
@@ -40,10 +43,8 @@ export const PLANS: Plan[] = [
     name: 'Free',
     monthly: 0,
     annual: 0,
-    credits: '250, once',
-    seats: '1',
-    profiles: '1',
-    bestFor: 'Seeing what Harvin finds',
+    seats: '1 seat',
+    bestFor: 'Seeing what Harvin AI finds',
     oneLiner: 'See 25 companies your database misses, with the reasons each one fits.',
     inclusions: ['Company Profile', 'Discovery previews (25 companies per search)', '10 free contact reveals', 'No CSV export'],
     cta: 'Start free',
@@ -53,13 +54,11 @@ export const PLANS: Plan[] = [
     name: 'Starter',
     monthly: 99,
     annual: 79,
-    credits: '5,000/month',
     monthlyCredits: 5000,
-    seats: '1',
-    profiles: '1',
-    bestFor: 'One SDR or founder',
+    seats: 'Unlimited seats',
+    bestFor: 'One SDR or founder, or a small team working one market',
     oneLiner: 'Everything one person needs to build and work a list each month.',
-    inclusions: ['Everything in Free', 'Full research and Company Fit', 'People Search & Contacts', 'CSV export'],
+    inclusions: ['Everything in Free', 'Unlimited seats', 'Full research and Company Fit', 'People Search & Contacts', 'CSV export'],
     cta: 'Start with Starter',
   },
   {
@@ -67,14 +66,11 @@ export const PLANS: Plan[] = [
     name: 'Growth',
     monthly: 349,
     annual: 279,
-    credits: '20,000/month',
     monthlyCredits: 20000,
-    seats: '3',
-    profiles: '3',
-    bestFor: 'A small sales team',
+    seats: 'Unlimited seats',
+    bestFor: 'A sales team with a CRM and sequencer',
     oneLiner: 'Shared lists, CRM and sequencer sync, and room to research more.',
-    // NEEDS INPUT: which integrations
-    inclusions: ['Everything in Starter', '3 seats', '3 Company Profiles', 'CRM and sequencer sync', 'Enrich Column', 'Signals'],
+    inclusions: ['Everything in Starter', '3 Company Profiles', 'CRM and sequencer sync', 'Enrich Column', 'Signals'],
     cta: 'Start with Growth',
     badge: 'Most popular',
   },
@@ -83,13 +79,11 @@ export const PLANS: Plan[] = [
     name: 'Agency',
     monthly: 799,
     annual: 639,
-    credits: '50,000/month',
     monthlyCredits: 50000,
-    seats: '5',
-    profiles: 'Unlimited (one per client)',
+    seats: 'Unlimited seats',
     bestFor: 'Agencies running many clients',
     oneLiner: 'A separate Company Profile and workspace for every client.',
-    inclusions: ['Everything in Growth', '5 seats', 'Unlimited client profiles', 'Client workspaces'],
+    inclusions: ['Everything in Growth', 'Unlimited client profiles', 'Client workspaces', 'Guest seats for client teams'],
     cta: 'Start with Agency',
   },
   {
@@ -98,15 +92,12 @@ export const PLANS: Plan[] = [
     monthly: null,
     annual: null,
     priceNote: 'From $12,000/year',
-    credits: 'Custom, annual',
-    seats: 'Custom',
-    profiles: 'Custom',
+    seats: 'Unlimited seats',
     bestFor: 'Larger teams and annual commitments',
     oneLiner: 'Annual credits, SSO, onboarding and your first list built with you.',
-    // NEEDS INPUT: confirm SSO and deal-outcome sync
     inclusions: [
       'Everything in Agency',
-      'Custom seats and credits',
+      'Custom credits',
       'SSO',
       'Guided onboarding',
       'First list built with you',
@@ -116,9 +107,9 @@ export const PLANS: Plan[] = [
   },
 ];
 
-/** Handoff §4.8 credit menu, grouped for display. Row text is the handoff's, word for word. */
+/** Credit menu, grouped for display. Row text is the handoff's, word for word. */
 export const CREDIT_MENU_GROUPS: {
-  id: 'free' | 'research' | 'contacts' | 'signals';
+  id: 'free' | 'research' | 'contacts' | 'exports' | 'signals';
   title: string;
   rows: { action: string; credits: string }[];
 }[] = [
@@ -129,7 +120,7 @@ export const CREDIT_MENU_GROUPS: {
       { action: 'Discovery preview (up to 25 companies per search, with fit reasons)', credits: 'Free' },
       { action: 'Decision-makers matched to your Target Profile', credits: 'Free, up to 3 per company' },
       { action: 'Email or phone with no qualifying result', credits: 'Free' },
-      { action: 'Invalid contact', credits: 'Refunded' },
+      { action: 'Invalid contact', credits: 'Refunded as credits, automatically' },
     ],
   },
   {
@@ -150,6 +141,14 @@ export const CREDIT_MENU_GROUPS: {
     ],
   },
   {
+    id: 'exports',
+    title: 'Exports',
+    rows: [
+      { action: 'Researched companies, and people with a revealed email or phone', credits: 'Free, always' },
+      { action: 'Person exported without a revealed email or phone', credits: '1, charged once per person' },
+    ],
+  },
+  {
     id: 'signals',
     title: 'Signals',
     rows: [{ action: 'Signal monitoring', credits: '5 per account per month' }],
@@ -158,10 +157,12 @@ export const CREDIT_MENU_GROUPS: {
 
 export const CREDIT_COSTS = {
   company: 2,
+  standardField: 1,
   deepField: 3,
   email: 3,
   phone: 20,
   signalAccount: 5,
+  exportPerson: 1,
 } as const;
 
 export const WORKED_EXAMPLE: { work: string; credits: number }[] = [
@@ -170,9 +171,12 @@ export const WORKED_EXAMPLE: { work: string; credits: number }[] = [
   { work: '60 phone numbers found', credits: 1200 },
 ];
 
+/** '–' renders as "Not included", 'Yes' as "Included"; anything else is shown as text. */
 type Cell = string;
 export const FEATURE_TABLE: { feature: string; cells: [Cell, Cell, Cell, Cell, Cell] }[] = [
-  { feature: 'Company Profile', cells: ['1', '1', '3', 'Unlimited', 'Custom'] },
+  { feature: 'Credits', cells: ['250 once', '5,000 / month', '20,000 / month', '50,000 / month', 'Custom, annual'] },
+  { feature: 'Seats', cells: ['1', 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited'] },
+  { feature: 'Company Profiles', cells: ['1', '1', '3', 'Unlimited', 'Custom'] },
   { feature: 'Discovery previews', cells: ['Yes', 'Yes', 'Yes', 'Yes', 'Yes'] },
   { feature: 'Research and Company Fit', cells: ['Preview only', 'Yes', 'Yes', 'Yes', 'Yes'] },
   { feature: 'Research fields', cells: ['–', 'Yes', 'Yes', 'Yes', 'Yes'] },
@@ -181,16 +185,54 @@ export const FEATURE_TABLE: { feature: string; cells: [Cell, Cell, Cell, Cell, C
   { feature: 'Email and phone waterfall', cells: ['10 free reveals', 'Yes', 'Yes', 'Yes', 'Yes'] },
   { feature: 'Name and title normalization', cells: ['Yes', 'Yes', 'Yes', 'Yes', 'Yes'] },
   { feature: 'Data Enrichment (upload lists)', cells: ['–', 'Yes', 'Yes', 'Yes', 'Yes'] },
-  { feature: 'Signals', cells: ['–', '–', 'Yes', 'Yes', 'Yes'] },
-  { feature: 'CSV export', cells: ['–', 'Yes', 'Yes', 'Yes', 'Yes'] },
+  { feature: 'CSV export (pay once per record)', cells: ['–', 'Yes', 'Yes', 'Yes', 'Yes'] },
   { feature: 'CRM and sequencer sync', cells: ['–', '–', 'Yes', 'Yes', 'Yes'] },
-  { feature: 'Client workspaces', cells: ['–', '–', '–', 'Yes', 'Yes'] },
+  { feature: 'Signals', cells: ['–', '–', 'Yes', 'Yes', 'Yes'] },
+  { feature: 'Client workspaces and guest seats', cells: ['–', '–', '–', 'Yes', 'Yes'] },
+  { feature: 'Per-person credit limits', cells: ['–', 'Yes', 'Yes', 'Yes', 'Yes'] },
   { feature: 'SSO', cells: ['–', '–', '–', '–', 'Yes'] },
   { feature: 'Guided onboarding', cells: ['–', '–', '–', '–', 'Yes'] },
 ];
 
-/** Smallest paid plan whose monthly credits cover the total; above Agency, Enterprise. */
-export function recommendPlan(totalCredits: number): Plan {
-  const paid = PLANS.filter((p) => p.monthlyCredits !== undefined);
-  return paid.find((p) => (p.monthlyCredits ?? 0) >= totalCredits) ?? PLANS[PLANS.length - 1];
+export type Recommendation =
+  | { kind: 'none' }
+  | { kind: 'enterprise'; plan: Plan }
+  | {
+      kind: 'plan';
+      plan: Plan;
+      packs: number;
+      /** Plan credits plus pack credits. */
+      credits: number;
+      /** USD this month. */
+      price: number;
+      /** Next plan up, shown when packs are part of the option. */
+      next?: Plan;
+    };
+
+/**
+ * Calculator recommendation (handoff "Recommendation logic"):
+ * candidates are each paid plan alone or plus 1–2 credit packs; any signal
+ * accounts remove Starter; the cheapest option that covers the total wins;
+ * nothing covers it → Enterprise; total 0 → no recommendation.
+ */
+export function recommendPlan(totalCredits: number, usesSignals: boolean): Recommendation {
+  if (totalCredits <= 0) return { kind: 'none' };
+  const paid = PLANS.filter((p) => p.monthlyCredits !== undefined && p.monthly !== null);
+  const eligible = usesSignals ? paid.filter((p) => p.id !== 'starter') : paid;
+
+  const options = eligible.flatMap((plan) =>
+    [0, 1, 2].map((packs) => ({
+      plan,
+      packs,
+      credits: (plan.monthlyCredits ?? 0) + packs * CREDIT_PACK.credits,
+      price: (plan.monthly ?? 0) + packs * CREDIT_PACK.price,
+    })),
+  );
+  const best = options
+    .filter((o) => o.credits >= totalCredits)
+    .sort((a, b) => a.price - b.price || a.packs - b.packs)[0];
+
+  if (!best) return { kind: 'enterprise', plan: PLANS.find((p) => p.id === 'enterprise')! };
+  const next = best.packs > 0 ? PLANS[PLANS.indexOf(best.plan) + 1] : undefined;
+  return { kind: 'plan', ...best, next };
 }

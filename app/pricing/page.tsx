@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight,
+  ArrowDownToLine,
   Bell,
   CalendarClock,
   Check,
@@ -13,7 +14,9 @@ import {
   Minus,
   PackagePlus,
   RefreshCcw,
+  Repeat,
   ShieldCheck,
+  Upload,
   Users,
 } from 'lucide-react';
 
@@ -23,40 +26,60 @@ import JsonLd from '@/components/JsonLd';
 import Faq from '@/components/Faq';
 import PricingPlans from '@/components/PricingPlans';
 import CreditCalculator from '@/components/CreditCalculator';
+import BillingProvider, { BillingPrice } from '@/components/BillingProvider';
 import { BOOK_DEMO_HREF, SITE_URL } from '@/lib/site';
-import { ENTITY_SENTENCE, ORG_ID, SITE_ID, breadcrumbSchema, faqSchema, graph } from '@/lib/schema';
+import { ORG_ID, SITE_ID, breadcrumbSchema, faqSchema, graph } from '@/lib/schema';
 import { CREDIT_MENU_GROUPS, FEATURE_TABLE, PLANS, PRICING_APPROVED, WORKED_EXAMPLE } from '@/lib/pricing';
 
-/** Copy: harvin-website-copy-handoff.md §4.8. Every number is PENDING APPROVAL — see lib/pricing.ts. */
+/** Copy: "Harvin AI Pricing Page: Developer Handoff" (9 Nov 2026). Numbers live in lib/pricing.ts. */
 export const metadata: Metadata = {
-  title: { absolute: 'Harvin.AI Pricing: Start Free, Plans From $99' },
+  title: { absolute: 'Harvin AI Pricing: Start Free, Plans From $99' },
   description:
-    'Start free with 250 credits. Plans from $99 a month for 5,000 credits. Pay for company research and contacts, and only when an email or phone is found.',
+    'Start free with 250 credits. Plans from $99 a month with unlimited seats. Pay for research and contacts, only when an email or phone is found.',
   alternates: { canonical: '/pricing' },
+  applicationName: 'Harvin AI',
+  authors: [{ name: 'Harvin AI' }],
+  publisher: 'Harvin AI',
+  robots: { index: true, follow: true },
   openGraph: {
-    title: 'Start free. Pay for what Harvin finds.',
-    description: 'Plans from $99 a month; contacts charged only when found.',
+    title: 'Start free. Pay for what Harvin AI finds.',
+    description: 'Plans from $99 a month with unlimited seats. Contacts charged only when found.',
     url: '/pricing',
+    siteName: 'Harvin AI',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Start free. Pay for what Harvin finds.',
-    description: 'Plans from $99 a month; contacts charged only when found.',
+    title: 'Start free. Pay for what Harvin AI finds.',
+    description: 'Plans from $99 a month with unlimited seats. Contacts charged only when found.',
   },
 };
 
+/** FAQ text and FAQPage JSON-LD must match word for word. */
 const PRICING_FAQ = [
   {
-    q: 'How much does Harvin cost?',
-    a: 'Harvin starts free with 250 credits. Paid plans are Starter at $99 a month for 5,000 credits, Growth at $349 for 20,000, Agency at $799 for 50,000, and Enterprise from $12,000 a year. Annual billing saves about 20%. Credits pay for research, fields, contacts and signal monitoring.',
+    q: 'How much does Harvin AI cost?',
+    a: 'Harvin AI starts free with 250 credits. Paid plans are Starter at $99 a month for 5,000 credits, Growth at $349 for 20,000, Agency at $799 for 50,000, and Enterprise from $12,000 a year. Every paid plan includes unlimited seats. Annual billing saves about 20%. Credits pay for research, fields, contacts and signal monitoring.',
+  },
+  {
+    q: 'Do you charge per seat?',
+    a: "No. Every paid plan includes unlimited seats for people at your company. Credits are shared across the team, and admins can set a monthly credit limit for each person. Agency plans can also add guest seats for client teams, each tied to that client's workspace.",
   },
   {
     q: 'What is a credit?',
-    a: 'A credit is the unit Harvin uses to charge for work. Researching and scoring a company costs 2 credits, a deep-research field 3, a work email 3 and a phone number 20 when found. Discovery previews and matching up to three decision-makers per company are free.',
+    a: 'A credit is the unit Harvin AI uses to charge for work. Researching and scoring a company costs 2 credits, a deep-research field 3, a work email 3 and a phone number 20 when found. Discovery previews and matching up to three decision-makers per company are free.',
   },
   {
-    q: "Do I pay if Harvin doesn't find a contact?",
-    a: 'No. Emails and phone numbers are charged only when a source in the waterfall returns a qualifying result. If nothing qualifying is found, no credits are used for that lookup.',
+    q: "Do I pay if Harvin AI doesn't find a contact?",
+    a: 'No. Emails and phone numbers are charged only when a source in the waterfall returns a qualifying result. If nothing qualifying is found, no credits are used. If a contact turns out to be invalid, the credits are refunded automatically.',
+  },
+  {
+    q: 'Does exporting cost credits?',
+    a: "Exporting researched companies, and people whose email or phone you've revealed, is free. Exporting a person without a revealed contact uses 1 credit, charged once. Re-exports and CRM syncs of records you've already paid for are always free.",
+  },
+  {
+    // [DECISION A] Recommended variant: phone code sent at the first contact reveal.
+    q: 'Why do you ask for a work email and phone number?',
+    a: 'To keep the free plan fair: one free workspace per company. You sign up with your work email, and we verify your phone once with a one-time code before your first contact reveal. We use your number only for verification and account security.',
   },
   {
     q: 'Do unused credits roll over?',
@@ -64,39 +87,44 @@ const PRICING_FAQ = [
   },
   {
     q: 'Is there a free trial?',
-    a: 'Yes. The Free plan gives you 250 credits once, discovery previews of 25 companies per search with fit reasons, and 10 free contact reveals. No card is needed.',
+    a: "Yes. The Free plan gives you 250 credits once, discovery previews of 25 companies per search with fit reasons, and 10 free contact reveals. No card is needed. You'll need a work email and a phone number to verify your account.",
   },
   {
     q: 'Which plan should I choose?',
-    a: 'Starter suits one SDR or founder. Growth suits a small team that wants shared lists, CRM sync and signals. Agency suits agencies running separate profiles for each client. Enterprise suits larger teams buying credits annually. The credit calculator recommends a plan from your expected monthly work.',
+    a: "Starter suits one person or a small team working one market. Growth suits a team that wants CRM sync and Signals. Agency suits agencies running separate profiles for each client. Enterprise suits larger teams buying credits annually. Every paid plan has unlimited seats, so choose by how many credits you'll use; the calculator recommends a plan.",
   },
   {
-    q: 'Why does Harvin charge for research and not only contacts?',
-    a: "Because research is where Harvin does the work other tools don't: finding companies outside your filters, checking the details that decide fit and explaining every score. Charging for it keeps contact prices in line with the market and lets you score companies before paying to reach them.",
+    q: 'Why does Harvin AI charge for research and not only contacts?',
+    a: "Because research is where Harvin AI does the work other tools don't: finding companies outside your filters, checking the details that decide fit and explaining every score. Charging for it keeps contact prices in line with the market and lets you score companies before paying to reach them.",
   },
   {
-    // NEEDS INPUT: cancellation terms.
     q: 'Can I cancel any time?',
     a: 'Monthly plans can be cancelled before the next billing date. See the Refund Policy for details.',
+  },
+  {
+    q: 'Can I use Harvin AI data however I like?',
+    a: "You can use it for your own sales and marketing. Reselling or redistributing data, automated scraping, and creating several free workspaces for one company aren't allowed. See the Acceptable Use policy.",
   },
 ];
 
 const RULES = [
-  'Contacts are charged only when found.',
+  'Contacts are charged only when found, and invalid contacts are refunded as credits automatically.',
+  'Each record is paid for once. Re-exporting it or syncing it to your CRM again is always free.',
+  'Researched companies, and people with a revealed email or phone, export free.',
+  'People exported without a revealed contact use 1 credit each, once.',
+  'Every paid plan includes unlimited seats for people at your company. Credits are shared by the whole team, and admins can set a monthly credit limit for each person.',
   'Monthly plan credits roll over for one month, then expire.',
   'Annual plans receive all credits up front.',
   'Pack credits expire 12 months after purchase.',
-  'Credits are shared by everyone on the account.',
-  // NEEDS INPUT: confirm cancellation and proration terms.
   'You can change or cancel your plan at any time; changes apply from the next billing date.',
 ];
 
 /** Product + Offers only once prices are approved (handoff §4.8 JSON-LD). */
 const productSchema = {
   '@type': 'Product',
-  name: 'Harvin.AI',
-  brand: { '@id': ORG_ID },
-  description: ENTITY_SENTENCE,
+  name: 'Harvin AI',
+  brand: { '@type': 'Brand', '@id': ORG_ID, name: 'Harvin AI' },
+  description: 'B2B company discovery and research. Start free; paid plans from $99 a month with unlimited seats.',
   offers: PLANS.filter((p) => p.monthly !== null).map((p) => ({
     '@type': 'Offer',
     name: p.name,
@@ -140,9 +168,9 @@ function Eyebrow({ children, center, dark }: { children: ReactNode; center?: boo
   );
 }
 
-const GROUP_ICONS = { free: Gift, research: FileSearch, contacts: Mail, signals: Bell } as const;
+const GROUP_ICONS = { free: Gift, research: FileSearch, contacts: Mail, exports: ArrowDownToLine, signals: Bell } as const;
 
-const RULE_ICONS = [ShieldCheck, RefreshCcw, CalendarClock, PackagePlus, Users, Coins];
+const RULE_ICONS = [ShieldCheck, Repeat, Upload, Coins, Users, RefreshCcw, CalendarClock, PackagePlus, Check];
 
 /** Worked-example bar colours, in WORKED_EXAMPLE order. */
 const WORKED_COLORS = ['bg-ember-500', 'bg-ember-300', 'bg-slate-950 dark:bg-white'];
@@ -153,20 +181,23 @@ export default function PricingPage() {
   const workedTotal = WORKED_EXAMPLE.reduce((sum, r) => sum + r.credits, 0);
 
   return (
-    <div className="min-h-screen bg-sand-100 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-white">
+    // This page is always dark: the `dark` class here switches every dark: variant
+    // below (Navbar, sections, FAQ, footer) regardless of the site theme toggle.
+    <div className="dark min-h-screen bg-slate-950 text-white [color-scheme:dark]">
       <JsonLd
         data={graph(
           breadcrumbSchema([
             { name: 'Home', path: '/' },
             { name: 'Pricing', path: '/pricing' },
           ]),
-          { '@type': 'WebPage', name: 'Harvin.AI Pricing', url: `${SITE_URL}/pricing`, isPartOf: { '@id': SITE_ID } },
+          { '@type': 'WebPage', name: 'Harvin AI Pricing', url: `${SITE_URL}/pricing`, isPartOf: { '@id': SITE_ID } },
           faqSchema(PRICING_FAQ),
           ...(PRICING_APPROVED ? [productSchema] : []),
         )}
       />
-      <Navbar />
+      <Navbar alwaysDark startFree />
 
+      <BillingProvider>
       <main>
         {/* ═══ Hero + plans ═════════════════════════════════════════════════ */}
         {/* Not id="hero": the Navbar switches to its on-dark styling over any #hero. */}
@@ -188,11 +219,12 @@ export default function PricingPage() {
                 Pricing
               </span>
               <h1 className="mt-7 animate-fade-up font-instrument text-[clamp(38px,5.4vw,68px)] font-semibold leading-[1.03] tracking-[-0.035em] text-slate-950 [animation-delay:80ms] [animation-fill-mode:both] dark:text-white">
-                Start free. <span className="text-ember-500 dark:text-ember-400">Pay for what Harvin finds.</span>
+                Start free. <span className="text-ember-500 dark:text-ember-400">Pay for what Harvin AI finds.</span>
               </h1>
               <p className="mx-auto mt-6 max-w-[620px] animate-fade-up text-[17px] leading-relaxed text-slate-600 [animation-delay:160ms] [animation-fill-mode:both] dark:text-slate-400 sm:text-[18px]">
-                Every plan uses credits. You spend them on the companies Harvin researches and scores, the fields you
-                add, and the emails and phone numbers it finds. Contacts are charged only when found.
+                Every plan uses credits, and every paid plan includes unlimited seats. You spend credits on the companies
+                Harvin AI researches and scores, the fields you add, and the emails and phone numbers it finds. Contacts
+                are charged only when found.
               </p>
             </div>
             <div className="mt-12 animate-fade-up [animation-delay:240ms] [animation-fill-mode:both]">
@@ -217,6 +249,7 @@ export default function PricingPage() {
                     key={g.id}
                     className={[
                       'rounded-modal border p-6',
+                      g.id === 'signals' ? 'md:col-span-2' : '',
                       free
                         ? 'border-emerald-500/30 bg-emerald-500/[0.05] dark:border-emerald-400/20 dark:bg-emerald-400/[0.04]'
                         : 'border-slate-200 bg-white dark:border-white/[0.08] dark:bg-white/[0.03]',
@@ -256,6 +289,10 @@ export default function PricingPage() {
                 );
               })}
             </div>
+            <p className="mt-8 flex items-start gap-2.5 text-[14.5px] leading-relaxed text-slate-600 dark:text-slate-300">
+              <Repeat size={16} aria-hidden="true" className="mt-1 shrink-0 text-ember-500 dark:text-ember-400" />
+              Each record is paid for once. Re-exporting it or syncing it to your CRM again is always free.
+            </p>
           </div>
         </section>
 
@@ -339,8 +376,8 @@ export default function PricingPage() {
                 <span className="pb-1.5 text-[15px] text-white/80">for 2,500 credits</span>
               </div>
               <p className="relative mt-6 text-[15.5px] leading-relaxed text-white/85">
-                Add a credit pack any time: 2,500 credits for $59. Packs last 12 months. If you top up often, upgrading
-                your plan costs less per credit.
+                Add a credit pack any time on a paid plan: 2,500 credits for $59. Packs last 12 months. If you top up
+                often, upgrading your plan costs less per credit.
               </p>
             </div>
 
@@ -394,7 +431,7 @@ export default function PricingPage() {
                       >
                         <span className="block font-instrument text-[17px] font-semibold text-slate-950 dark:text-white">{p.name}</span>
                         <span className="mt-0.5 block text-[12.5px] font-normal text-slate-500 dark:text-slate-400">
-                          {p.monthly === null ? 'Custom' : p.monthly === 0 ? '$0' : `$${p.monthly}/mo`}
+                          <BillingPrice planId={p.id} />
                         </span>
                       </th>
                     ))}
@@ -416,10 +453,14 @@ export default function PricingPage() {
                         >
                           {cell === 'Yes' ? (
                             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-ember-500/10 text-ember-500 dark:text-ember-400">
-                              <Check size={14} strokeWidth={3} aria-label="Included" />
+                              <Check size={14} strokeWidth={3} aria-hidden="true" />
+                              <span className="sr-only">Included</span>
                             </span>
                           ) : cell === '–' ? (
-                            <Minus size={16} className="mx-auto text-slate-300 dark:text-slate-600" aria-label="Not included" />
+                            <span className="inline-flex">
+                              <Minus size={16} className="mx-auto text-slate-300 dark:text-slate-600" aria-hidden="true" />
+                              <span className="sr-only">Not included</span>
+                            </span>
                           ) : (
                             <span className="text-[13.5px] font-semibold text-slate-800 dark:text-slate-200">{cell}</span>
                           )}
@@ -449,8 +490,8 @@ export default function PricingPage() {
                 Buying for a larger team?
               </h2>
               <p className="mt-5 max-w-[580px] text-[17px] leading-relaxed text-white/70">
-                Enterprise gives you annual credits, SSO, guided onboarding and your first list built with our team.
-                Bring one market and we&rsquo;ll show you what Harvin finds.
+                Enterprise gives you annual credits, unlimited seats, SSO, guided onboarding and your first list built
+                with our team. Bring one market and we&rsquo;ll show you what Harvin AI finds.
               </p>
               <Link
                 href={BOOK_DEMO_HREF}
@@ -463,7 +504,7 @@ export default function PricingPage() {
               </Link>
             </div>
             <ul className="grid gap-3 sm:grid-cols-2" aria-hidden="true">
-              {['Annual credits', 'SSO', 'Guided onboarding', 'First list built with you'].map((f) => (
+              {['Annual credits', 'Unlimited seats', 'SSO', 'Guided onboarding', 'First list built with you'].map((f) => (
                 <li key={f} className="flex items-center gap-3 rounded-card border border-white/[0.1] bg-white/[0.04] px-4 py-4 text-[14.5px] font-semibold">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ember-500">
                     <Check size={13} strokeWidth={3} />
@@ -475,6 +516,7 @@ export default function PricingPage() {
           </div>
         </section>
       </main>
+      </BillingProvider>
 
       <Footer />
     </div>
