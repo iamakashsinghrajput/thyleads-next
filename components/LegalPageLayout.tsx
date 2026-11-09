@@ -33,18 +33,26 @@ export default function LegalPageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <Navbar />
-      <div className="min-h-screen bg-white dark:bg-[#0a0a0a]">
+    // Legal pages are always dark (like /pricing, /contact, /blog): the `dark` class here switches
+    // every dark: variant below (Navbar, sections, tables, footer) regardless of the site theme toggle.
+    <div className="dark min-h-screen bg-slate-950 text-white [color-scheme:dark]">
+      <Navbar alwaysDark />
+      <div>
         {/* Hero */}
-        <div className="relative overflow-hidden bg-slate-50 dark:bg-transparent">
+        <div className="relative overflow-hidden border-b border-slate-200 bg-slate-50 dark:border-white/[0.08] dark:bg-transparent">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(35,34,32,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(35,34,32,0.045)_1px,transparent_1px)] bg-[size:56px_56px]
+                       [mask-image:radial-gradient(60%_70%_at_50%_20%,#000,transparent)]
+                       dark:bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)]"
+          />
           {/* Decorative gradient orbs */}
-          <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-[#C94C1E]/10 dark:bg-[#C94C1E]/20 blur-[120px] pointer-events-none" />
-          <div className="absolute bottom-[-80px] right-[-100px] w-[300px] h-[300px] rounded-full bg-[#C94C1E]/5 dark:bg-[#C94C1E]/10 blur-[100px] pointer-events-none" />
+          <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-ember-500/10 dark:bg-ember-500/20 blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-[-80px] right-[-100px] w-[300px] h-[300px] rounded-full bg-ember-500/5 dark:bg-ember-500/10 blur-[100px] pointer-events-none" />
 
           <div className="relative max-w-4xl mx-auto px-6 pt-32 pb-16 text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-white/[0.06] border border-slate-200 dark:border-white/[0.08] text-[13px] font-semibold text-slate-500 dark:text-white/70 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ember-50/80 dark:bg-ember-500/10 border border-ember-200 dark:border-ember-500/30 text-[13px] font-semibold text-ember-600 dark:text-ember-400 mb-6">
               {ICONS[type] || <FileText size={18} />}
               <span>Legal Document</span>
             </div>
@@ -52,12 +60,12 @@ export default function LegalPageLayout({
             <h1 className="font-instrument font-semibold text-4xl sm:text-5xl text-slate-900 dark:text-white tracking-tight mb-4">
               {title}
             </h1>
-            <p className="text-[15px] text-slate-400 dark:text-white/40 font-medium">
+            <p className="text-[15px] text-slate-400 dark:text-slate-400 font-medium">
               {effectiveDate && <>Effective: {effectiveDate}<span className="mx-2" aria-hidden="true">·</span></>}
               Last updated: {lastUpdated}
             </p>
             {entity && (
-              <p className="mt-2 text-[13px] text-slate-400 dark:text-white/40">
+              <p className="mt-2 text-[13px] text-slate-400 dark:text-slate-500">
                 Legal entity: <span className="font-medium text-slate-600 dark:text-white/70">{entity}</span>
               </p>
             )}
@@ -68,22 +76,22 @@ export default function LegalPageLayout({
         <div className="max-w-4xl mx-auto px-6 pt-10 pb-24">
           <div className="space-y-6">
             {intro && (
-              <p className="text-[16px] leading-relaxed text-slate-600 dark:text-white/60">{intro}</p>
+              <p className="text-[16px] leading-relaxed text-slate-600 dark:text-slate-300">{intro}</p>
             )}
             {children}
           </div>
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 
 export function LegalSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.06] rounded-2xl p-6 sm:p-8 shadow-sm dark:shadow-none">
+    <div className="bg-white dark:bg-[#0F0E0C] border border-slate-200 dark:border-white/[0.08] rounded-2xl p-6 sm:p-8 shadow-sm dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)]">
       <h2 className="font-instrument font-semibold text-[18px] sm:text-[20px] text-slate-900 dark:text-white mb-4">{title}</h2>
-      <div className="text-[15px] text-slate-600 dark:text-white/60 leading-relaxed space-y-3">
+      <div className="text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed space-y-3">
         {children}
       </div>
     </div>
@@ -104,7 +112,7 @@ export function LegalList({ items }: { items: string[] }) {
     <ul className="space-y-2 mt-2">
       {items.map((item, i) => (
         <li key={i} className="flex items-start gap-3">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#C94C1E] mt-2 flex-shrink-0" />
+          <div className="w-1.5 h-1.5 rounded-full bg-ember-500 dark:bg-ember-400 mt-2 flex-shrink-0" />
           <span>{item}</span>
         </li>
       ))}
@@ -124,7 +132,7 @@ export function LegalTable({ rows, head }: { rows: { label: string; value: strin
                 <th
                   key={h}
                   scope="col"
-                  className="px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500 dark:text-white/50"
+                  className="px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500 dark:text-slate-400"
                 >
                   {h}
                 </th>
@@ -141,7 +149,7 @@ export function LegalTable({ rows, head }: { rows: { label: string; value: strin
               >
                 {r.label}
               </th>
-              <td className="px-4 pb-3 pt-1 align-top text-slate-600 dark:text-white/60 sm:py-3">{r.value}</td>
+              <td className="px-4 pb-3 pt-1 align-top text-slate-600 dark:text-slate-300 sm:py-3">{r.value}</td>
             </tr>
           ))}
         </tbody>
@@ -152,7 +160,7 @@ export function LegalTable({ rows, head }: { rows: { label: string; value: strin
 
 export function LegalLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <a href={href} className="text-[#C94C1E] hover:text-[#E86335] underline underline-offset-2 transition-colors">
+    <a href={href} className="text-ember-500 hover:text-ember-400 dark:text-ember-300 dark:hover:text-ember-200 underline underline-offset-2 transition-colors">
       {children}
     </a>
   );
@@ -164,7 +172,7 @@ export function LegalContact() {
   return (
     <div className="bg-gradient-to-br from-ember-500/5 to-ember-500/[0.02] dark:from-ember-500/10 dark:to-ember-500/5 border border-ember-500/15 dark:border-ember-500/20 rounded-2xl p-6 sm:p-8">
       <h2 className="font-instrument font-semibold text-[18px] sm:text-[20px] text-slate-900 dark:text-white mb-4">Contact</h2>
-      <div className="text-[15px] text-slate-600 dark:text-white/60 leading-relaxed">
+      <div className="text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed">
         <p className="font-semibold text-slate-900 dark:text-white">Thyleads Private Limited, operating Harvin.ai</p>
         <div className="mt-4 space-y-2">
           <div className="flex items-start gap-3">

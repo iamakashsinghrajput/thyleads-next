@@ -35,12 +35,14 @@ const howToSchema = {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-sand-100 transition-colors duration-300 dark:bg-slate-950">
+    // The home page is always dark (like /pricing, /data-building, /blog, legal): the `dark` class here
+    // switches every dark: variant below (Navbar, sections, FAQ, CTA, footer) regardless of the site theme toggle.
+    <div className="dark min-h-screen bg-slate-950 text-white [color-scheme:dark]">
       {/* Organization/WebSite/SoftwareApplication are declared once, here: every
           other page references these @ids rather than redeclaring the entity.
           Add `offers` to SoftwareApplication only once PRICING_APPROVED. */}
       <JsonLd data={graph(organizationSchema, websiteSchema, softwareSchema, howToSchema, faqSchema(HOME_FAQ))} />
-      <Navbar />
+      <Navbar alwaysDark />
       <main>
         <HomeClient />
         <Faq items={HOME_FAQ} />

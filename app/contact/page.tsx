@@ -66,7 +66,9 @@ const DETAILS = [
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-sand-100 dark:bg-[#040404]">
+    // This page is always dark (like /pricing, /data-building, /account-intelligence): the `dark`
+    // class here switches every dark: variant below (Navbar, sections, form, footer) regardless of the site theme toggle.
+    <div className="dark min-h-screen bg-slate-950 text-white [color-scheme:dark]">
       <JsonLd
         data={graph(
           {
@@ -100,7 +102,7 @@ export default function ContactPage() {
           ])
         )}
       />
-      <Navbar />
+      <Navbar alwaysDark />
 
       {/* ═══ HEADER ═══════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden border-b border-slate-200 px-4 pb-16 pt-28 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:pb-20 lg:pt-36">
@@ -121,7 +123,7 @@ export default function ContactPage() {
               Contact
             </p>
             <h1 className="font-instrument font-semibold mt-6 text-[clamp(36px,5vw,64px)] leading-[1.04] tracking-[-0.035em] text-slate-950 dark:text-white">
-              Talk to <span className="text-ember-500">us</span>
+              Talk to <span className="bg-gradient-to-r from-ember-500 to-ember-300 bg-clip-text text-transparent">us</span>
             </h1>
             <p className="mt-6 text-[17px] leading-[1.7] text-slate-600 dark:text-slate-400">
               A demo, a question about how the platform handles your team’s setup, or something
@@ -153,7 +155,7 @@ export default function ContactPage() {
             <dl className="mt-8 border-t border-slate-200 dark:border-white/[0.08]">
               {DETAILS.map(({ Icon, label, lines, href }) => (
                 <div key={label} className="flex gap-4 border-b border-slate-200 py-5 dark:border-white/[0.08]">
-                  <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-btn bg-ember-500/10 text-ember-500">
+                  <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-btn bg-ember-500/10 text-ember-500 dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/25">
                     <Icon size={16} strokeWidth={2} aria-hidden="true" />
                   </span>
                   <div className="min-w-0">

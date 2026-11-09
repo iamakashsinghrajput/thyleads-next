@@ -15,9 +15,11 @@ const NAV_SECTIONS = [
   {
     heading: 'Product',
     links: [
+      // Matches the navbar's Product menu: only these two product pages are live.
+      { label: 'Data Building', href: '/data-building' },
       { label: 'Account Intelligence', href: '/account-intelligence' },
       // { label: 'Outreach & Engagement', href: '/outreach-and-engagement' }, // hidden — see app/_outreach-and-engagement
-      { label: 'Performance & Insights', href: '/#sdr' },
+      // { label: 'Performance & Insights', href: '/#sdr' }, // hidden — product column is Data Building + Account Intelligence only
       // { label: 'Integrations', href: '/#signals' }, // hidden for now
     ],
   },
