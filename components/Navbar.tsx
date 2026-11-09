@@ -145,12 +145,12 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
   // Top-bar colours flip between the light bar and the black over-hero bar.
   const itemCls = (open: boolean) =>
     open
-      ? overHero ? 'text-ember-400 bg-white/[0.07]' : 'text-ember-500 bg-slate-50'
+      ? overHero ? 'text-ember-400 bg-white/[0.07]' : 'text-ember-500 bg-slate-50 dark:text-ember-400 dark:bg-white/[0.07]'
       : overHero
         ? 'text-white/80 hover:text-white hover:bg-white/[0.07]'
-        : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70';
+        : 'text-slate-800 hover:text-ember-500 hover:bg-slate-50/70 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/[0.07]';
   const chevronCls = (open: boolean) =>
-    open ? `rotate-180 ${overHero ? 'text-ember-400' : 'text-ember-500'}` : overHero ? 'text-white/50' : 'text-slate-400';
+    open ? `rotate-180 ${overHero ? 'text-ember-400' : 'text-ember-500'}` : overHero ? 'text-white/50' : 'text-slate-400 dark:text-white/50';
 
   return (
     <nav
@@ -168,8 +168,8 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
             : // at the top of the hero: fully see-through, the hero runs under the nav
             'bg-transparent border-transparent shadow-none'
           : scrolled
-            ? 'bg-white/95 backdrop-blur-md border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)]'
-            : 'bg-white/95 backdrop-blur-md border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)]',
+            ? 'bg-white/95 backdrop-blur-md border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] dark:bg-[#0D0D0C]/80 dark:border-white/[0.06] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)]'
+            : 'bg-white/95 backdrop-blur-md border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:bg-[#0D0D0C]/80 dark:border-white/[0.06]',
         // No transform/filter classes while visible — either would make the nav a
         // containing block for its children and can affect the dropdown layout.
         hidden ? '-translate-y-full opacity-0 blur-md pointer-events-none' : '',
@@ -190,14 +190,14 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                 src="/harvin-logo.png"
                 alt="Harvin"
                 loading="eager"
-                className={`h-full w-auto transition-opacity duration-300 ${overHero ? 'opacity-0' : 'opacity-100'}`}
+                className={`h-full w-auto transition-opacity duration-300 ${overHero ? 'opacity-0' : 'opacity-100 dark:opacity-0'}`}
               />
               <img
                 src="/harvin-logo-light.png"
                 alt=""
                 aria-hidden="true"
                 loading="eager"
-                className={`absolute inset-0 h-full w-auto transition-opacity duration-300 ${overHero ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute inset-0 h-full w-auto transition-opacity duration-300 ${overHero ? 'opacity-100' : 'opacity-0 dark:opacity-100'}`}
               />
             </span>
           </Link>
@@ -280,7 +280,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
         <div className="hidden lg:flex items-center gap-5">
           <a
             href={PORTAL}
-            className={`text-[15px] font-medium transition-colors ${overHero ? 'text-white/80 hover:text-white' : 'text-slate-800 hover:text-ember-500'}`}
+            className={`text-[15px] font-medium transition-colors ${overHero ? 'text-white/80 hover:text-white' : 'text-slate-800 hover:text-ember-500 dark:text-white/80 dark:hover:text-white'}`}
           >
             Log in
           </a>
@@ -309,7 +309,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            className={`p-2 focus:outline-none ${overHero ? 'text-white/80 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}
+            className={`p-2 focus:outline-none ${overHero ? 'text-white/80 hover:text-white' : 'text-slate-700 hover:text-slate-900 dark:text-white/80 dark:hover:text-white'}`}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -333,29 +333,31 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
               // would appear under the old, then jump up when it unmounts).
               className="absolute inset-x-0 top-0 mx-auto max-w-[1340px] px-6 lg:px-8 pt-2"
             >
-              <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18)]">
+              <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18)]
+                              dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.6)]">
                 {/* ── Product Dropdown ─────────────────────────────── */}
                 {openDropdown === 'product' && (
                   <div>{/* was grid grid-cols-[1.1fr_1.1fr] gap-8; collapsed to single column while Outreach & Insights are commented out */}
                     {/* Column 1: Core Platform */}
-                    <div className="flex flex-col gap-5 border-r border-slate-100 pr-6">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    <div className="flex flex-col gap-5 border-r border-slate-100 pr-6 dark:border-white/[0.06]">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
                         Product Overview
                       </p>
                       <div className='flex flex-row'>
                         <Link
                           href="/data-building"
                           onClick={close}
-                          className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
+                          className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                         >
-                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
+                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
+                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
                             <Database size={18} strokeWidth={2} />
                           </span>
                           <div>
-                            <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
+                            <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                               Data Building
                             </p>
-                            <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
+                            <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
                               Find the companies and decision-makers that fit your business best.
                             </p>
                           </div>
@@ -364,16 +366,17 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         <Link
                           href="/account-intelligence"
                           onClick={close}
-                          className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
+                          className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                         >
-                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
+                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
+                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
                             <Building2 size={18} strokeWidth={2} />
                           </span>
                           <div>
-                            <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
+                            <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                               Account Intelligence
                             </p>
-                            <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
+                            <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
                               Continuous data enrichment, buyer signals, and live ICP scoring.
                             </p>
                           </div>
@@ -397,11 +400,11 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                     </div>
 
                     {/* Hidden for now: Outreach & Engagement (Campaign, Dialer, Email Inbox) and Integrations.
-                    <div className="flex flex-col gap-3 border-r border-slate-100 pr-6">
+                    <div className="flex flex-col gap-3 border-r border-slate-100 pr-6 dark:border-white/[0.06]">
                       <Link
                         href="/outreach-and-engagement"
                         onClick={close}
-                        className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 hover:text-ember-500 mb-2 transition-colors block"
+                        className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 hover:text-ember-500 mb-2 transition-colors block"
                       >
                         Outreach &amp; Engagement
                       </Link>
@@ -457,16 +460,17 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         <Link
                           href="/#signals"
                           onClick={close}
-                          className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
+                          className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                         >
-                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
+                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
+                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
                             <Network size={18} strokeWidth={2} />
                           </span>
                           <div>
-                            <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
+                            <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                               Integrations
                             </p>
-                            <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
+                            <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
                               Two-way sync with Salesforce, HubSpot, and your system of record.
                             </p>
                           </div>
@@ -477,7 +481,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
 
                     {/* Column 3: Performance & Insights */}
                     {/* <div className="flex flex-col gap-3">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 mb-2">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 mb-2">
                         Performance &amp; Insights
                       </p>
 
@@ -549,7 +553,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                 {/* ── Roles Dropdown — hidden (SHOW_ROLES) ─────────── */}
                 {SHOW_ROLES && openDropdown === 'roles' && (
                   <div className="max-w-[760px] mx-auto">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 mb-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 mb-4">
                       Tailored by Role
                     </p>
                     <div className="grid grid-cols-3 gap-5">
@@ -557,17 +561,17 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/sdr"
                         onClick={close}
-                        className="group flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-ember-200 hover:bg-ember-50/30 transition-all"
+                        className="group flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-ember-200 hover:bg-ember-50/30 dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:border-ember-500/40 dark:hover:bg-ember-500/[0.06] transition-all"
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[16px] font-bold text-slate-900 group-hover:text-ember-500 transition-colors">
+                          <span className="text-[16px] font-bold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                             SDR
                           </span>
-                          <span className="text-[10.5px] font-semibold uppercase tracking-wider text-ember-600 bg-ember-100/70 px-2 py-0.5 rounded">
+                          <span className="text-[10.5px] font-semibold uppercase tracking-wider text-ember-600 bg-ember-100/70 dark:text-ember-300 dark:bg-ember-500/10 px-2 py-0.5 rounded">
                             Stay on Track
                           </span>
                         </div>
-                        <p className="text-[12.5px] leading-relaxed text-slate-500 group-hover:text-slate-600 transition-colors">
+                        <p className="text-[12.5px] leading-relaxed text-slate-500 group-hover:text-slate-600 dark:text-slate-400 dark:group-hover:text-slate-300 transition-colors">
                           A focused workspace with high-intent accounts, ready signals, and streamlined day-to-day outreach.
                         </p>
                         <span className="mt-4 flex items-center gap-1 text-[12px] font-semibold text-ember-500">
@@ -579,17 +583,17 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/sdr-head"
                         onClick={close}
-                        className="group flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-ember-200 hover:bg-ember-50/30 transition-all"
+                        className="group flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-ember-200 hover:bg-ember-50/30 dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:border-ember-500/40 dark:hover:bg-ember-500/[0.06] transition-all"
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[16px] font-bold text-slate-900 group-hover:text-ember-500 transition-colors">
+                          <span className="text-[16px] font-bold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                             SDR Head
                           </span>
-                          <span className="text-[10.5px] font-semibold uppercase tracking-wider text-ember-600 bg-ember-100/70 px-2 py-0.5 rounded">
+                          <span className="text-[10.5px] font-semibold uppercase tracking-wider text-ember-600 bg-ember-100/70 dark:text-ember-300 dark:bg-ember-500/10 px-2 py-0.5 rounded">
                             Team Health
                           </span>
                         </div>
-                        <p className="text-[12.5px] leading-relaxed text-slate-500 group-hover:text-slate-600 transition-colors">
+                        <p className="text-[12.5px] leading-relaxed text-slate-500 group-hover:text-slate-600 dark:text-slate-400 dark:group-hover:text-slate-300 transition-colors">
                           Total visibility from outbound effort to qualified pipeline, leak detection, and coaching triggers.
                         </p>
                         <span className="mt-4 flex items-center gap-1 text-[12px] font-semibold text-ember-500">
@@ -601,17 +605,17 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/ae"
                         onClick={close}
-                        className="group flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-ember-200 hover:bg-ember-50/30 transition-all"
+                        className="group flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-ember-200 hover:bg-ember-50/30 dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:border-ember-500/40 dark:hover:bg-ember-500/[0.06] transition-all"
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[16px] font-bold text-slate-900 group-hover:text-ember-500 transition-colors">
+                          <span className="text-[16px] font-bold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                             AE
                           </span>
-                          <span className="text-[10.5px] font-semibold uppercase tracking-wider text-ember-600 bg-ember-100/70 px-2 py-0.5 rounded">
+                          <span className="text-[10.5px] font-semibold uppercase tracking-wider text-ember-600 bg-ember-100/70 dark:text-ember-300 dark:bg-ember-500/10 px-2 py-0.5 rounded">
                             Pipeline
                           </span>
                         </div>
-                        <p className="text-[12.5px] leading-relaxed text-slate-500 group-hover:text-slate-600 transition-colors">
+                        <p className="text-[12.5px] leading-relaxed text-slate-500 group-hover:text-slate-600 dark:text-slate-400 dark:group-hover:text-slate-300 transition-colors">
                           Digital sales rooms that maintain full buyer and signal context from booked meeting to closed deal.
                         </p>
                         <span className="mt-4 flex items-center gap-1 text-[12px] font-semibold text-ember-500">
@@ -625,7 +629,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                 {/* ── Resources Dropdown ──────────────────────────── */}
                 {openDropdown === 'resources' && (
                   <div className="max-w-[720px] mx-auto">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 mb-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 mb-4">
                       Resources &amp; Company
                     </p>
                     <div className="grid grid-cols-2 gap-4">
@@ -633,16 +637,17 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/product-tour"
                         onClick={close}
-                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
+                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                       >
-                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
+                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
+                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
                           <Compass size={18} strokeWidth={2} />
                         </span>
                         <div>
-                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
+                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                             Product Tour
                           </p>
-                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
+                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
                             See how the platform connects your team &amp; workflows in one place.
                           </p>
                         </div>
@@ -651,16 +656,17 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/about"
                         onClick={close}
-                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
+                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                       >
-                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
+                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
+                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
                           <Users size={18} strokeWidth={2} />
                         </span>
                         <div>
-                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
+                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                             About
                           </p>
-                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
+                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
                             Our mission to empower high-performing outbound revenue teams.
                           </p>
                         </div>
@@ -670,16 +676,17 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/contact"
                         onClick={close}
-                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
+                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                       >
-                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
+                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
+                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
                           <Mail size={18} strokeWidth={2} />
                         </span>
                         <div>
-                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
+                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                             Contact Us
                           </p>
-                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
+                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
                             Connect with our team or schedule a dedicated walkthrough.
                           </p>
                         </div>
@@ -688,16 +695,17 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/blog"
                         onClick={close}
-                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 transition-colors"
+                        className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                       >
-                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors">
+                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
+                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
                           <Newspaper size={18} strokeWidth={2} />
                         </span>
                         <div>
-                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 transition-colors">
+                          <p className="text-[14.5px] font-semibold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                             Blogs
                           </p>
-                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500">
+                          <p className="mt-0.5 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
                             Actionable outbound playbooks, signal strategies, and sales guides.
                           </p>
                         </div>
@@ -718,19 +726,19 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-b border-slate-200 bg-white px-6 py-6 shadow-xl overflow-hidden"
+            className="lg:hidden border-b border-slate-200 bg-white px-6 py-6 shadow-xl overflow-hidden dark:border-white/[0.06] dark:bg-[#0D0D0C]"
           >
             <div className="flex flex-col gap-4">
               {/* Mobile Accordion: Product */}
-              <div className="border-b border-slate-100 pb-3">
+              <div className="border-b border-slate-100 pb-3 dark:border-white/[0.06]">
                 <button
                   type="button"
                   onClick={() => toggleMobileAccordion('product')}
-                  className="flex w-full items-center justify-between py-2 text-[16px] font-semibold text-slate-900"
+                  className="flex w-full items-center justify-between py-2 text-[16px] font-semibold text-slate-900 dark:text-white"
                 >
                   <span>Product</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform ${mobileAccordion === 'product' ? 'rotate-180 text-ember-500' : 'text-slate-400'
+                    className={`w-4 h-4 transition-transform ${mobileAccordion === 'product' ? 'rotate-180 text-ember-500 dark:text-ember-400' : 'text-slate-400 dark:text-slate-500'
                       }`}
                   />
                 </button>
@@ -739,14 +747,14 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                     <Link
                       href="/data-building"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                      className="text-[14.5px] text-slate-700 hover:text-ember-500 dark:text-slate-300 dark:hover:text-ember-400 py-1"
                     >
                       Data Building
                     </Link>
                     <Link
                       href="/account-intelligence"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                      className="text-[14.5px] text-slate-700 hover:text-ember-500 dark:text-slate-300 dark:hover:text-ember-400 py-1"
                     >
                       Account Intelligence
                     </Link>
@@ -755,7 +763,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/outreach-and-engagement"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-[11px] font-bold uppercase tracking-wider text-slate-400 hover:text-ember-500 block"
+                        className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-ember-500 block"
                       >
                         Outreach &amp; Engagement
                       </Link>
@@ -763,21 +771,21 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         <Link
                           href="/outreach-and-engagement#campaigns"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="text-[14px] text-slate-600 hover:text-ember-500 py-0.5"
+                          className="text-[14px] text-slate-600 hover:text-ember-500 dark:text-slate-400 dark:hover:text-ember-400 py-0.5"
                         >
                           Campaign
                         </Link>
                         <Link
                           href="/outreach-and-engagement#dialer"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="text-[14px] text-slate-600 hover:text-ember-500 py-0.5"
+                          className="text-[14px] text-slate-600 hover:text-ember-500 dark:text-slate-400 dark:hover:text-ember-400 py-0.5"
                         >
                           Dialer
                         </Link>
                         <Link
                           href="/outreach-and-engagement#email"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="text-[14px] text-slate-600 hover:text-ember-500 py-0.5"
+                          className="text-[14px] text-slate-600 hover:text-ember-500 dark:text-slate-400 dark:hover:text-ember-400 py-0.5"
                         >
                           Email Inbox
                         </Link>
@@ -785,28 +793,28 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                     </div>
                     */}
                     <div className="pt-2">
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                         Performance &amp; Insights
                       </p>
                       <div className="flex flex-col gap-1.5 pl-2 pt-1">
                         <Link
                           href="/sdr"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="text-[14px] text-slate-600 hover:text-ember-500 py-0.5"
+                          className="text-[14px] text-slate-600 hover:text-ember-500 dark:text-slate-400 dark:hover:text-ember-400 py-0.5"
                         >
                           SDR (Stay on Track)
                         </Link>
                         <Link
                           href="/sdr-head"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="text-[14px] text-slate-600 hover:text-ember-500 py-0.5"
+                          className="text-[14px] text-slate-600 hover:text-ember-500 dark:text-slate-400 dark:hover:text-ember-400 py-0.5"
                         >
                           SDR Head (See Team Health)
                         </Link>
                         <Link
                           href="/ae"
                           onClick={() => setMobileMenuOpen(false)}
-                          className="text-[14px] text-slate-600 hover:text-ember-500 py-0.5"
+                          className="text-[14px] text-slate-600 hover:text-ember-500 dark:text-slate-400 dark:hover:text-ember-400 py-0.5"
                         >
                           AE (Track your pipeline)
                         </Link>
@@ -816,7 +824,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                     <Link
                       href="/#signals"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1 pt-2 border-t border-slate-100"
+                      className="text-[14.5px] text-slate-700 hover:text-ember-500 dark:text-slate-300 dark:hover:text-ember-400 py-1 pt-2 border-t border-slate-100"
                     >
                       Integrations
                     </Link>
@@ -827,15 +835,15 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
 
               {/* Mobile Accordion: Roles — hidden (SHOW_ROLES) */}
               {SHOW_ROLES && (
-                <div className="border-b border-slate-100 pb-3">
+                <div className="border-b border-slate-100 pb-3 dark:border-white/[0.06]">
                   <button
                     type="button"
                     onClick={() => toggleMobileAccordion('roles')}
-                    className="flex w-full items-center justify-between py-2 text-[16px] font-semibold text-slate-900"
+                    className="flex w-full items-center justify-between py-2 text-[16px] font-semibold text-slate-900 dark:text-white"
                   >
                     <span>Roles</span>
                     <ChevronDown
-                      className={`w-4 h-4 transition-transform ${mobileAccordion === 'roles' ? 'rotate-180 text-ember-500' : 'text-slate-400'
+                      className={`w-4 h-4 transition-transform ${mobileAccordion === 'roles' ? 'rotate-180 text-ember-500 dark:text-ember-400' : 'text-slate-400 dark:text-slate-500'
                         }`}
                     />
                   </button>
@@ -844,21 +852,21 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/sdr"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                        className="text-[14.5px] text-slate-700 hover:text-ember-500 dark:text-slate-300 dark:hover:text-ember-400 py-1"
                       >
                         SDR — Stay on Track
                       </Link>
                       <Link
                         href="/sdr-head"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                        className="text-[14.5px] text-slate-700 hover:text-ember-500 dark:text-slate-300 dark:hover:text-ember-400 py-1"
                       >
                         SDR Head — See Team Health
                       </Link>
                       <Link
                         href="/ae"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                        className="text-[14.5px] text-slate-700 hover:text-ember-500 dark:text-slate-300 dark:hover:text-ember-400 py-1"
                       >
                         AE — Track your pipeline
                       </Link>
@@ -868,26 +876,26 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
               )}
 
               {/* Mobile Link: Pricing */}
-              <div className="border-b border-slate-100 pb-3">
+              <div className="border-b border-slate-100 pb-3 dark:border-white/[0.06]">
                 <Link
                   href="/pricing"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block py-2 text-[16px] font-semibold text-slate-900 hover:text-ember-500"
+                  className="block py-2 text-[16px] font-semibold text-slate-900 dark:text-white hover:text-ember-500"
                 >
                   Pricing
                 </Link>
               </div>
 
               {/* Mobile Accordion: Resources */}
-              <div className="border-b border-slate-100 pb-3">
+              <div className="border-b border-slate-100 pb-3 dark:border-white/[0.06]">
                 <button
                   type="button"
                   onClick={() => toggleMobileAccordion('resources')}
-                  className="flex w-full items-center justify-between py-2 text-[16px] font-semibold text-slate-900"
+                  className="flex w-full items-center justify-between py-2 text-[16px] font-semibold text-slate-900 dark:text-white"
                 >
                   <span>Resources</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform ${mobileAccordion === 'resources' ? 'rotate-180 text-ember-500' : 'text-slate-400'
+                    className={`w-4 h-4 transition-transform ${mobileAccordion === 'resources' ? 'rotate-180 text-ember-500 dark:text-ember-400' : 'text-slate-400 dark:text-slate-500'
                       }`}
                   />
                 </button>
@@ -897,14 +905,14 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                     <Link
                       href="/product-tour"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                      className="text-[14.5px] text-slate-700 hover:text-ember-500 dark:text-slate-300 dark:hover:text-ember-400 py-1"
                     >
                       Product Tour
                     </Link>
                     <Link
                       href="/about"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                      className="text-[14.5px] text-slate-700 hover:text-ember-500 dark:text-slate-300 dark:hover:text-ember-400 py-1"
                     >
                       About
                     </Link>
@@ -912,14 +920,14 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                     <Link
                       href="/contact"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                      className="text-[14.5px] text-slate-700 hover:text-ember-500 dark:text-slate-300 dark:hover:text-ember-400 py-1"
                     >
                       Contact Us
                     </Link>
                     <Link
                       href="/blog"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-[14.5px] text-slate-700 hover:text-ember-500 py-1"
+                      className="text-[14.5px] text-slate-700 hover:text-ember-500 dark:text-slate-300 dark:hover:text-ember-400 py-1"
                     >
                       Blogs
                     </Link>
@@ -931,7 +939,8 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
               <div className="flex flex-col gap-3 pt-4">
                 <a
                   href={PORTAL}
-                  className="flex w-full items-center justify-center rounded-lg border border-slate-200 py-2.5 text-[15px] font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
+                  className="flex w-full items-center justify-center rounded-lg border border-slate-200 py-2.5 text-[15px] font-semibold text-slate-800 hover:bg-slate-50 transition-colors
+                             dark:border-white/[0.12] dark:text-white dark:hover:bg-white/[0.05]"
                 >
                   Log in
                 </a>

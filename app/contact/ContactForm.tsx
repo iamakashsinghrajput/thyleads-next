@@ -16,7 +16,7 @@ import { ArrowRight, Check, AlertCircle } from 'lucide-react';
  */
 
 const FIELD =
-  'h-11 w-full rounded-btn border border-slate-200 bg-white px-3.5 text-[14.5px] text-slate-900 transition-colors placeholder:text-slate-400 focus:border-ember-500 focus:outline-none focus:ring-2 focus:ring-ember-500/20 dark:border-white/[0.12] dark:bg-white/[0.04] dark:text-white dark:placeholder:text-slate-500';
+  'h-11 w-full rounded-btn border border-slate-200 bg-white px-3.5 text-[14.5px] text-slate-900 transition-colors placeholder:text-slate-400 focus:border-ember-500 focus:outline-none focus:ring-2 focus:ring-ember-500/20 dark:border-white/[0.12] dark:bg-white/[0.04] dark:text-white dark:placeholder:text-slate-500 dark:hover:border-white/[0.2] dark:focus:border-ember-500/70 dark:focus:bg-white/[0.06] dark:focus:ring-ember-500/25';
 
 const LABEL = 'text-[12.5px] font-medium text-slate-600 dark:text-slate-400';
 
@@ -167,12 +167,12 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={state === 'sending'}
-          className="inline-flex items-center gap-2 rounded-btn bg-ember-500 px-5 py-3 text-[14px] font-semibold text-white shadow-[0_1px_4px_rgba(201,76,30,0.3)] transition-all hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-btn bg-ember-500 px-5 py-3 text-[14px] font-semibold text-white shadow-[0_1px_4px_rgba(201,76,30,0.3)] transition-all hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#0F0E0C] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {state === 'sending' ? 'Sending…' : 'Send message'}
           {state !== 'sending' && <ArrowRight size={15} strokeWidth={2.4} aria-hidden="true" />}
         </button>
-        <p className="text-[12.5px] text-slate-500 dark:text-slate-500">
+        <p className="text-[12.5px] text-slate-500 dark:text-slate-400">
           We reply within one working day.
         </p>
       </div>

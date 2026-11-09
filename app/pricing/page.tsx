@@ -274,10 +274,10 @@ export default function PricingPage() {
                           <dt className="text-[14.5px] leading-relaxed text-slate-700 dark:text-slate-300">{row.action}</dt>
                           <dd
                             className={[
-                              'shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-[12.5px] font-bold tabular-nums',
+                              'shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-[12.5px] font-bold tabular-nums ring-1 ring-inset',
                               free
-                                ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400'
-                                : 'bg-slate-950 text-white dark:bg-white dark:text-slate-950',
+                                ? 'bg-emerald-500/15 text-emerald-700 ring-emerald-500/20 dark:bg-emerald-400/10 dark:text-emerald-300 dark:ring-emerald-400/25'
+                                : 'bg-ember-50 text-ember-600 ring-ember-200 dark:bg-ember-500/10 dark:text-ember-300 dark:ring-ember-500/25',
                             ].join(' ')}
                           >
                             {row.credits}

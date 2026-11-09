@@ -132,10 +132,10 @@ function Blocks({ content }: { content: string | ContentBlock[] }) {
                 <li key={n} className="flex gap-3 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-300">
                   <span
                     aria-hidden="true"
-                    className="mt-[9px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-ember-500"
+                    className="mt-[9px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-ember-500 dark:bg-ember-400"
                   />
                   <span className="min-w-0">
-                    {b.ordered && <span className="mr-1.5 font-bold text-ember-500">{n + 1}.</span>}
+                    {b.ordered && <span className="mr-1.5 font-bold text-ember-500 dark:text-ember-400">{n + 1}.</span>}
                     <Rich text={it} />
                   </span>
                 </li>
@@ -157,12 +157,12 @@ function Blocks({ content }: { content: string | ContentBlock[] }) {
           <Link
             key={i}
             href={b.href ?? '/data-building' /* was /platform, now hidden */}
-            className="mt-8 flex items-center gap-3 rounded-2xl border border-ember-500/30 bg-ember-500/[0.06] px-5 py-4 transition-colors hover:border-ember-500/50"
+            className="mt-8 flex items-center gap-3 rounded-2xl border border-ember-500/30 bg-ember-500/[0.06] px-5 py-4 transition-colors hover:border-ember-500/50 dark:bg-ember-500/[0.08] dark:hover:bg-ember-500/[0.12]"
           >
             <span className="min-w-0 flex-1 text-[15px] font-semibold leading-[1.5] text-slate-900 dark:text-white">
               {b.text}
             </span>
-            <ArrowRight size={16} strokeWidth={2.4} className="flex-shrink-0 text-ember-500" />
+            <ArrowRight size={16} strokeWidth={2.4} className="flex-shrink-0 text-ember-500 dark:text-ember-400" />
           </Link>
         );
       })}
@@ -174,9 +174,9 @@ function RelatedCard({ post }: { post: BlogPost }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-shadow hover:shadow-[0_14px_40px_rgba(15,23,42,0.09)] dark:border-white/[0.08] dark:bg-white/[0.02]"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-shadow hover:shadow-[0_14px_40px_rgba(15,23,42,0.09)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:hover:border-ember-500/40 dark:hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)]"
     >
-      <div className="relative aspect-[16/9] overflow-hidden bg-sand-200">
+      <div className="relative aspect-[16/9] overflow-hidden bg-sand-200 dark:bg-white/[0.04]">
         <img
           src={post.cardImage || post.image}
           alt={post.title}
@@ -185,8 +185,8 @@ function RelatedCard({ post }: { post: BlogPost }) {
         />
       </div>
       <div className="p-5">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ember-500">{post.category}</span>
-        <h3 className="font-instrument font-semibold mt-2 text-[16px] leading-[1.3] tracking-[-0.015em] text-slate-900 dark:text-white">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ember-500 dark:text-ember-400">{post.category}</span>
+        <h3 className="font-instrument font-semibold mt-2 text-[16px] leading-[1.3] tracking-[-0.015em] text-slate-900 transition-colors group-hover:text-ember-600 dark:text-white dark:group-hover:text-ember-300">
           {post.title}
         </h3>
       </div>
@@ -207,7 +207,9 @@ export default async function BlogPostPage(
   ].slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-sand-100 dark:bg-[#040404]">
+    // Always dark (like /pricing, /data-building, /contact): the `dark` class switches every
+    // dark: variant below (Navbar, cards, CTA, footer) regardless of the site theme toggle.
+    <div className="dark min-h-screen bg-slate-950 text-white [color-scheme:dark]">
       <JsonLd
         data={graph(
           articleSchema({
@@ -225,7 +227,7 @@ export default async function BlogPostPage(
           ])
         )}
       />
-      <Navbar />
+      <Navbar alwaysDark />
 
       <article>
         {/* ═══ HEADER ══════════════════════════════════════════════════════ */}
@@ -233,13 +235,13 @@ export default async function BlogPostPage(
           <div className="mx-auto max-w-[820px]">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-slate-500 transition-colors hover:text-ember-500 dark:text-slate-400"
+              className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-slate-500 transition-colors hover:text-ember-500 dark:text-slate-400 dark:hover:text-ember-400"
             >
               <ArrowLeft size={14} strokeWidth={2.4} />
               All posts
             </Link>
 
-            <p className="mt-8 text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500">
+            <p className="mt-8 text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500 dark:text-ember-400">
               {post.category}
             </p>
             <h1 className="font-instrument font-semibold mt-4 text-[clamp(28px,4vw,46px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
@@ -301,7 +303,7 @@ export default async function BlogPostPage(
             ))}
 
             {/* ── Author ─────────────────────────────────────────────────── */}
-            <aside className="mt-14 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/[0.08] dark:bg-white/[0.02] sm:flex-row sm:items-start">
+            <aside className="mt-14 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/[0.08] dark:bg-[#0F0E0C] sm:flex-row sm:items-start">
               <img
                 src={post.author.image}
                 alt=""

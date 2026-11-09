@@ -54,7 +54,7 @@ export default function PricingPlans() {
                   'flex items-center gap-2 rounded-full px-5 py-2 text-[14px] font-semibold transition-all duration-200',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500',
                   on
-                    ? 'bg-slate-950 text-white shadow-sm dark:bg-white dark:text-slate-950'
+                    ? 'bg-slate-950 text-white shadow-sm dark:bg-white/[0.12] dark:text-white dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] dark:ring-1 dark:ring-white/[0.1]'
                     : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white',
                 ].join(' ')}
               >
@@ -162,7 +162,7 @@ export default function PricingPlans() {
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2',
                     dark
                       ? 'bg-ember-500 text-white shadow-[0_1px_4px_rgba(201,76,30,0.3)] hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)] focus-visible:ring-offset-[#0C0B09]'
-                      : 'border border-slate-300 bg-white text-slate-950 hover:border-slate-950 hover:bg-slate-950 hover:text-white dark:border-white/[0.14] dark:bg-transparent dark:text-white dark:hover:border-white dark:hover:bg-white dark:hover:text-slate-950',
+                      : 'border border-slate-300 bg-white text-slate-950 hover:border-slate-950 hover:bg-slate-950 hover:text-white dark:border-white/[0.14] dark:bg-white/[0.03] dark:text-white dark:hover:border-ember-500/60 dark:hover:bg-ember-500/10 dark:hover:text-white',
                   ].join(' ')}
                 >
                   {plan.cta}
@@ -223,7 +223,7 @@ export default function PricingPlans() {
         <div className="relative grid gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,5fr)_auto] lg:items-center">
           <div>
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-btn bg-slate-950 text-white dark:bg-white dark:text-slate-950">
+              <span className="flex h-10 w-10 items-center justify-center rounded-btn bg-slate-950 text-white dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/25">
                 <Building size={18} aria-hidden="true" />
               </span>
               <h2 className="font-instrument text-[22px] font-semibold text-slate-950 dark:text-white">{enterprise.name}</h2>
@@ -253,7 +253,7 @@ export default function PricingPlans() {
             href={BOOK_DEMO_HREF}
             className="group inline-flex items-center justify-center gap-2 rounded-btn bg-slate-950 px-6 py-3.5 text-[14.5px] font-semibold text-white transition-colors
                        hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2
-                       dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
+                       dark:bg-ember-500 dark:text-white dark:shadow-[0_1px_4px_rgba(201,76,30,0.3)] dark:hover:bg-ember-400 dark:hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)] dark:focus-visible:ring-offset-[#0F0E0C]"
           >
             {enterprise.cta}
             <ArrowRight size={16} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />

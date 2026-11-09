@@ -151,16 +151,16 @@ function ScoreRing({
 function Eyebrow({ children, center, dark }: { children: ReactNode; center?: boolean; dark?: boolean }) {
   return (
     <p
-      className={`flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.14em] ${dark ? 'text-ember-400' : 'text-ember-500'} ${center ? 'justify-center' : ''}`}
+      className={`flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.14em] ${dark ? 'text-ember-400' : 'text-ember-500 dark:text-ember-400'} ${center ? 'justify-center' : ''}`}
     >
-      <span aria-hidden="true" className={`h-px w-6 ${dark ? 'bg-ember-400' : 'bg-ember-500'}`} />
+      <span aria-hidden="true" className={`h-px w-6 ${dark ? 'bg-ember-400' : 'bg-ember-500 dark:bg-ember-400'}`} />
       {children}
     </p>
   );
 }
 
 function Label({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <p className={`text-[11px] font-semibold uppercase tracking-[0.12em] text-ember-500 ${className}`}>{children}</p>;
+  return <p className={`text-[11px] font-semibold uppercase tracking-[0.12em] text-ember-500 dark:text-ember-400 ${className}`}>{children}</p>;
 }
 
 function Chip({ children, tone = 'sand' }: { children: ReactNode; tone?: 'sand' | 'ember' }) {
@@ -184,7 +184,7 @@ function Mark({ className = 'h-4' }: { className?: string }) {
 
 function FlowArrow({ className = '' }: { className?: string }) {
   return (
-    <div aria-hidden="true" className={`flex shrink-0 items-center justify-center text-ember-500 ${className}`}>
+    <div aria-hidden="true" className={`flex shrink-0 items-center justify-center text-ember-500 dark:text-ember-400 ${className}`}>
       <span className="flex h-8 w-8 items-center justify-center rounded-full border border-ember-200 bg-white dark:border-ember-500/30 dark:bg-[#0F0E0C]">
         <ArrowRight size={15} strokeWidth={2.5} className="hidden lg:block" />
         <ArrowDown size={15} strokeWidth={2.5} className="lg:hidden" />
@@ -210,7 +210,7 @@ function Fan({ from, to, H }: { from: number[]; to: number[]; H: number }) {
           />
         ))}
       </svg>
-      <div aria-hidden="true" className="flex justify-center text-ember-500 lg:hidden">
+      <div aria-hidden="true" className="flex justify-center text-ember-500 dark:text-ember-400 lg:hidden">
         <ArrowDown size={18} strokeWidth={2.5} />
       </div>
     </>
@@ -358,7 +358,7 @@ function HeroDiagram() {
         {connector}
         <div className={`${SURFACE_ACCENT} rounded-card p-5`}>
           <div className="flex items-center justify-between">
-            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-ember-500">
+            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-ember-500 dark:text-ember-400">
               <Mark className="h-3.5" />
               Harvin
             </p>
@@ -405,7 +405,7 @@ function HeroDiagram() {
             <div className={`${TILE} p-3`}>
               <p className="text-[12.5px] text-slate-500 dark:text-slate-400">Verified contacts</p>
               <p className="mt-1.5 flex items-center gap-1.5 text-[14px] font-semibold text-slate-900 dark:text-white">
-                <Check size={14} className="text-ember-500" aria-hidden="true" />
+                <Check size={14} className="text-ember-500 dark:text-ember-400" aria-hidden="true" />
                 Email + phone
               </p>
             </div>
@@ -447,7 +447,7 @@ function EnrichTable() {
                 <th className="px-3 py-3 font-semibold">Funding</th>
                 <th className="bg-ember-50/70 px-3 py-3 font-semibold text-ember-600 dark:bg-ember-500/10 dark:text-ember-400">Monthly active users</th>
                 <th className="px-5 py-3">
-                  <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-md border border-dashed border-ember-400 px-2 py-0.5 text-[11.5px] normal-case tracking-normal text-ember-500">
+                  <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-md border border-dashed border-ember-400 px-2 py-0.5 text-[11.5px] normal-case tracking-normal text-ember-500 dark:text-ember-400">
                     <Plus size={11} aria-hidden="true" />
                     Enrich column
                   </span>
@@ -540,7 +540,11 @@ function Waterfalls() {
                       .join(' ')}
                   >
                     <span>{state === 'hit' ? `${src} · Match` : src}</span>
-                    {state === 'hit' && <span className="rounded-md bg-white px-2 py-0.5 text-[12px] font-semibold text-slate-900">Stops here</span>}
+                    {state === 'hit' && (
+                      <span className="rounded-md bg-white px-2 py-0.5 text-[12px] font-semibold text-slate-900 dark:bg-white/20 dark:text-white dark:ring-1 dark:ring-inset dark:ring-white/25">
+                        Stops here
+                      </span>
+                    )}
                     {state === 'miss' && <span className="font-normal text-slate-500 dark:text-slate-400">No match</span>}
                     {state === 'skip' && <span>Not needed</span>}
                     {state === 'queued' && <span>Queued</span>}
@@ -733,7 +737,7 @@ export default function DataBuildingClient() {
 
           <Reveal>
             <p className="mt-10 text-center text-[18px] font-semibold text-slate-900 dark:text-white">
-              More records don’t automatically mean <span className="text-ember-500">better targeting.</span>
+              More records don’t automatically mean <span className="text-ember-500 dark:text-ember-400">better targeting.</span>
             </p>
           </Reveal>
         </div>
@@ -770,12 +774,12 @@ export default function DataBuildingClient() {
                       {s.n}
                     </span>
                     <div className={`mt-4 w-full flex-1 p-6 ${last ? SURFACE_ACCENT : SURFACE} ${LIFT}`}>
-                      <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-ember-500">{s.verb}</p>
+                      <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-ember-500 dark:text-ember-400">{s.verb}</p>
                       <h3 className="mt-2 text-[20px] font-bold text-slate-900 dark:text-white">{s.title}</h3>
                       <ul className="mt-4 space-y-2 border-t border-slate-200 pt-4 dark:border-white/[0.08]">
                         {s.items.map((it) => (
                           <li key={it} className="flex items-center gap-2 text-[14px] text-slate-600 dark:text-slate-300">
-                            <Check size={14} className="shrink-0 text-ember-500" aria-hidden="true" />
+                            <Check size={14} className="shrink-0 text-ember-500 dark:text-ember-400" aria-hidden="true" />
                             {it}
                           </li>
                         ))}
@@ -804,13 +808,13 @@ export default function DataBuildingClient() {
                 { k: 'Set targeting', v: 'Titles, functions, seniority' },
               ].map((i) => (
                 <li key={i.k} className="border-l-2 border-ember-500 pl-4">
-                  <p className="text-[13px] font-semibold uppercase tracking-[0.1em] text-ember-500">{i.k}</p>
+                  <p className="text-[13px] font-semibold uppercase tracking-[0.1em] text-ember-500 dark:text-ember-400">{i.k}</p>
                   <p className="mt-0.5 text-[15px] text-slate-700 dark:text-slate-300">{i.v}</p>
                 </li>
               ))}
             </ul>
             <div className="mt-8 flex gap-3 rounded-card border border-ember-200 bg-ember-50 p-5 dark:border-ember-500/20 dark:bg-ember-500/10">
-              <Zap size={18} className="mt-0.5 shrink-0 text-ember-500" aria-hidden="true" />
+              <Zap size={18} className="mt-0.5 shrink-0 text-ember-500 dark:text-ember-400" aria-hidden="true" />
               <p className="text-[15.5px] font-semibold text-ember-700 dark:text-ember-300">Your team doesn’t rebuild targeting logic every time it creates a list.</p>
             </div>
           </Reveal>
@@ -975,7 +979,7 @@ export default function DataBuildingClient() {
 
           <Reveal>
             <div className="mt-14 flex flex-col gap-4 rounded-modal border border-ember-200 bg-ember-50/70 p-6 dark:border-ember-500/20 dark:bg-ember-500/[0.07] sm:flex-row sm:items-center sm:gap-6">
-              <p className="text-[44px] font-bold leading-none tracking-[-0.03em] text-ember-500">30%</p>
+              <p className="text-[44px] font-bold leading-none tracking-[-0.03em] text-ember-500 dark:text-ember-400">30%</p>
               <p className="text-[17px] leading-relaxed text-slate-700 dark:text-slate-200">
                 A relevant company doesn’t always sit in the category you expect.{' '}
                 <span className="font-semibold text-slate-900 dark:text-white">30% of approved companies are discovered outside the original filter set.</span>
@@ -1024,22 +1028,26 @@ export default function DataBuildingClient() {
               <ArrowDown size={22} strokeWidth={2.5} className="lg:hidden" />
             </div>
 
-            <Reveal delay={120} className="flex flex-1 flex-col rounded-modal bg-sand-50 p-6 text-slate-900 shadow-[0_8px_40px_rgba(0,0,0,0.4)]">
-              <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-ember-500">
+            <Reveal
+              delay={120}
+              className="flex flex-1 flex-col rounded-modal bg-sand-50 p-6 text-slate-900 shadow-[0_8px_40px_rgba(0,0,0,0.4)]
+                         dark:border dark:border-ember-500/30 dark:bg-[#0F0E0C] dark:bg-gradient-to-br dark:from-ember-500/[0.12] dark:to-transparent dark:text-white"
+            >
+              <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-ember-500 dark:text-ember-400">
                 <Sparkles size={12} aria-hidden="true" />
                 Harvin research
               </p>
               <ul className="mt-4 space-y-3">
                 {['Subscription business', 'Customers in 18 countries', 'Recurring foreign-currency payments', 'Uses Stripe and AWS', '300K monthly active users'].map((r) => (
                   <li key={r} className="flex items-center gap-3 text-[16px] font-medium">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ember-100 text-ember-600">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ember-100 text-ember-600 dark:bg-ember-500/15 dark:text-ember-300">
                       <Check size={13} strokeWidth={2.5} aria-hidden="true" />
                     </span>
                     {r}
                   </li>
                 ))}
               </ul>
-              <p className="mt-auto border-t border-slate-200 pt-4 text-[14px] text-slate-500">Harvin looks past the category label to understand the business.</p>
+              <p className="mt-auto border-t border-slate-200 pt-4 text-[14px] text-slate-500 dark:border-white/[0.08] dark:text-slate-400">Harvin looks past the category label to understand the business.</p>
             </Reveal>
 
             <Reveal delay={240} className="flex flex-col items-start rounded-modal bg-gradient-to-br from-ember-400 to-ember-600 p-6 text-white shadow-[0_8px_40px_rgba(201,76,30,0.35)] lg:w-[24%]">
@@ -1084,7 +1092,7 @@ export default function DataBuildingClient() {
                     <li key={s} className="relative">
                       <span aria-hidden="true" className="absolute -left-[17px] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full border-2 border-ember-500 bg-sand-50 dark:bg-[#0F0E0C]" />
                       <div className={`${TILE} flex items-center gap-3 px-4 py-2.5 text-[15px] font-medium text-slate-900 dark:text-white`}>
-                        <span className="font-mono text-[12px] text-ember-500">{i + 1}</span>
+                        <span className="font-mono text-[12px] text-ember-500 dark:text-ember-400">{i + 1}</span>
                         {s}
                       </div>
                     </li>
@@ -1100,7 +1108,7 @@ export default function DataBuildingClient() {
                       ].map(([from, to]) => (
                         <p key={from} className="flex flex-wrap items-center gap-2">
                           <span className="text-slate-400 line-through dark:text-slate-500">{from}</span>
-                          <ArrowRight size={12} className="text-ember-500" aria-hidden="true" />
+                          <ArrowRight size={12} className="text-ember-500 dark:text-ember-400" aria-hidden="true" />
                           <span className="font-semibold text-slate-900 dark:text-white">{to}</span>
                         </p>
                       ))}
@@ -1155,7 +1163,7 @@ export default function DataBuildingClient() {
           <Reveal delay={120} className={`${SURFACE} p-5`}>
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-btn bg-slate-950 text-[18px] font-bold text-white dark:bg-white dark:text-slate-950">V</span>
+                <span className="flex h-11 w-11 items-center justify-center rounded-btn bg-slate-950 text-[18px] font-bold text-white dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/25">V</span>
                 <div>
                   <p className="text-[17px] font-bold text-slate-900 dark:text-white">Vela Commerce</p>
                   <p className="text-[13px] text-slate-500 dark:text-slate-400">Illustrative company record</p>
@@ -1178,7 +1186,7 @@ export default function DataBuildingClient() {
                 >
                   <p className="flex items-start justify-between gap-2 text-[12.5px] text-slate-600 dark:text-slate-300">
                     {f.k}
-                    <Search size={12} className="mt-0.5 shrink-0 text-ember-500 transition-transform group-hover:scale-125" aria-hidden="true" />
+                    <Search size={12} className="mt-0.5 shrink-0 text-ember-500 dark:text-ember-400 transition-transform group-hover:scale-125" aria-hidden="true" />
                   </p>
                   <p className="mt-auto pt-3 text-[17px] font-bold leading-tight text-slate-900 dark:text-white">{f.v}</p>
                 </div>
@@ -1239,7 +1247,7 @@ export default function DataBuildingClient() {
 
             <Reveal delay={120} className={`${SURFACE_ACCENT} p-6 sm:p-7`}>
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-ember-500">
+                <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-ember-500 dark:text-ember-400">
                   <Mark className="h-3.5" />
                   Harvin · Vela Commerce
                 </p>
@@ -1257,7 +1265,7 @@ export default function DataBuildingClient() {
                         : 'border-dashed border-slate-200 text-slate-400 dark:border-white/[0.08] dark:text-slate-500',
                     ].join(' ')}
                   >
-                    <span className="font-mono text-[12px] text-ember-500">{i + 1}</span>
+                    <span className="font-mono text-[12px] text-ember-500 dark:text-ember-400">{i + 1}</span>
                     <span className="flex-1">{r.role}</span>
                     {r.matched ? (
                       <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[12px] font-semibold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400">
@@ -1276,7 +1284,7 @@ export default function DataBuildingClient() {
 
           <Reveal>
             <p className="mt-10 text-center text-[18px] font-semibold text-slate-900 dark:text-white">
-              <span className="text-ember-500">40% fewer irrelevant decision-maker matches.</span> Less manual title checking.
+              <span className="text-ember-500 dark:text-ember-400">40% fewer irrelevant decision-maker matches.</span> Less manual title checking.
             </p>
           </Reveal>
         </div>
@@ -1324,7 +1332,7 @@ export default function DataBuildingClient() {
               <Label>Company Fit</Label>
               <p className="mt-1 text-[20px] font-bold text-slate-900 dark:text-white">Should we sell to them?</p>
               <div className="mt-6 flex items-center gap-5">
-                <ScoreRing score={88} size={112} stroke={9} trackClass="text-ember-100 dark:text-white/[0.08]" barClass="text-ember-500">
+                <ScoreRing score={88} size={112} stroke={9} trackClass="text-ember-100 dark:text-white/[0.08]" barClass="text-ember-500 dark:text-ember-400">
                   <span className="text-[36px] font-bold leading-none tracking-[-0.03em] text-slate-950 dark:text-white">88</span>
                 </ScoreRing>
                 <div>
@@ -1346,7 +1354,7 @@ export default function DataBuildingClient() {
                   <p className="mt-1 text-[20px] font-bold text-slate-900 dark:text-white">Is there a reason to act now?</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[34px] font-bold leading-none text-ember-500">20+</p>
+                  <p className="text-[34px] font-bold leading-none text-ember-500 dark:text-ember-400">20+</p>
                   <p className="mt-1 text-[12.5px] text-slate-500 dark:text-slate-400">signal types monitored</p>
                 </div>
               </div>
@@ -1356,11 +1364,11 @@ export default function DataBuildingClient() {
                   { icon: Globe, type: 'Expansion', title: 'Opened operations in UAE', meta: 'Vela Commerce · 11 days ago', fresh: false },
                 ].map(({ icon: Icon, ...s }) => (
                   <li key={s.title} className={`${TILE} ${LIFT} flex items-start gap-4 p-4`}>
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-btn bg-ember-50 text-ember-500 dark:bg-ember-500/15">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-btn bg-ember-50 text-ember-500 dark:text-ember-400 dark:bg-ember-500/15">
                       <Icon size={17} aria-hidden="true" />
                     </span>
                     <div className="flex-1">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ember-500">{s.type}</p>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ember-500 dark:text-ember-400">{s.type}</p>
                       <p className="mt-0.5 text-[16px] font-semibold text-slate-900 dark:text-white">{s.title}</p>
                       <p className="text-[13.5px] text-slate-500 dark:text-slate-400">{s.meta}</p>
                     </div>
@@ -1393,7 +1401,7 @@ export default function DataBuildingClient() {
             {STATS.map((s, i) => (
               <Reveal key={s.l} delay={i * 90} className={`${SURFACE} ${LIFT} relative overflow-hidden p-6`}>
                 <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-ember-500 to-ember-300" />
-                <p className="text-[clamp(36px,4vw,52px)] font-bold leading-none tracking-[-0.03em] text-ember-500">
+                <p className="text-[clamp(36px,4vw,52px)] font-bold leading-none tracking-[-0.03em] text-ember-500 dark:text-ember-400">
                   <CountUp to={s.to} suffix={s.suffix} />
                 </p>
                 <p className="mt-3 text-[14.5px] leading-snug text-slate-600 dark:text-slate-300">{s.l}</p>
@@ -1405,7 +1413,7 @@ export default function DataBuildingClient() {
             <div className="hidden grid-cols-[170px_1fr_1fr] border-b border-slate-200 bg-white/60 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] dark:border-white/[0.08] dark:bg-white/[0.02] sm:grid">
               <span className="text-slate-400 dark:text-slate-500">Workflow</span>
               <span className="text-slate-400 dark:text-slate-500">Before</span>
-              <span className="text-ember-500">With Harvin</span>
+              <span className="text-ember-500 dark:text-ember-400">With Harvin</span>
             </div>
             <div className="divide-y divide-slate-200 dark:divide-white/[0.06]">
               {REMOVED_WORK.map((r) => (

@@ -47,7 +47,7 @@ export default function PrivacyChoices() {
       }
     >
       {/* Quick action — the request route described in § 6 */}
-      <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-white/[0.08] dark:bg-white/[0.03] sm:flex-row sm:items-center sm:justify-between sm:p-8">
+      <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-ember-500/25 dark:bg-[#0F0E0C] dark:bg-gradient-to-br dark:from-ember-500/[0.1] dark:to-transparent sm:flex-row sm:items-center sm:justify-between sm:p-8">
         <div>
           <p className="text-[16px] font-semibold text-slate-900 dark:text-white">Do Not Sell or Share My Personal Information</p>
           <p className="mt-1 text-[14px] text-slate-500 dark:text-white/50">
@@ -57,7 +57,7 @@ export default function PrivacyChoices() {
         <div className="flex flex-shrink-0 flex-col gap-2 sm:flex-row">
           <a
             href={REQUEST_MAILTO}
-            className="inline-flex items-center justify-center gap-2 rounded-btn bg-ember-500 px-4 py-2.5 text-[14px] font-semibold text-white shadow-[0_1px_4px_rgba(201,76,30,0.3)] transition-all hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#0a0a0a]"
+            className="inline-flex items-center justify-center gap-2 rounded-btn bg-ember-500 px-4 py-2.5 text-[14px] font-semibold text-white shadow-[0_1px_4px_rgba(201,76,30,0.3)] transition-all hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#0F0E0C]"
           >
             <Mail size={16} aria-hidden="true" />
             Submit a request

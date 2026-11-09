@@ -19,8 +19,10 @@ export const metadata: Metadata = {
 
 export default function DataBuildingPage() {
   return (
-    <div className="min-h-screen bg-sand-100 dark:bg-slate-950 transition-colors duration-300">
-      <Navbar />
+    // This page is always dark (like /pricing): the `dark` class here switches every
+    // dark: variant below (Navbar, sections, footer) regardless of the site theme toggle.
+    <div className="dark min-h-screen bg-slate-950 text-white [color-scheme:dark]">
+      <Navbar alwaysDark />
       <main>
         <DataBuildingClient />
       </main>
