@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import Link from 'next/link';
 import {
   ArrowDown,
@@ -8,6 +8,8 @@ import {
   Bell,
   Building2,
   Check,
+  ChevronLeft,
+  ChevronRight,
   CreditCard,
   Database,
   FileSearch,
@@ -16,7 +18,9 @@ import {
   Layers,
   Mail,
   Minus,
+  Pause,
   Phone,
+  Play,
   Plus,
   Search,
   Sparkles,
@@ -495,182 +499,435 @@ function Problem() {
 
 /* ═══ 4. How it works — tabbed, auto-advancing ═══════════════════════════════ */
 
+/* Step-visual helpers — all colour from ember/sand + the emerald/amber/red status palette. */
+
+const AVATAR_TONES = [
+  'from-ember-300 to-ember-500',
+  'from-ember-500 to-ember-700',
+  'from-amber-400 to-ember-500',
+  'from-slate-500 to-slate-700',
+  'from-emerald-400 to-emerald-600',
+];
+
+function Avatar({ name, i = 0, size = 'h-8 w-8 text-[11px]' }: { name: string; i?: number; size?: string }) {
+  const initials = name
+    .split(' ')
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join('');
+  return (
+    <span
+      aria-hidden="true"
+      className={`flex shrink-0 items-center justify-center rounded-btn bg-gradient-to-br font-bold text-white shadow-[0_2px_8px_rgba(201,76,30,0.25)] ${AVATAR_TONES[i % AVATAR_TONES.length]} ${size}`}
+    >
+      {initials}
+    </span>
+  );
+}
+
+function FitBadge({ fit }: { fit: number }) {
+  const tone =
+    fit >= 85
+      ? 'bg-emerald-500/10 text-emerald-700 ring-emerald-500/25 dark:text-emerald-400'
+      : fit >= 78
+        ? 'bg-ember-500/10 text-ember-600 ring-ember-500/25 dark:text-ember-300'
+        : 'bg-amber-500/10 text-amber-700 ring-amber-500/25 dark:text-amber-400';
+  return <span className={`rounded-full px-2 py-0.5 font-mono text-[11.5px] font-bold ring-1 ${tone}`}>{fit}</span>;
+}
+
+/** Staggered entrance for rows inside a step (finished state under reduced motion). */
+function stagger(i: number) {
+  return {
+    style: { animationDelay: `${i * 70}ms` },
+    className: 'animate-fade-up [animation-fill-mode:both] motion-reduce:animate-none',
+  };
+}
+
+const PANEL_TILE =
+  'rounded-card border border-slate-200 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)] dark:border-white/[0.08] dark:bg-white/[0.03]';
+
 function StepVisual({ step }: { step: number }) {
   if (step === 0)
     return (
-      <div className="space-y-4">
-        <Label>Company Profile</Label>
-        <div className={`${TILE} p-4`}>
-          <p className="text-[12px] text-slate-500 dark:text-slate-400">What you sell</p>
-          <p className="mt-1 text-[15px] font-semibold text-slate-900 dark:text-white">Cross-border payment infrastructure</p>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className={`${TILE} p-4`}>
-            <p className="text-[12px] text-slate-500 dark:text-slate-400">Customers</p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              <Chip tone="ember">Northstar Software</Chip>
-              <Chip tone="ember">Vela Commerce</Chip>
-              <Chip tone="ember">Kitecart</Chip>
-            </div>
-          </div>
-          <div className={`${TILE} p-4`}>
-            <p className="text-[12px] text-slate-500 dark:text-slate-400">Lost deals</p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              <Chip tone="muted">Ledgerly Analytics</Chip>
-              <Chip tone="muted">Atlas Digital</Chip>
-            </div>
+      <div className="space-y-3.5">
+        <div {...stagger(0)}>
+          <div className={`${PANEL_TILE} flex items-center gap-3 px-3.5 py-2.5`}>
+            <Globe2 size={16} aria-hidden="true" className="shrink-0 text-ember-500 dark:text-ember-400" />
+            <span className="flex-1 truncate font-mono text-[12.5px] text-slate-500 dark:text-slate-400">your-website.com</span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11.5px] font-semibold text-emerald-700 dark:text-emerald-400">
+              <Sparkles size={12} aria-hidden="true" /> Profile drafted
+            </span>
           </div>
         </div>
-        <div className={`${TILE} p-4`}>
-          <p className="text-[12px] text-slate-500 dark:text-slate-400">Target roles, in order</p>
-          <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[12.5px]">
-            <Chip>1 · CFO</Chip>
-            <Chip>2 · VP Finance</Chip>
-            <Chip>3 · Head of Payments</Chip>
+
+        <div {...stagger(1)}>
+          <div className="relative overflow-hidden rounded-card border border-ember-200 bg-gradient-to-br from-ember-50 to-white p-4 dark:border-ember-500/25 dark:from-ember-500/[0.12] dark:to-white/[0.02]">
+            <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-ember-400 to-ember-600" />
+            <p className="text-[11.5px] font-semibold uppercase tracking-[0.1em] text-ember-600 dark:text-ember-300">What you sell</p>
+            <p className="mt-1 text-[16px] font-bold text-slate-950 dark:text-white">Cross-border payment infrastructure</p>
+          </div>
+        </div>
+
+        <div className="grid gap-3.5 sm:grid-cols-2">
+          <div {...stagger(2)}>
+            <div className={`${PANEL_TILE} h-full p-4`}>
+              <p className="flex items-center gap-1.5 text-[12px] font-semibold text-emerald-700 dark:text-emerald-400">
+                <Check size={13} strokeWidth={3} aria-hidden="true" /> Customers
+              </p>
+              <ul className="mt-3 space-y-2">
+                {['Northstar Software', 'Vela Commerce', 'Kitecart'].map((c, i) => (
+                  <li key={c} className="flex items-center gap-2.5 text-[13.5px] font-medium text-slate-800 dark:text-slate-200">
+                    <Avatar name={c} i={i} size="h-6 w-6 text-[9.5px]" />
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div {...stagger(3)}>
+            <div className={`${PANEL_TILE} h-full p-4`}>
+              <p className="flex items-center gap-1.5 text-[12px] font-semibold text-red-600 dark:text-red-400">
+                <X size={13} strokeWidth={3} aria-hidden="true" /> Lost deals
+              </p>
+              <ul className="mt-3 space-y-2">
+                {['Ledgerly Analytics', 'Atlas Digital'].map((c) => (
+                  <li key={c} className="flex items-center gap-2.5 text-[13.5px] text-slate-500 dark:text-slate-400">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-6 w-6 items-center justify-center rounded-btn bg-red-500/10 text-[9.5px] font-bold text-red-600 dark:text-red-400"
+                    >
+                      {c.split(' ').map((w) => w[0]).join('')}
+                    </span>
+                    <span className="line-through decoration-red-400/50">{c}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div {...stagger(4)}>
+          <div className={`${PANEL_TILE} p-4`}>
+            <p className="text-[12px] text-slate-500 dark:text-slate-400">Target roles, in order</p>
+            <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
+              {['CFO', 'VP Finance', 'Head of Payments'].map((r, i) => (
+                <span key={r} className="flex items-center gap-1.5">
+                  {i > 0 && <ArrowRight size={12} aria-hidden="true" className="text-ember-300 dark:text-ember-500/60" />}
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-sand-200 py-1 pl-1 pr-3 text-[12.5px] font-medium text-slate-800 dark:bg-white/[0.06] dark:text-slate-200">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br from-ember-400 to-ember-600 font-mono text-[10px] font-bold text-white">
+                      {i + 1}
+                    </span>
+                    {r}
+                  </span>
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     );
+
   if (step === 1)
     return (
       <div>
         <Label>Search themes → companies</Label>
-        <div className="mt-4 grid items-center gap-4 sm:grid-cols-[1fr_auto_1fr]">
+        <div className="mt-4 grid items-center gap-4 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1.35fr)]">
           <ul className="space-y-2">
-            {['Global payouts', 'Overseas subscriptions', 'Marketplace payments', 'FX workflows'].map((t) => (
-              <li key={t} className={`${TILE} px-3.5 py-2.5 text-[13.5px] font-medium text-slate-800 dark:text-slate-200`}>
-                {t}
+            {[
+              { t: 'Global payouts', icon: Globe2 },
+              { t: 'Overseas subscriptions', icon: CreditCard },
+              { t: 'Marketplace payments', icon: Store },
+              { t: 'FX workflows', icon: Layers },
+            ].map((x, i) => (
+              <li key={x.t} {...stagger(i)}>
+                <span className="flex items-center gap-2.5 rounded-card border border-ember-200 bg-ember-50/70 px-3 py-2.5 text-[13px] font-semibold text-ember-800 dark:border-ember-500/25 dark:bg-ember-500/[0.08] dark:text-ember-200">
+                  <x.icon size={15} aria-hidden="true" className="shrink-0 text-ember-500 dark:text-ember-400" />
+                  {x.t}
+                </span>
               </li>
             ))}
           </ul>
-          <ArrowRight size={20} aria-hidden="true" className="mx-auto hidden text-ember-500 sm:block" />
-          <ArrowDown size={20} aria-hidden="true" className="mx-auto text-ember-500 sm:hidden" />
+
+          <div aria-hidden="true" className="flex items-center justify-center sm:flex-col">
+            <span className="h-px w-10 bg-gradient-to-r from-transparent to-ember-400 sm:h-10 sm:w-px sm:bg-gradient-to-b" />
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-ember-400 to-ember-600 text-white shadow-[0_4px_14px_rgba(201,76,30,0.4)]">
+              <Sparkles size={16} />
+            </span>
+            <span className="h-px w-10 bg-gradient-to-r from-ember-400 to-transparent sm:h-10 sm:w-px sm:bg-gradient-to-b" />
+          </div>
+
           <ul className="space-y-2">
-            {DISCOVERED.slice(0, 4).map((c) => (
-              <li key={c.name} className={`${TILE} flex items-center justify-between gap-2 px-3.5 py-2.5 text-[13.5px]`}>
-                <span className="font-semibold text-slate-900 dark:text-white">{c.name}</span>
-                <span className="text-[11.5px] text-slate-400 dark:text-slate-500">{c.listed}</span>
+            {DISCOVERED.slice(0, 4).map((c, i) => (
+              <li key={c.name} {...stagger(i + 2)}>
+                <span className={`${PANEL_TILE} flex items-center gap-3 px-3 py-2.5`}>
+                  <Avatar name={c.name} i={i} />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[13.5px] font-semibold text-slate-900 dark:text-white">{c.name}</span>
+                    <span className="block text-[11.5px] text-slate-400 dark:text-slate-500">Listed as {c.listed}</span>
+                  </span>
+                  <FitBadge fit={c.fit} />
+                </span>
               </li>
             ))}
           </ul>
         </div>
       </div>
     );
-  if (step === 2)
+
+  if (step === 2) {
+    const fields = [
+      { k: 'Business model', v: 'Online marketplace', icon: Store },
+      { k: 'Monthly active users', v: '1.2M', icon: Users },
+      { k: 'Location count', v: '17 locations', icon: Building2 },
+      { k: 'Countries served', v: '22', icon: Globe2 },
+      { k: 'Tech stack', v: 'Stripe, Shopify, AWS', icon: Layers },
+      { k: 'Store count', v: 'Not found', icon: Database, muted: true },
+    ];
+    const found = fields.filter((f) => !f.muted).length;
     return (
       <div>
-        <div className="flex items-center justify-between">
-          <Label>Vela Commerce · researched</Label>
-          <Chip tone="ember">
-            <Sparkles size={12} aria-hidden="true" /> Researched by Harvin
-          </Chip>
+        <div {...stagger(0)}>
+          <div className={`${PANEL_TILE} flex items-center gap-3 p-3.5`}>
+            <Avatar name="Vela Commerce" i={1} size="h-10 w-10 text-[13px]" />
+            <span className="min-w-0 flex-1">
+              <span className="block text-[15px] font-bold text-slate-950 dark:text-white">Vela Commerce</span>
+              <span className="mt-1.5 flex items-center gap-2">
+                <span className="h-1.5 w-full max-w-[160px] overflow-hidden rounded-full bg-slate-200 dark:bg-white/[0.08]">
+                  <span
+                    className="block h-full rounded-full bg-gradient-to-r from-ember-400 to-emerald-500"
+                    style={{ width: `${(found / fields.length) * 100}%` }}
+                  />
+                </span>
+                <span className="whitespace-nowrap font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                  {found}/{fields.length} found
+                </span>
+              </span>
+            </span>
+            <Chip tone="ember">
+              <Sparkles size={12} aria-hidden="true" /> Researched
+            </Chip>
+          </div>
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {[
-            { k: 'Business model', v: 'Online marketplace' },
-            { k: 'Monthly active users', v: '1.2M' },
-            { k: 'Location count', v: '17 locations' },
-            { k: 'Countries served', v: '22' },
-            { k: 'Tech stack', v: 'Stripe, Shopify, AWS' },
-            { k: 'Store count', v: 'Not found', muted: true },
-          ].map((f) => (
-            <div
-              key={f.k}
-              className={`rounded-card border p-3.5 ${f.muted ? 'border-dashed border-slate-300 dark:border-white/[0.12]' : 'border-ember-200 bg-ember-50/60 dark:border-ember-500/30 dark:bg-ember-500/[0.06]'}`}
-            >
-              <p className="text-[11.5px] text-slate-500 dark:text-slate-400">{f.k}</p>
-              <p className={`mt-1 text-[15px] font-semibold ${f.muted ? 'text-slate-400 dark:text-slate-500' : 'text-slate-900 dark:text-white'}`}>
-                {f.v}
-              </p>
+        <div className="mt-3.5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {fields.map((f, i) => (
+            <div key={f.k} {...stagger(i + 1)}>
+              <div
+                className={`h-full rounded-card border p-3.5 ${f.muted ? 'border-dashed border-amber-300 bg-amber-50/50 dark:border-amber-500/30 dark:bg-amber-500/[0.05]' : 'border-ember-200 bg-gradient-to-br from-ember-50 to-white dark:border-ember-500/25 dark:from-ember-500/[0.1] dark:to-transparent'}`}
+              >
+                <span
+                  className={`flex h-7 w-7 items-center justify-center rounded-btn ${f.muted ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400' : 'bg-ember-500/10 text-ember-500 dark:text-ember-400'}`}
+                >
+                  <f.icon size={14} aria-hidden="true" />
+                </span>
+                <p className="mt-2.5 text-[11.5px] text-slate-500 dark:text-slate-400">{f.k}</p>
+                <p
+                  className={`mt-0.5 text-[14.5px] font-semibold ${f.muted ? 'text-amber-700 dark:text-amber-400' : 'text-slate-900 dark:text-white'}`}
+                >
+                  {f.v}
+                </p>
+              </div>
             </div>
           ))}
         </div>
       </div>
     );
+  }
+
   if (step === 3)
     return (
-      <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
-        <div className="rounded-modal bg-gradient-to-br from-ember-400 to-ember-600 p-5 text-white shadow-[0_8px_30px_rgba(201,76,30,0.35)]">
-          <ScoreRing score={91} size={110} stroke={9} trackClass="text-white/20" barClass="text-white">
-            <span className="text-[34px] font-bold leading-none">91</span>
-            <span className="text-[11px] text-white/80">/ 100</span>
-          </ScoreRing>
-          <p className="mt-3 text-center text-[14px] font-bold">Strong fit</p>
+      <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-stretch">
+        <div {...stagger(0)}>
+          <div className="relative flex h-full flex-col items-center justify-center overflow-hidden rounded-modal bg-gradient-to-br from-ember-400 via-ember-500 to-ember-700 p-5 text-white shadow-[0_8px_30px_rgba(201,76,30,0.35)]">
+            <span aria-hidden="true" className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/15 blur-2xl" />
+            <ScoreRing score={91} size={110} stroke={9} trackClass="text-white/20" barClass="text-white">
+              <span className="text-[34px] font-bold leading-none">91</span>
+              <span className="text-[11px] text-white/80">/ 100</span>
+            </ScoreRing>
+            <p className="mt-3 text-[14px] font-bold">Strong fit</p>
+            <p className="text-[11.5px] text-white/75">Northstar Software</p>
+          </div>
         </div>
         <ul className="w-full flex-1 space-y-2">
           {[
-            { t: 'Business model matches converted customers', pos: true },
-            { t: 'Customers in 18 countries', pos: true },
-            { t: 'Recurring foreign-currency payments', pos: true },
-            { t: 'Uses Stripe and AWS', pos: true },
-            { t: 'Revenue unknown', pos: false },
-          ].map((r) => (
-            <li key={r.t} className={`${TILE} flex items-center gap-3 px-3.5 py-2.5 text-[13.5px] text-slate-800 dark:text-slate-200`}>
-              <span
-                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${r.pos ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400' : 'bg-amber-500/15 text-amber-700 dark:text-amber-400'}`}
-              >
-                {r.pos ? <Plus size={12} strokeWidth={3} aria-hidden="true" /> : <Minus size={12} strokeWidth={3} aria-hidden="true" />}
-              </span>
-              {r.t}
+            { t: 'Business model matches converted customers', w: 92, pos: true },
+            { t: 'Customers in 18 countries', w: 84, pos: true },
+            { t: 'Recurring foreign-currency payments', w: 76, pos: true },
+            { t: 'Uses Stripe and AWS', w: 58, pos: true },
+            { t: 'Revenue unknown', w: 30, pos: false },
+          ].map((r, i) => (
+            <li key={r.t} {...stagger(i + 1)}>
+              <div className={`${PANEL_TILE} px-3.5 py-2.5`}>
+                <div className="flex items-center gap-3 text-[13.5px] text-slate-800 dark:text-slate-200">
+                  <span
+                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${r.pos ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400' : 'bg-amber-500/15 text-amber-700 dark:text-amber-400'}`}
+                  >
+                    {r.pos ? <Plus size={12} strokeWidth={3} aria-hidden="true" /> : <Minus size={12} strokeWidth={3} aria-hidden="true" />}
+                  </span>
+                  {r.t}
+                </div>
+                <span aria-hidden="true" className="mt-2 block h-1 overflow-hidden rounded-full bg-slate-100 dark:bg-white/[0.06]">
+                  <span
+                    className={`block h-full rounded-full ${r.pos ? 'bg-gradient-to-r from-emerald-400 to-emerald-600' : 'bg-gradient-to-r from-amber-300 to-amber-500'}`}
+                    style={{ width: `${r.w}%` }}
+                  />
+                </span>
+              </div>
             </li>
           ))}
         </ul>
       </div>
     );
+
   return (
-    <div className="grid gap-5 sm:grid-cols-2">
-      <div>
-        <Label>Roles, in priority order</Label>
-        <ol className="mt-3 space-y-2">
-          {[
-            { r: 'CFO', s: 'Not found' },
-            { r: 'VP Finance', s: 'Not found' },
-            { r: 'Head of Payments', s: 'Matched' },
-          ].map((x, i) => (
-            <li
-              key={x.r}
-              className={`flex items-center justify-between rounded-btn border px-3.5 py-2.5 text-[13.5px] ${x.s === 'Matched' ? 'border-ember-500 bg-ember-500 font-semibold text-white' : 'border-slate-200 bg-white text-slate-700 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-slate-300'}`}
-            >
-              <span>
-                {i + 1}. {x.r}
-              </span>
-              <span className={x.s === 'Matched' ? '' : 'text-slate-400 dark:text-slate-500'}>{x.s}</span>
-            </li>
-          ))}
-        </ol>
+    <div className="space-y-4">
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <Label>Roles, in priority order</Label>
+          <ol className="mt-3 space-y-2">
+            {[
+              { r: 'CFO', s: 'Not found' },
+              { r: 'VP Finance', s: 'Not found' },
+              { r: 'Head of Payments', s: 'Matched' },
+            ].map((x, i) => {
+              const hit = x.s === 'Matched';
+              return (
+                <li key={x.r} {...stagger(i)}>
+                  <span
+                    className={`flex items-center justify-between rounded-btn border px-3.5 py-2.5 text-[13.5px] ${hit ? 'border-transparent bg-gradient-to-r from-ember-500 to-ember-600 font-semibold text-white shadow-[0_4px_14px_rgba(201,76,30,0.35)]' : 'border-slate-200 bg-white text-slate-500 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-slate-400'}`}
+                  >
+                    <span>
+                      {i + 1}. {x.r}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[12px]">
+                      {hit ? <Check size={13} strokeWidth={3} aria-hidden="true" /> : <X size={12} aria-hidden="true" />}
+                      {x.s}
+                    </span>
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+        <div>
+          <Label>Email and phone waterfall</Label>
+          <div className="relative mt-3">
+          <span aria-hidden="true" className="absolute bottom-4 left-[17px] top-4 w-px bg-gradient-to-b from-slate-200 via-ember-400 to-slate-200 dark:from-white/[0.08] dark:to-white/[0.08]" />
+          <ol className="relative space-y-2 text-[13.5px]">
+            {[
+              { s: 'Source A', r: 'No match', tone: 'miss' },
+              { s: 'Source B', r: 'Email found', tone: 'hit' },
+              { s: 'Source C', r: 'Not needed', tone: 'skip' },
+            ].map((x, i) => (
+              <li key={x.s} {...stagger(i + 2)}>
+                <span
+                  className={[
+                    'relative flex items-center gap-3 rounded-btn border px-3 py-2.5',
+                    x.tone === 'hit' &&
+                      'border-emerald-300 bg-emerald-50 font-semibold text-slate-900 dark:border-emerald-500/40 dark:bg-emerald-500/[0.08] dark:text-white',
+                    x.tone === 'miss' && 'border-slate-200 bg-white text-slate-600 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-slate-300',
+                    x.tone === 'skip' && 'border-dashed border-slate-300 text-slate-400 dark:border-white/[0.1] dark:text-slate-500',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  <span
+                    className={`h-2.5 w-2.5 shrink-0 rounded-full ring-4 ${x.tone === 'hit' ? 'bg-emerald-500 ring-emerald-500/20' : x.tone === 'miss' ? 'bg-slate-300 ring-slate-300/30 dark:bg-slate-600 dark:ring-white/[0.06]' : 'bg-transparent ring-transparent'}`}
+                  />
+                  <span className="flex-1">{x.s}</span>
+                  <span className={x.tone === 'hit' ? 'text-emerald-700 dark:text-emerald-400' : ''}>{x.r}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+          </div>
+        </div>
       </div>
-      <div>
-        <Label>Email and phone waterfall</Label>
-        <ol className="mt-3 space-y-2 text-[13.5px]">
-          <li className={`${TILE} flex justify-between px-3.5 py-2.5 text-slate-700 dark:text-slate-300`}>
-            Source A <span className="text-slate-400 dark:text-slate-500">No match</span>
-          </li>
-          <li className="flex justify-between rounded-btn border border-ember-400 bg-white px-3.5 py-2.5 font-semibold text-slate-900 dark:border-ember-500/50 dark:bg-white/[0.03] dark:text-white">
-            Source B <span className="text-emerald-700 dark:text-emerald-400">Email found</span>
-          </li>
-          <li className="flex justify-between rounded-btn border border-dashed border-slate-300 px-3.5 py-2.5 text-slate-400 dark:border-white/[0.1] dark:text-slate-500">
-            Source C <span>Not needed</span>
-          </li>
-        </ol>
+
+      <div {...stagger(5)}>
+        <div className="flex flex-wrap items-center gap-3 rounded-card bg-gradient-to-r from-ember-500 to-ember-700 p-3.5 text-white shadow-[0_8px_30px_rgba(201,76,30,0.3)]">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/20 text-[13px] font-bold ring-2 ring-white/40">
+            PR
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[14.5px] font-bold">Priya Raman</span>
+            <span className="block text-[12px] text-white/80">Head of Payments · Vela Commerce</span>
+          </span>
+          <span className="flex gap-1.5">
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 text-[11.5px] font-semibold">
+              <Mail size={12} aria-hidden="true" /> Work email
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 text-[11.5px] font-semibold">
+              <Phone size={12} aria-hidden="true" /> Mobile
+            </span>
+          </span>
+        </div>
       </div>
     </div>
   );
 }
 
+/** Per-step chrome. Visible step copy stays in HOW_IT_WORKS_STEPS (it is also the HowTo schema). */
+const STEP_META = [
+  { short: 'Teach', icon: Building2 },
+  { short: 'Discover', icon: Search },
+  { short: 'Research', icon: FileSearch },
+  { short: 'Score', icon: Gauge },
+  { short: 'Reach', icon: UserCheck },
+];
+const STEP_MS = 6000;
+
 function HowItWorks() {
   const [ref, seen] = useInView<HTMLDivElement>(0.3);
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const [reduced, setReduced] = useState(false);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const total = HOW_IT_WORKS_STEPS.length;
+  const playing = seen && !userPaused && !hoverPaused && !reduced;
 
+  useEffect(() => setReduced(prefersReducedMotion()), []);
+
+  // One timeout per step, so a manual jump restarts the clock and the progress bar together.
   useEffect(() => {
-    if (!seen || paused || prefersReducedMotion()) return;
-    const t = setInterval(() => setActive((s) => (s + 1) % HOW_IT_WORKS_STEPS.length), 5000);
-    return () => clearInterval(t);
-  }, [seen, paused]);
+    if (!playing) return;
+    const t = setTimeout(() => setActive((s) => (s + 1) % total), STEP_MS);
+    return () => clearTimeout(t);
+  }, [playing, active, total]);
+
+  const go = (i: number, focus = false) => {
+    const next = (i + total) % total;
+    setActive(next);
+    setUserPaused(true);
+    if (focus) tabs.current[next]?.focus();
+  };
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    const keys: Record<string, number> = {
+      ArrowDown: active + 1,
+      ArrowRight: active + 1,
+      ArrowUp: active - 1,
+      ArrowLeft: active - 1,
+      Home: 0,
+      End: total - 1,
+    };
+    if (!(e.key in keys)) return;
+    e.preventDefault();
+    go(keys[e.key], true);
+  };
+
+  const step = HOW_IT_WORKS_STEPS[active];
+  const ActiveIcon = STEP_META[active].icon;
+  const ctrl =
+    'flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition-colors hover:border-ember-300 hover:text-ember-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 dark:border-white/[0.1] dark:bg-white/[0.03] dark:text-slate-300 dark:hover:border-ember-500/40 dark:hover:text-ember-400';
 
   return (
-    <section id="how-it-works" className={`${SECTION} ${BAND}`}>
-      <div className={WRAP}>
+    <section id="how-it-works" className={`relative overflow-hidden ${SECTION} ${BAND}`}>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-ember-500/[0.06] blur-3xl dark:bg-ember-500/[0.08]"
+      />
+      <div className={`relative ${WRAP}`}>
         <Reveal className="mx-auto max-w-[780px] text-center">
           <Eyebrow center>How Harvin works</Eyebrow>
           <h2 className={`mt-5 ${H2}`}>How does Harvin find the companies and buyers that fit?</h2>
@@ -684,74 +941,174 @@ function HowItWorks() {
         <div
           ref={ref}
           className="mt-14 grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
+          onMouseEnter={() => setHoverPaused(true)}
+          onMouseLeave={() => setHoverPaused(false)}
         >
-          <ol className="space-y-2" role="tablist" aria-label="How Harvin works">
+          {/* Steps — a pill rail on mobile, a connected timeline from lg up */}
+          <ol
+            role="tablist"
+            aria-label="How Harvin works"
+            aria-orientation="vertical"
+            onKeyDown={onKeyDown}
+            className="-mx-6 flex snap-x scroll-px-6 gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] lg:mx-0 lg:block lg:space-y-2 lg:overflow-visible lg:px-0 lg:pb-0"
+          >
             {HOW_IT_WORKS_STEPS.map((s, i) => {
               const on = i === active;
+              const done = i < active;
+              const Icon = STEP_META[i].icon;
               return (
-                <li key={s.name}>
+                <li key={s.name} className="relative shrink-0 snap-start">
+                  {/* Connector to the next node (lg only) */}
+                  {i < total - 1 && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute left-[34px] top-[51px] bottom-[-27px] z-10 hidden w-px overflow-hidden bg-slate-200 dark:bg-white/[0.08] lg:block"
+                    >
+                      <span
+                        className={`block h-full w-full origin-top bg-ember-500 transition-transform duration-500 ease-out dark:bg-ember-400 ${done ? 'scale-y-100' : 'scale-y-0'}`}
+                      />
+                    </span>
+                  )}
                   <button
+                    ref={(el) => {
+                      tabs.current[i] = el;
+                    }}
                     type="button"
                     role="tab"
                     id={`hiw-tab-${i}`}
                     aria-selected={on}
                     aria-controls="hiw-panel"
-                    onClick={() => {
-                      setActive(i);
-                      setPaused(true);
-                    }}
+                    tabIndex={on ? 0 : -1}
+                    onClick={() => go(i)}
                     className={[
-                      'relative w-full overflow-hidden rounded-card border p-4 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500',
+                      'group relative flex items-center gap-2.5 border text-left transition-all duration-300',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500',
+                      'rounded-full px-3 py-2 lg:w-full lg:items-start lg:gap-4 lg:rounded-card lg:p-[18px]',
                       on
                         ? 'border-ember-300 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:border-ember-500/40 dark:bg-[#0F0E0C] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)]'
-                        : 'border-transparent hover:bg-white/70 dark:hover:bg-white/[0.04]',
+                        : 'border-slate-200 bg-white/50 hover:bg-white/80 dark:border-white/[0.08] dark:bg-white/[0.02] dark:hover:bg-white/[0.05] lg:border-transparent lg:bg-transparent lg:dark:border-transparent lg:dark:bg-transparent',
                     ].join(' ')}
                   >
-                    <span className="flex items-start gap-3">
-                      <span
-                        className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-mono text-[12px] font-bold ${on ? 'bg-ember-500 text-white' : 'bg-sand-200 text-slate-600 dark:bg-white/[0.06] dark:text-slate-400'}`}
-                      >
-                        {i + 1}
-                      </span>
-                      <span>
-                        <span className={`block text-[16px] font-bold ${on ? 'text-slate-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
+                    {/* Node */}
+                    <span
+                      className={[
+                        'relative z-20 flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-[11px] font-bold transition-all duration-300 lg:h-8 lg:w-8 lg:text-[12px]',
+                        on
+                          ? 'bg-ember-500 text-white ring-4 ring-ember-500/15 dark:ring-ember-400/20'
+                          : done
+                            ? 'border border-ember-200 bg-ember-50 text-ember-600 dark:border-ember-500/30 dark:bg-ember-500/10 dark:text-ember-400'
+                            : 'border border-slate-200 bg-sand-100 text-slate-500 group-hover:border-ember-200 group-hover:text-ember-500 dark:border-white/[0.1] dark:bg-slate-950 dark:text-slate-400 dark:group-hover:border-ember-500/30 dark:group-hover:text-ember-400',
+                      ].join(' ')}
+                    >
+                      {done ? <Check size={14} strokeWidth={3} aria-hidden="true" /> : i + 1}
+                    </span>
+
+                    {/* Mobile label */}
+                    <span
+                      className={`whitespace-nowrap text-[13.5px] font-semibold lg:hidden ${on ? 'text-slate-950 dark:text-white' : 'text-slate-600 dark:text-slate-400'}`}
+                    >
+                      {STEP_META[i].short}
+                    </span>
+
+                    {/* Desktop label + description */}
+                    <span className="hidden min-w-0 flex-1 lg:block">
+                      <span className="flex items-center justify-between gap-3">
+                        <span
+                          className={`text-[16px] font-bold transition-colors ${on ? 'text-slate-950 dark:text-white' : 'text-slate-700 group-hover:text-slate-950 dark:text-slate-300 dark:group-hover:text-white'}`}
+                        >
                           {s.name}.
                         </span>
-                        <span
-                          className={`grid transition-all duration-300 ${on ? 'mt-1.5 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
-                        >
-                          <span className="overflow-hidden text-[14.5px] leading-relaxed text-slate-600 dark:text-slate-400">{s.text}</span>
+                        <Icon
+                          size={16}
+                          aria-hidden="true"
+                          className={`shrink-0 transition-colors ${on ? 'text-ember-500 dark:text-ember-400' : 'text-slate-300 dark:text-slate-600'}`}
+                        />
+                      </span>
+                      <span
+                        className={`grid transition-all duration-300 ${on ? 'mt-1.5 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                      >
+                        <span className="overflow-hidden text-[14.5px] leading-relaxed text-slate-600 dark:text-slate-400">
+                          {s.text}
                         </span>
                       </span>
                     </span>
-                    {on && !paused && seen && (
-                      <span
-                        aria-hidden="true"
-                        key={active}
-                        className="absolute bottom-0 left-0 h-0.5 w-full origin-left animate-progress bg-ember-500 motion-reduce:hidden"
-                        style={{ animationDuration: '5s' }}
-                      />
-                    )}
                   </button>
                 </li>
               );
             })}
           </ol>
 
+          {/* Panel */}
           <div
             id="hiw-panel"
             role="tabpanel"
             aria-labelledby={`hiw-tab-${active}`}
-            className={`${SURFACE} flex min-h-[380px] flex-col p-6 sm:p-8`}
+            className={`${SURFACE} flex min-h-[440px] flex-col overflow-hidden`}
           >
-            <div key={active} className="flex-1 animate-fade-up">
-              <StepVisual step={active} />
+            <div className="relative flex items-center justify-between gap-4 border-b border-slate-200 bg-white/70 px-5 py-4 dark:border-white/[0.08] dark:bg-white/[0.02] sm:px-6">
+              <div key={active} className="flex min-w-0 animate-fade-up items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-card bg-ember-50 text-ember-500 dark:bg-ember-500/10 dark:text-ember-400">
+                  <ActiveIcon size={18} aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-ember-500 dark:text-ember-400">
+                    Step {String(active + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+                  </span>
+                  <span className="block text-[14px] font-bold leading-snug text-slate-950 dark:text-white sm:truncate sm:text-[15px]">{step.name}</span>
+                </span>
+              </div>
+              <div className="flex shrink-0 items-center gap-1.5">
+                <button type="button" aria-label="Previous step" onClick={() => go(active - 1)} className={ctrl}>
+                  <ChevronLeft size={16} aria-hidden="true" />
+                </button>
+                {!reduced && (
+                  <button
+                    type="button"
+                    aria-label={userPaused ? 'Play steps automatically' : 'Pause automatic steps'}
+                    onClick={() => setUserPaused((p) => !p)}
+                    className={ctrl}
+                  >
+                    {userPaused ? <Play size={14} aria-hidden="true" /> : <Pause size={14} aria-hidden="true" />}
+                  </button>
+                )}
+                <button type="button" aria-label="Next step" onClick={() => go(active + 1)} className={ctrl}>
+                  <ChevronRight size={16} aria-hidden="true" />
+                </button>
+              </div>
+              {/* Auto-advance progress, synced with the step timeout */}
+              <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.5 bg-transparent">
+                {playing && (
+                  <span
+                    key={active}
+                    className="block h-full w-full origin-left animate-progress bg-ember-500 dark:bg-ember-400"
+                    style={{ animationDuration: `${STEP_MS}ms` }}
+                  />
+                )}
+              </span>
             </div>
-            <p className="mt-6 border-t border-slate-200 pt-4 text-[12.5px] text-slate-500 dark:border-white/[0.08] dark:text-slate-400">
-              Illustrative example. Company names are fictional.
-            </p>
+
+            <div className="relative flex-1 bg-[radial-gradient(circle,rgba(13,13,12,0.06)_1px,transparent_1px)] [background-size:18px_18px] p-5 dark:bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] sm:p-8">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_60%_at_100%_0%,rgba(229,107,44,0.10),transparent_70%)] dark:bg-[radial-gradient(80%_60%_at_100%_0%,rgba(229,107,44,0.12),transparent_70%)]"
+              />
+              <div key={active} className="relative animate-fade-up">
+                <p className="mb-6 text-[14.5px] leading-relaxed text-slate-600 dark:text-slate-400 lg:hidden">{step.text}</p>
+                <StepVisual step={active} />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between gap-4 border-t border-slate-200 px-5 py-3.5 dark:border-white/[0.08] sm:px-6">
+              <p className="text-[12.5px] text-slate-500 dark:text-slate-400">Illustrative example. Company names are fictional.</p>
+              <span aria-hidden="true" className="flex shrink-0 items-center gap-1.5">
+                {HOW_IT_WORKS_STEPS.map((s, i) => (
+                  <span
+                    key={s.name}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${i === active ? 'w-5 bg-ember-500 dark:bg-ember-400' : i < active ? 'w-1.5 bg-ember-300 dark:bg-ember-500/50' : 'w-1.5 bg-slate-300 dark:bg-white/[0.15]'}`}
+                  />
+                ))}
+              </span>
+            </div>
           </div>
         </div>
 
