@@ -89,7 +89,7 @@ const REGISTRATION = [
    param (Google's AI Mode is `udm=50` on a normal search). On click the
    prompt is also copied to the clipboard, in case an assistant drops it.
    ─────────────────────────────────────────────────────────────────────── */
-const AI_PROMPT = 'Explain Harvin using https://harvin.ai/about';
+const AI_PROMPT = 'Explain Harvin using https://harvin.ai/ , https://harvin.ai/data-building , https://harvin.ai/pricing';
 const AI_Q = encodeURIComponent(AI_PROMPT);
 /* Brand marks from Simple Icons (CC0), inlined as single-path SVGs. */
 const AI_TOOLS = [
@@ -100,7 +100,7 @@ const AI_TOOLS = [
 ];
 
 const copyPrompt = () => {
-  navigator.clipboard?.writeText(AI_PROMPT).catch(() => {});
+  navigator.clipboard?.writeText(AI_PROMPT).catch(() => { });
 };
 
 /* ── Social icons ─────────────────────────────────────────────────────────── */
