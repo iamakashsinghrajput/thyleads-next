@@ -1,24 +1,24 @@
 export type ContentBlock =
   | string
   | {
-      type: 'subheading';
-      text: string;
-    }
+    type: 'subheading';
+    text: string;
+  }
   | {
-      type: 'list';
-      items: string[];
-      ordered?: boolean;
-    }
+    type: 'list';
+    items: string[];
+    ordered?: boolean;
+  }
   | {
-      type: 'image';
-      src: string;
-      alt?: string;
-    }
+    type: 'image';
+    src: string;
+    alt?: string;
+  }
   | {
-      type: 'cta';
-      text: string;
-      href?: string;
-    };
+    type: 'cta';
+    text: string;
+    href?: string;
+  };
 
 export interface BlogPost {
   slug: string;
@@ -56,669 +56,669 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Jan 10, 2026",
     readTime: "6 min read",
     image: "/blogs/covers/7-best-intent-data-providers-that-sales-teams-trust-in-2026.webp",
     featured: true,
     content: {
-        introduction: [
-          "Cold calling and generic outreach rarely land anymore. Intent data providers have become the tools sales teams rely on to find prospects who are already shopping for what you sell."
-      ,
-          "Instead of pitching everyone, sales teams now use intent account sourcing to spot companies actively researching solutions like theirs. The hard part is picking a provider you can trust. With so many options, it's tough to know which features matter and which platforms deliver results instead of promises."
-      ,
-          "So we put together this list of the 7 best intent data providers that sales teams trust in 2026. From Cognism's contact intelligence to 6sense-style AI predictions, we cover what each platform does, how it prices, and which kinds of sales teams get the most out of it."
-        ],
-        sections: [
-          {
-            heading: "Harvin",
-            content: [
-              "Harvin is a focused player in B2B lead generation, built to deliver conversion-ready meetings for SaaS companies. We launched in 2021 out of Bengaluru and have spent that time building scalable outbound systems that produce measurable results."
-      ,
-              "What sets us apart is the mix of AI-driven personalization, data-centric prospecting, and modern automation. Rather than chasing volume like a typical agency, we focus on conversations that actually convert. That approach has earned the trust of more than 85 companies, including CleverTap, Pazo, VWO, and Dice."
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Full visibility through shared prospect pipeline access',
-                  'Regular performance metrics and campaign analytics',
-                  'A dedicated GTM Engineer on every account'
-                ]
-              }
-            ]
-          }
-      ,
-          {
-            heading: "Harvin Services Offered",
-            content: [
-              "Harvin offers a full range of lead generation services built for SaaS companies:"
-      ,
-              {
-                type: 'subheading',
-                text: 'B2B Appointment Setting'
-              }
-      ,
-              "Our core service hands qualified prospects to your closing team so they spend their time only on interested leads. It also removes the headache of hiring and keeping junior SDRs."
-      ,
-              {
-                type: 'subheading',
-                text: 'Multi-Channel Outbound Campaigns'
-              }
-      ,
-              "From LinkedIn automation to email, we build campaigns that go past landing in an inbox and start real conversations. Our approach covers:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Email marketing with strong deliverability',
-                  'LinkedIn outreach and engagement',
-                  'Data-driven prospect identification and enrichment',
-                  'AI-enabled personalization at scale'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'Waterfall Enrichment Strategy'
-              }
-      ,
-              "We run a layered enrichment process that finds 100K+ valid email addresses every month, so campaigns reach the decision-makers who matter."
-      ,
-              {
-                type: 'subheading',
-                text: 'Full-Service Campaign Management'
-              }
-      ,
-              "Every client gets end-to-end support, including:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'A dedicated GTM Engineer',
-                  'Regular progress reviews and performance analysis',
-                  'A private Slack channel for fast communication',
-                  'Real-time dashboards with sequence visibility and response tracking'
-                ]
-              }
-            ]
-          }
-      ,
-          {
-            heading: "Harvin Results & Case Studies",
-            content: [
-              "Our data-led approach has produced strong outcomes for clients:"
-      ,
-              {
-                type: 'subheading',
-                text: 'CleverTap Success Story'
-              }
-      ,
-              {
-                type: 'list',
-                items: [
-                  '3X growth in SQLs',
-                  '30% success rate',
-                  '90+ qualified meetings within 3 months',
-                  '60% improvement in pipeline quality and velocity'
-                ]
-              }
-      ,
-              "These numbers show what we care about: not just leads, but opportunities that turn into revenue."
-            ]
-          }
-      ,
-          {
-            heading: "Harvin Pricing",
-            content: [
-              "We don't publish detailed pricing, but here's how it works:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'A performance-based appointment pricing model',
-                  'Flexible engagement options based on campaign needs',
-                  'Pricing built to deliver ROI at a fraction of the cost of an in-house SDR team'
-                ]
-              }
-      ,
-              "That setup keeps our services within reach for early-stage startups that want to scale without the cost of building a team."
-            ]
-          }
-      ,
-          {
-            heading: "Harvin Pros and Cons",
-            content: [
-              "**Pros:**"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Dedicated focus on what SaaS companies need',
-                  'AI-powered personalization that drives real engagement',
-                  'Transparent campaign oversight with full visibility',
-                  'Data-led methodology with clear performance metrics'
-                ]
-              }
-      ,
-              "**A cost-effective alternative to hiring an in-house SDR team**"
-      ,
-              "**Cons:**"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Primary focus on select markets',
-                  'A newer entrant (founded 2021) next to industry veterans',
-                  'Current team size (11-50 people) may limit large enterprise coverage',
-                  'Best results usually come from a longer partnership'
-                ]
-              }
-      ,
-              "**Harvin Best For**"
-      ,
-              "Harvin works best for:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'SaaS companies looking to scale outbound',
-                  'Early-stage startups that need affordable lead acquisition',
-                  'Teams struggling with SDR hiring and retention',
-                  'Businesses that want AI and automation in their outreach',
-                  'Companies that prefer flexible, performance-driven lead generation'
-                ]
-              }
-      ,
-              "Our SaaS focus helps software companies with longer, more involved sales cycles. We put quality conversations ahead of high-volume, low-impact lead generation."
-            ]
-          }
-      ,
-          {
-            heading: "Cognism",
-            content: [
-              "Cognism is one of the stronger intent data providers, built around a B2B sales intelligence platform. At its core, it helps sales teams find and reach high-intent prospects using verified contact data and buying signals."
-      ,
-              {
-                type: 'subheading',
-                text: 'Cognism key features'
-              }
-      ,
-              "Cognism's headline product is Sales Companion, an AI assistant that surfaces account-level data and keeps fresh outreach opportunities in front of you. Its standout feature is Diamond Data, phone-verified mobile numbers that make users three times more likely to actually connect with a prospect."
-      ,
-              "Cognism also folds in Bombora's intent data to spot companies researching solutions in your category. Other features include:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Cognism AI Search for finding prospects with ChatGPT-style text or voice prompts',
-                  'Unrestricted access to person and company-level data (subject to fair usage)',
-                  'Instant, scheduled, and on-demand CSV enrichment',
-                  'Strong international coverage across EMEA, NAM, and APAC',
-                  'GDPR and CCPA-compliant data checked against 13 Do-Not-Call lists'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'Cognism pros and cons'
-              }
-      ,
-              "Pros:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Data quality reported at 30% better than competitors',
-                  'Especially strong European coverage, with 180% more contacts in the UK and 250%+ more in France and Germany',
-                  'High connection rates, with users reporting an 80% higher connect rate for cold outreach',
-                  'Strong customer support, with a 99% satisfaction score'
-                ]
-              }
-      ,
-              "Cons:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Thinner data in APAC compared to US and EU coverage',
-                  'Occasional slowness when running large list exports',
-                  'No built-in territory assignment management',
-                  'Focused on data access more than workflow automation'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'Cognism pricing'
-              }
-      ,
-              "Cognism offers two main packages:"
-      ,
-              "Grow: Core contact and company data, including phone-verified Diamond Data contacts, target market analytics, and CRM integrations."
-      ,
-              "Elevate: Everything in Grow plus advanced intelligence and signals like hiring trends, funding alerts, technographics, news signals, and intent data."
-      ,
-              "Exact pricing isn't public, but annual contracts typically range from $15,000 to over $100,000 depending on team size, data volume, and features."
-      ,
-              {
-                type: 'subheading',
-                text: 'Cognism best for'
-              }
-      ,
-              "Cognism fits sales teams that value data quality over raw volume. It's especially good for companies targeting European markets, given its EMEA coverage. It also helps teams that keep hitting gatekeepers, since phone-verified mobiles push up connect rates."
-      ,
-              "Companies using Cognism report results like a 40% increase in qualified leads and a 25% improvement in conversion rates. One customer built a 1 million euro pipeline within three months of getting started."
-            ]
-          }
-      ,
-          {
-            heading: "Bombora",
-            content: [
-              "Bombora created the intent data category, building the industry's first data cooperative to collect and analyze B2B research behavior. Its flagship product, Company Surge, measures when companies research specific topics above their normal baseline."
-      ,
-              {
-                type: 'subheading',
-                text: 'Bombora key features'
-              }
-      ,
-              "The foundation of Bombora's offering is its B2B Data Cooperative, which spans more than 5,000 business websites and publications. Across that network, Bombora captures roughly 16 billion content consumption events a month. About 86% of the sites in the Co-op are exclusive to Bombora, so the insights are hard to find elsewhere."
-      ,
-              "Other notable features include:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Topic monitoring across 12,000+ intent topics organized into clusters',
-                  'AI-powered topic classification using natural language processing',
-                  'Surge scoring that flags when research activity passes baseline levels',
-                  'Weekly data refreshes to keep insights current',
-                  'Privacy-first, consent-driven data collection'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'Bombora pros and cons'
-              }
-      ,
-              "Pros:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'High-quality data from premium sources',
-                  'Solid CRM integrations with Salesforce and HubSpot',
-                  'Strong customer service team',
-                  'Ethical, consent-based data practices'
-                ]
-              }
-      ,
-              "Cons:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Account-level insights only, no individual contact information',
-                  'Enterprise pricing that can be steep for smaller teams',
-                  'Setup can take time',
-                  'Topic coverage may be too broad for niche industries'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'Bombora pricing'
-              }
-      ,
-              "Bombora doesn't publish its pricing. Reports suggest contracts often run into five figures a year, and one marketplace analysis puts the median buyer at about $25,000 annually. That makes it a fit for mid-market and enterprise teams with real budget."
-      ,
-              {
-                type: 'subheading',
-                text: 'Bombora best for'
-              }
-      ,
-              "Bombora is best for mid-market and enterprise companies that want reliable account-level intent data. Since the platform is good at spotting which businesses are researching solutions, teams can put their outreach toward the most promising accounts. Companies using Bombora have reported doubled reply rates and 50% lower cost-per-lead."
-      ,
-              "In short, Bombora suits companies with well-defined target markets and established sales processes that want to work smarter by focusing on accounts showing genuine buying signals."
-            ]
-          }
-      ,
-          {
-            heading: "Lead Forensics",
-            content: [
-              "Lead Forensics turns anonymous website traffic into sales opportunities through visitor identification. Unlike standard analytics, it reveals which businesses visit your site and surfaces contact information for decision-makers at those companies."
-      ,
-              {
-                type: 'subheading',
-                text: 'Lead Forensics key features'
-              }
-      ,
-              "Lead Forensics claims the world's largest wholly owned B2B matched IP address database. That technology identifies visiting companies in real time and gives you a view into their browsing behavior. The platform offers:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Instant access to business visitor details, including contact information for relevant decision-makers',
-                  'Page-level insight into which content engaged visitors and for how long',
-                  'Customizable real-time alerts when high-value prospects visit',
-                  'Filtering by firmographics like industry and location',
-                  'Unlimited user access with no per-seat pricing'
-                ]
-              }
-      ,
-              "It also has plenty of integration options, from simple one-way connections to fuzzy matching with leading CRMs."
-      ,
-              {
-                type: 'subheading',
-                text: 'Lead Forensics pros and cons'
-              }
-      ,
-              "Pros:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Turns anonymous traffic into identifiable business opportunities',
-                  'Provides contact details to start outreach',
-                  'Shows which pages a prospect spent time on',
-                  'Unlimited logins with no per-user costs'
-                ]
-              }
-      ,
-              "Cons:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'No publicly disclosed pricing',
-                  'Data accuracy can vary, especially outside the UK',
-                  'The interface takes some training to learn',
-                  'Identifies companies, not individual visitors'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'Lead Forensics pricing'
-              }
-      ,
-              "Lead Forensics offers two main plans, neither with public pricing:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Essential, for small and medium businesses, with basic visitor identification, contact data, and lead management',
-                  'Automate, for enterprise teams, adding advanced CRM integration, custom workflows, and Orchestrator technology for sequencing actions'
-                ]
-              }
-      ,
-              "Based on third-party reports, contracts typically range from $250 to several thousand dollars a month depending on your website traffic volume."
-      ,
-              {
-                type: 'subheading',
-                text: 'Lead Forensics best for'
-              }
-      ,
-              "Lead Forensics works best for B2B sales teams that want to capture traffic that never converts through forms or downloads. It's strongest for companies focused on:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Finding new leads among website visitors',
-                  'Upselling existing customers who show renewed interest',
-                  'Reconnecting with lapsed customers browsing the site again',
-                  'Supporting account-based marketing'
-                ]
-              }
-      ,
-              "For teams that care more about website visitor insight than broad intent signals, Lead Forensics gives targeted intelligence about businesses engaging with your content."
-            ]
-          }
-      ,
-          {
-            heading: "Demandbase",
-            content: [
-              "Demandbase uses AI to help B2B companies find and engage high-potential accounts through its account-based marketing platform. As one of the better-known intent data providers, it monitors nearly 3 million pages and 575,000+ intent keywords to detect buying signals."
-      ,
-              {
-                type: 'subheading',
-                text: 'Demandbase key features'
-              }
-      ,
-              "At its core, Demandbase offers AI Account Summaries that surface account details like ICP fit and engagement level in seconds. The platform also includes:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Prescriptive Sales Dashboards with real-time insight into account behavior and intent',
-                  'Account signals that show who is interested and why',
-                  'A Buying Groups feature to surface decision-makers and relevant contacts',
-                  'Intent monitoring that tracks the browsing patterns of prospective buyers',
-                  'A data integration hub that connects with major CRMs and marketing automation platforms'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'Demandbase pros and cons'
-              }
-      ,
-              "Pros:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Easy to navigate, even for first-time users',
-                  'Full ABM capabilities with a unified account view',
-                  'Strong customer satisfaction, with a 4.4/5 rating from user reviews',
-                  'AI-driven insights that cut research time'
-                ]
-              }
-      ,
-              "Cons:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Enterprise pricing that may be too high for smaller teams',
-                  'Implementation and training may carry extra fees',
-                  'A broad ecosystem that needs dedicated people to run well',
-                  'A learning curve to get the most from every feature'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'Demandbase pricing'
-              }
-      ,
-              "Demandbase One uses a two-part pricing structure:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'A platform fee covering core software and services',
-                  'A flat per-user fee that makes scaling easy'
-                ]
-              }
-      ,
-              "Exact prices aren't public, but small businesses (around 200 employees) typically spend $18,000-$32,000 a year, mid-market firms (around 1,000 employees) $43,000-$61,000, and large enterprises often more than $100,000. The median annual investment is roughly $65,000."
-      ,
-              {
-                type: 'subheading',
-                text: 'Demandbase best for'
-              }
-      ,
-              "Demandbase works best for enterprise or high-growth mid-market companies with real marketing budget. It's also a good fit for:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'B2B teams that need unified data across sales and marketing',
-                  'Companies with six or seven-figure deals that justify the spend',
-                  'Teams that need full account intelligence and intent data',
-                  'Organizations aligning marketing and sales around target accounts'
-                ]
-              }
-      ,
-              "The platform especially helps businesses spot in-market accounts before competitors and reach the whole buying committee with personalized messaging."
-            ]
-          }
-      ,
-          {
-            heading: "ZoomInfo",
-            content: [
-              "ZoomInfo processes over 1.5 billion data points a day and captures 58 million intent signals a week from sources well beyond traditional bidstream data. As a market leader in B2B intelligence, it helps sales teams find and engage prospects showing active buying behavior."
-      ,
-              {
-                type: 'subheading',
-                text: 'ZoomInfo key features'
-              }
-      ,
-              "ZoomInfo's platform stands out for real-time B2B intent signals that refresh daily, where many competitors update weekly. Core capabilities include:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'More than 12,000 intent topics sourced from 5,000 B2B sites',
-                  'ZoomInfo Copilot, an AI feature that recommends who to contact and when',
-                  'Guided Intent, which finds topics closely tied to past wins',
-                  'Smooth CRM integration with Salesforce and HubSpot',
-                  'Multi-source signals including web activity, job changes, and technographic shifts'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'ZoomInfo pros and cons'
-              }
-      ,
-              "Pros:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Industry-leading data depth, with 420M+ contact profiles and 110M+ company records',
-                  'A clean interface with strong ease-of-use ratings (4.3/5)',
-                  'Real-time alerts for engagement spikes or decision-maker job changes',
-                  'Wide integration options, with 41+ native integrations'
-                ]
-              }
-      ,
-              "Cons:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Pricing that is complex and not transparent',
-                  'A steep learning curve for new users',
-                  'A limited free trial with access to only ten contacts',
-                  'High cost that can be out of reach for smaller businesses'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'ZoomInfo pricing'
-              }
-      ,
-              "ZoomInfo offers several tiers:"
-      ,
-              "ZoomInfo Lite: Free plan with 10 credits a month and basic features"
-      ,
-              "Professional: From $14,995 a year with 5,000 bulk credits for up to three users"
-      ,
-              "Advanced: From $24,995 a year with 10,000 bulk credits plus 1,000 monthly credits per user"
-      ,
-              "Elite: From $39,995 a year with full features and unlimited add-ons"
-      ,
-              {
-                type: 'subheading',
-                text: 'ZoomInfo best for'
-              }
-      ,
-              "ZoomInfo fits mid-market to enterprise B2B companies that need intent data tied to a deep contact database. It's especially good for teams that need:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Fast-moving data with daily updates for quick outreach',
-                  'Unified intelligence across sales and marketing',
-                  'Advanced search for precise targeting',
-                  'Enterprise-grade security with SOC 2 and ISO 27001 certification'
-                ]
-              }
-            ]
-          }
-      ,
-          {
-            heading: "Lead Onion",
-            content: [
-              "Lead Onion is a newer name among intent data providers. It pulls data from 24 different intent sources into one platform and tracks over 50 billion intent signals to find in-market companies. Its AI-powered Research Quadrant shows where a prospect sits in the buying journey."
-      ,
-              {
-                type: 'subheading',
-                text: 'Lead Onion key features'
-              }
-      ,
-              "The flagship feature is the Research Quadrant, where an AI agent named Aimee scans billions of signals to predict the top 10% of in-market companies. Other standout capabilities include:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Access to 209+ million verified contacts and 20+ million company profiles',
-                  'Real-time IP matching that turns anonymous website visitors into identifiable leads, plus person-based intent that flags individual buyers researching your solution',
-                  'An auto-reveal feature that surfaces decision-makers at companies showing intent spikes'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'Lead Onion pros and cons'
-              }
-      ,
-              "Pros:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'Multi-source intent data in one place',
-                  'A user-friendly interface',
-                  'Real-time alerts for fast engagement',
-                  'Automation that streamlines workflows'
-                ]
-              }
-      ,
-              "Cons:"
-      ,
-              {
-                type: 'list',
-                items: [
-                  'A limited track record next to established competitors',
-                  'Some users report results below expectations',
-                  'A feature set that takes some training',
-                  'Implementation can take time'
-                ]
-              }
-      ,
-              {
-                type: 'subheading',
-                text: 'Lead Onion pricing'
-              }
-      ,
-              "Starting at $617.19 a month, Lead Onion brings enterprise-level intent data within reach of smaller teams. The platform includes a 7-day trial with 100 free leads."
-      ,
-              {
-                type: 'subheading',
-                text: 'Lead Onion best for'
-              }
-      ,
-              "Lead Onion works best for B2B companies that want to automate intent-driven prospecting. It serves both marketing teams tracking buyer behavior and sales teams that need fast alerts when research activity spikes."
-            ]
-          }
-        ]
-      }
+      introduction: [
+        "Cold calling and generic outreach rarely land anymore. Intent data providers have become the tools sales teams rely on to find prospects who are already shopping for what you sell."
+        ,
+        "Instead of pitching everyone, sales teams now use intent account sourcing to spot companies actively researching solutions like theirs. The hard part is picking a provider you can trust. With so many options, it's tough to know which features matter and which platforms deliver results instead of promises."
+        ,
+        "So we put together this list of the 7 best intent data providers that sales teams trust in 2026. From Cognism's contact intelligence to 6sense-style AI predictions, we cover what each platform does, how it prices, and which kinds of sales teams get the most out of it."
+      ],
+      sections: [
+        {
+          heading: "Harvin",
+          content: [
+            "Harvin is a focused player in B2B lead generation, built to deliver conversion-ready meetings for SaaS companies. We launched in 2021 out of Bengaluru and have spent that time building scalable outbound systems that produce measurable results."
+            ,
+            "What sets us apart is the mix of AI-driven personalization, data-centric prospecting, and modern automation. Rather than chasing volume like a typical agency, we focus on conversations that actually convert. That approach has earned the trust of more than 85 companies, including CleverTap, Pazo, VWO, and Dice."
+            ,
+            {
+              type: 'list',
+              items: [
+                'Full visibility through shared prospect pipeline access',
+                'Regular performance metrics and campaign analytics',
+                'A dedicated GTM Engineer on every account'
+              ]
+            }
+          ]
+        }
+        ,
+        {
+          heading: "Harvin Services Offered",
+          content: [
+            "Harvin offers a full range of lead generation services built for SaaS companies:"
+            ,
+            {
+              type: 'subheading',
+              text: 'B2B Appointment Setting'
+            }
+            ,
+            "Our core service hands qualified prospects to your closing team so they spend their time only on interested leads. It also removes the headache of hiring and keeping junior SDRs."
+            ,
+            {
+              type: 'subheading',
+              text: 'Multi-Channel Outbound Campaigns'
+            }
+            ,
+            "From LinkedIn automation to email, we build campaigns that go past landing in an inbox and start real conversations. Our approach covers:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Email marketing with strong deliverability',
+                'LinkedIn outreach and engagement',
+                'Data-driven prospect identification and enrichment',
+                'AI-enabled personalization at scale'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'Waterfall Enrichment Strategy'
+            }
+            ,
+            "We run a layered enrichment process that finds 100K+ valid email addresses every month, so campaigns reach the decision-makers who matter."
+            ,
+            {
+              type: 'subheading',
+              text: 'Full-Service Campaign Management'
+            }
+            ,
+            "Every client gets end-to-end support, including:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'A dedicated GTM Engineer',
+                'Regular progress reviews and performance analysis',
+                'A private Slack channel for fast communication',
+                'Real-time dashboards with sequence visibility and response tracking'
+              ]
+            }
+          ]
+        }
+        ,
+        {
+          heading: "Harvin Results & Case Studies",
+          content: [
+            "Our data-led approach has produced strong outcomes for clients:"
+            ,
+            {
+              type: 'subheading',
+              text: 'CleverTap Success Story'
+            }
+            ,
+            {
+              type: 'list',
+              items: [
+                '3X growth in SQLs',
+                '30% success rate',
+                '90+ qualified meetings within 3 months',
+                '60% improvement in pipeline quality and velocity'
+              ]
+            }
+            ,
+            "These numbers show what we care about: not just leads, but opportunities that turn into revenue."
+          ]
+        }
+        ,
+        {
+          heading: "Harvin Pricing",
+          content: [
+            "We don't publish detailed pricing, but here's how it works:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'A performance-based appointment pricing model',
+                'Flexible engagement options based on campaign needs',
+                'Pricing built to deliver ROI at a fraction of the cost of an in-house SDR team'
+              ]
+            }
+            ,
+            "That setup keeps our services within reach for early-stage startups that want to scale without the cost of building a team."
+          ]
+        }
+        ,
+        {
+          heading: "Harvin Pros and Cons",
+          content: [
+            "**Pros:**"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Dedicated focus on what SaaS companies need',
+                'AI-powered personalization that drives real engagement',
+                'Transparent campaign oversight with full visibility',
+                'Data-led methodology with clear performance metrics'
+              ]
+            }
+            ,
+            "**A cost-effective alternative to hiring an in-house SDR team**"
+            ,
+            "**Cons:**"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Primary focus on select markets',
+                'A newer entrant (founded 2021) next to industry veterans',
+                'Current team size (11-50 people) may limit large enterprise coverage',
+                'Best results usually come from a longer partnership'
+              ]
+            }
+            ,
+            "**Harvin Best For**"
+            ,
+            "Harvin works best for:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'SaaS companies looking to scale outbound',
+                'Early-stage startups that need affordable lead acquisition',
+                'Teams struggling with SDR hiring and retention',
+                'Businesses that want AI and automation in their outreach',
+                'Companies that prefer flexible, performance-driven lead generation'
+              ]
+            }
+            ,
+            "Our SaaS focus helps software companies with longer, more involved sales cycles. We put quality conversations ahead of high-volume, low-impact lead generation."
+          ]
+        }
+        ,
+        {
+          heading: "Cognism",
+          content: [
+            "Cognism is one of the stronger intent data providers, built around a B2B sales intelligence platform. At its core, it helps sales teams find and reach high-intent prospects using verified contact data and buying signals."
+            ,
+            {
+              type: 'subheading',
+              text: 'Cognism key features'
+            }
+            ,
+            "Cognism's headline product is Sales Companion, an AI assistant that surfaces account-level data and keeps fresh outreach opportunities in front of you. Its standout feature is Diamond Data, phone-verified mobile numbers that make users three times more likely to actually connect with a prospect."
+            ,
+            "Cognism also folds in Bombora's intent data to spot companies researching solutions in your category. Other features include:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Cognism AI Search for finding prospects with ChatGPT-style text or voice prompts',
+                'Unrestricted access to person and company-level data (subject to fair usage)',
+                'Instant, scheduled, and on-demand CSV enrichment',
+                'Strong international coverage across EMEA, NAM, and APAC',
+                'GDPR and CCPA-compliant data checked against 13 Do-Not-Call lists'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'Cognism pros and cons'
+            }
+            ,
+            "Pros:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Data quality reported at 30% better than competitors',
+                'Especially strong European coverage, with 180% more contacts in the UK and 250%+ more in France and Germany',
+                'High connection rates, with users reporting an 80% higher connect rate for cold outreach',
+                'Strong customer support, with a 99% satisfaction score'
+              ]
+            }
+            ,
+            "Cons:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Thinner data in APAC compared to US and EU coverage',
+                'Occasional slowness when running large list exports',
+                'No built-in territory assignment management',
+                'Focused on data access more than workflow automation'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'Cognism pricing'
+            }
+            ,
+            "Cognism offers two main packages:"
+            ,
+            "Grow: Core contact and company data, including phone-verified Diamond Data contacts, target market analytics, and CRM integrations."
+            ,
+            "Elevate: Everything in Grow plus advanced intelligence and signals like hiring trends, funding alerts, technographics, news signals, and intent data."
+            ,
+            "Exact pricing isn't public, but annual contracts typically range from $15,000 to over $100,000 depending on team size, data volume, and features."
+            ,
+            {
+              type: 'subheading',
+              text: 'Cognism best for'
+            }
+            ,
+            "Cognism fits sales teams that value data quality over raw volume. It's especially good for companies targeting European markets, given its EMEA coverage. It also helps teams that keep hitting gatekeepers, since phone-verified mobiles push up connect rates."
+            ,
+            "Companies using Cognism report results like a 40% increase in qualified leads and a 25% improvement in conversion rates. One customer built a 1 million euro pipeline within three months of getting started."
+          ]
+        }
+        ,
+        {
+          heading: "Bombora",
+          content: [
+            "Bombora created the intent data category, building the industry's first data cooperative to collect and analyze B2B research behavior. Its flagship product, Company Surge, measures when companies research specific topics above their normal baseline."
+            ,
+            {
+              type: 'subheading',
+              text: 'Bombora key features'
+            }
+            ,
+            "The foundation of Bombora's offering is its B2B Data Cooperative, which spans more than 5,000 business websites and publications. Across that network, Bombora captures roughly 16 billion content consumption events a month. About 86% of the sites in the Co-op are exclusive to Bombora, so the insights are hard to find elsewhere."
+            ,
+            "Other notable features include:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Topic monitoring across 12,000+ intent topics organized into clusters',
+                'AI-powered topic classification using natural language processing',
+                'Surge scoring that flags when research activity passes baseline levels',
+                'Weekly data refreshes to keep insights current',
+                'Privacy-first, consent-driven data collection'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'Bombora pros and cons'
+            }
+            ,
+            "Pros:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'High-quality data from premium sources',
+                'Solid CRM integrations with Salesforce and HubSpot',
+                'Strong customer service team',
+                'Ethical, consent-based data practices'
+              ]
+            }
+            ,
+            "Cons:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Account-level insights only, no individual contact information',
+                'Enterprise pricing that can be steep for smaller teams',
+                'Setup can take time',
+                'Topic coverage may be too broad for niche industries'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'Bombora pricing'
+            }
+            ,
+            "Bombora doesn't publish its pricing. Reports suggest contracts often run into five figures a year, and one marketplace analysis puts the median buyer at about $25,000 annually. That makes it a fit for mid-market and enterprise teams with real budget."
+            ,
+            {
+              type: 'subheading',
+              text: 'Bombora best for'
+            }
+            ,
+            "Bombora is best for mid-market and enterprise companies that want reliable account-level intent data. Since the platform is good at spotting which businesses are researching solutions, teams can put their outreach toward the most promising accounts. Companies using Bombora have reported doubled reply rates and 50% lower cost-per-lead."
+            ,
+            "In short, Bombora suits companies with well-defined target markets and established sales processes that want to work smarter by focusing on accounts showing genuine buying signals."
+          ]
+        }
+        ,
+        {
+          heading: "Lead Forensics",
+          content: [
+            "Lead Forensics turns anonymous website traffic into sales opportunities through visitor identification. Unlike standard analytics, it reveals which businesses visit your site and surfaces contact information for decision-makers at those companies."
+            ,
+            {
+              type: 'subheading',
+              text: 'Lead Forensics key features'
+            }
+            ,
+            "Lead Forensics claims the world's largest wholly owned B2B matched IP address database. That technology identifies visiting companies in real time and gives you a view into their browsing behavior. The platform offers:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Instant access to business visitor details, including contact information for relevant decision-makers',
+                'Page-level insight into which content engaged visitors and for how long',
+                'Customizable real-time alerts when high-value prospects visit',
+                'Filtering by firmographics like industry and location',
+                'Unlimited user access with no per-seat pricing'
+              ]
+            }
+            ,
+            "It also has plenty of integration options, from simple one-way connections to fuzzy matching with leading CRMs."
+            ,
+            {
+              type: 'subheading',
+              text: 'Lead Forensics pros and cons'
+            }
+            ,
+            "Pros:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Turns anonymous traffic into identifiable business opportunities',
+                'Provides contact details to start outreach',
+                'Shows which pages a prospect spent time on',
+                'Unlimited logins with no per-user costs'
+              ]
+            }
+            ,
+            "Cons:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'No publicly disclosed pricing',
+                'Data accuracy can vary, especially outside the UK',
+                'The interface takes some training to learn',
+                'Identifies companies, not individual visitors'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'Lead Forensics pricing'
+            }
+            ,
+            "Lead Forensics offers two main plans, neither with public pricing:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Essential, for small and medium businesses, with basic visitor identification, contact data, and lead management',
+                'Automate, for enterprise teams, adding advanced CRM integration, custom workflows, and Orchestrator technology for sequencing actions'
+              ]
+            }
+            ,
+            "Based on third-party reports, contracts typically range from $250 to several thousand dollars a month depending on your website traffic volume."
+            ,
+            {
+              type: 'subheading',
+              text: 'Lead Forensics best for'
+            }
+            ,
+            "Lead Forensics works best for B2B sales teams that want to capture traffic that never converts through forms or downloads. It's strongest for companies focused on:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Finding new leads among website visitors',
+                'Upselling existing customers who show renewed interest',
+                'Reconnecting with lapsed customers browsing the site again',
+                'Supporting account-based marketing'
+              ]
+            }
+            ,
+            "For teams that care more about website visitor insight than broad intent signals, Lead Forensics gives targeted intelligence about businesses engaging with your content."
+          ]
+        }
+        ,
+        {
+          heading: "Demandbase",
+          content: [
+            "Demandbase uses AI to help B2B companies find and engage high-potential accounts through its account-based marketing platform. As one of the better-known intent data providers, it monitors nearly 3 million pages and 575,000+ intent keywords to detect buying signals."
+            ,
+            {
+              type: 'subheading',
+              text: 'Demandbase key features'
+            }
+            ,
+            "At its core, Demandbase offers AI Account Summaries that surface account details like ICP fit and engagement level in seconds. The platform also includes:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Prescriptive Sales Dashboards with real-time insight into account behavior and intent',
+                'Account signals that show who is interested and why',
+                'A Buying Groups feature to surface decision-makers and relevant contacts',
+                'Intent monitoring that tracks the browsing patterns of prospective buyers',
+                'A data integration hub that connects with major CRMs and marketing automation platforms'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'Demandbase pros and cons'
+            }
+            ,
+            "Pros:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Easy to navigate, even for first-time users',
+                'Full ABM capabilities with a unified account view',
+                'Strong customer satisfaction, with a 4.4/5 rating from user reviews',
+                'AI-driven insights that cut research time'
+              ]
+            }
+            ,
+            "Cons:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Enterprise pricing that may be too high for smaller teams',
+                'Implementation and training may carry extra fees',
+                'A broad ecosystem that needs dedicated people to run well',
+                'A learning curve to get the most from every feature'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'Demandbase pricing'
+            }
+            ,
+            "Demandbase One uses a two-part pricing structure:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'A platform fee covering core software and services',
+                'A flat per-user fee that makes scaling easy'
+              ]
+            }
+            ,
+            "Exact prices aren't public, but small businesses (around 200 employees) typically spend $18,000-$32,000 a year, mid-market firms (around 1,000 employees) $43,000-$61,000, and large enterprises often more than $100,000. The median annual investment is roughly $65,000."
+            ,
+            {
+              type: 'subheading',
+              text: 'Demandbase best for'
+            }
+            ,
+            "Demandbase works best for enterprise or high-growth mid-market companies with real marketing budget. It's also a good fit for:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'B2B teams that need unified data across sales and marketing',
+                'Companies with six or seven-figure deals that justify the spend',
+                'Teams that need full account intelligence and intent data',
+                'Organizations aligning marketing and sales around target accounts'
+              ]
+            }
+            ,
+            "The platform especially helps businesses spot in-market accounts before competitors and reach the whole buying committee with personalized messaging."
+          ]
+        }
+        ,
+        {
+          heading: "ZoomInfo",
+          content: [
+            "ZoomInfo processes over 1.5 billion data points a day and captures 58 million intent signals a week from sources well beyond traditional bidstream data. As a market leader in B2B intelligence, it helps sales teams find and engage prospects showing active buying behavior."
+            ,
+            {
+              type: 'subheading',
+              text: 'ZoomInfo key features'
+            }
+            ,
+            "ZoomInfo's platform stands out for real-time B2B intent signals that refresh daily, where many competitors update weekly. Core capabilities include:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'More than 12,000 intent topics sourced from 5,000 B2B sites',
+                'ZoomInfo Copilot, an AI feature that recommends who to contact and when',
+                'Guided Intent, which finds topics closely tied to past wins',
+                'Smooth CRM integration with Salesforce and HubSpot',
+                'Multi-source signals including web activity, job changes, and technographic shifts'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'ZoomInfo pros and cons'
+            }
+            ,
+            "Pros:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Industry-leading data depth, with 420M+ contact profiles and 110M+ company records',
+                'A clean interface with strong ease-of-use ratings (4.3/5)',
+                'Real-time alerts for engagement spikes or decision-maker job changes',
+                'Wide integration options, with 41+ native integrations'
+              ]
+            }
+            ,
+            "Cons:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Pricing that is complex and not transparent',
+                'A steep learning curve for new users',
+                'A limited free trial with access to only ten contacts',
+                'High cost that can be out of reach for smaller businesses'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'ZoomInfo pricing'
+            }
+            ,
+            "ZoomInfo offers several tiers:"
+            ,
+            "ZoomInfo Lite: Free plan with 10 credits a month and basic features"
+            ,
+            "Professional: From $14,995 a year with 5,000 bulk credits for up to three users"
+            ,
+            "Advanced: From $24,995 a year with 10,000 bulk credits plus 1,000 monthly credits per user"
+            ,
+            "Elite: From $39,995 a year with full features and unlimited add-ons"
+            ,
+            {
+              type: 'subheading',
+              text: 'ZoomInfo best for'
+            }
+            ,
+            "ZoomInfo fits mid-market to enterprise B2B companies that need intent data tied to a deep contact database. It's especially good for teams that need:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Fast-moving data with daily updates for quick outreach',
+                'Unified intelligence across sales and marketing',
+                'Advanced search for precise targeting',
+                'Enterprise-grade security with SOC 2 and ISO 27001 certification'
+              ]
+            }
+          ]
+        }
+        ,
+        {
+          heading: "Lead Onion",
+          content: [
+            "Lead Onion is a newer name among intent data providers. It pulls data from 24 different intent sources into one platform and tracks over 50 billion intent signals to find in-market companies. Its AI-powered Research Quadrant shows where a prospect sits in the buying journey."
+            ,
+            {
+              type: 'subheading',
+              text: 'Lead Onion key features'
+            }
+            ,
+            "The flagship feature is the Research Quadrant, where an AI agent named Aimee scans billions of signals to predict the top 10% of in-market companies. Other standout capabilities include:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Access to 209+ million verified contacts and 20+ million company profiles',
+                'Real-time IP matching that turns anonymous website visitors into identifiable leads, plus person-based intent that flags individual buyers researching your solution',
+                'An auto-reveal feature that surfaces decision-makers at companies showing intent spikes'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'Lead Onion pros and cons'
+            }
+            ,
+            "Pros:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'Multi-source intent data in one place',
+                'A user-friendly interface',
+                'Real-time alerts for fast engagement',
+                'Automation that streamlines workflows'
+              ]
+            }
+            ,
+            "Cons:"
+            ,
+            {
+              type: 'list',
+              items: [
+                'A limited track record next to established competitors',
+                'Some users report results below expectations',
+                'A feature set that takes some training',
+                'Implementation can take time'
+              ]
+            }
+            ,
+            {
+              type: 'subheading',
+              text: 'Lead Onion pricing'
+            }
+            ,
+            "Starting at $617.19 a month, Lead Onion brings enterprise-level intent data within reach of smaller teams. The platform includes a 7-day trial with 100 free leads."
+            ,
+            {
+              type: 'subheading',
+              text: 'Lead Onion best for'
+            }
+            ,
+            "Lead Onion works best for B2B companies that want to automate intent-driven prospecting. It serves both marketing teams tracking buyer behavior and sales teams that need fast alerts when research activity spikes."
+          ]
+        }
+      ]
+    }
   },
   {
     slug: "5-best-email-outreach-service-providers-2026-edition",
@@ -729,7 +729,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder and CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "May 10, 2026",
     readTime: "5 min read",
@@ -766,7 +766,7 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'Key features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -778,12 +778,12 @@ export const blogPosts: BlogPost[] = [
                 'Real-time campaign dashboards'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -792,12 +792,12 @@ export const blogPosts: BlogPost[] = [
                 'Transparent reporting with weekly dashboards'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -808,18 +808,18 @@ export const blogPosts: BlogPost[] = [
             "**Best for:** SaaS companies that want predictable qualifies pipeline without building an internal outbound function."
           ]
         }
-    ,
+        ,
         {
           heading: "Mailshake Services: Managed Email Outreach for Simpler Campaigns",
           content: [
             "Mailshake is better known as a software platform, but the company also runs managed outreach campaigns through its services team. The setup is fast, the platform is familiar to most sales teams, and the pricing is accessible compared to full-service agencies.",
             "The trade-off is depth. Mailshake works well for broad ICP targeting and straightforward sequences. For campaigns that need heavy personalization or nuanced segmentation, the output becomes generic."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -830,12 +830,12 @@ export const blogPosts: BlogPost[] = [
                 'Fully Managed through the Mailshake platform'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -843,12 +843,12 @@ export const blogPosts: BlogPost[] = [
                 'More affordable than larget agencies',
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -860,18 +860,18 @@ export const blogPosts: BlogPost[] = [
             "**Best for:** Small businesses and agencies running simple, broad outreach that needs to go live quickly."
           ]
         }
-    ,
+        ,
         {
           heading: "Belkins: Email Outreach for Enterprise and High-Ticket Sales",
           content: [
             "Belkins invests heavily in the research phase. For each account, their team manually maps the ICP, identifies decision-makers, and builds contact data by hand rather than pulling from a database. That approach is slower, but for companies selling into enterprise or mid-market accounts with five or six-figure deal sizes, the precision is worth the cost.",
             "The onboarding timeline typically runs 3-6 months before you see meaningful results. Belkins is not a good fit for early-stage companies looking for fast iteration.",
-            
+
             {
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -882,12 +882,12 @@ export const blogPosts: BlogPost[] = [
                 'Sales pipeline optimization'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -896,12 +896,12 @@ export const blogPosts: BlogPost[] = [
                 'Professional sequencing and research process'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -910,12 +910,12 @@ export const blogPosts: BlogPost[] = [
                 'Requires a minimum 3–6 month commitment'
               ]
             }
-    ,
-            
+            ,
+
             "**Best for:** B2B companies with enterprise deals sizes and buyers whi need a tailored approach."
           ]
         }
-    ,
+        ,
         {
           heading: "Sopro: GDPR-Compliant Email Outreach for EU and UK Markets",
           content: [
@@ -926,7 +926,7 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -937,12 +937,12 @@ export const blogPosts: BlogPost[] = [
                 'Real-time campaign dashboards'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -951,12 +951,12 @@ export const blogPosts: BlogPost[] = [
                 'Strong filtering for prospect quality'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -965,11 +965,11 @@ export const blogPosts: BlogPost[] = [
                 'No heavy LinkedIn or calling outreach'
               ]
             }
-    ,
+            ,
             "**Best for:** B2B companies in fintech, consulting, or HR tech targeting buyers in the EU or UK where compliance is non-negotiable."
           ]
         }
-    ,
+        ,
         {
           heading: "CIENCE: High-Volume Multi-Channel Email Outreach at Scale",
           content: [
@@ -980,7 +980,7 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -991,12 +991,12 @@ export const blogPosts: BlogPost[] = [
                 'Campaign playbooks and structured reporting'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1005,12 +1005,12 @@ export const blogPosts: BlogPost[] = [
                 'Good fit for enterprise teams running multi-market campaigns'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1019,11 +1019,11 @@ export const blogPosts: BlogPost[] = [
                 'Best performance requires long-term contracts'
               ]
             }
-    ,
+            ,
             "**Best for:** Large B2B companies running multi-geography outreach that need scale over surgical precision."
           ]
         }
-    ,
+        ,
         {
           heading: "Which Email Outreach Service Provider Is Right for You?",
           content: [
@@ -1050,7 +1050,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "May 20, 2026",
     readTime: "5 min read",
@@ -1076,12 +1076,12 @@ export const blogPosts: BlogPost[] = [
             "The results from a recent client engagement show what this looks like in practice. Working with CleverTap, Harvin delivered 90+ qualified appointments in three months, a 3x increase in SQLs, a 30% closure rate on those meetings, and a 60% improvement in pipeline quality and velocity. Those are the numbers that mattered to the sales team, not just activity metrics.",
             "The data infrastructure behind each campaign is the Waterfall Enrichment Engine, which cross-verifies contacts across multiple sources and produces 100,000+ valid emails per month. Bad contact data is one of the fastest ways to damage domain reputation, so this step happens before any email goes out, not as an afterthought.",
             "Each client gets a dedicated GTM engineer, weekly performance syncs, and a shared Slack channel for live campaign updates.",
-            
+
             {
               type: 'subheading',
               text: 'Key Services'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1097,7 +1097,7 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1123,14 +1123,14 @@ export const blogPosts: BlogPost[] = [
             "**Best for:** SaaS companies that need qualified pipeline without building an internal SDR function.",
           ]
         }
-    ,
+        ,
         {
           heading: "CIENCE: Multi-Channel Lead Generation at Enterprise Scale",
           content: [
             "CIENCE runs outbound for mid-market and enterprise companies across email, phone, social, and web simultaneously. Founded in 2015 and based in San Diego, the company has over 1,300 staff across the US, Mexico, the Philippines, and Europe, and has appeared on the Inc. 5000 list of fastest-growing private companies multiple years running.",
             "The model starts with research. Dedicated teams build custom prospect lists based on a client's ICP before any outreach begins. CIENCE offers five product lines covering the full outbound stack: GO Data (custom list building), GO Digital (multichannel campaigns), GO Show (appointment setting), GO SDR (dedicated sales reps), and GO Chat (website visitor qualification).",
             "Average engagements run between $5,000 and $8,000 per month with a 3-month minimum. At that price point, CIENCE makes more sense for established teams than early-stage startups.",
-            
+
             {
               type: 'subheading',
               text: 'Key services'
@@ -1173,11 +1173,11 @@ export const blogPosts: BlogPost[] = [
                 'Longer setup period before campaigns go live'
               ]
             },
-            
+
             "**Best for:** Mid-market and enterprise B2B companies running multi-channel outbound across multiple industries or geographies."
           ]
         }
-    ,
+        ,
         {
           heading: "Belkins: Personalized Email Lead Generation for High-Ticket B2B Sales",
           content: [
@@ -1232,13 +1232,13 @@ export const blogPosts: BlogPost[] = [
             "**Best for:** B2B tech companies with deal sizes above $10,000 tageting buyers in North America and Eupore."
           ]
         }
-    ,
+        ,
         {
           heading: "Martal Group: Lead Generation for Technology Companies Expanding into New Markets",
           content: [
             "Martal Group runs a sales-as-a-service model where dedicated SDRs work as extensions of the client's sales team rather than as a separate vendor. The company focuses on B2B technology companies and has particular experience helping North American tech businesses enter new geographic markets.",
             "They use a mix of proprietary tools and established platforms like HubSpot and Salesforce to manage outreach and track performance. Standard contracts run 6 months. Their model works best for companies with average deal values above $15,000 and well-defined technical products, where the SDR needs enough product knowledge to have a real conversation with a technical buyer."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Key services'
@@ -1287,14 +1287,14 @@ export const blogPosts: BlogPost[] = [
             "**Best for:** B2B technology companies with defined products and deal values above $15,000 particularly those expanding into new markets."
           ]
         }
-    ,
+        ,
         {
           heading: "SalesRoads: B2B Appointment Setting Through Phone Outreach",
           content: [
             "SalesRoads has been running outbound appointment setting since 2006, which gives them a longer operating history than every other company on this list. Their focus is narrow: converting cold prospects into qualified meetings through phone outreach, handled by US-based representatives.",
             "That narrowness is a trade-off. SalesRoads does not try to cover every channel. Phone outreach is the core, with email follow-up to support it. For industries where a phone call still opens doors professional services, financial services, healthcare technology this focused approach works. For companies wanting fully automated multi-channel sequences, it is the wrong fit.",
             "Minimum engagement is three months. They work across professional services, software, healthcare technology, and financial services.",
-            
+
             {
               type: "subheading",
               text: 'Key services'
@@ -1362,7 +1362,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder. & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "May 5, 2026",
     readTime: "5 min read",
@@ -1373,7 +1373,7 @@ export const blogPosts: BlogPost[] = [
     content: {
       introduction: [
         "Good outbound campaigns start with good data. If your contact list is stale, emails bounce. If firmographics are wrong, ICP targeting falls apart. If there's no direct email, the sequence never starts."
-    ,
+        ,
         "Data enrichment tools fix this by filling CRM gaps with verified contact details, firmographic data, technographic signals, and intent data. Here are five data enrichment service providers worth evaluating in 2026, with honest trade-offs on each."
       ],
       sections: [
@@ -1393,7 +1393,7 @@ export const blogPosts: BlogPost[] = [
             },
           ]
         }
-    ,
+        ,
         {
           heading: "Harvin: Best Data Enrichment Service for B2B SaaS Outbound",
           content: [
@@ -1406,7 +1406,7 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1417,12 +1417,12 @@ export const blogPosts: BlogPost[] = [
                 'ICP-based custom list building',
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1431,12 +1431,12 @@ export const blogPosts: BlogPost[] = [
                 'Dedicated GTM engineer per account'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1444,22 +1444,22 @@ export const blogPosts: BlogPost[] = [
                 'Limited onboarding capacity at any given time'
               ]
             }
-    ,
+            ,
             "**Best for:** SaaS teams scaling outbound or companies experiencing high bounce rates from single-source contact data."
           ]
         }
-    ,
+        ,
         {
           heading: "Clearbit: Real-Time Data Enrichment for Inbound Qualification",
           content: [
             "Clearbit enriches contact and company data in real time with native integrations into HubSpot and Salesforce. The primary use case is inbound qualification: when a lead submits a form, Clearbit fills in missing fields automatically and routes the lead based on firmographic fit, without manual research.",
             "Company-level data (revenue, tech stack, headcount) is strong. Email-level accuracy is less consistent, which matters more for outbound use cases than inbound."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1469,12 +1469,12 @@ export const blogPosts: BlogPost[] = [
                 'Website visitor identification'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1483,12 +1483,12 @@ export const blogPosts: BlogPost[] = [
                 'Well-suited for inbound qualification workflows.'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1497,12 +1497,12 @@ export const blogPosts: BlogPost[] = [
                 'Best feature require enterprise plans'
               ]
             }
-    ,
-            
+            ,
+
             "**Best for:** Fast-growing SaaS companies using HubSpot or Salesforce to qualify and route inbound leads."
           ]
         }
-    ,
+        ,
         {
           heading: "Apollo.io: Data Enrichment Combined with Sales Engagement",
           content: [
@@ -1512,7 +1512,7 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1522,12 +1522,12 @@ export const blogPosts: BlogPost[] = [
                 'Built-in sales engagement and sequencing'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1536,12 +1536,12 @@ export const blogPosts: BlogPost[] = [
                 'Fast to set up'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1550,22 +1550,22 @@ export const blogPosts: BlogPost[] = [
                 'CRM field conflicts on import are common'
               ]
             }
-    ,
+            ,
             "**Best for:** Startups that need an affordable contact database. with outreach tools build in and do not require enterprise-level accuracy."
           ]
         }
-    ,
+        ,
         {
           heading: "ZoomInfo: Enterprise B2B Data Enrichment with Deep Firmographic Coverage",
           content: [
             "ZoomInfo is the most comprehensive B2B data enrichment service on this list and the most expensive. Coverage goes deep: org charts, reporting hierarchies, buyer intent signals, real-time enrichment, and technographic data across millions of companies globally.",
             "For teams with 20 or more SDRs running multi-market campaigns, the depth justifies the cost. For smaller teams, it rarely does."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1575,12 +1575,12 @@ export const blogPosts: BlogPost[] = [
                 'Real-time enrichment and CRM automation'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1589,12 +1589,12 @@ export const blogPosts: BlogPost[] = [
                 'Reliable across North American markets'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1603,11 +1603,11 @@ export const blogPosts: BlogPost[] = [
                 'Long sales and onboarding process'
               ]
             }
-    ,
+            ,
             "**Best for:** Large enterprises and teams with 20+ SDRs running outbound across multiple markets."
           ]
         }
-    ,
+        ,
         {
           heading: "Lusha: Lightweight Data Enrichment for SDR Phone Workflows",
           content: [
@@ -1665,7 +1665,7 @@ export const blogPosts: BlogPost[] = [
           content: [
             "The right choice depends on what part of the data problem you are trying to solve.",
             "For SaaS outbound where multi-source accuracy and deliverability matter, Harvin handles enrichment as part of a managed campaign. For real-time inbound qualification inside HubSpot or Salesforce, Clearbit is the cleaner fit. For an affordable combined database and outreach tool, Apollo is the starting point. For enterprise-scale depth across org charts, intent signals, and technographics, ZoomInfo is the right tool. For phone-heavy SDR workflows on LinkedIn, Lusha works.",
-            
+
             "Want to see how Harvin would enrich your ICP list?",
             {
               type: 'cta',
@@ -1686,7 +1686,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Feb 14, 2026",
     readTime: "3 min read",
@@ -1695,11 +1695,11 @@ export const blogPosts: BlogPost[] = [
     content: {
       introduction: [
         "*Simplify bookings, cut no-shows, and get more out of your calendar with the right scheduling partner.*"
-    ,
+        ,
         "If you run a sales team, a consulting practice, a coaching program, a medical office, or an agency, incoming meetings pile up fast. Manual scheduling burns hours, the back-and-forth over email annoys prospects, and a messy booking flow quietly loses you deals."
-    ,
+        ,
         "That is the gap **appointment scheduling service agencies** fill. They take care of calendar setup, booking automation, follow-ups, reminders, integrations, and CRM sync, so your time goes to converting leads and closing deals instead of chasing calendar links."
-    ,
+        ,
         "Here are the **5 best appointment scheduling service agencies** worth a look in 2026."
 
 
@@ -1709,9 +1709,9 @@ export const blogPosts: BlogPost[] = [
           heading: "Harvin (Best Overall Appointment Scheduling Agency)",
           content: [
             "Harvin leads the list because it manages scheduling **end to end**. You get strategy, execution, and ongoing tuning of your booking workflows, not just a tool you have to run yourself."
-    ,
+            ,
             "Instead of only automating calendars, Harvin works on:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1721,31 +1721,31 @@ export const blogPosts: BlogPost[] = [
                 'Tying booking workflows to revenue outcomes'
               ]
             }
-    ,
+            ,
             "That fit makes it a strong match for high-growth SaaS, tech firms, and consultancies that need a predictable pipeline."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'What Harvin Does Best'
             }
-    ,
+            ,
             "Calendar configuration and optimization"
-    ,
+            ,
             "Lead-to-meeting conversion workflows"
-    ,
+            ,
             "Automated reminders and rescheduling paths"
-    ,
+            ,
             "No-show suppression and follow-up strategy"
-    ,
+            ,
             "Integration with your CRM (HubSpot, Salesforce, Pipedrive, and more)"
-    ,
+            ,
             "Reporting dashboards and analytics"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Why Clients Stay'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1755,56 +1755,56 @@ export const blogPosts: BlogPost[] = [
                 'Support for round-robin, team calendars, and SDR bookings'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             "Built around revenue outcomes, not automation for its own sake"
-    ,
+            ,
             "Turns best practices into repeatable workflows"
-    ,
+            ,
             "Strong fit for sales teams and consultancies"
-    ,
+            ,
             "Performance reporting plus SLA support"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             "Tailored services, so expect some onboarding time"
-    ,
+            ,
             "Best ROI shows up in 90-day or longer engagements"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Best For'
             }
-    ,
+            ,
             "B2B SaaS"
-    ,
+            ,
             "Consultancies and agencies"
-    ,
+            ,
             "Coaching and training businesses"
-    ,
+            ,
             "Sales teams that live on booked demos"
-    ,
+            ,
             "If you want **more qualified meetings and fewer dropped leads**, Harvin is the one to start with."
           ]
         }
-    ,
+        ,
         {
           heading: "Schedulicity / Managed Scheduling Services",
           content: [
             "Schedulicity is a capable scheduling tool, and it also offers **managed scheduling services** for businesses that would rather hand the whole thing off."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1815,47 +1815,47 @@ export const blogPosts: BlogPost[] = [
                 'Customizable availability windows'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             "Good fit for service-based businesses"
-    ,
+            ,
             "Built-in reminders cut no-shows"
-    ,
+            ,
             "Hands-on support during setup"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             "More tool than agency"
-    ,
+            ,
             "Thin CRM ecosystem without add-ons"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Best For'
             }
-    ,
+            ,
             "Salons, spas, and wellness businesses"
-    ,
+            ,
             "Service businesses with high appointment churn"
-    ,
+            ,
             "Schedulicity's managed setup saves time, but it suits service industries more than B2B sales."
           ]
         }
-    ,
+        ,
         {
           heading: "Belkins Appointment Setting Services",
           content: [
             "Belkins is one of the better-known names in appointment setting and outbound lead generation, with a clear focus on **getting qualified meetings onto your calendar**."
-    ,
+            ,
             "Rather than basic scheduling automation, Belkins pulls together:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1865,14 +1865,14 @@ export const blogPosts: BlogPost[] = [
                 'Calendar management'
               ]
             }
-    ,
+            ,
             "The result turns prospects into booked meetings with close to enterprise-grade precision."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1882,47 +1882,47 @@ export const blogPosts: BlogPost[] = [
                 'Follow-ups for confirmations'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             "Strong on targeted outbound campaigns"
-    ,
+            ,
             "Highly personalized workflow"
-    ,
+            ,
             "Focused on qualified meetings"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             "Higher price point"
-    ,
+            ,
             "Longer onboarding for deep outbound campaigns"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Best For'
             }
-    ,
+            ,
             "Mid-market and enterprise B2B"
-    ,
+            ,
             "Companies with complex buying cycles"
-    ,
+            ,
             "Belkins fits when you want **both lead generation and booking execution**, not just a calendar link."
           ]
         }
-    ,
+        ,
         {
           heading: "CIENCE Appointment Setting & Scheduling",
           content: [
             "CIENCE runs **end-to-end outbound systems**, and appointment setting and scheduling sit inside a larger sales acceleration package."
-    ,
+            ,
             "Instead of leaning on tools alone, CIENCE builds:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1932,12 +1932,12 @@ export const blogPosts: BlogPost[] = [
                 'Multi-channel touchpoints'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Key Features'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1947,47 +1947,47 @@ export const blogPosts: BlogPost[] = [
                 'SDR engagement workflows'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             "Scales with larger sales teams"
-    ,
+            ,
             "Strong data and sequencing support"
-    ,
+            ,
             "Multi-channel nurture before the booking"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             "Pricier than standalone schedulers"
-    ,
+            ,
             "Best suited to high-volume outbound teams"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Best For'
             }
-    ,
+            ,
             "Large B2B and enterprise sales teams"
-    ,
+            ,
             "Businesses that need multi-stage funnels"
-    ,
+            ,
             "CIENCE is at its best when scheduling is one part of a **larger, multi-channel sales engine**."
           ]
         }
-    ,
+        ,
         {
           heading: "Virtual Assistants & Specialized Scheduling Agencies",
           content: [
             "This last group covers boutique agencies and virtual assistant services that treat **scheduling as a service**."
-    ,
+            ,
             "They typically handle:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -1998,9 +1998,9 @@ export const blogPosts: BlogPost[] = [
                 'CRM updates'
               ]
             }
-    ,
+            ,
             "Common options vary by region and niche, but usually fall into:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2009,44 +2009,44 @@ export const blogPosts: BlogPost[] = [
                 'Call center and scheduler hybrids'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Pros'
             }
-    ,
+            ,
             "Highly customizable workflows"
-    ,
+            ,
             "A human touch on confirmations"
-    ,
+            ,
             "Handles edge cases well"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Cons'
             }
-    ,
+            ,
             "Quality varies a lot by agency"
-    ,
+            ,
             "More manual work than automation"
-    ,
+            ,
             "Costs depend on hours and volume"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Best For'
             }
-    ,
+            ,
             "Entrepreneurs"
-    ,
+            ,
             "Small businesses with varied appointment flows"
-    ,
+            ,
             "Teams that need flexible support"
-    ,
+            ,
             "These agencies make sense when your scheduling needs **don't fit one tool or one template**."
           ]
         }
-    ,
+        ,
         {
           heading: "Conclusion",
           content: [
@@ -2054,7 +2054,7 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'About Harvin'
             }
-    ,
+            ,
             "Harvin is a B2B lead generation company that helps SaaS companies find and convert high-intent prospects using signal intelligence and AI-powered automation. Our clients typically see 3x higher response rates and 40% shorter sales cycles within 90 days of getting started."
           ]
         }
@@ -2070,7 +2070,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Mar 18, 2026",
     readTime: "7 min read",
@@ -2084,17 +2084,17 @@ export const blogPosts: BlogPost[] = [
           heading: "How to Read a Job Posting Pattern",
           content: [
             "Most reps chase the same two things: the 'We're hiring!' post and the funding announcement everyone already saw on their feed. The teams that consistently book meetings look at something quieter. A job posting is one of the most honest documents a company will ever publish, because it tells you exactly what is broken and where the money is about to go."
-    ,
+            ,
             "We spent three years watching how SaaS companies hire before it became a real part of how we work at Harvin. The pattern below is the same one our clients used to lift response rates by 340% and pull roughly 47 days out of their average sales cycle."
-    ,
+            ,
             "**The problem with traditional prospecting**"
-    ,
+            ,
             "You know how it goes. A company posts a role, and within a few hours the hiring manager's inbox fills up with the same message dressed in slightly different words: 'Congrats on the growth, we'd love to support you.' The timing is right. The message is empty."
-    ,
+            ,
             "**Everyone reads the headline. Almost nobody reads the story.**"
-    ,
+            ,
             "A new role is never just a request for another person. Read it closely and it tells you four things at once:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2104,11 +2104,11 @@ export const blogPosts: BlogPost[] = [
                 'What they need fixed in the next quarter'
               ]
             }
-    ,
+            ,
             "When you reach out with that context, you stop sounding like a vendor and start sounding like someone who has been in the room. That shift is what moves your reply rate, not a better subject line."
-    ,
+            ,
             "**The six hiring signals worth watching**"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2122,152 +2122,152 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "Revenue Operations or Sales Enablement Hires",
           content: [
             "**What it really means:** The pipeline is outrunning the plumbing. Deals are coming in faster than anyone can clean up after them, so the data is messy, leads fall through the gaps, and the CRM has quietly become a place where good intentions go to die."
-    ,
+            ,
             "**Your timing window:** Roughly 30 to 60 days after the role goes live. By then the new hire has seen the full mess they walked into and has started writing down every tool they wish they had."
-    ,
+            ,
             "**What to pitch:** Lead enrichment, CRM automation, sales onboarding, or anything that stitches the data back together."
-    ,
+            ,
             "**Opening line that works:** 'Saw you're building out Rev Ops. Braced for the data cleanup that usually comes with it?' It works because you are not congratulating them on growth. They already know they are growing. You are the one who understands the operational headache that shows up right behind it."
           ]
         }
-    ,
+        ,
         {
           heading: "Customer Success or Implementation Specialists",
           content: [
             "**What it really means:** The sales motion is finally landing, and the worry has moved down the funnel. The conversation inside the company has shifted from 'how do we close more' to 'how do we keep the ones we just won.'"
-    ,
+            ,
             "**Your timing window:** The first week or two after the new hire starts. They still have fresh eyes and have not yet disappeared into a queue of escalations."
-    ,
+            ,
             "**What to pitch:** Onboarding and activation tools, churn prediction, or anything that takes repetitive CS work off their plate."
-    ,
+            ,
             "**Opening line that works:** 'Your new CS hire is going to thank you for fixing churn before it lands on their desk.'"
           ]
         }
-    ,
+        ,
         {
           heading: "Integration Engineers or API Developers",
           content: [
             "**What it really means:** The stack has sprawled and the temporary fixes are giving out. Someone on the team is losing whole afternoons to manual data pushes and brittle integrations that snap every time a vendor ships an API change."
-    ,
+            ,
             "**Your timing window:** While they are still hiring. That is when the pain is loudest and someone in the room is quietly adding up what it really costs to build all of this in-house."
-    ,
+            ,
             "**What to pitch:** Data orchestration, embedded integrations, or developer tooling that saves the team from reinventing the same connectors."
-    ,
+            ,
             "**Opening line that works:** 'Building your integrations in-house? Here's the part your new engineer will wish someone had flagged first.'"
           ]
         }
-    ,
+        ,
         {
           heading: "Growth or Lifecycle Marketing Roles",
           content: [
             "**What it really means:** They are done with spray-and-pray. The team wants to know which channels actually pay off, how to keep customers engaged past the first month, and where retention is leaking."
-    ,
+            ,
             "**Your timing window:** The first 90 days, while the new hire is drafting a strategy and quietly deciding which tools they cannot live without."
-    ,
+            ,
             "**What to pitch:** Attribution, personalization, journey mapping, or retention analytics."
-    ,
+            ,
             "**Opening line that works:** 'Your new growth lead is about to ask for a tool you've never heard of. Want to be the one who already has it?'"
           ]
         }
-    ,
+        ,
         {
           heading: "Regional Heads or Country Managers",
           content: [
             "**What it really means:** They are moving into a new market, and everything that comes with it is about to land on someone's desk at once: local compliance, tax rules, hiring, and a dozen things nobody accounted for."
-    ,
+            ,
             "**Your timing window:** Two to three months before the launch, while the plan is still being written and the budget lines are still soft."
-    ,
+            ,
             "**What to pitch:** Localized GTM tooling, international compliance, global hiring, or multi-currency billing."
-    ,
+            ,
             "**Opening line that works:** 'Expanding into [region]? A few compliance landmines tend to surface right around this stage. Happy to share what usually catches teams off guard.'"
           ]
         }
-    ,
+        ,
         {
           heading: "Security Analysts or Compliance Heads",
           content: [
             "**What it really means:** Something set off a risk review. It could be a near miss, an audit on the calendar, or simply the point where the company got big enough that security stopped being optional and became a board topic."
-    ,
+            ,
             "**Your timing window:** Right away. Once security jumps up the priority list, budgets get approved faster than almost anything else."
-    ,
+            ,
             "**What to pitch:** Audit trails, contract management, identity management, or compliance tooling."
-    ,
+            ,
             "**Opening line that works:** 'Curious what pushed security up the list this quarter. Whatever it was, there's usually a second wave right behind it worth getting ahead of.'"
-    ,
+            ,
             {
               type: 'subheading',
               text: 'The quieter signals most people walk past'
             }
-    ,
+            ,
             "Once the six above become second nature, a few subtler patterns are worth watching for."
-    ,
+            ,
             "**A burst of similar roles** rarely means calm, planned growth. Three 'Software Engineer' posts in two weeks usually means something is on fire and they are hiring their way out of it."
-    ,
+            ,
             "**A senior and a junior version of the same role posted together** tells you they are standing up a function from scratch. That is your opening to bring a full solution to the table instead of a single feature."
-    ,
+            ,
             "**The same role reappearing within six months** almost always means the first hire did not stick. Nine times out of ten, the tools and processes were broken, not the person, and that is a conversation worth having."
-    ,
+            ,
             "**A wave of remote-first roles** tells you the distributed-team headaches are on their way: slower communication, thinner security, messier onboarding, and compliance to untangle across more than one jurisdiction."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'How to scale this without burning out'
             }
-    ,
+            ,
             "Reading every posting by hand works right up until you have more than a handful of accounts. Here is how we let the software do the watching."
-    ,
+            ,
             "**Clay and Apollo:** Set up workflows that keep an eye on hiring at your target accounts and ping you the moment a relevant role goes live."
-    ,
+            ,
             "**Phantom Buster:** Pull postings by keyword and company so you build a running record of who is hiring for what."
-    ,
+            ,
             "**6sense or Bombora:** Put intent data next to the hiring signal so you can confirm someone is actually in-market before you write a word."
-    ,
+            ,
             "**Outreach or Salesloft:** Wire up sequences that kick off on their own when a specific role or job change hits an account you care about."
-    ,
+            ,
             "**Zapier:** Pipe job boards straight into your CRM and outreach stack so none of this needs a human babysitting it."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'From signal to sale'
             }
-    ,
+            ,
             "This is the sequence we run at Harvin to turn a job posting into pipeline."
-    ,
+            ,
             "**Level 1:** Watch the postings at your target accounts."
-    ,
+            ,
             "**Level 2:** Read each posting as a business priority, not a job title."
-    ,
+            ,
             "**Level 3:** Time the outreach to their decision cycle, not yours."
-    ,
+            ,
             "**Level 4:** Write to the specific problem the hire is meant to solve."
-    ,
+            ,
             "**Level 5:** Follow up as their situation actually plays out."
-    ,
+            ,
             "The step almost everyone skips is patience. Do not fire off a message the day a role appears. Ask yourself where that hire puts the company in three months, then show up when they are ready to hear from you."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Why it lands'
             }
-    ,
+            ,
             "Old-school outbound starts with what you are trying to sell. Signal-based outreach starts with what they are already trying to buy."
-    ,
+            ,
             "Message someone the week after they hire a Rev Ops lead and you are not interrupting anything. You are showing up at the exact moment the problem you solve is on their mind."
-    ,
+            ,
             "It also quietly changes who you are in the conversation. You stop being the eleventh vendor of the week and become the person who understood the business well enough to see the next headache coming."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Where to start'
             }
-    ,
+            ,
             "You do not need to boil the ocean. Start here."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2278,20 +2278,20 @@ export const blogPosts: BlogPost[] = [
                 'Add more signals and automation once the first two are working'
               ]
             }
-    ,
+            ,
             "It comes down to one shift in thinking. Good outbound is not about who is hiring. It is about why they are hiring."
-    ,
+            ,
             "The teams that get that difference are the ones that will keep winning in B2B, this year and the next."
-    ,
+            ,
             "Want to build your outreach around this? Harvin runs signal-based prospecting at scale for B2B SaaS companies."
-    ,
+            ,
             "[Contact us](/contact) and we'll show you how a job posting turns into qualified pipeline. If you are working out how to run a team around signals like these, start with [what an SDR management platform is](/sdr-management-platform)."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'About Harvin'
             }
-    ,
+            ,
             "Harvin is a B2B lead generation company that helps SaaS companies find and convert high-intent prospects using signal intelligence and AI-powered automation. Our clients typically see 3x higher response rates and 40% shorter sales cycles within 90 days of getting started."
           ]
         }
@@ -2307,7 +2307,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Apr 13, 2026",
     readTime: "7 min read",
@@ -2321,9 +2321,9 @@ export const blogPosts: BlogPost[] = [
           heading: "The Cold Reality of B2B Prospecting in 2025",
           content: [
             "You have built the perfect target account list. Your ICP is dialed in. Your messaging is sharp."
-    ,
+            ,
             "Then you hit the data wall:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2332,9 +2332,9 @@ export const blogPosts: BlogPost[] = [
                 '60% of direct dials go to dead numbers'
               ]
             }
-    ,
+            ,
             "This is more than a daily annoyance. It costs you 28% of potential revenue (Gartner 2024). The good news: top 1% revenue teams already have a fix, and it is running right now."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2347,7 +2347,7 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "Waterfall Enrichment: Your Secret Weapon for Complete Coverage",
           content: [
@@ -2355,7 +2355,7 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'How It Actually Works'
             }
-    ,
+            ,
             "A waterfall runs your contact list through providers in sequence. Each tier catches what the one before it missed:",
             {
               type: 'list',
@@ -2367,14 +2367,14 @@ export const blogPosts: BlogPost[] = [
                 'Niche provider: catches the final 5%'
               ]
             }
-    ,
+            ,
             "End result: 95%+ contactability versus 60% with a single provider. When one vendor comes up empty, the lead falls through to the next, and so on, until you have a usable contact."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Why This Becomes Mandatory in 2025'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2390,28 +2390,28 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "The 2025 Waterfall Stack",
           content: [
             "| Tier | Provider | Specialization | Avg. Cost/Contact |"
-    ,
+            ,
             "| --- | --- | --- | --- |"
-    ,
+            ,
             "| 1 | Apollo | US Enterprise | $0.18 |"
-    ,
+            ,
             "| 2 | Lusha | Global Mid-Market | $0.22 |"
-    ,
+            ,
             "| 3 | ContactOut | APAC/EMEA | $0.25 |"
-    ,
+            ,
             "| 4 | Datagma | French Market | $0.30 |"
-    ,
+            ,
             "| 5 | Swordfish | Direct Dials | $0.35 |"
-    ,
+            ,
             "Pro Tip: Layer in technographic (HG Insights) and intent (Bombora) waterfalls for account-based plays."
           ]
         }
-    ,
+        ,
         {
           heading: "4 Unavoidable Benefits",
           content: [
@@ -2427,7 +2427,7 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "The Build vs. Buy Reality Check",
           content: [
@@ -2436,7 +2436,7 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'Why DIY Fails in 2025'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2444,12 +2444,12 @@ export const blogPosts: BlogPost[] = [
                 '**Coverage gap.** A hand-built stack tops out at three or four providers.'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Tools That Do It For You'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2460,7 +2460,7 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "Implementation Blueprint",
           content: [
@@ -2475,13 +2475,13 @@ export const blogPosts: BlogPost[] = [
                 'Automate re-enrichment every 90 days'
               ]
             }
-    ,
+            ,
             "Pro tip: try reverse waterfalling. Check niche providers first for the hidden gems the big databases miss.",
             {
               type: 'subheading',
               text: 'The Future Is Multi-Source'
             }
-    ,
+            ,
             "The teams winning in 2025 will not pick one data provider over another. They use all of them, in a deliberate order. The question is not whether to run waterfall enrichment, but how fast you can put it in place.",
             {
               type: 'cta',
@@ -2502,7 +2502,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Dec 22, 2025",
     readTime: "7 min read",
@@ -2516,7 +2516,7 @@ export const blogPosts: BlogPost[] = [
           heading: "Why Traditional B2B Lead Gen is Broken (And What to Do Instead)",
           content: [
             "The old B2B marketing playbook has stopped working, and most teams feel it before they can explain it."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2525,13 +2525,13 @@ export const blogPosts: BlogPost[] = [
                 'Agencies keep doubling down on tired tactics that stopped producing.'
               ]
             }
-    ,
+            ,
             "The result is more spend, fewer leads, and pipelines that keep shrinking."
-    ,
+            ,
             "There is another option. It costs nothing, it builds trust, and it surfaces high-intent leads before they enter your funnel."
-    ,
+            ,
             "That option is Reddit."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2542,14 +2542,14 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "Why Reddit is a B2B Lead Generation Powerhouse",
           content: [
             "Most marketers write Reddit off as a place for memes and arguments. For B2B, it is full of buyer intent that nobody asked people to share, which is exactly what makes it useful."
-    ,
+            ,
             "A few reasons it works:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2558,11 +2558,11 @@ export const blogPosts: BlogPost[] = [
                 'Low competition. LinkedIn and paid ads are crowded, while Reddit stays underused for B2B.'
               ]
             }
-    ,
+            ,
             "And you do not need a large budget for any of it. You need the right approach."
           ]
         }
-    ,
+        ,
         {
           heading: "How to Generate B2B Leads on Reddit (Step-by-Step)",
           content: [
@@ -2570,11 +2570,11 @@ export const blogPosts: BlogPost[] = [
               type: 'subheading',
               text: 'Step 1: Find the right subreddits'
             }
-    ,
+            ,
             "Subreddits are not interchangeable. Focus on the niche communities where your buyers already spend time."
-    ,
+            ,
             "Some examples for B2B:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2584,18 +2584,18 @@ export const blogPosts: BlogPost[] = [
                 'Tech leaders: r/tech, r/ProductManagement'
               ]
             }
-    ,
+            ,
             "Tip: use [Subreddit Stats](https://subredditstats.com/) to find the communities with real engagement."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Step 2: Identify recurring pain points'
             }
-    ,
+            ,
             "Listen before you pitch."
-    ,
+            ,
             "Search for threads like:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2604,30 +2604,30 @@ export const blogPosts: BlogPost[] = [
                 'How do you solve [Z]?'
               ]
             }
-    ,
+            ,
             "Here is what that looks like in practice. A SaaS founder posts:"
-    ,
+            ,
             "'We are drowning in churn. Has anyone found a good way to reduce cancellations?'"
-    ,
+            ,
             "That is a golden lead."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Step 3: Provide value first (no pitch)'
             }
-    ,
+            ,
             "The rule is simple: help before you sell."
-    ,
+            ,
             "The bad version:"
-    ,
+            ,
             "'Use our tool. It fixes churn.'"
-    ,
+            ,
             "The good version:"
-    ,
+            ,
             "'We cut churn by 30% at [Company] by implementing [strategy]. Here is a free guide we wrote on the exact steps: [Link].'"
-    ,
+            ,
             "Why the second one works:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2636,16 +2636,16 @@ export const blogPosts: BlogPost[] = [
                 'It makes them ask you for the solution.'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Step 4: The provoke and nurture framework'
             }
-    ,
+            ,
             "The Reddit posts that generate leads rarely feel like marketing at all."
-    ,
+            ,
             "A case study from one of these posts:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2658,16 +2658,16 @@ export const blogPosts: BlogPost[] = [
                 '3 high-value clients at $15.5K ARR each'
               ]
             }
-    ,
+            ,
             "The point is to frame the problem so sharply that people have to respond."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Step 5: Move conversations off Reddit'
             }
-    ,
+            ,
             "Reddit is where conversations start. It is not where deals close."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2676,9 +2676,9 @@ export const blogPosts: BlogPost[] = [
                 'Invite them to a webinar or community: We are running a session on this next week, want an invite?'
               ]
             }
-    ,
+            ,
             "A simple tool stack:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2689,7 +2689,7 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "Reddit B2B Lead Gen Tactics That Convert",
           content: [
@@ -2700,11 +2700,11 @@ export const blogPosts: BlogPost[] = [
               ],
               ordered: true
             }
-    ,
+            ,
             "Post: 'Agencies, what is your biggest struggle right now?'"
-    ,
+            ,
             "Goal: collect pain points and spot leads."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2712,11 +2712,11 @@ export const blogPosts: BlogPost[] = [
               ],
               ordered: true
             }
-    ,
+            ,
             "Post: 'How we helped a SaaS company reduce churn by 40%'"
-    ,
+            ,
             "Goal: pull in prospects with social proof."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2724,16 +2724,16 @@ export const blogPosts: BlogPost[] = [
               ],
               ordered: true
             }
-    ,
+            ,
             "Post: 'Cold email is dead, here is what works now'"
-    ,
+            ,
             "Goal: spark debate and DM the people who engage."
-    ,
+            ,
             {
               type: 'subheading',
               text: '1. The problem validation post'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2741,12 +2741,12 @@ export const blogPosts: BlogPost[] = [
                 'Goal: collect pain points and spot leads.'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: '2. The case study teaser'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2754,12 +2754,12 @@ export const blogPosts: BlogPost[] = [
                 'Goal: pull in prospects with social proof.'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: '3. The controversial take'
             }
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2767,14 +2767,14 @@ export const blogPosts: BlogPost[] = [
                 'Goal: spark debate and DM the people who engage.'
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Key Takeaways'
             }
-    ,
+            ,
             "Reddit is an untapped B2B lead source, as long as you lead with problems instead of pitches."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2783,9 +2783,9 @@ export const blogPosts: BlogPost[] = [
                 'Move conversations off-platform to close deals.'
               ]
             }
-    ,
+            ,
             "Your turn:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -2794,7 +2794,7 @@ export const blogPosts: BlogPost[] = [
                 'Engage with value, no pitching.'
               ]
             }
-    ,
+            ,
             "Want a swipe file of high-converting Reddit posts? Tell us in the comments."
           ]
         }
@@ -2810,7 +2810,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Apr 18, 2026",
     readTime: "7 min read",
@@ -3020,7 +3020,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Feb 13, 2026",
     readTime: "7 min read",
@@ -3029,7 +3029,7 @@ export const blogPosts: BlogPost[] = [
     content: {
       introduction: [
         "US RetailTech is a hard market to win in. Budgets are tight, buyers have seen every pitch, and a good product alone won't get you a meeting. What gets you in the door is clean execution: targeting the right people, reaching them through channels they trust, and following up without being a nuisance."
-    ,
+        ,
         "We have helped dozens of RetailTech companies scale outreach, and the same patterns keep showing up. Here is what works in 2024."
       ],
       sections: [
@@ -3046,9 +3046,9 @@ export const blogPosts: BlogPost[] = [
                 "5. The Inbound/Outbound Blitz (Most Teams Miss This)"
               ]
             }
-    ,
+            ,
             "Most RetailTech buyers ignore or distrust email from foreign IPs. If your campaigns are flatlining, the problem is often your sending infrastructure, not your copy."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3062,12 +3062,12 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "Sales Navigator is Broken (Here is How to Fix Your Targeting)",
           content: [
             "Most teams lean on basic filters like 'Fashion and Apparel'. The trouble is that 40 percent or more of relevant retailers sit miscategorized under labels you would never check:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3085,16 +3085,16 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "The #1 Underused Resource for RetailTech Intel",
           content: [
             "Most sellers skip industry podcasts. They shouldn't. Podcasts are full of trigger events and named pain points straight from the buyer's mouth."
-    ,
+            ,
             "Must-Listen:"
-    ,
+            ,
             "Netcore Unbxd's eCommerce Unfiltered (https://www.netcoreunbxd.com/podcast)"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3102,9 +3102,9 @@ export const blogPosts: BlogPost[] = [
                 "Pavan Sondur talks through the hurdles to AI adoption in mid-market retail"
               ]
             }
-    ,
+            ,
             "How to use this intel:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3114,12 +3114,12 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "The Only Outreach That Works for C-Levels and VPs",
           content: [
             "Senior buyers respond to numbers they already care about. Anchor your message to one of these:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3129,18 +3129,18 @@ export const blogPosts: BlogPost[] = [
                 "Winning template:"
               ]
             }
-    ,
+            ,
             "'Hi [First Name], [Retailer X] cut checkout friction by 22 percent using [specific solution]. With [Your Company], we helped [Similar Brand] hit [metric] in [timeframe]. Is [pain point, for example mobile cart abandonment] a priority for your team this quarter?'"
-    ,
+            ,
             "Pro tip: use Clay to auto-pull earnings call highlights, so every hook is tied to something the buyer actually said."
           ]
         }
-    ,
+        ,
         {
           heading: "The Inbound/Outbound Blitz (Most Teams Miss This)",
           content: [
             "When inbound and outbound run together, response rates climb. Pair these moves:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3149,9 +3149,9 @@ export const blogPosts: BlogPost[] = [
                 "Sequenced nurture emails triggered by site visits"
               ]
             }
-    ,
+            ,
             "Tool stack:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3159,12 +3159,12 @@ export const blogPosts: BlogPost[] = [
                 "ChiliPiper (instant meeting booking)"
               ]
             }
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Key Takeaway'
             }
-    ,
+            ,
             "RetailTech winners don't outspend the field, they outsmart it. Solid infrastructure, prospecting that goes past the obvious filters, and outreach built on real metrics will cut through the noise in US RetailTech."
           ]
         }
@@ -3180,7 +3180,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Feb 11, 2026",
     readTime: "7 min read",
@@ -3189,7 +3189,7 @@ export const blogPosts: BlogPost[] = [
     content: {
       introduction: [
         "2024 was a strange year for sales outreach. Inboxes got noisier, AI personalization went mainstream, and spam filters tightened in ways that broke plenty of campaigns that worked fine a few months earlier."
-    ,
+        ,
         "After running thousands of campaigns this year, we pulled together the outreach lessons that cost us the most to learn, covering cold email, LinkedIn automation, and deliverability."
       ],
       sections: [
@@ -3211,9 +3211,9 @@ export const blogPosts: BlogPost[] = [
                 '10. Stop obsessing over open rates'
               ]
             }
-    ,
+            ,
             "We have tested every major cold email tool, and Smartlead keeps coming out ahead:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3222,16 +3222,16 @@ export const blogPosts: BlogPost[] = [
                 'Built-in spam avoidance through auto-pacing and domain rotation'
               ]
             }
-    ,
+            ,
             "If you are serious about scaling outreach, this is the tool we reach for first."
           ]
         }
-    ,
+        ,
         {
           heading: "LinkedIn Automation is a Quiet Growth Channel",
           content: [
             "Everyone obsesses over email, but LinkedIn automation has been quietly outperforming it for us in a few ways:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3240,16 +3240,16 @@ export const blogPosts: BlogPost[] = [
                 'Multi-touch sequences that roughly double responses when paired with email'
               ]
             }
-    ,
+            ,
             "Tool pick: [Octopus CRM](https://octopuscrm.io/) or [Dux-Soup](https://dux-soup.com/) for safe, human-like automation."
           ]
         }
-    ,
+        ,
         {
           heading: "Multiple Admin Accounts Mean Better Deliverability",
           content: [
             "Gmail and Workspace track payment fingerprints. When you set up domains, a few habits keep you out of trouble:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3258,18 +3258,18 @@ export const blogPosts: BlogPost[] = [
                 'Space out domain creation instead of bulk setups'
               ]
             }
-    ,
+            ,
             "All of this reduces the bulk-sender flags that Google watches for."
           ]
         }
-    ,
+        ,
         {
           heading: "Outlook Mailboxes Are a Black Hole",
           content: [
             "Microsoft spam filters are brutal. Even well-warmed emails land in junk."
-    ,
+            ,
             "We prioritize Gmail, Workspace, and ProtonMail. If you have to email Outlook addresses, two rules help:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3279,12 +3279,12 @@ export const blogPosts: BlogPost[] = [
             }
           ]
         }
-    ,
+        ,
         {
           heading: "A Rushed Warmup is a Guaranteed Disaster",
           content: [
             "Three weeks is the bare minimum for a new domain. Rush it and you pay for months."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3293,16 +3293,16 @@ export const blogPosts: BlogPost[] = [
                 'Always keep backups by rotating 2 to 3 domains'
               ]
             }
-    ,
+            ,
             "Pro tip: use [MailReach](https://mailreach.co/) for AI-powered warmup."
           ]
         }
-    ,
+        ,
         {
           heading: "Reusing Email IDs is the Fast Track to a Ban",
           content: [
             "Sending the same email across multiple campaigns is a big mistake."
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3310,16 +3310,16 @@ export const blogPosts: BlogPost[] = [
                 'Better yet, use a unique alias per campaign'
               ]
             }
-    ,
+            ,
             "Email providers flag burst sending as spam, and it does not take much to trip the wire."
           ]
         }
-    ,
+        ,
         {
           heading: "Waterfall Enrichment is Non-Negotiable",
           content: [
             "Never send to unverified emails. We run every address through three layers:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3328,25 +3328,25 @@ export const blogPosts: BlogPost[] = [
                 'Real-time ping, for example with Dropcontact'
               ]
             }
-    ,
+            ,
             "For phone numbers, triple-check through [NumLookup](https://www.numlookup.com/)."
           ]
         }
-    ,
+        ,
         {
           heading: "Cheesy Personalization is Dead",
           content: [
             "The old line, 'I saw you went to [University]', does nothing now. What works is problem-aware: 'Your post on [specific pain point] resonated, we helped [similar company] solve this and got [result].'"
-    ,
+            ,
             "The shift is simple. Messaging that names the prospect's problem beats vanity personalization every time."
           ]
         }
-    ,
+        ,
         {
           heading: "Five Tools That Changed How We Run Outreach",
           content: [
             "A handful of tools do most of the heavy lifting in our stack:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3356,16 +3356,16 @@ export const blogPosts: BlogPost[] = [
                 'Apify to scrape and enrich data from LinkedIn and websites'
               ]
             }
-    ,
+            ,
             "Skip these and you leave replies on the table."
           ]
         }
-    ,
+        ,
         {
           heading: "Stop Obsessing Over Open Rates",
           content: [
             "Opens and clicks are easy to game, so we stopped treating them as goals. Two things deserve your attention instead:"
-    ,
+            ,
             {
               type: 'list',
               items: [
@@ -3373,14 +3373,14 @@ export const blogPosts: BlogPost[] = [
                 'Spintax variations, to avoid pattern detection'
               ]
             }
-    ,
+            ,
             "A small example: rotating '{Hey|Hi} {First Name|Team},' has given us 20 percent more inbox reach."
-    ,
+            ,
             {
               type: 'subheading',
               text: 'Key Takeaway'
             }
-    ,
+            ,
             "Outreach in 2024 came down to smarter tools, stricter compliance, and ruthless relevance. The teams winning right now are not sending more emails, they are sending emails that actually get replies."
           ]
         }
@@ -3396,7 +3396,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Mar 14, 2026",
     readTime: "7 min read",
@@ -3557,7 +3557,7 @@ export const blogPosts: BlogPost[] = [
       ]
     }
   },
-  
+
   {
     slug: "india-gtm-playbook-how-saas-companies-like-clevertap-and-vwo-built-pipeline-from-zero",
     title: "The India GTM Playbook: How SaaS Companies Like CleverTap and VWO Built Pipeline from Zero",
@@ -3567,7 +3567,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Feb 24, 2026",
     readTime: "7 min read",
@@ -3643,7 +3643,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Jan 14, 2026",
     readTime: "6 min read",
@@ -3715,7 +3715,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Mar 1, 2026",
     readTime: "7 min read",
@@ -3779,7 +3779,7 @@ export const blogPosts: BlogPost[] = [
       name: "Rahul Dev",
       role: "Founder & CEO at Harvin",
       image: "/images/ss.png",
-      bio: "Harvin is an SDR management platform — one place for sales leaders to run the team, from territories and account ownership through to the pipeline it generates."
+      bio: "Harvin is a B2B company discovery and research platform that helps sales teams find relevant companies traditional database searches miss, understand why they fit, and identify the right decision-makers inside them."
     },
     date: "Jan 30, 2026",
     readTime: "7 min read",
