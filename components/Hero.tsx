@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Clock, Mail, Phone, Zap } from 'lucide-react';
 import { BOOK_DEMO_HREF, startFreeHref } from '@/lib/site';
-import { FREE_CREDITS, PREVIEW_COMPANIES } from '@/lib/pricing';
 import TrustedStrip from '@/components/TrustedStrip';
 
 const styles = `
@@ -513,35 +512,22 @@ export default function Hero() {
  text-[clamp(32px,3.8vw,48px)] text-white"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.06s both' }}
             >
-              A better way to find your next B2B customers
+              Find companies traditional database searches miss.
             </h1>
 
             <p
               className="mt-5 max-w-[540px] text-[15px] sm:text-[16.5px] leading-relaxed text-white/75"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both' }}
             >
-              Tell Harvin what you sell and who has bought from you. Harvin finds the companies that share your
-              customers&rsquo; need, whatever industry they&rsquo;re listed under, shows why each one fits, and finds
-              the right buyer&rsquo;s work email and phone.
+              Tell Harvin what you sell, who buys and what makes a company relevant to your business.
             </p>
-
-            <ul
-              className="mt-5 flex flex-col gap-2 text-[14px] sm:text-[15px] text-white/85"
-              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.18s both' }}
+            <p
+              className="mt-3 max-w-[540px] text-[15px] sm:text-[16.5px] leading-relaxed text-white/75"
+              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.16s both' }}
             >
-              <li className="flex items-center gap-2.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-ember-400 shrink-0" />
-                <span>Find companies by business need, in any industry</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-ember-400 shrink-0" />
-                <span>See Company Fit, with the reasons</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-ember-400 shrink-0" />
-                <span>Reach the actual buyer&rsquo;s work email and phone</span>
-              </li>
-            </ul>
+              Harvin uses that context to discover and research companies and then finds the right decision-makers
+              inside them.
+            </p>
 
             <div
               className="mt-8 flex flex-wrap items-center gap-4"
@@ -563,10 +549,14 @@ export default function Hero() {
               </Link>
             </div>
             <p
-              className="mt-4 text-[13px] text-white/55"
+              className="mt-4 text-[13px] italic text-white/55"
               style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.28s both' }}
             >
-              {FREE_CREDITS} free credits. No card. See {PREVIEW_COMPANIES} companies your database misses.
+              Already have a target list?{' '}
+              <a href="#your-list" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 hover:text-white">
+                Upload it
+              </a>{' '}
+              and see what Harvin finds beyond it.
             </p>
           </div>
         </div>

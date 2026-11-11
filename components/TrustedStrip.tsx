@@ -5,14 +5,14 @@ import { useEffect, useRef, useState } from 'react';
 /**
  * TrustedStrip — "flip board".
  *
- * Four logos, no tile chrome, all flipping in unison to reveal the next four.
- * The roster is 10 and the board is 4, so the set that comes back is never the
+ * Five logos, no tile chrome, all flipping in unison to reveal the next five.
+ * The roster is 8 and the board is 5, so the set that comes back is never the
  * set you just saw and the cycle doesn't land on an obvious loop.
  *
  * Two properties worth keeping if this gets edited:
  *
  *  1. NO DUPLICATES WITHIN A SET. Each turn deals TILES consecutive entries
- *     from a single moving cursor over a 10-long ring. TILES < LOGOS.length
+ *     from a single moving cursor over an 8-long ring. TILES < LOGOS.length
  *     guarantees the four on screen are always distinct — it falls out of the
  *     structure, so there is nothing to check at runtime.
  *  2. NO MID-FLIP FLASH. The board carries two face-sets and rotates 180° per
@@ -30,7 +30,6 @@ const LOGOS = [
   { src: '/logos/nova.png', name: 'Nova', h: 'h-7' },
   { src: '/logos/xflow.svg', name: 'Xflow', h: 'h-6' },
   { src: '/logos/wise.svg', name: 'Wise', h: 'h-6' },
-  { src: '/logos/akamai.svg', name: 'Akamai', h: 'h-9' },
   { src: '/logos/clevertap.svg', name: 'CleverTap', h: 'h-8' },
   { src: '/logos/wingify.svg', name: 'Wingify', h: 'h-9' },
 ];
@@ -39,12 +38,10 @@ const TILES = 5;      // must stay < LOGOS.length — see note 1 above
 const HOLD_MS = 3400; // time a set rests before the board turns
 
 /**
- * How far the cursor walks per turn. NOT simply TILES: with 5 tiles over a
- * 10-logo ring, a stride of 5 partitions the roster into exactly two halves
- * and the board just toggles [0-4] ↔ [5-9] forever — every tile alternating
- * between the same two marks. A stride of 6 walks the window to 5 distinct
- * board states (starts 0,6,2,8,4) before repeating, and no tile ever lands on
- * the logo it was already showing.
+ * How far the cursor walks per turn. With 5 tiles over an 8-logo ring, a
+ * stride of 6 walks the window through 4 distinct board states (starts
+ * 0,6,4,2) before repeating, and since 6 is not a multiple of 8 no tile ever
+ * lands on the logo it was already showing.
  */
 const DEAL = TILES + 1;
 

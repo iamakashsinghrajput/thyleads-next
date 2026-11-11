@@ -4,16 +4,16 @@ import JsonLd from '@/components/JsonLd';
 import { faqSchema, graph, organizationSchema, softwareSchema, websiteSchema } from '@/lib/schema';
 import Navbar from '@/components/Navbar';
 import HomeClient from '@/app/HomeClient';
-import { HOME_FAQ, HOW_IT_WORKS_STEPS } from '@/app/home-content';
+import { HOME_FAQ } from '@/app/home-content';
 import Faq from '@/components/Faq';
 import CtaStartFree from '@/components/CtaStartFree';
 import Footer from '@/components/Footer';
 
-/** Copy: harvin-website-copy-handoff.md §4.1. */
+/** Copy: public/Harvin Home Page Content .md. */
 export const metadata: Metadata = {
   title: { absolute: 'Harvin.AI: Find the B2B Customers Your Database Misses' },
   description:
-    'Harvin finds companies and buyers that databases file under the wrong category, shows why each one fits, and finds their work email and phone. Start free.',
+    'Tell Harvin what you sell, who buys and what makes a company relevant. Harvin discovers and researches companies traditional database searches miss, then finds the right decision-makers. Start free.',
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Your best customers are filed under the wrong category',
@@ -27,12 +27,6 @@ export const metadata: Metadata = {
   },
 };
 
-const howToSchema = {
-  '@type': 'HowTo',
-  name: 'How Harvin finds the companies and buyers that fit',
-  step: HOW_IT_WORKS_STEPS.map((s, i) => ({ '@type': 'HowToStep', position: i + 1, name: s.name, text: s.text })),
-};
-
 export default function Home() {
   return (
     // The home page is always dark (like /pricing, /data-building, /blog, legal): the `dark` class here
@@ -41,7 +35,7 @@ export default function Home() {
       {/* Organization/WebSite/SoftwareApplication are declared once, here: every
           other page references these @ids rather than redeclaring the entity.
           Add `offers` to SoftwareApplication only once PRICING_APPROVED. */}
-      <JsonLd data={graph(organizationSchema, websiteSchema, softwareSchema, howToSchema, faqSchema(HOME_FAQ))} />
+      <JsonLd data={graph(organizationSchema, websiteSchema, softwareSchema, faqSchema(HOME_FAQ))} />
       <Navbar alwaysDark />
       <main>
         <HomeClient />

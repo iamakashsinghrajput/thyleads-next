@@ -1,33 +1,10 @@
 /**
- * Homepage copy that is also emitted as JSON-LD (HowTo, FAQPage). Kept out of
+ * Homepage copy that is also emitted as JSON-LD (FAQPage). Kept out of
  * the 'use client' HomeClient so the server page can read the same arrays —
  * schema text must match the visible text word for word.
  *
  * Source: harvin-website-copy-handoff.md §4.1.
  */
-
-export const HOW_IT_WORKS_STEPS = [
-  {
-    name: 'Teach Harvin your business once',
-    text: 'Add what you sell, who you sell to, a few customers and a few deals you lost. Harvin saves this as your Company Profile and uses it for every list.',
-  },
-  {
-    name: 'Discover companies by business need',
-    text: 'Harvin turns your Company Profile into search themes: the use cases, business models and product language your best customers share. It finds companies that match, in any industry.',
-  },
-  {
-    name: 'Research what matters to you',
-    text: 'Harvin checks each company for the details your targeting depends on, from business model to store count, monthly active users and tech stack.',
-  },
-  {
-    name: 'See Company Fit, with the reasons',
-    text: 'Every company gets a fit score and the factors behind it. Harvin recommends. Your team decides.',
-  },
-  {
-    name: 'Reach the actual buyer',
-    text: 'Harvin searches for your target roles in priority order, across several people-data sources, then runs an email and phone waterfall to find their work email and direct or mobile number.',
-  },
-];
 
 export const HOME_FAQ = [
   {
