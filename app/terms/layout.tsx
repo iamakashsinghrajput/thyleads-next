@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
  */
 export const metadata: Metadata = {
   title: 'Terms of Service',
-  description: 'The terms governing use of Harvin.ai, operated by Thyleads Private Limited.',
+  description: 'The terms governing use of Harvin AI, operated by Thyleads Private Limited.',
   alternates: { canonical: '/terms' },
 };
 

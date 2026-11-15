@@ -9,10 +9,10 @@ export default function CookiePolicy() {
       title="Cookie Policy"
       effectiveDate="2 November 2026"
       lastUpdated="2 November 2026"
-      entity="Thyleads Private Limited, operating Harvin.ai"
+      entity="Thyleads Private Limited, operating Harvin AI"
       intro={
         <>
-          Harvin.ai uses cookies and similar technologies on our website and services. This policy explains how
+          Harvin AI uses cookies and similar technologies on our website and services. This policy explains how
           those technologies may be used and what choices may be available to you.
         </>
       }

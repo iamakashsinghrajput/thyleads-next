@@ -38,7 +38,7 @@ function adminHtml(data: {
 
   <!-- Header -->
   <tr><td style="background:#C94C1E;padding:28px 36px;">
-    <p style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.7);">HarvinAI · Admin Notification</p>
+    <p style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Harvin AI · Admin Notification</p>
     <h1 style="margin:8px 0 0;font-size:22px;font-weight:700;color:#fff;">New ${typeLabel} Request</h1>
   </td></tr>
 
@@ -64,7 +64,7 @@ function adminHtml(data: {
 
   <!-- Footer -->
   <tr><td style="padding:20px 36px;border-top:1px solid #f4f4f5;">
-    <p style="margin:0;font-size:12px;color:#a1a1aa;">Automated notification from HarvinAI.</p>
+    <p style="margin:0;font-size:12px;color:#a1a1aa;">Automated notification from Harvin AI.</p>
   </td></tr>
 
 </table>
@@ -108,7 +108,7 @@ function userHtml(name: string, isSales: boolean) {
       ${isSales ? "We'll be in touch soon!" : "You're on the waitlist!"}
     </h1>
     <p style="margin:0 auto;font-size:15px;color:#52525b;line-height:1.7;max-width:420px;">
-      Hi ${name}, thank you for your interest in HarvinAI.
+      Hi ${name}, thank you for your interest in Harvin AI.
       ${isSales
         ? "Our team has received your message and will reach out within 24 hours."
         : "You're among our earliest supporters. We'll personally reach out when we're ready to onboard new users."}
@@ -117,11 +117,11 @@ function userHtml(name: string, isSales: boolean) {
 
   <tr><td style="padding:0 36px;"><div style="height:1px;background:#f4f4f5;"></div></td></tr>
 
-  <!-- What is HarvinAI -->
+  <!-- What is Harvin AI -->
   <tr><td style="padding:28px 36px;">
-    <h2 style="margin:0 0 10px;font-size:15px;font-weight:700;color:#09090b;">What is HarvinAI?</h2>
+    <h2 style="margin:0 0 10px;font-size:15px;font-weight:700;color:#09090b;">What is Harvin AI?</h2>
     <p style="margin:0;font-size:14px;color:#52525b;line-height:1.7;">
-      HarvinAI is a <strong>D2C brand intelligence platform</strong> that helps B2B sales teams identify which
+      Harvin AI is a <strong>D2C brand intelligence platform</strong> that helps B2B sales teams identify which
       D2C brands are in a buying window — before the competition finds out. We track 500,000+ brands
       across funding rounds, store openings, hiring activity, and app launches.
     </p>
@@ -139,7 +139,7 @@ function userHtml(name: string, isSales: boolean) {
     <h2 style="margin:0 0 18px;font-size:15px;font-weight:700;color:#09090b;">What happens next?</h2>
 
     ${step('1', "You're on the list", "We've saved your details. You're among our earliest supporters and we won't forget that.")}
-    ${step('2', "We're building for you", "HarvinAI is actively under development. We're focused on getting the product right before we open access.")}
+    ${step('2', "We're building for you", "Harvin AI is actively under development. We're focused on getting the product right before we open access.")}
     ${step('3', "You hear from us first", "When we're ready to onboard, you'll get a personal invite — no queue, no waiting.")}
   </td></tr>
 
@@ -155,7 +155,7 @@ function userHtml(name: string, isSales: boolean) {
 
   <!-- Footer -->
   <tr><td style="padding:20px 36px;border-top:1px solid #f4f4f5;text-align:center;">
-    <p style="margin:0 0 4px;font-size:12px;color:#a1a1aa;">© ${new Date().getFullYear()} HarvinAI, Ltd. · All rights reserved.</p>
+    <p style="margin:0 0 4px;font-size:12px;color:#a1a1aa;">© ${new Date().getFullYear()} Harvin AI Ltd · All rights reserved.</p>
     <p style="margin:0;font-size:12px;color:#a1a1aa;">You're receiving this because you signed up at harvinai.com</p>
   </td></tr>
 
@@ -204,14 +204,14 @@ export async function POST(req: NextRequest) {
     await transporter.verify();
 
     const isSales = type === 'talk-to-sales';
-    const fromName    = process.env.FROM_NAME ?? 'HarvinAI';
+    const fromName    = process.env.FROM_NAME ?? 'Harvin AI';
     const fromAddr    = process.env.SMTP_USER ?? '';
     const adminEmail  = process.env.ADMIN_EMAIL ?? fromAddr;
 
     const adminSubject = `${isSales ? '💼' : '🚀'} New ${isSales ? 'sales' : 'early access'} request — ${name} from ${company}`;
     const userSubject  = isSales
       ? `We received your message, ${name}!`
-      : `You're on the HarvinAI waitlist, ${name}!`;
+      : `You're on the Harvin AI waitlist, ${name}!`;
 
     await Promise.all([
       transporter.sendMail({

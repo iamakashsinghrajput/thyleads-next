@@ -312,7 +312,7 @@ function DialerNotesMock() {
    PAGE
    ═══════════════════════════════════════════════════════════════════════════════ */
 
-const H2 = 'font-instrument font-semibold text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em] text-slate-950 dark:text-white';
+const H2 = 'font-display font-medium text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em] text-slate-950 dark:text-white';
 const SURFACE =
   'rounded-modal border border-slate-200 bg-sand-50 shadow-[0_4px_32px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)]';
 
@@ -506,7 +506,7 @@ export function AeClient() {
               <Briefcase size={13} className="text-ember-500" aria-hidden="true" />
               For Account Executives
             </span>
-            <h1 className="mt-7 font-instrument font-semibold text-[clamp(34px,4.6vw,60px)] leading-[1.04] tracking-[-0.035em] text-slate-950 dark:text-white">
+            <h1 className="mt-7 font-display font-medium text-[clamp(34px,4.6vw,60px)] leading-[1.04] tracking-[-0.035em] text-slate-950 dark:text-white">
               Walk in knowing what happened.{' '}
               <span className="text-ember-500">Walk out knowing what&apos;s next.</span>
             </h1>
@@ -564,7 +564,7 @@ export function AeClient() {
             {CHALLENGES.map((item) => (
               <li key={item.num} className="bg-sand-50 p-8 transition-colors duration-200 hover:bg-white dark:bg-[#0A0908] dark:hover:bg-[#0F0E0C] lg:p-10">
                 <span className="font-mono text-[13px] font-medium text-ember-500">{item.num.padStart(2, '0')}</span>
-                <h3 className="mt-5 font-instrument font-semibold text-[21px] leading-snug text-slate-950 dark:text-white">{item.title}</h3>
+                <h3 className="mt-5 font-display font-medium text-[21px] leading-snug text-slate-950 dark:text-white">{item.title}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">{item.desc}</p>
               </li>
             ))}
@@ -591,7 +591,7 @@ export function AeClient() {
                     {item.num}
                   </span>
                   <div>
-                    <h3 className="font-instrument font-semibold text-[16.5px] leading-snug text-slate-950 dark:text-white">{item.title}</h3>
+                    <h3 className="font-display font-medium text-[16.5px] leading-snug text-slate-950 dark:text-white">{item.title}</h3>
                     <p className="mt-1.5 text-[14px] leading-relaxed text-slate-600 dark:text-slate-400">{item.desc}</p>
                   </div>
                 </li>
@@ -631,7 +631,7 @@ export function AeClient() {
             {CAPABILITIES.map((cap) => (
               <div key={cap.step} className={`flex flex-col p-7 transition-colors hover:border-ember-300 dark:hover:border-ember-500/40 ${SURFACE}`}>
                 <span className="font-mono text-[12px] font-medium text-ember-500">{cap.step}</span>
-                <h3 className="mt-3 font-instrument font-semibold text-[19px] leading-snug text-slate-950 dark:text-white">{cap.title}</h3>
+                <h3 className="mt-3 font-display font-medium text-[19px] leading-snug text-slate-950 dark:text-white">{cap.title}</h3>
                 <p className="mt-2.5 flex-1 text-[14.5px] leading-relaxed text-slate-600 dark:text-slate-400">{cap.desc}</p>
                 <div className="mt-6 flex flex-wrap gap-1.5 border-t border-slate-200 pt-4 dark:border-white/[0.08]">
                   {cap.tags.map((tag) => (
@@ -648,7 +648,7 @@ export function AeClient() {
           <div className="mt-14 grid items-center gap-10 rounded-modal border border-white/[0.08] bg-[#0C0B09] p-6 text-white sm:p-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
             <div>
               <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ember-400">Connected AE Workflows</span>
-              <h4 className="mt-3 font-instrument text-[clamp(22px,2.4vw,30px)] font-semibold leading-[1.15] tracking-[-0.02em] text-white">
+              <h4 className="mt-3 font-display text-[clamp(22px,2.4vw,30px)] font-medium leading-[1.15] tracking-[-0.02em] text-white">
                 From Calendar prep to live calling and deal closing
               </h4>
               <div role="tablist" aria-label="AE workflow" className="mt-8 flex flex-col gap-2">
@@ -763,7 +763,7 @@ export function AeClient() {
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(60%_70%_at_50%_30%,#000,transparent)]"
         />
         <div className="relative mx-auto max-w-[840px] text-center">
-          <h2 className="font-instrument font-semibold text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">Ready to make every deal easier to manage?</h2>
+          <h2 className="font-display font-medium text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">Ready to make every deal easier to manage?</h2>
           <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-white/65 sm:text-[19px]">
             Bring meetings, conversations, opportunities, and next steps together in one connected workspace.
           </p>

@@ -78,7 +78,7 @@ function EmailMock() {
               </span>
             ))}
           </div>
-          <span className="flex items-center gap-1.5 rounded-btn bg-ember-500 px-3 py-1.5 text-[10.5px] font-semibold text-white">
+          <span className="flex items-center gap-1.5 rounded-btn bg-ember-500 px-3 py-1.5 text-[10.5px] font-semibold text-pure">
             <Send size={11} /> Send
           </span>
         </div>
@@ -86,14 +86,14 @@ function EmailMock() {
 
       <div className="flex w-[210px] shrink-0 flex-col gap-3">
         <div className={`p-3.5 ${CARD}`}>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">Why now</p>
+          <p className="text-[10px] font-semibold text-slate-400">Why now</p>
           <div className="mt-2 flex flex-wrap gap-1.5">
             <Chip tone="ember">Raised Series B</Chip>
-            <Chip tone="amber">Hiring 6 SDRs</Chip>
+            <Chip tone="slate">Hiring 6 SDRs</Chip>
           </div>
         </div>
         <div className={`p-3.5 ${CARD}`}>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">Previous touches</p>
+          <p className="text-[10px] font-semibold text-slate-400">Previous touches</p>
           {[
             ['Email 1 · opened twice', '3 days ago'],
             ['Visited pricing page', 'Yesterday'],
@@ -104,7 +104,7 @@ function EmailMock() {
             </p>
           ))}
         </div>
-        <div className="flex-1 rounded-card bg-[#232220] p-3.5 text-white">
+        <div className="flex-1 rounded-card bg-slate-800 p-3.5 text-white">
           <p className="flex items-center gap-1.5 text-[10px] font-semibold text-ember-300">
             <Sparkles size={11} /> Personalised from
           </p>
@@ -124,10 +124,10 @@ function DialerMock() {
   const secs = 40 + t * 6;
   return (
     <div className="flex h-full gap-4 p-6">
-      <div className="flex w-[250px] shrink-0 flex-col rounded-card bg-[#232220] p-5 text-white shadow-[0_4px_32px_rgba(0,0,0,0.12)]">
+      <div className="flex w-[250px] shrink-0 flex-col rounded-card bg-slate-800 p-5 text-white">
         <div className="flex items-center justify-between">
-          <span className="flex items-center gap-1.5 text-[10px] font-semibold text-emerald-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 motion-safe:animate-pulse" /> Connected
+          <span className="flex items-center gap-1.5 text-[10px] font-semibold text-ember-300">
+            <span className="h-1.5 w-1.5 rounded-full bg-ember-400" /> Connected
           </span>
           <span className="font-mono text-[11px] text-white/70">
             {String(Math.floor(secs / 60)).padStart(2, '0')}:{String(secs % 60).padStart(2, '0')}
@@ -148,7 +148,7 @@ function DialerMock() {
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
             <Mic size={14} />
           </span>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-red-500">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-grey">
             <PhoneOff size={14} />
           </span>
         </div>
@@ -163,7 +163,7 @@ function DialerMock() {
               const done = i < Math.floor(t / 3);
               return (
                 <div key={line} className={`flex items-center gap-2 rounded-btn px-2.5 py-1.5 text-[10.5px] transition-colors ${active ? 'bg-ember-50 font-semibold text-ember-600' : 'text-slate-600'}`}>
-                  <span className={`flex h-4 w-4 items-center justify-center rounded-full ${done ? 'bg-emerald-500 text-white' : active ? 'bg-ember-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                  <span className={`flex h-4 w-4 items-center justify-center rounded-full ${done ? 'bg-slate-700 text-white' : active ? 'bg-ember-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
                     {done ? <Check size={9} strokeWidth={3} /> : <span className="text-[8px]">{i + 1}</span>}
                   </span>
                   {line}
@@ -198,9 +198,9 @@ function DialerMock() {
 
 /* ─── 04 · Replies, follow-ups and tasks ─────────────────────────────────── */
 const TODAY = [
-  { icon: MessageSquare, t: 'Reply from Priya Sharma', s: '“Timing is good — Thursday?”', tag: 'Interested', tone: 'emerald' },
+  { icon: MessageSquare, t: 'Reply from Priya Sharma', s: '“Timing is good — Thursday?”', tag: 'Interested', tone: 'ember' },
   { icon: Phone, t: 'Call Rohan Mehta', s: 'Opened email twice · Initech', tag: 'Due 11:00', tone: 'ember' },
-  { icon: Mail, t: 'Follow up: Northwind Analytics', s: 'Step 3 · no reply in 4 days', tag: 'Follow-up', tone: 'amber' },
+  { icon: Mail, t: 'Follow up: Northwind Analytics', s: 'Step 3 · no reply in 4 days', tag: 'Follow-up', tone: 'slate' },
   { icon: Linkedin, t: 'Connect with Kavya Agarwal', s: 'SDR Manager · Initech', tag: 'LinkedIn', tone: 'slate' },
   { icon: CalendarCheck, t: 'Confirm Globex discovery', s: 'Tomorrow · 3:00 PM', tag: 'Meeting', tone: 'ember' },
 ] as const;
@@ -230,7 +230,7 @@ function TasksMock() {
             const isDone = i < done;
             return (
               <div key={t} className="flex items-center gap-3 px-4 py-2.5">
-                <span className={`flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-md border transition-colors ${isDone ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-slate-300'}`}>
+                <span className={`flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-md border transition-colors ${isDone ? 'border-slate-700 bg-slate-700 text-white' : 'border-slate-300'}`}>
                   {isDone && <Check size={10} strokeWidth={3} />}
                 </span>
                 <span className="flex h-7 w-7 items-center justify-center rounded-md bg-sand-100 text-slate-500">
@@ -247,8 +247,8 @@ function TasksMock() {
         </div>
       </div>
       <div className="flex w-[220px] shrink-0 flex-col gap-3">
-        <div className="rounded-card bg-[#232220] p-4 text-white">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-white/50">Progress today</p>
+        <div className="rounded-card bg-slate-800 p-4 text-white">
+          <p className="text-[10px] font-semibold text-white/50">Progress today</p>
           <p className="mt-2 text-[26px] font-semibold leading-none">
             {Math.min(done, TODAY.length)}
             <span className="text-[14px] text-white/40"> / {TODAY.length}</span>
@@ -262,7 +262,7 @@ function TasksMock() {
             <Inbox size={12} className="text-ember-500" /> Latest reply
           </p>
           <p className="mt-2 text-[10.5px] leading-relaxed text-slate-600">“Timing is good — can we talk Thursday? Loop in Rohan from RevOps.”</p>
-          <span className="mt-3 inline-flex items-center gap-1.5 rounded-btn bg-ember-500 px-2.5 py-1.5 text-[10px] font-semibold text-white">
+          <span className="mt-3 inline-flex items-center gap-1.5 rounded-btn bg-ember-500 px-2.5 py-1.5 text-[10px] font-semibold text-pure">
             <CalendarCheck size={11} /> Book meeting
           </span>
         </div>
@@ -286,8 +286,8 @@ function HandoffMock() {
     <div className="flex h-full flex-col gap-4 p-6">
       <div className={`flex items-center justify-between px-5 py-4 ${CARD}`}>
         <div className="flex items-center gap-3">
-          <span className="flex h-11 w-11 flex-col items-center justify-center rounded-btn bg-ember-500 text-white">
-            <span className="text-[8px] font-semibold uppercase">Thu</span>
+          <span className="flex h-11 w-11 flex-col items-center justify-center rounded-btn bg-ember-500 text-pure">
+            <span className="text-[8px] font-semibold">Thu</span>
             <span className="text-[15px] font-semibold leading-none">14</span>
           </span>
           <div>
@@ -312,16 +312,16 @@ function HandoffMock() {
         <div className={`p-4 ${CARD}`}>
           <div className="flex items-center justify-between">
             <p className="text-[11.5px] font-semibold text-slate-900">SDR discovery brief</p>
-            <Chip tone={ready >= BRIEF.length ? 'emerald' : 'amber'}>{ready >= BRIEF.length ? 'Ready for AE' : 'Filling in'}</Chip>
+            <Chip tone={ready >= BRIEF.length ? 'ember' : 'slate'}>{ready >= BRIEF.length ? 'Ready for AE' : 'Filling in'}</Chip>
           </div>
           <div className="mt-3 space-y-2">
             {BRIEF.map((b, i) => (
               <div key={b.k} className={`flex items-start gap-3 rounded-btn border px-3 py-2 transition-all duration-500 ${i < ready ? 'border-slate-200 bg-sand-50' : 'border-dashed border-slate-200 opacity-40'}`}>
-                <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${i < ready ? 'bg-emerald-500 text-white' : 'bg-slate-200'}`}>
+                <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${i < ready ? 'bg-slate-700 text-white' : 'bg-slate-200'}`}>
                   {i < ready && <Check size={9} strokeWidth={3} />}
                 </span>
                 <span>
-                  <span className="block text-[9.5px] font-semibold uppercase tracking-[0.06em] text-slate-400">{b.k}</span>
+                  <span className="block text-[9.5px] font-semibold text-slate-400">{b.k}</span>
                   <span className="block text-[11px] font-medium text-slate-800">{i < ready ? b.v : '—'}</span>
                 </span>
               </div>
@@ -344,7 +344,7 @@ function HandoffMock() {
               );
             })}
           </div>
-          <div className="flex-1 rounded-card bg-[#232220] p-4 text-white">
+          <div className="flex-1 rounded-card bg-slate-800 p-4 text-white">
             <p className="text-[11.5px] font-semibold">Attendees</p>
             {[
               ['PS', 'Priya Sharma', 'VP Sales', 'bg-ember-400'],
@@ -388,19 +388,19 @@ function OpportunityMock() {
             </span>
           ))}
         </div>
-        <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.06em] text-slate-400">Qualified?</p>
+        <p className="mt-4 text-[10px] font-semibold text-slate-400">Qualified?</p>
         <div className="mt-1.5 flex gap-1.5">
-          <span className="flex-1 rounded-btn border border-emerald-500 bg-emerald-50 py-1.5 text-center text-[10px] font-semibold text-emerald-700">Yes</span>
+          <span className="flex-1 rounded-btn border border-ember-500 bg-ember-50 py-1.5 text-center text-[10px] font-semibold text-ember-600">Yes</span>
           <span className="flex-1 rounded-btn border border-slate-200 py-1.5 text-center text-[10px] text-slate-500">Not yet</span>
         </div>
-        <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.06em] text-slate-400">Notes</p>
+        <p className="mt-4 text-[10px] font-semibold text-slate-400">Notes</p>
         <p className="mt-1.5 flex-1 rounded-btn bg-sand-50 p-2.5 text-[10px] leading-relaxed text-slate-600">
           Strong fit. Wants to cut SDR ramp time before Q3 hiring. RevOps to run security review.
         </p>
       </div>
 
       <div className="flex flex-1 flex-col">
-        <div className="flex flex-1 flex-col rounded-card border border-ember-300 bg-white p-4 shadow-[0_0_0_4px_rgba(201,76,30,0.06),0_4px_32px_rgba(0,0,0,0.06)]">
+        <div className="flex flex-1 flex-col rounded-card border border-ember-300 bg-white p-4">
           <div className="flex items-center justify-between">
             <p className="flex items-center gap-1.5 text-[12px] font-semibold text-slate-900">
               <Briefcase size={13} className="text-ember-500" /> New opportunity
@@ -420,7 +420,7 @@ function OpportunityMock() {
         </div>
         <div
           className={`mt-3 flex items-center gap-2 rounded-card px-4 py-3 text-[11px] font-semibold transition-all duration-500 ${
-            created ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-400'
+            created ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-400'
           }`}
         >
           <CheckCircle2 size={14} />
@@ -436,7 +436,7 @@ function FeedbackMock() {
   const tick = useTicker(1600);
   const at = tick % 3;
   const node = (i: number) =>
-    `transition-all duration-500 ${i === at ? 'border-ember-400 shadow-[0_0_0_4px_rgba(201,76,30,0.1),0_4px_32px_rgba(0,0,0,0.06)]' : 'border-slate-200 shadow-[0_4px_32px_rgba(0,0,0,0.06)]'}`;
+    `transition-all duration-500 ${i === at ? 'border-ember-400' : 'border-slate-200'}`;
   return (
     <div className="relative flex h-full flex-col justify-center p-6">
       <div className="grid grid-cols-3 gap-5">
@@ -445,13 +445,13 @@ function FeedbackMock() {
             <Avatar initials="AR" className="bg-slate-700" />
             <span className="text-[11px] font-semibold text-slate-900">AE feedback</span>
           </div>
-          <div className="mt-3 flex gap-0.5 text-amber-400">
+          <div className="mt-3 flex gap-0.5 text-ember-400">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star key={i} size={13} fill={i < 4 ? 'currentColor' : 'none'} />
             ))}
           </div>
           <div className="mt-3">
-            <Chip tone="emerald">Qualified &amp; accepted</Chip>
+            <Chip tone="ember">Qualified &amp; accepted</Chip>
           </div>
           <p className="mt-3 text-[10px] leading-relaxed text-slate-600">“Great prep. Budget came up late — worth asking earlier.”</p>
         </div>
@@ -460,12 +460,12 @@ function FeedbackMock() {
             <Avatar initials="PS" className="bg-ember-400" />
             <span className="text-[11px] font-semibold text-slate-900">SDR · Priya</span>
           </div>
-          <p className="mt-3 text-[9.5px] font-semibold uppercase tracking-[0.06em] text-slate-400">Coaching point</p>
+          <p className="mt-3 text-[9.5px] font-semibold text-slate-400">Coaching point</p>
           <p className="mt-1 text-[10.5px] font-medium text-slate-800">Ask about budget in discovery</p>
-          <p className="mt-3 text-[9.5px] font-semibold uppercase tracking-[0.06em] text-slate-400">This month</p>
+          <p className="mt-3 text-[9.5px] font-semibold text-slate-400">This month</p>
           <p className="mt-1 text-[10.5px] text-slate-600">9 of 11 meetings accepted</p>
         </div>
-        <div className={`rounded-card border bg-[#232220] p-4 text-white ${node(2)}`}>
+        <div className={`rounded-card border bg-slate-800 p-4 text-white ${node(2)}`}>
           <div className="flex items-center gap-2">
             <Avatar initials="SH" className="bg-ember-500" />
             <span className="text-[11px] font-semibold">SDR Head</span>
@@ -512,8 +512,8 @@ function CommandMock() {
           { l: 'Account coverage', v: '74%', s: '1,240 of 1,680 worked', p: 74 },
           { l: 'Meeting quality', v: '4.3', s: 'Avg AE rating', p: 86 },
         ].map((k, i) => (
-          <div key={k.l} className={`p-3.5 ${i === 0 ? 'rounded-card bg-[#232220] text-white' : CARD}`}>
-            <p className={`text-[9.5px] font-semibold uppercase tracking-[0.06em] ${i === 0 ? 'text-white/50' : 'text-slate-400'}`}>{k.l}</p>
+          <div key={k.l} className={`p-3.5 ${i === 0 ? 'rounded-card bg-slate-800 text-white' : CARD}`}>
+            <p className={`text-[9.5px] font-semibold ${i === 0 ? 'text-white/50' : 'text-slate-400'}`}>{k.l}</p>
             <p className={`mt-1.5 text-[22px] font-semibold leading-none ${i === 0 ? '' : 'text-slate-900'}`}>{k.v}</p>
             <div className={`mt-2.5 h-1 overflow-hidden rounded-full ${i === 0 ? 'bg-white/10' : 'bg-slate-100'}`}>
               <div className="h-full rounded-full bg-ember-400 transition-all duration-700" style={{ width: `${k.p}%` }} />
@@ -528,7 +528,7 @@ function CommandMock() {
           <p className="text-[11.5px] font-semibold text-slate-900">Team · this month</p>
           <LivePill>Live</LivePill>
         </div>
-        <div className="grid grid-cols-[1.3fr_0.8fr_1fr_1fr_1.1fr] gap-3 border-b border-slate-100 bg-sand-50 px-4 py-2 text-[9px] font-semibold uppercase tracking-[0.06em] text-slate-400">
+        <div className="grid grid-cols-[1.3fr_0.8fr_1fr_1fr_1.1fr] gap-3 border-b border-slate-100 bg-sand-50 px-4 py-2 text-[9px] font-semibold text-slate-400">
           <span>SDR</span>
           <span>Meetings</span>
           <span>AE acceptance</span>
@@ -536,20 +536,20 @@ function CommandMock() {
           <span>Attention</span>
         </div>
         {REPS.map((r) => (
-          <div key={r.n} className={`grid grid-cols-[1.3fr_0.8fr_1fr_1fr_1.1fr] items-center gap-3 border-b border-slate-100 px-4 py-2 last:border-0 ${r.flag ? 'bg-amber-50/50' : ''}`}>
+          <div key={r.n} className={`grid grid-cols-[1.3fr_0.8fr_1fr_1fr_1.1fr] items-center gap-3 border-b border-slate-100 px-4 py-2 last:border-0 ${r.flag ? 'bg-slate-50' : ''}`}>
             <span className="flex items-center gap-2 text-[11px] font-semibold text-slate-900">
-              <Avatar initials={r.i} className={r.flag ? 'bg-amber-500' : 'bg-slate-700'} /> {r.n}
+              <Avatar initials={r.i} className={r.flag ? 'bg-grey' : 'bg-slate-700'} /> {r.n}
             </span>
             <span className="text-[11px] font-semibold text-slate-700">{r.m}</span>
             {[r.acc, r.cov].map((v, j) => (
               <span key={j} className="flex items-center gap-2">
                 <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
-                  <span className={`block h-full rounded-full ${v < 60 ? 'bg-amber-400' : 'bg-ember-400'}`} style={{ width: `${v}%` }} />
+                  <span className={`block h-full rounded-full ${v < 60 ? 'bg-grey' : 'bg-ember-400'}`} style={{ width: `${v}%` }} />
                 </span>
                 <span className="w-7 text-[10px] text-slate-500">{v}%</span>
               </span>
             ))}
-            <span>{r.flag ? <Chip tone="amber">{r.flag}</Chip> : <Chip tone="emerald">On track</Chip>}</span>
+            <span>{r.flag ? <Chip tone="slate">{r.flag}</Chip> : <Chip tone="ember">On track</Chip>}</span>
           </div>
         ))}
       </div>
@@ -693,22 +693,18 @@ const FAQS = [
   },
 ];
 
-const H2 = 'font-instrument font-semibold text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em] text-slate-950 dark:text-white';
+const H2 = 'font-display font-medium text-[clamp(36px,4.2vw,58px)] leading-[1.05] text-slate-950 dark:text-white';
 
-function Eyebrow({ children, center }: { children: ReactNode; center?: boolean }) {
-  return (
-    <p className={`flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-ember-500 ${center ? 'justify-center' : ''}`}>
-      <span aria-hidden="true" className="h-px w-6 bg-ember-500" />
-      {children}
-    </p>
-  );
+/** Small sentence-case label above a headline: plain stone text, no ember. */
+function Eyebrow({ children }: { children: ReactNode }) {
+  return <p className="text-[14px] font-medium text-slate-500 dark:text-slate-400">{children}</p>;
 }
 
 function OutreachVisual() {
   const [channel, setChannel] = useState<'email' | 'dialer'>('email');
   return (
     <div>
-      <div role="tablist" aria-label="Outreach channel" className="mb-4 inline-flex rounded-btn border border-slate-200 bg-sand-50 p-1 dark:border-white/[0.1] dark:bg-white/[0.04]">
+      <div role="tablist" aria-label="Outreach channel" className="mb-4 inline-flex rounded-btn border border-slate-200 bg-sand-50 p-1 dark:border-rule dark:bg-surface">
         {(
           [
             ['email', Mail, 'Email sequence'],
@@ -721,8 +717,8 @@ function OutreachVisual() {
             role="tab"
             aria-selected={channel === id}
             onClick={() => setChannel(id)}
-            className={`inline-flex items-center gap-2 rounded-[6px] px-3.5 py-2 text-[13px] font-semibold transition-colors ${
-              channel === id ? 'bg-ember-500 text-white shadow-[0_1px_4px_rgba(201,76,30,0.3)]' : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+            className={`inline-flex items-center gap-2 rounded-btn px-3.5 py-2 text-[13px] font-semibold transition-colors ${
+              channel === id ? 'bg-slate-950 text-white dark:bg-white dark:text-slate-950' : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
             }`}
           >
             <Icon size={15} aria-hidden="true" /> {label}
@@ -784,38 +780,27 @@ export default function ProductTourClient() {
   const activeIdx = STEPS.findIndex((s) => s.id === active);
 
   return (
-    <div className="relative w-full">
+    // Always dark, like the other marketing pages: the `dark` class switches every dark: variant below.
+    <div className="dark relative w-full bg-slate-950 text-white [color-scheme:dark]">
       {/* ═══ 1. HERO ══════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden border-b border-slate-200 px-6 pb-20 pt-28 dark:border-white/[0.08] lg:pb-24 lg:pt-36">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_60%_at_50%_0%,rgba(201,76,30,0.12),transparent_70%)] dark:bg-[radial-gradient(55%_60%_at_50%_0%,rgba(201,76,30,0.2),transparent_70%)]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(35,34,32,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(35,34,32,0.045)_1px,transparent_1px)] bg-[size:56px_56px]
-                     [mask-image:radial-gradient(60%_70%_at_50%_35%,#000,transparent)]
-                     dark:bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)]"
-        />
+      <section className="relative overflow-hidden border-b border-slate-200 px-6 pb-20 pt-28 dark:border-rule lg:pb-24 lg:pt-36">
 
-        <div className="relative mx-auto max-w-[1180px] text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-ember-200 bg-ember-50/80 px-4 py-1.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ember-600 dark:border-ember-500/30 dark:bg-ember-500/10 dark:text-ember-400">
-            <Compass size={13} className="text-ember-500" aria-hidden="true" />
-            Product Tour
-          </span>
-          <h1 className="mx-auto mt-7 max-w-[900px] font-instrument font-semibold text-[clamp(36px,5.6vw,72px)] leading-[1.03] tracking-[-0.035em] text-slate-950 dark:text-white">
-            See how the SDR operation <span className="text-ember-500">comes together</span>
+        <div className="relative mx-auto max-w-[1180px]">
+          <p className="flex items-center gap-2 text-[14px] font-medium text-slate-500 dark:text-slate-400">
+            <Compass size={14} aria-hidden="true" />
+            Product tour
+          </p>
+          <h1 className="mt-5 max-w-[900px] font-display font-medium text-[clamp(44px,6vw,80px)] leading-[1.02] text-slate-950 dark:text-white">
+            See how the SDR operation <span className="italic text-ember-600 dark:text-ember-400">comes together</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-[640px] text-[18px] leading-[1.65] text-slate-600 dark:text-slate-300 sm:text-[20px]">
+          <p className="mt-6 max-w-[640px] text-[18px] leading-[1.5] text-slate-600 dark:text-slate-300 sm:text-[20px]">
             See how work moves seamlessly between SDRs, SDR Heads, and AEs, from first signal to final outcome.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-10 flex flex-wrap items-center gap-6">
             <a
               href="#how-harvin-works"
-              className="group inline-flex items-center gap-2 rounded-btn bg-ember-500 px-6 py-3.5 text-[15px] font-semibold text-white
-                         shadow-[0_1px_4px_rgba(201,76,30,0.3)] transition-all duration-150
-                         hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)]"
+              className="group inline-flex items-center gap-2 rounded-btn bg-ember-500 px-6 py-3.5 text-[15px] font-semibold text-pure transition-colors duration-150 hover:bg-ember-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               Take the tour
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
@@ -823,25 +808,23 @@ export default function ProductTourClient() {
             <button
               type="button"
               onClick={() => openModal('talk-to-sales')}
-              className="inline-flex items-center gap-2 rounded-btn border border-slate-300 bg-white px-6 py-3.5 text-[15px] font-semibold text-slate-800 transition-colors
-                         hover:border-slate-400 hover:bg-slate-50
-                         dark:border-white/15 dark:bg-white/[0.04] dark:text-white dark:hover:bg-white/[0.08]"
+              className="inline-flex items-center gap-2 text-[15px] font-medium text-slate-800 underline decoration-slate-400 underline-offset-4 transition-colors hover:decoration-slate-900 dark:text-white dark:hover:decoration-white"
             >
               Book a Demo
             </button>
           </div>
 
           {/* The journey at a glance */}
-          <ol className="relative mx-auto mt-16 grid max-w-[1080px] grid-cols-4 gap-x-1 gap-y-3 lg:grid-cols-8 lg:gap-0">
-            <span aria-hidden="true" className="absolute left-[6%] right-[6%] top-5 hidden h-px bg-[repeating-linear-gradient(90deg,#F48E56_0_6px,transparent_6px_12px)] lg:block" />
+          <ol className="relative mt-16 grid max-w-[1080px] grid-cols-4 gap-x-1 gap-y-3 lg:grid-cols-8 lg:gap-0">
+            <span aria-hidden="true" className="absolute left-[6%] right-[6%] top-[28px] hidden border-t border-dashed border-slate-300 dark:border-rule lg:block" />
             {STEPS.map(({ id, short, icon: Icon }, i) => (
               <li key={id} className="relative">
-                <a href={`#${id}`} className="group flex flex-col items-center gap-2.5 rounded-card p-2 transition-colors hover:bg-white/60 dark:hover:bg-white/[0.04]">
-                  <span className="relative flex h-10 w-10 items-center justify-center rounded-full border border-ember-200 bg-sand-50 text-ember-500 transition-colors group-hover:border-ember-500 group-hover:bg-ember-500 group-hover:text-white dark:border-ember-500/30 dark:bg-slate-950">
+                <a href={`#${id}`} className="group flex flex-col items-center gap-2.5 rounded-card p-2 text-center transition-colors hover:bg-white/60 dark:hover:bg-white/[0.04]">
+                  <span className="relative flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-sand-50 text-slate-500 transition-colors group-hover:border-slate-500 group-hover:text-slate-900 dark:border-rule dark:bg-slate-950 dark:text-slate-400 dark:group-hover:border-slate-400 dark:group-hover:text-white">
                     <Icon size={16} aria-hidden="true" />
                   </span>
-                  <span className="font-mono text-[10.5px] text-slate-400 dark:text-slate-500">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="text-[11px] font-semibold leading-tight text-slate-700 dark:text-slate-300 sm:text-[12.5px]">{short}</span>
+                  <span className="font-mono text-[12px] text-slate-500 dark:text-slate-400">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="text-[13px] font-medium leading-tight text-slate-700 dark:text-slate-300 sm:text-[14px]">{short}</span>
                 </a>
               </li>
             ))}
@@ -850,36 +833,32 @@ export default function ProductTourClient() {
       </section>
 
       {/* ═══ 2. WHO IS IT FOR ═════════════════════════════════════════════════ */}
-      <section className="border-b border-slate-200 px-6 py-20 dark:border-white/[0.08] lg:py-28">
+      <section className="border-b border-slate-200 px-6 py-20 dark:border-rule lg:py-28">
         <div className="mx-auto max-w-[1180px]">
           <div className="grid gap-6 lg:grid-cols-2 lg:items-end">
             <div>
               <Eyebrow>Who is it for</Eyebrow>
               <h2 className={`mt-5 ${H2}`}>Every role starts with a different question.</h2>
             </div>
-            <p className="text-[17px] leading-relaxed text-slate-500 dark:text-slate-400 lg:pb-2 lg:text-right">Pick your role to jump to where your part of the tour begins.</p>
+            <p className="text-[18px] leading-[1.5] text-slate-600 dark:text-slate-300 lg:pb-2">Pick your role to jump to where your part of the tour begins.</p>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <div className="mt-12 grid gap-x-10 gap-y-12 md:grid-cols-3">
             {ROLES.map(({ role, q, body, step, icon: Icon }) => (
               <a
                 key={role}
                 href={`#${step}`}
-                className="group relative flex flex-col overflow-hidden rounded-modal border border-slate-200 bg-sand-50 p-7 shadow-[0_4px_32px_rgba(0,0,0,0.06)] transition-all duration-200
-                           hover:-translate-y-0.5 hover:border-ember-300
-                           dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)] dark:hover:border-ember-500/40"
+                className="group relative flex flex-col border-t border-slate-300 pt-6 transition-colors hover:border-slate-500 dark:border-rule dark:hover:border-slate-400"
               >
-                <div className="flex items-center justify-between">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-ember-500/10 text-ember-500 transition-colors group-hover:bg-ember-500 group-hover:text-white">
-                    <Icon size={20} aria-hidden="true" />
-                  </span>
-                  <span className="text-[12px] font-semibold uppercase tracking-[0.1em] text-ember-600 dark:text-ember-400">{role}</span>
+                <div className="flex items-center gap-2.5 text-slate-500 dark:text-slate-400">
+                  <Icon size={16} aria-hidden="true" />
+                  <span className="text-[14px] font-medium">{role}</span>
                 </div>
-                <h3 className="mt-8 font-instrument font-semibold text-[24px] leading-[1.2] tracking-[-0.015em] text-slate-950 dark:text-white">&ldquo;{q}&rdquo;</h3>
-                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">{body}</p>
-                <span className="mt-6 inline-flex items-center gap-2 border-t border-slate-200 pt-5 text-[14px] font-semibold text-slate-900 dark:border-white/[0.08] dark:text-white">
+                <h3 className="mt-5 font-display font-medium text-[28px] leading-[1.15] text-slate-950 dark:text-white">&ldquo;{q}&rdquo;</h3>
+                <p className="mt-3 flex-1 text-[17px] leading-[1.5] text-slate-600 dark:text-slate-300">{body}</p>
+                <span className="mt-6 inline-flex items-center gap-2 text-[15px] font-medium text-slate-900 dark:text-white">
                   Start at Step {step.slice(-2)}
-                  <ArrowRight size={15} className="text-ember-500 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                  <ArrowRight size={15} className="text-slate-500 transition-transform group-hover:translate-x-1 dark:text-slate-400" aria-hidden="true" />
                 </span>
               </a>
             ))}
@@ -888,12 +867,12 @@ export default function ProductTourClient() {
       </section>
 
       {/* ═══ 3. HOW HARVIN WORKS (8 STEPS) ════════════════════════════════════ */}
-      <section id="how-harvin-works" className="scroll-mt-24 border-b border-slate-200 px-6 py-20 dark:border-white/[0.08] lg:py-28">
+      <section id="how-harvin-works" className="scroll-mt-24 border-b border-slate-200 px-6 py-20 dark:border-rule lg:py-28">
         <div className="mx-auto max-w-[1240px]">
-          <div className="mx-auto max-w-3xl text-center">
-            <Eyebrow center>How Harvin works</Eyebrow>
+          <div className="max-w-3xl">
+            <Eyebrow>How Harvin works</Eyebrow>
             <h2 className={`mt-5 ${H2}`}>One connected workspace brings the answers together.</h2>
-            <p className="mt-4 text-[17px] text-slate-600 dark:text-slate-300">
+            <p className="mt-5 text-[18px] leading-[1.5] text-slate-600 dark:text-slate-300">
               Follow the steps below to understand how every step is connected as an account moves through the sales process inside Harvin.
             </p>
           </div>
@@ -902,8 +881,8 @@ export default function ProductTourClient() {
             {/* Sticky step rail */}
             <nav aria-label="Tour steps" className="hidden lg:block">
               <div className="sticky top-28">
-                <div className="mb-4 h-1 overflow-hidden rounded-full bg-slate-200 dark:bg-white/[0.08]">
-                  <div className="h-full rounded-full bg-ember-500 transition-all duration-500" style={{ width: `${((activeIdx + 1) / STEPS.length) * 100}%` }} />
+                <div className="mb-4 h-px overflow-hidden bg-slate-200 dark:bg-rule">
+                  <div className="h-full bg-ember-500 transition-all duration-500" style={{ width: `${((activeIdx + 1) / STEPS.length) * 100}%` }} />
                 </div>
                 <ol className="space-y-1">
                   {STEPS.map(({ id, short }, i) => (
@@ -911,17 +890,17 @@ export default function ProductTourClient() {
                       <a
                         href={`#${id}`}
                         aria-current={active === id ? 'step' : undefined}
-                        className={`flex items-center gap-3 rounded-btn px-3 py-2 text-[13.5px] transition-colors ${
+                        className={`flex items-center gap-3 rounded-btn px-3 py-2 text-[14px] transition-colors ${
                           active === id
-                            ? 'bg-ember-500/10 font-semibold text-ember-600 dark:text-ember-400'
+                            ? 'bg-slate-100 font-semibold text-slate-950 dark:bg-white/[0.05] dark:text-white'
                             : i < activeIdx
                               ? 'text-slate-700 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white'
-                              : 'text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-slate-300'
+                              : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'
                         }`}
                       >
                         <span className="font-mono text-[11px]">{String(i + 1).padStart(2, '0')}</span>
                         {short}
-                        {i < activeIdx && <Check size={13} className="ml-auto text-emerald-500" aria-hidden="true" />}
+                        {i < activeIdx && <Check size={13} className="ml-auto text-slate-500 dark:text-slate-400" aria-hidden="true" />}
                       </a>
                     </li>
                   ))}
@@ -935,29 +914,29 @@ export default function ProductTourClient() {
                   <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:gap-12">
                     <div>
                       <div className="flex items-center gap-3">
-                        <span className="font-instrument text-[44px] font-semibold leading-none tracking-[-0.03em] text-ember-500/25">{String(i + 1).padStart(2, '0')}</span>
-                        <span className="rounded-full border border-slate-200 bg-sand-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500 dark:border-white/[0.1] dark:bg-white/[0.04] dark:text-slate-400">
+                        <span className="font-display text-[44px] font-medium leading-none text-slate-300 dark:text-slate-600">{String(i + 1).padStart(2, '0')}</span>
+                        <span className="text-[14px] font-medium text-slate-500 dark:text-slate-400">
                           {s.role}
                         </span>
                       </div>
-                      <h3 className="mt-4 font-instrument font-semibold text-[clamp(24px,2.6vw,34px)] leading-[1.15] tracking-[-0.02em] text-slate-950 dark:text-white">{s.title}</h3>
+                      <h3 className="mt-4 font-display font-medium text-[clamp(28px,3vw,40px)] leading-[1.1] text-slate-950 dark:text-white">{s.title}</h3>
                     </div>
                     <div className="space-y-3 lg:pt-14">
                       {s.body.map((p, j) => (
-                        <p key={j} className="text-[16px] leading-relaxed text-slate-600 dark:text-slate-300">
+                        <p key={j} className="text-[18px] leading-[1.5] text-slate-600 dark:text-slate-300">
                           {p}
                         </p>
                       ))}
                       {s.id === 'step-07' && (
                         <div className="flex flex-wrap gap-2 pt-2">
                           {[
-                            [CheckCircle2, 'Qualified & Accepted', 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-400'],
-                            [Sparkles, 'Coaching Point Logged', 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400'],
-                            [Layers, 'Stage Advanced in CRM', 'border-ember-200 bg-ember-50 text-ember-600 dark:border-ember-500/30 dark:bg-ember-500/10 dark:text-ember-400'],
+                            [CheckCircle2, 'Qualified & Accepted', 'border-slate-300 text-ember-600 dark:border-rule dark:text-ember-400'],
+                            [Sparkles, 'Coaching Point Logged', 'border-slate-300 text-slate-700 dark:border-rule dark:text-slate-300'],
+                            [Layers, 'Stage Advanced in CRM', 'border-slate-300 text-slate-700 dark:border-rule dark:text-slate-300'],
                           ].map(([Icon, label, cls]) => {
                             const I = Icon as LucideIcon;
                             return (
-                              <span key={label as string} className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-semibold ${cls as string}`}>
+                              <span key={label as string} className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[14px] font-medium ${cls as string}`}>
                                 <I size={13} aria-hidden="true" /> {label as string}
                               </span>
                             );
@@ -977,29 +956,29 @@ export default function ProductTourClient() {
       </section>
 
       {/* ═══ 4. FAQS ══════════════════════════════════════════════════════════ */}
-      <section className="border-b border-slate-200 px-6 py-20 dark:border-white/[0.08] lg:py-28">
+      <section className="border-b border-slate-200 px-6 py-20 dark:border-rule lg:py-28">
         <div className="mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <Eyebrow>FAQs</Eyebrow>
             <h2 className={`mt-5 ${H2}`}>Get to know Harvin better.</h2>
           </div>
-          <div className="divide-y divide-slate-200 border-y border-slate-200 dark:divide-white/[0.08] dark:border-white/[0.08]">
+          <div className="divide-y divide-slate-200 border-y border-slate-200 dark:divide-rule dark:border-rule">
             {FAQS.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
                 <div key={faq.q}>
                   <button type="button" aria-expanded={isOpen} onClick={() => setOpenFaq(isOpen ? null : idx)} className="group flex w-full items-center gap-4 py-5 text-left">
-                    <span className="font-mono text-[12px] text-ember-500">{String(idx + 1).padStart(2, '0')}</span>
-                    <span className="flex-1 text-[16px] font-semibold text-slate-900 transition-colors group-hover:text-ember-500 dark:text-white">{faq.q}</span>
+                    <span className="font-mono text-[13px] text-slate-500 dark:text-slate-400">{String(idx + 1).padStart(2, '0')}</span>
+                    <span className="flex-1 text-[18px] font-medium text-slate-900 underline-offset-4 group-hover:underline dark:text-white">{faq.q}</span>
                     <span
                       className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-all duration-200 ${
-                        isOpen ? 'rotate-45 border-ember-500 bg-ember-500 text-white' : 'border-slate-300 text-slate-500 dark:border-white/15 dark:text-slate-400'
+                        isOpen ? 'rotate-45 border-slate-900 text-slate-900 dark:border-white dark:text-white' : 'border-slate-300 text-slate-500 dark:border-rule dark:text-slate-400'
                       }`}
                     >
                       <Plus size={14} strokeWidth={2.5} aria-hidden="true" />
                     </span>
                   </button>
-                  {isOpen && <p className="pb-6 pl-9 pr-11 text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">{faq.a}</p>}
+                  {isOpen && <p className="pb-6 pl-9 pr-11 text-[17px] leading-[1.5] text-slate-600 dark:text-slate-300">{faq.a}</p>}
                 </div>
               );
             })}
@@ -1008,32 +987,27 @@ export default function ProductTourClient() {
       </section>
 
       {/* ═══ 5. FINAL CTA ═════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden bg-[#0C0B09] px-6 py-24 text-white lg:py-32">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_80%_at_50%_0%,rgba(201,76,30,0.3),transparent_70%)]" />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(60%_70%_at_50%_30%,#000,transparent)]"
-        />
-        <div className="relative mx-auto max-w-[840px] text-center">
-          <h2 className="font-instrument font-semibold text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">
-            One operation. <span className="text-ember-400">One connected workspace.</span>
+      {/* The page's one warm-paper band. */}
+      <section className="bg-paper px-6 py-24 text-slate-950 lg:py-32">
+        <div className="mx-auto max-w-[1180px]">
+          <h2 className="max-w-[840px] font-display font-medium text-[clamp(36px,4.2vw,58px)] leading-[1.05] text-slate-950">
+            One operation. <span className="italic text-ember-600">One connected workspace.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-white/65 sm:text-[19px]">
+          <p className="mt-5 max-w-2xl text-[18px] leading-[1.5] text-stone-dark sm:text-[19px]">
             See what changes when your SDR team, managers, and AEs work from the same connected workflow.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-10 flex flex-wrap items-center gap-6">
             <button
               type="button"
               onClick={() => openModal('talk-to-sales')}
-              className="group inline-flex items-center gap-2 rounded-btn bg-ember-500 px-7 py-4 text-[16px] font-semibold text-white
-                         shadow-[0_1px_4px_rgba(201,76,30,0.3)] transition-all duration-150 hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)]"
+              className="group inline-flex items-center gap-2 rounded-btn bg-ember-500 px-7 py-4 text-[16px] font-semibold text-pure transition-colors duration-150 hover:bg-ember-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             >
               Book a Demo
               <ArrowRight size={17} className="transition-transform group-hover:translate-x-0.5" />
             </button>
             <a
               href="#how-harvin-works"
-              className="inline-flex items-center gap-2 rounded-btn border border-white/20 bg-white/[0.05] px-7 py-4 text-[16px] font-semibold text-white transition-colors hover:border-white/30 hover:bg-white/10"
+              className="inline-flex items-center gap-2 text-[16px] font-medium text-slate-950 underline decoration-paper-rule underline-offset-4 transition-colors hover:decoration-slate-950"
             >
               <Clock size={16} aria-hidden="true" /> Replay the tour
             </a>

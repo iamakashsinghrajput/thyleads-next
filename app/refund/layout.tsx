@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
  */
 export const metadata: Metadata = {
   title: 'Refund Policy',
-  description: 'How refunds, credits and billing errors are handled for Harvin.ai subscriptions.',
+  description: 'How refunds, credits and billing errors are handled for Harvin AI subscriptions.',
   alternates: { canonical: '/refund' },
 };
 

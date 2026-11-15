@@ -44,7 +44,7 @@ export default function SdrProblem() {
               <span aria-hidden="true" className="h-px w-6 bg-ember-500" />
               The Problem
             </p>
-            <h2 className="font-instrument font-semibold mt-5 text-[clamp(30px,3.6vw,48px)] leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h2 className="font-display font-medium mt-5 text-[clamp(30px,3.6vw,48px)] leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
               Your sales stack is connected.{' '}
               <span className="text-ember-600 dark:text-slate-500" >
                 Your SDR operation isn&apos;t.
@@ -131,7 +131,7 @@ export default function SdrProblem() {
                 <Sparkles size={14} aria-hidden="true" />
                 The solution
               </span>
-              <h3 className="font-instrument font-semibold mt-4 text-[clamp(26px,3vw,40px)] leading-[1.1] tracking-[-0.02em] text-white">
+              <h3 className="font-display font-medium mt-4 text-[clamp(26px,3vw,40px)] leading-[1.1] tracking-[-0.02em] text-white">
                 Bring the whole SDR operation together with Harvin.
               </h3>
               <p className="mt-5 text-[16px] leading-relaxed text-slate-400">

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
 
 /**
  * FAQ accordion. Items come from the page (a server component) so the same
@@ -22,20 +21,17 @@ export default function Faq({
   return (
     <section
       id={id}
-      className="scroll-mt-20 border-b border-slate-200 bg-white/60 px-6 py-20 dark:border-white/[0.08] dark:bg-white/[0.015] lg:py-28"
+      className="scroll-mt-20 border-b border-slate-200 px-6 py-24 dark:border-rule lg:py-32"
     >
-      <div className="mx-auto grid max-w-[1180px] gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
+      <div className="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <p className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-ember-500 dark:text-ember-400">
-            <span aria-hidden="true" className="h-px w-6 bg-ember-500 dark:bg-ember-400" />
-            FAQ
-          </p>
-          <h2 className="mt-5 font-instrument text-[clamp(30px,3.6vw,46px)] font-semibold leading-[1.08] tracking-[-0.025em] text-slate-950 dark:text-white">
+          <p className="text-[15px] font-medium text-slate-500 dark:text-stone">FAQ</p>
+          <h2 className="mt-4 font-display text-[clamp(36px,4.2vw,58px)] font-medium leading-[1.05] text-slate-950 dark:text-white">
             {title}
           </h2>
         </div>
 
-        <div className="divide-y divide-slate-200 border-y border-slate-200 dark:divide-white/[0.08] dark:border-white/[0.08]">
+        <div className="divide-y divide-slate-200 border-y border-slate-200 dark:divide-rule dark:border-rule">
           {items.map((faq, idx) => {
             const isOpen = openIdx === idx;
             const panelId = `${id}-panel-${idx}`;
@@ -48,22 +44,17 @@ export default function Faq({
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     id={`${panelId}-q`}
-                    className="flex w-full items-start justify-between gap-4 rounded-lg text-left
-                               focus:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
+                    className="flex w-full items-center justify-between gap-6 rounded-lg text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
                   >
-                    <span className="text-[17px] font-bold tracking-[-0.015em] text-slate-900 dark:text-white sm:text-[18px]">
+                    <span className="text-[18px] font-semibold text-slate-900 dark:text-white sm:text-[21px]">
                       {faq.q}
                     </span>
+                    {/* Newsreader + / − (brand: no icon chrome); ember light when open */}
                     <span
                       aria-hidden="true"
-                      className={[
-                        'mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-transform duration-200',
-                        isOpen
-                          ? 'rotate-180 border-ember-500 bg-ember-500 text-white'
-                          : 'border-slate-300 text-slate-500 dark:border-white/20 dark:text-slate-400',
-                      ].join(' ')}
+                      className={`w-6 shrink-0 text-center font-display text-[30px] leading-none ${isOpen ? 'text-ember-500 dark:text-ember-400' : 'text-slate-400 dark:text-stone'}`}
                     >
-                      <ChevronDown size={14} strokeWidth={2.5} />
+                      {isOpen ? '\u2212' : '+'}
                     </span>
                   </button>
                 </h3>
@@ -75,7 +66,7 @@ export default function Faq({
                   className={`grid transition-all duration-300 ease-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
                 >
                   <div className="min-h-0 overflow-hidden">
-                    <p className="pr-10 pt-3.5 text-[15.5px] leading-[1.75] text-slate-600 dark:text-slate-300">{faq.a}</p>
+                    <p className="pr-10 pt-3.5 text-[17px] leading-[1.5] text-slate-600 dark:text-slate-300">{faq.a}</p>
                   </div>
                 </div>
               </div>

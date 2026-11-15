@@ -102,11 +102,7 @@ export default function CookieConsent() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }}
             exit={{ opacity: 0, y: 12, transition: { duration: 0.18 } }}
-            className="fixed inset-x-4 bottom-4 z-[60] mx-auto max-w-8xl
-                       flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8
-                       rounded-modal border border-slate-200 bg-white p-5
-                       shadow-[0_8px_30px_rgba(0,0,0,0.08)]
-                       dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
+            className="fixed inset-x-4 bottom-4 z-[60] mx-auto max-w-8xl flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8 rounded-card border border-slate-200 bg-white p-5 dark:border-rule dark:bg-surface"
           >
             {/* Only closable once a choice exists — a first visit must answer. */}
             {consent && (
@@ -114,31 +110,27 @@ export default function CookieConsent() {
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Close cookie settings"
-                className="absolute right-3 top-3 rounded-btn p-1 text-slate-400 transition-colors
-                           hover:bg-slate-100 hover:text-slate-700
-                           dark:text-slate-500 dark:hover:bg-white/[0.06] dark:hover:text-slate-200"
+                className="absolute right-3 top-3 rounded-btn p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:text-slate-500 dark:hover:bg-white/[0.06] dark:hover:text-slate-200"
               >
                 <X size={16} />
               </button>
             )}
 
             <div className="flex items-start gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-btn bg-ember-50 text-ember-500 dark:bg-ember-500/10 dark:text-ember-300">
-                <Cookie size={18} aria-hidden="true" />
-              </span>
+              <Cookie size={18} aria-hidden="true" className="mt-0.5 shrink-0 text-slate-500 dark:text-slate-400" />
               <div className="min-w-0 pr-6 md:pr-0">
-                <p id="cookie-consent-title" className="text-[14.5px] font-semibold text-slate-900 dark:text-white">
+                <p id="cookie-consent-title" className="text-[15px] font-semibold text-slate-900 dark:text-white">
                   We use cookies
                 </p>
-                <p id="cookie-consent-desc" className="mt-1 text-[13px] leading-relaxed text-slate-500 dark:text-slate-400">
+                <p id="cookie-consent-desc" className="mt-1 text-[14px] leading-[1.5] text-slate-600 dark:text-slate-300">
                   Essential cookies keep the site working. With your OK we also use analytics cookies to
                   understand how the site is used.{' '}
-                  <Link href="/cookies" className="font-medium text-ember-500 underline-offset-2 hover:underline dark:text-ember-300">
+                  <Link href="/cookies" className="font-medium text-slate-900 underline decoration-slate-400 underline-offset-4 hover:decoration-slate-900 dark:text-white dark:hover:decoration-white">
                     Cookie policy
                   </Link>
                 </p>
                 {consent && (
-                  <p className="mt-2 text-[12px] text-slate-400 dark:text-slate-500">
+                  <p className="mt-2 text-[13px] text-slate-500 dark:text-slate-400">
                     Current choice:{' '}
                     <span className="font-medium text-slate-600 dark:text-slate-300">
                       {consent === 'accepted' ? 'Accepted' : 'Declined'}
@@ -152,21 +144,14 @@ export default function CookieConsent() {
               <button
                 type="button"
                 onClick={() => choose('declined')}
-                className="rounded-btn border border-slate-200 bg-white px-5 py-2 text-[13.5px] font-semibold text-slate-700 transition-colors
-                           hover:bg-slate-50
-                           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500
-                           dark:border-white/[0.12] dark:bg-transparent dark:text-slate-200 dark:hover:bg-white/[0.05]"
+                className="rounded-btn border border-slate-200 bg-white px-5 py-2 text-[13.5px] font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 dark:border-rule dark:bg-transparent dark:text-slate-200 dark:hover:bg-white/[0.05]"
               >
                 Decline
               </button>
               <button
                 type="button"
                 onClick={() => choose('accepted')}
-                className="rounded-btn bg-ember-500 px-5 py-2 text-[13.5px] font-semibold text-white transition-all duration-150
-                           shadow-[0_1px_4px_rgba(201,76,30,0.3)]
-                           hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)]
-                           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500
-                           dark:bg-ember-500 dark:hover:bg-ember-400"
+                className="rounded-btn bg-slate-950 px-5 py-2 text-[13.5px] font-semibold text-white transition-colors duration-150 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-300"
               >
                 Accept
               </button>

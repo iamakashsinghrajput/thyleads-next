@@ -68,7 +68,7 @@ const panelVariants: Variants = {
  * which is dark-only). `startFree` swaps the "Get Early Access" modal button
  * for a "Start free" link to the portal.
  */
-export default function Navbar({ alwaysDark = false, startFree = false }: { alwaysDark?: boolean; startFree?: boolean } = {}) {
+export default function Navbar({ alwaysDark = false, startFree = true }: { alwaysDark?: boolean; startFree?: boolean } = {}) {
   const { openModal } = useModal();
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null);
@@ -161,18 +161,13 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
         'fixed inset-x-0 top-0',
         'z-50 w-full border-b',
         'transition-[transform,opacity,filter,box-shadow,border-color,background-color] duration-[800ms] ease-in-out motion-reduce:transition-none',
+        // Solid brand black (#0D0D0C) in every state — never transparent or translucent.
         overHero
-          ? scrolled
-            ? // scrolled within the hero: a light translucent bar so links stay legible
-            'bg-[#0D0D0C]/55 backdrop-blur-md border-white/[0.06] shadow-[0_8px_30px_rgba(0,0,0,0.25)]'
-            : // at the top of the hero: fully see-through, the hero runs under the nav
-            'bg-transparent border-transparent shadow-none'
-          : scrolled
-            ? 'bg-white/95 backdrop-blur-md border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] dark:bg-[#0D0D0C]/80 dark:border-white/[0.06] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)]'
-            : 'bg-white/95 backdrop-blur-md border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:bg-[#0D0D0C]/80 dark:border-white/[0.06]',
+          ? 'bg-slate-950 border-rule'
+          : 'bg-white border-slate-200 dark:bg-slate-950 dark:border-rule',
         // No transform/filter classes while visible — either would make the nav a
         // containing block for its children and can affect the dropdown layout.
-        hidden ? '-translate-y-full opacity-0 blur-md pointer-events-none' : '',
+        hidden ? '-translate-y-full opacity-0 pointer-events-none' : '',
       ].join(' ')}
     >
       <div className="mx-auto flex max-w-[1340px] items-center justify-between px-6 py-1 lg:px-8">
@@ -183,7 +178,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
             className="flex items-center cursor-pointer hover:opacity-90 transition-opacity shrink-0 py-2.5"
             onClick={close}
           >
-            {/* Full lockup (mark + "Harvin.AI"). Both inks are stacked and cross-faded
+            {/* Full lockup (mark + "Harvin AI"). Both inks are stacked and cross-faded
                 so the swap tracks the navbar's dark-over-hero transition. */}
             <span className="relative block h-[30px]">
               <img
@@ -288,7 +283,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
           {startFree ? (
             <a
               href={PORTAL}
-              className="inline-flex items-center justify-center rounded-lg bg-ember-500 px-5 py-2.5 text-[14px] font-semibold text-white shadow-sm transition-all duration-200 hover:bg-ember-600 hover:shadow active:scale-95"
+              className="inline-flex items-center justify-center rounded-btn border border-slate-300 px-5 py-2.5 text-[14px] font-semibold text-slate-900 transition-colors duration-200 hover:border-ember-500 dark:border-rule dark:text-white dark:hover:border-ember-500"
             >
               Start free
             </a>
@@ -296,7 +291,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
             <button
               type="button"
               onClick={() => openModal('early-access')}
-              className="inline-flex items-center justify-center rounded-lg bg-ember-500 px-5 py-2.5 text-[14px] font-semibold text-white shadow-sm transition-all duration-200 hover:bg-ember-600 hover:shadow active:scale-95"
+              className="inline-flex items-center justify-center rounded-btn border border-slate-300 px-5 py-2.5 text-[14px] font-semibold text-slate-900 transition-colors duration-200 hover:border-ember-500 dark:border-rule dark:text-white dark:hover:border-ember-500"
             >
               Get Early Access
             </button>
@@ -333,14 +328,13 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
               // would appear under the old, then jump up when it unmounts).
               className="absolute inset-x-0 top-0 mx-auto max-w-[1340px] px-6 lg:px-8 pt-2"
             >
-              <div className="rounded-2xl border border-slate-200/90 bg-white p-7 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18)]
-                              dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.6)]">
+              <div className="rounded-2xl border border-slate-200/90 bg-white p-7 dark:border-white/[0.08] dark:bg-surface">
                 {/* ── Product Dropdown ─────────────────────────────── */}
                 {openDropdown === 'product' && (
                   <div>{/* was grid grid-cols-[1.1fr_1.1fr] gap-8; collapsed to single column while Outreach & Insights are commented out */}
                     {/* Column 1: Core Platform */}
                     <div className="flex flex-col gap-5 border-r border-slate-100 pr-6 dark:border-white/[0.06]">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
+                      <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500">
                         Product Overview
                       </p>
                       <div className='flex flex-row'>
@@ -349,8 +343,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                           onClick={close}
                           className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                         >
-                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
-                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
+                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-btn bg-slate-100 text-slate-500 transition-colors group-hover:text-ember-500 dark:bg-rule dark:text-slate-400 dark:group-hover:text-ember-400">
                             <Database size={18} strokeWidth={2} />
                           </span>
                           <div>
@@ -368,8 +361,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                           onClick={close}
                           className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                         >
-                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
-                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
+                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-btn bg-slate-100 text-slate-500 transition-colors group-hover:text-ember-500 dark:bg-rule dark:text-slate-400 dark:group-hover:text-ember-400">
                             <Building2 size={18} strokeWidth={2} />
                           </span>
                           <div>
@@ -404,7 +396,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/outreach-and-engagement"
                         onClick={close}
-                        className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 hover:text-ember-500 mb-2 transition-colors block"
+                        className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 hover:text-ember-500 mb-2 transition-colors block"
                       >
                         Outreach &amp; Engagement
                       </Link>
@@ -413,9 +405,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         <Link
                           href="/outreach-and-engagement#campaigns"
                           onClick={close}
-                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500
-                                     before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-slate-200
-                                     after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
+                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500 before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-slate-200 after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
                         >
                           <span className="text-[14px] font-semibold text-slate-800 group-hover:text-ember-500 transition-colors">
                             Campaign
@@ -428,9 +418,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         <Link
                           href="/outreach-and-engagement#dialer"
                           onClick={close}
-                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500
-                                     before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-slate-200
-                                     after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
+                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500 before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-slate-200 after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
                         >
                           <span className="text-[14px] font-semibold text-slate-800 group-hover:text-ember-500 transition-colors">
                             Dialer
@@ -443,9 +431,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         <Link
                           href="/outreach-and-engagement#email"
                           onClick={close}
-                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500
-                                     before:absolute before:left-0 before:top-0 before:h-1/2 before:w-px before:bg-slate-200
-                                     after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
+                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500 before:absolute before:left-0 before:top-0 before:h-1/2 before:w-px before:bg-slate-200 after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
                         >
                           <span className="text-[14px] font-semibold text-slate-800 group-hover:text-ember-500 transition-colors">
                             Email Inbox
@@ -462,8 +448,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                           onClick={close}
                           className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                         >
-                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
-                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
+                          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-btn bg-slate-100 text-slate-500 transition-colors group-hover:text-ember-500 dark:bg-rule dark:text-slate-400 dark:group-hover:text-ember-400">
                             <Network size={18} strokeWidth={2} />
                           </span>
                           <div>
@@ -481,7 +466,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
 
                     {/* Column 3: Performance & Insights */}
                     {/* <div className="flex flex-col gap-3">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 mb-2">
+                      <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mb-2">
                         Performance &amp; Insights
                       </p>
 
@@ -489,15 +474,13 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         <Link
                           href="/sdr"
                           onClick={close}
-                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500
-                                     before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-slate-200
-                                     after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
+                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500 before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-slate-200 after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
                         >
                           <div className="flex items-center gap-2">
                             <span className="text-[14px] font-semibold text-slate-800 group-hover:text-ember-500 transition-colors">
                               SDR
                             </span>
-                            <span className="text-[11px] font-medium text-ember-600 bg-ember-50 px-2 py-0.5 rounded-full">
+                            <span className="text-[12px] text-slate-500 dark:text-slate-400">
                               Stay on Track
                             </span>
                           </div>
@@ -509,15 +492,13 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         <Link
                           href="/sdr-head"
                           onClick={close}
-                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500
-                                     before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-slate-200
-                                     after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
+                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500 before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-slate-200 after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
                         >
                           <div className="flex items-center gap-2">
                             <span className="text-[14px] font-semibold text-slate-800 group-hover:text-ember-500 transition-colors">
                               SDR Head
                             </span>
-                            <span className="text-[11px] font-medium text-ember-600 bg-ember-50 px-2 py-0.5 rounded-full">
+                            <span className="text-[12px] text-slate-500 dark:text-slate-400">
                               See Team Health
                             </span>
                           </div>
@@ -529,15 +510,13 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         <Link
                           href="/ae"
                           onClick={close}
-                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500
-                                     before:absolute before:left-0 before:top-0 before:h-1/2 before:w-px before:bg-slate-200
-                                     after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
+                          className="group relative flex flex-col py-2.5 pl-6 transition-colors hover:text-ember-500 before:absolute before:left-0 before:top-0 before:h-1/2 before:w-px before:bg-slate-200 after:absolute after:left-0 after:top-1/2 after:h-px after:w-3.5 after:bg-slate-200"
                         >
                           <div className="flex items-center gap-2">
                             <span className="text-[14px] font-semibold text-slate-800 group-hover:text-ember-500 transition-colors">
                               AE
                             </span>
-                            <span className="text-[11px] font-medium text-ember-600 bg-ember-50 px-2 py-0.5 rounded-full">
+                            <span className="text-[12px] text-slate-500 dark:text-slate-400">
                               Track your pipeline
                             </span>
                           </div>
@@ -553,7 +532,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                 {/* ── Roles Dropdown — hidden (SHOW_ROLES) ─────────── */}
                 {SHOW_ROLES && openDropdown === 'roles' && (
                   <div className="max-w-[760px] mx-auto">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 mb-4">
+                    <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mb-4">
                       Tailored by Role
                     </p>
                     <div className="grid grid-cols-3 gap-5">
@@ -564,10 +543,10 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         className="group flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-ember-200 hover:bg-ember-50/30 dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:border-ember-500/40 dark:hover:bg-ember-500/[0.06] transition-all"
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[16px] font-bold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
+                          <span className="text-[16px] font-semibold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                             SDR
                           </span>
-                          <span className="text-[10.5px] font-semibold uppercase tracking-wider text-ember-600 bg-ember-100/70 dark:text-ember-300 dark:bg-ember-500/10 px-2 py-0.5 rounded">
+                          <span className="text-[12px] text-slate-500 dark:text-slate-400">
                             Stay on Track
                           </span>
                         </div>
@@ -586,10 +565,10 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         className="group flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-ember-200 hover:bg-ember-50/30 dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:border-ember-500/40 dark:hover:bg-ember-500/[0.06] transition-all"
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[16px] font-bold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
+                          <span className="text-[16px] font-semibold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                             SDR Head
                           </span>
-                          <span className="text-[10.5px] font-semibold uppercase tracking-wider text-ember-600 bg-ember-100/70 dark:text-ember-300 dark:bg-ember-500/10 px-2 py-0.5 rounded">
+                          <span className="text-[12px] text-slate-500 dark:text-slate-400">
                             Team Health
                           </span>
                         </div>
@@ -608,10 +587,10 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         className="group flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-ember-200 hover:bg-ember-50/30 dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:border-ember-500/40 dark:hover:bg-ember-500/[0.06] transition-all"
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[16px] font-bold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
+                          <span className="text-[16px] font-semibold text-slate-900 group-hover:text-ember-500 dark:text-white dark:group-hover:text-ember-400 transition-colors">
                             AE
                           </span>
-                          <span className="text-[10.5px] font-semibold uppercase tracking-wider text-ember-600 bg-ember-100/70 dark:text-ember-300 dark:bg-ember-500/10 px-2 py-0.5 rounded">
+                          <span className="text-[12px] text-slate-500 dark:text-slate-400">
                             Pipeline
                           </span>
                         </div>
@@ -629,7 +608,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                 {/* ── Resources Dropdown ──────────────────────────── */}
                 {openDropdown === 'resources' && (
                   <div className="max-w-[720px] mx-auto">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 mb-4">
+                    <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mb-4">
                       Resources &amp; Company
                     </p>
                     <div className="grid grid-cols-2 gap-4">
@@ -639,8 +618,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         onClick={close}
                         className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                       >
-                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
-                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
+                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-btn bg-slate-100 text-slate-500 transition-colors group-hover:text-ember-500 dark:bg-rule dark:text-slate-400 dark:group-hover:text-ember-400">
                           <Compass size={18} strokeWidth={2} />
                         </span>
                         <div>
@@ -658,8 +636,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         onClick={close}
                         className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                       >
-                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
-                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
+                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-btn bg-slate-100 text-slate-500 transition-colors group-hover:text-ember-500 dark:bg-rule dark:text-slate-400 dark:group-hover:text-ember-400">
                           <Users size={18} strokeWidth={2} />
                         </span>
                         <div>
@@ -678,8 +655,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         onClick={close}
                         className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                       >
-                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
-                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
+                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-btn bg-slate-100 text-slate-500 transition-colors group-hover:text-ember-500 dark:bg-rule dark:text-slate-400 dark:group-hover:text-ember-400">
                           <Mail size={18} strokeWidth={2} />
                         </span>
                         <div>
@@ -697,8 +673,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                         onClick={close}
                         className="group flex items-start gap-3.5 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
                       >
-                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ember-50 text-ember-500 group-hover:bg-ember-500 group-hover:text-white transition-colors
-                                           dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/20 dark:group-hover:bg-ember-500 dark:group-hover:text-white">
+                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-btn bg-slate-100 text-slate-500 transition-colors group-hover:text-ember-500 dark:bg-rule dark:text-slate-400 dark:group-hover:text-ember-400">
                           <Newspaper size={18} strokeWidth={2} />
                         </span>
                         <div>
@@ -726,7 +701,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-b border-slate-200 bg-white px-6 py-6 shadow-xl overflow-hidden dark:border-white/[0.06] dark:bg-[#0D0D0C]"
+            className="lg:hidden border-b border-slate-200 bg-white px-6 py-6 overflow-hidden dark:border-white/[0.06] dark:bg-slate-950"
           >
             <div className="flex flex-col gap-4">
               {/* Mobile Accordion: Product */}
@@ -763,7 +738,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       <Link
                         href="/outreach-and-engagement"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-ember-500 block"
+                        className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 hover:text-ember-500 block"
                       >
                         Outreach &amp; Engagement
                       </Link>
@@ -793,7 +768,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                     </div>
                     */}
                     <div className="pt-2">
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                      <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500">
                         Performance &amp; Insights
                       </p>
                       <div className="flex flex-col gap-1.5 pl-2 pt-1">
@@ -939,15 +914,14 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
               <div className="flex flex-col gap-3 pt-4">
                 <a
                   href={PORTAL}
-                  className="flex w-full items-center justify-center rounded-lg border border-slate-200 py-2.5 text-[15px] font-semibold text-slate-800 hover:bg-slate-50 transition-colors
-                             dark:border-white/[0.12] dark:text-white dark:hover:bg-white/[0.05]"
+                  className="flex w-full items-center justify-center rounded-lg border border-slate-200 py-2.5 text-[15px] font-semibold text-slate-800 hover:bg-slate-50 transition-colors dark:border-white/[0.12] dark:text-white dark:hover:bg-white/[0.05]"
                 >
                   Log in
                 </a>
                 {startFree ? (
                   <a
                     href={PORTAL}
-                    className="flex w-full items-center justify-center rounded-lg bg-ember-500 py-3 text-[15px] font-semibold text-white shadow-sm hover:bg-ember-600 transition-colors"
+                    className="flex w-full items-center justify-center rounded-btn bg-ember-500 py-3 text-[15px] font-semibold text-pure hover:bg-ember-600 transition-colors"
                   >
                     Start free
                   </a>
@@ -958,7 +932,7 @@ export default function Navbar({ alwaysDark = false, startFree = false }: { alwa
                       setMobileMenuOpen(false);
                       openModal('early-access');
                     }}
-                    className="flex w-full items-center justify-center rounded-lg bg-ember-500 py-3 text-[15px] font-semibold text-white shadow-sm hover:bg-ember-600 transition-colors"
+                    className="flex w-full items-center justify-center rounded-btn bg-ember-500 py-3 text-[15px] font-semibold text-pure hover:bg-ember-600 transition-colors"
                   >
                     Get Early Access
                   </button>

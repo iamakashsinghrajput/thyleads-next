@@ -123,7 +123,7 @@ export default function CreditCalculator() {
           ) : (
             <p className="mt-3 text-[16px] leading-relaxed text-white/75">
               About{' '}
-              <span className="block font-instrument text-[56px] font-semibold leading-none tracking-[-0.035em] tabular-nums text-white">
+              <span className="block font-display text-[56px] font-medium leading-none tracking-[-0.035em] tabular-nums text-white">
                 {fmt(total)}
               </span>
               credits a month. Recommended:{' '}

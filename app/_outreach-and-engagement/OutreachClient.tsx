@@ -484,7 +484,7 @@ function InboxMock() {
    PAGE
    ═══════════════════════════════════════════════════════════════════════════════ */
 
-const H2 = 'font-instrument font-semibold text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em]';
+const H2 = 'font-display font-medium text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em]';
 
 function Eyebrow({ children, center, dark }: { children: ReactNode; center?: boolean; dark?: boolean }) {
   return (
@@ -546,7 +546,7 @@ export default function OutreachClient() {
               <Radio size={13} className="text-ember-500 motion-safe:animate-pulse" aria-hidden="true" />
               Sales Engagement
             </span>
-            <h1 className="mt-7 font-instrument font-semibold text-[clamp(34px,5.2vw,66px)] leading-[1.04] tracking-[-0.035em] text-slate-950 dark:text-white">
+            <h1 className="mt-7 font-display font-medium text-[clamp(34px,5.2vw,66px)] leading-[1.04] tracking-[-0.035em] text-slate-950 dark:text-white">
               Engage across channels.
               <br />
               <span className="text-ember-500">Keep every interaction connected</span> to the account.
@@ -671,12 +671,12 @@ export default function OutreachClient() {
               >
                 <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-ember-500 to-ember-300" style={{ opacity: 1 - i * 0.3 }} />
                 <div className="flex items-center justify-between">
-                  <span className="font-instrument text-[28px] font-semibold tracking-[-0.02em] text-slate-950 dark:text-white">{role}</span>
+                  <span className="font-display text-[28px] font-medium tracking-[-0.02em] text-slate-950 dark:text-white">{role}</span>
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ember-500/10 text-ember-500">
                     <Icon size={18} aria-hidden="true" />
                   </span>
                 </div>
-                <h3 className="mt-4 font-instrument font-semibold text-[20px] leading-snug text-slate-900 dark:text-white">{title}</h3>
+                <h3 className="mt-4 font-display font-medium text-[20px] leading-snug text-slate-900 dark:text-white">{title}</h3>
                 <ul className="mt-5 space-y-3 border-t border-slate-200 pt-5 dark:border-white/[0.08]">
                   {bullets.map((b) => (
                     <li key={b} className="flex items-start gap-2.5 text-[15px] text-slate-700 dark:text-slate-300">
@@ -711,7 +711,7 @@ export default function OutreachClient() {
 
           <figure className="relative mt-14 overflow-hidden rounded-modal border border-slate-200 bg-sand-50 p-8 shadow-[0_4px_32px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)] sm:p-12">
             <Quote aria-hidden="true" size={120} className="absolute -right-4 -top-6 rotate-180 text-ember-500/[0.07]" />
-            <blockquote key={testimonialIdx} className="relative animate-fade-up sm:pr-16 font-instrument text-[clamp(20px,2.3vw,28px)] font-semibold leading-[1.4] tracking-[-0.01em] text-slate-900 dark:text-white">
+            <blockquote key={testimonialIdx} className="relative animate-fade-up sm:pr-16 font-display text-[clamp(20px,2.3vw,28px)] font-medium leading-[1.4] tracking-[-0.01em] text-slate-900 dark:text-white">
               &ldquo;{activeTestimonial.quote}&rdquo;
             </blockquote>
 
@@ -817,7 +817,7 @@ export default function OutreachClient() {
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(60%_70%_at_50%_30%,#000,transparent)]"
         />
         <div className="relative mx-auto max-w-[840px] text-center">
-          <h2 className="font-instrument font-semibold text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">Give every outreach the context behind it.</h2>
+          <h2 className="font-display font-medium text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">Give every outreach the context behind it.</h2>
           <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-white/65 sm:text-[19px]">
             Bring account intelligence, previous interactions and prospect context into every email, message and call.
           </p>

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { SITE_URL } from '@/lib/site';
-import { JetBrains_Mono, Bricolage_Grotesque, Instrument_Sans } from 'next/font/google';
-import localFont from 'next/font/local';
+import { Instrument_Sans, Newsreader } from 'next/font/google';
 import './globals.css';
 import ThemeProvider from '@/components/ThemeProvider';
 import { ModalProvider } from '@/components/ModalContext';
@@ -9,37 +8,19 @@ import SessionWrapper from '@/components/SessionWrapper';
 import CookieConsent from '@/components/CookieConsent';
 import ChatBot from '@/components/ChatBot';
 
-/* ── Universal Sans (primary font) ────────────────────────────────────────── */
-const universalSans = localFont({
-  src: [
-    { path: '../public/fonts/universalfont/74452ea3ef0f9101-s.p.woff2', weight: '400', style: 'normal'  },
-    { path: '../public/fonts/universalfont/3d4419af2cf8609b-s.p.woff2', weight: '400', style: 'italic'  },
-    { path: '../public/fonts/universalfont/904ef0a86fe32a00-s.p.woff2', weight: '600', style: 'normal'  },
-    { path: '../public/fonts/universalfont/4dec29efcaeb336c-s.p.woff2', weight: '600', style: 'italic'  },
-    { path: '../public/fonts/universalfont/d886a03bcda7ad8f-s.p.woff2', weight: '400', style: 'normal'  },
-    { path: '../public/fonts/universalfont/f5a90156f8995c8c-s.p.woff2', weight: '600', style: 'normal'  },
-  ],
+/* ── Brand typefaces (Harvin AI brand guidelines) ─────────────────────────
+   Instrument Sans for body, names, labels, navigation and buttons; Newsreader
+   for headlines, large numbers and quotes. Both SIL Open Font License. */
+const instrumentSans = Instrument_Sans({
+  subsets:  ['latin'],
   variable: '--font-sans',
   display:  'swap',
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const newsreader = Newsreader({
   subsets:  ['latin'],
-  variable: '--font-mono',
-  display:  'swap',
-});
-
-const bricolageGrotesque = Bricolage_Grotesque({
-  subsets:  ['latin'],
-  variable: '--font-bricolage',
-  display:  'swap',
-});
-
-/* Page H1s — Instrument Sans 600 (`font-instrument font-semibold`). */
-const instrumentSans = Instrument_Sans({
-  subsets:  ['latin'],
-  weight:   '600',
-  variable: '--font-instrument',
+  style:    ['normal', 'italic'],
+  variable: '--font-display',
   display:  'swap',
 });
 
@@ -62,7 +43,7 @@ const instrumentSans = Instrument_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Harvin.AI: Find the B2B Customers Your Database Misses',
+    default: 'Harvin AI: Find the B2B Customers Your Database Misses',
     template: '%s | Harvin',
   },
   description:
@@ -88,7 +69,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: 'Your best customers are filed under the wrong category',
     description: "Harvin finds them, shows why they fit, and finds the right buyer's work email and phone.",
-    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Harvin.AI — find the B2B customers your database misses' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Harvin AI — find the B2B customers your database misses' }],
   },
   /* Points at app/opengraph-image.tsx (the generated card) rather than relying
      on the file convention alone. The convention only reaches segments that do
@@ -149,7 +130,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body
-        className={`${universalSans.variable} ${jetbrainsMono.variable} ${bricolageGrotesque.variable} ${instrumentSans.variable}`}
+        className={`${instrumentSans.variable} ${newsreader.variable}`}
       >
         <SessionWrapper>
           <ThemeProvider>

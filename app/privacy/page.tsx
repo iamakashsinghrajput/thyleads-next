@@ -17,12 +17,12 @@ export default function PrivacyPolicy() {
       title="Privacy Policy"
       effectiveDate="2 November 2026"
       lastUpdated="2 November 2026"
-      entity="Thyleads Private Limited, operating Harvin.ai"
+      entity="Thyleads Private Limited, operating Harvin AI"
       intro={
         <>
-          This Privacy Policy explains how Thyleads Private Limited, operating the Harvin.ai product
+          This Privacy Policy explains how Thyleads Private Limited, operating the Harvin AI product
           (&lsquo;Harvin&rsquo;, &lsquo;we&rsquo;, &lsquo;us&rsquo; or &lsquo;our&rsquo;), collects, uses,
-          discloses and protects personal information when you visit Harvin.ai, create or use a Harvin account,
+          discloses and protects personal information when you visit Harvin AI, create or use a Harvin account,
           communicate with us, or otherwise interact with our services.
         </>
       }

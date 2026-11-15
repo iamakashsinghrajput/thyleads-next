@@ -20,6 +20,8 @@ import { useEffect, useRef, useState } from 'react';
  *     stays backface-hidden until the tiles pass edge-on.
  *
  * Lives inside the always-dark hero, so — like Footer.tsx — no `dark:` pairs.
+ * Brand note: third-party logos need written consent (brand guidelines); the
+ * client chose to keep this strip for now.
  */
 
 const LOGOS = [
@@ -63,7 +65,7 @@ function Face({ logo, back }: { logo: (typeof LOGOS)[number]; back?: boolean }) 
 
 function Star() {
   return (
-    <svg viewBox="0 0 20 20" className="h-[15px] w-[15px]" fill="#F6A11E" aria-hidden="true">
+    <svg viewBox="0 0 20 20" className="h-[15px] w-[15px] text-ember-400" fill="currentColor" aria-hidden="true">
       <path d="M10 1.5l2.47 5.01 5.53.8-4 3.9.94 5.51L10 14.9l-4.94 2.6.94-5.5-4-3.9 5.53-.8L10 1.5z" />
     </svg>
   );
@@ -129,18 +131,11 @@ export default function TrustedStrip() {
 
   return (
     <div className="relative pb-8 pt-6">
-      <p className="text-center text-[11.5px] font-semibold uppercase tracking-[0.2em] text-white/40">
+      <p className="text-[14px] text-slate-400">
         Trusted by revenue teams at
       </p>
 
-      <div className="relative mx-auto mt-6 max-w-[860px]">
-        {/* ember bed under the board */}
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[150px] w-[600px] -translate-x-1/2 -translate-y-1/2
-                     bg-[radial-gradient(50%_60%_at_50%_50%,rgba(242,132,28,0.13),transparent_72%)]"
-        />
-
+      <div className="relative mt-5 max-w-[860px]">
         {/* Decorative motion; the full roster is listed statically below so a
             flip never re-announces anything to a screen reader. */}
         {/* flex-wrap rather than a grid: five items over three columns leaves a
@@ -148,7 +143,7 @@ export default function TrustedStrip() {
             would strand it on the left. */}
         <div
           aria-hidden="true"
-          className="relative flex flex-wrap items-center justify-center gap-x-6 gap-y-6 [perspective:1200px] sm:flex-nowrap sm:gap-x-10"
+          className="relative flex flex-wrap items-center justify-start gap-x-6 gap-y-6 [perspective:1200px] sm:flex-nowrap sm:gap-x-10"
         >
           {Array.from({ length: TILES }, (_, i) => (
             <div
@@ -169,17 +164,17 @@ export default function TrustedStrip() {
         </ul>
       </div>
 
-      <div className="mt-7 flex items-center justify-center gap-3.5">
+      <div className="mt-6 flex flex-wrap items-center gap-3.5">
         <span className="flex items-center gap-0.5"><Star /><Star /><Star /><Star /><Star /></span>
         <span className="text-[14px] leading-none">
-          <span className="font-bold text-white">4.7</span>
-          <span className="text-white/40">/5</span>
+          <span className="font-semibold tabular-nums text-white">4.7</span>
+          <span className="text-slate-400">/5</span>
         </span>
-        <span aria-hidden="true" className="h-3.5 w-px bg-white/15" />
-        <span className="text-[13px] font-medium">
-          <span className="text-white/55">Trusted by</span>{' '}
-          <span className="font-bold text-[#F2841C]">growing</span>{' '}
-          <span className="text-white/55">revenue teams</span>
+        <span aria-hidden="true" className="h-3.5 w-px bg-rule" />
+        <span className="text-[14px]">
+          <span className="text-slate-400">Trusted by</span>{' '}
+          <span className="text-white">growing</span>{' '}
+          <span className="text-slate-400">revenue teams</span>
         </span>
       </div>
     </div>

@@ -29,7 +29,7 @@ const REQUEST_MAILTO =
     ].join('\n\n'),
   );
 
-const link = 'text-ember-500 hover:text-ember-400 dark:text-ember-300 underline underline-offset-2';
+const link = 'font-medium text-slate-900 dark:text-white underline decoration-slate-400 underline-offset-4 hover:decoration-slate-900 dark:hover:decoration-white';
 
 export default function PrivacyChoices() {
   return (
@@ -38,7 +38,7 @@ export default function PrivacyChoices() {
       title="Your Privacy Choices"
       effectiveDate="2 November 2026"
       lastUpdated="2 November 2026"
-      entity="Thyleads Private Limited, operating Harvin.ai"
+      entity="Thyleads Private Limited, operating Harvin AI"
       intro={
         <>
           This page explains how you may exercise applicable privacy choices, including opt-out, removal,
@@ -47,24 +47,24 @@ export default function PrivacyChoices() {
       }
     >
       {/* Quick action — the request route described in § 6 */}
-      <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-ember-500/25 dark:bg-[#0F0E0C] dark:bg-gradient-to-br dark:from-ember-500/[0.1] dark:to-transparent sm:flex-row sm:items-center sm:justify-between sm:p-8">
+      <div className="flex flex-col gap-4 rounded-card border border-slate-200 bg-slate-50 p-6 dark:border-rule dark:bg-surface sm:flex-row sm:items-center sm:justify-between sm:p-8">
         <div>
-          <p className="text-[16px] font-semibold text-slate-900 dark:text-white">Do Not Sell or Share My Personal Information</p>
-          <p className="mt-1 text-[14px] text-slate-500 dark:text-white/50">
+          <p className="font-display font-medium text-[24px] leading-[1.2] text-slate-900 dark:text-white">Do Not Sell or Share My Personal Information</p>
+          <p className="mt-2 text-[16px] leading-[1.5] text-slate-600 dark:text-slate-300">
             No Harvin account needed. Send a request and tell us what you&apos;d like us to do.
           </p>
         </div>
-        <div className="flex flex-shrink-0 flex-col gap-2 sm:flex-row">
+        <div className="flex flex-shrink-0 flex-col gap-4 sm:flex-row sm:items-center">
           <a
             href={REQUEST_MAILTO}
-            className="inline-flex items-center justify-center gap-2 rounded-btn bg-ember-500 px-4 py-2.5 text-[14px] font-semibold text-white shadow-[0_1px_4px_rgba(201,76,30,0.3)] transition-all hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#0F0E0C]"
+            className="inline-flex items-center justify-center gap-2 rounded-btn bg-ember-500 px-4 py-2.5 text-[14px] font-semibold text-pure transition-colors hover:bg-ember-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-surface"
           >
             <Mail size={16} aria-hidden="true" />
             Submit a request
           </a>
           <a
             href="tel:+918769673818"
-            className="inline-flex items-center justify-center gap-2 rounded-btn border border-slate-200 bg-white px-4 py-2.5 text-[14px] font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-white/[0.12] dark:bg-transparent dark:text-white/80 dark:hover:bg-white/[0.06]"
+            className="inline-flex items-center justify-center gap-2 text-[15px] font-medium text-slate-700 underline decoration-slate-400 underline-offset-4 transition-colors hover:text-slate-950 dark:text-slate-300 dark:hover:text-white"
           >
             <Phone size={16} aria-hidden="true" />
             Call us

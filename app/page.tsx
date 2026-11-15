@@ -11,7 +11,7 @@ import Footer from '@/components/Footer';
 
 /** Copy: public/Harvin Home Page Content .md. */
 export const metadata: Metadata = {
-  title: { absolute: 'Harvin.AI: Find the B2B Customers Your Database Misses' },
+  title: { absolute: 'Harvin AI: Find the B2B Customers Your Database Misses' },
   description:
     'Tell Harvin what you sell, who buys and what makes a company relevant. Harvin discovers and researches companies traditional database searches miss, then finds the right decision-makers. Start free.',
   alternates: { canonical: '/' },

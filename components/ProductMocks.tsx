@@ -51,22 +51,22 @@ export function FitCanvas({ w, h, label, children }: { w: number; h: number; lab
 /* Dark frame: ember wash + skeleton chrome in the top/left margin, product inset. */
 export function Frame({ w, h, label, aspect, children }: { w: number; h: number; label: string; aspect: string; children: ReactNode }) {
   return (
-    <div className={`relative overflow-hidden rounded-modal border border-white/[0.08] bg-[#0C0B09] shadow-[0_4px_40px_rgba(0,0,0,0.35)] ${aspect}`}>
+    <div className={`relative overflow-hidden rounded-modal border border-white/[0.08] bg-slate-950  ${aspect}`}>
       <div aria-hidden="true" className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(70%_90%_at_0%_0%,rgba(201,76,30,0.45)_0%,rgba(201,76,30,0.12)_45%,transparent_75%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_100%_100%,rgba(244,142,86,0.18)_0%,transparent_70%)]" />
+        <div className="absolute inset-0" />
+        <div className="absolute inset-0" />
         <div className="absolute inset-x-0 top-0 flex h-8 items-center gap-3 pl-3 pr-6 sm:h-10 sm:pl-4">
           <div className="flex gap-1.5">
             <span className="h-2 w-2 rounded-full bg-ember-300/60" />
             <span className="h-2 w-2 rounded-full bg-white/[0.18]" />
             <span className="h-2 w-2 rounded-full bg-white/[0.12]" />
           </div>
-          <span className="ml-6 h-2 w-16 rounded-full bg-gradient-to-r from-ember-400/60 to-white/[0.08] sm:ml-10" />
-          <span className="h-2 w-24 rounded-full bg-gradient-to-r from-white/[0.14] to-white/[0.04]" />
-          <span className="ml-auto h-2 w-20 rounded-full bg-gradient-to-r from-white/[0.04] to-ember-300/30" />
+          <span className="ml-6 h-2 w-16 rounded-full sm:ml-10 bg-ember-400/60" />
+          <span className="h-2 w-24 rounded-full bg-white/[0.14]" />
+          <span className="ml-auto h-2 w-20 rounded-full bg-white/[0.04]" />
         </div>
         <div className="absolute bottom-0 left-0 top-8 flex w-8 flex-col items-center gap-3 pt-3 sm:top-10 sm:w-10 sm:pt-4">
-          <span className="h-3.5 w-3.5 rounded-[4px] bg-gradient-to-br from-ember-300 to-ember-500" />
+          <span className="h-3.5 w-3.5 rounded-[4px] bg-ember-300" />
           {Array.from({ length: 6 }).map((_, i) => (
             <span key={i} className="h-3.5 w-3.5 rounded-[4px] bg-white/[0.08]" style={{ opacity: 1 - i * 0.12 }} />
           ))}
@@ -92,12 +92,12 @@ export function useTicker(ms: number) {
   return tick;
 }
 
-export const CARD = 'rounded-card border border-slate-200 bg-white shadow-[0_4px_32px_rgba(0,0,0,0.06)]';
+export const CARD = 'rounded-card border border-slate-200 bg-white ';
 
 export const TONE = {
   ember: 'border-ember-200 bg-ember-50 text-ember-600',
-  emerald: 'border-emerald-200 bg-emerald-50 text-emerald-700',
-  amber: 'border-amber-200 bg-amber-50 text-amber-700',
+  emerald: 'border-ember-200 bg-ember-50 text-ember-700',
+  amber: 'border-slate-200 bg-slate-50 text-slate-400',
   slate: 'border-slate-200 bg-slate-100 text-slate-600',
 } as const;
 
@@ -107,8 +107,8 @@ export function Chip({ tone = 'slate', children }: { tone?: keyof typeof TONE; c
 
 export function LivePill({ children }: { children: ReactNode }) {
   return (
-    <span className="flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-700">
-      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 motion-safe:animate-pulse" />
+    <span className="flex items-center gap-1.5 rounded-full border border-ember-200 bg-ember-50 px-2.5 py-1 text-[10px] font-semibold text-ember-700">
+      <span className="h-1.5 w-1.5 rounded-full bg-ember-500 motion-safe:animate-pulse" />
       {children}
     </span>
   );
@@ -128,10 +128,10 @@ export function Avatar({ initials, className = 'bg-ember-400' }: { initials: str
 const ACCOUNTS = [
   { name: 'Initech Systems', ind: 'B2B SaaS · 420 employees', fit: 'A', score: 92, signal: 'Raised Series B', tone: 'ember', owner: 'PS', mono: 'bg-slate-800' },
   { name: 'Northwind Analytics', ind: 'Data platform · 260 employees', fit: 'A', score: 87, signal: 'Hiring 6 SDRs', tone: 'amber', owner: 'AM', mono: 'bg-ember-500' },
-  { name: 'Globex Cloud', ind: 'Infrastructure · 1,100 employees', fit: 'A', score: 81, signal: 'New VP Sales', tone: 'ember', owner: 'PS', mono: 'bg-sky-700' },
-  { name: 'Umbrella Health', ind: 'Healthtech · 640 employees', fit: 'B', score: 74, signal: 'Adopted HubSpot', tone: 'emerald', owner: 'RK', mono: 'bg-emerald-700' },
-  { name: 'Stark Retail', ind: 'Retail tech · 380 employees', fit: 'B', score: 66, signal: 'Visited pricing ×3', tone: 'slate', owner: 'AM', mono: 'bg-amber-600' },
-  { name: 'Hooli Payments', ind: 'Fintech · 900 employees', fit: 'B', score: 59, signal: 'Expanding to EMEA', tone: 'amber', owner: 'RK', mono: 'bg-violet-700' },
+  { name: 'Globex Cloud', ind: 'Infrastructure · 1,100 employees', fit: 'A', score: 81, signal: 'New VP Sales', tone: 'ember', owner: 'PS', mono: 'bg-slate-700' },
+  { name: 'Umbrella Health', ind: 'Healthtech · 640 employees', fit: 'B', score: 74, signal: 'Adopted HubSpot', tone: 'emerald', owner: 'RK', mono: 'bg-ember-700' },
+  { name: 'Stark Retail', ind: 'Retail tech · 380 employees', fit: 'B', score: 66, signal: 'Visited pricing ×3', tone: 'slate', owner: 'AM', mono: 'bg-slate-600' },
+  { name: 'Hooli Payments', ind: 'Fintech · 900 employees', fit: 'B', score: 59, signal: 'Expanding to EMEA', tone: 'amber', owner: 'RK', mono: 'bg-slate-700' },
 ] as const;
 
 export function PriorityMock() {
@@ -163,7 +163,7 @@ export function PriorityMock() {
       </div>
 
       <div className={`mt-4 flex-1 overflow-hidden ${CARD}`}>
-        <div className="grid grid-cols-[1.7fr_0.5fr_1.2fr_1.2fr_0.5fr] gap-3 border-b border-slate-100 bg-sand-50 px-4 py-2 text-[9px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+        <div className="grid grid-cols-[1.7fr_0.5fr_1.2fr_1.2fr_0.5fr] gap-3 border-b border-slate-100 bg-sand-50 px-4 py-2 text-[9px] font-semibold text-slate-400">
           <span>Account</span>
           <span>ICP fit</span>
           <span>Intent score</span>
@@ -194,7 +194,7 @@ export function PriorityMock() {
               </span>
               <span className="flex items-center gap-2">
                 <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
-                  <span className="block h-full rounded-full bg-gradient-to-r from-ember-300 to-ember-500 transition-all duration-700" style={{ width: `${score}%` }} />
+                  <span className="block h-full rounded-full transition-all duration-700 bg-ember-300" style={{ width: `${score}%` }} />
                 </span>
                 <span className={`w-6 text-right text-[11px] font-semibold ${isHot ? 'text-ember-600' : 'text-slate-700'}`}>{score}</span>
               </span>
@@ -202,7 +202,7 @@ export function PriorityMock() {
                 <Chip tone={a.tone}>{a.signal}</Chip>
                 {isHot && <span className="text-[9px] font-semibold text-ember-500 motion-safe:animate-pulse">● new</span>}
               </span>
-              <Avatar initials={a.owner} className={a.owner === 'PS' ? 'bg-ember-400' : a.owner === 'AM' ? 'bg-slate-700' : 'bg-emerald-600'} />
+              <Avatar initials={a.owner} className={a.owner === 'PS' ? 'bg-ember-400' : a.owner === 'AM' ? 'bg-slate-700' : 'bg-ember-600'} />
             </div>
           );
         })}
@@ -222,7 +222,7 @@ const SIGNALS = [
 const CONTACTS = [
   { i: 'PS', n: 'Priya Sharma', r: 'VP Sales', tag: 'Decision maker', c: 'bg-ember-400' },
   { i: 'RM', n: 'Rohan Mehta', r: 'Head of RevOps', tag: 'Champion', c: 'bg-slate-700' },
-  { i: 'KA', n: 'Kavya Agarwal', r: 'SDR Manager', tag: 'Influencer', c: 'bg-emerald-600' },
+  { i: 'KA', n: 'Kavya Agarwal', r: 'SDR Manager', tag: 'Influencer', c: 'bg-ember-600' },
 ];
 
 const ACTIVITY = [
@@ -273,7 +273,7 @@ export function Account360Mock() {
         <div className="flex items-center gap-6">
           <ScoreRing value={92} label="ICP fit" color="#232220" />
           <ScoreRing value={intent} label="Intent score" color="#C94C1E" />
-          <span className="flex items-center gap-1.5 rounded-btn bg-ember-500 px-3 py-2 text-[10.5px] font-semibold text-white">
+          <span className="flex items-center gap-1.5 rounded-btn bg-ember-500 px-3 py-2 text-[10.5px] font-semibold text-pure">
             <Plus size={12} strokeWidth={3} /> Add to sequence
           </span>
         </div>
@@ -312,7 +312,7 @@ export function Account360Mock() {
                   <Avatar initials={c.i} className={c.c} />
                   <span className="min-w-0 flex-1">
                     <span className="flex items-center gap-1 text-[10.5px] font-semibold text-slate-900">
-                      {c.n} <BadgeCheck size={11} className="text-emerald-500" />
+                      {c.n} <BadgeCheck size={11} className="text-ember-500" />
                     </span>
                     <span className="block text-[9px] text-slate-400">{c.r}</span>
                   </span>
@@ -338,7 +338,7 @@ export function Account360Mock() {
         </div>
 
         {/* context */}
-        <div className="rounded-card bg-[#232220] p-4 text-white shadow-[0_4px_32px_rgba(0,0,0,0.12)]">
+        <div className="rounded-card bg-[#232220] p-4 text-white ">
           <p className="text-[11.5px] font-semibold">Account context</p>
           <div className="mt-3 space-y-2.5 text-[10.5px]">
             {[
@@ -354,7 +354,7 @@ export function Account360Mock() {
               </div>
             ))}
           </div>
-          <p className="mt-3 text-[9.5px] font-semibold uppercase tracking-[0.1em] text-ember-300">Tech stack</p>
+          <p className="mt-3 text-[9.5px] font-semibold text-ember-300">Tech stack</p>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {STACK.map((t) => (
               <span key={t} className="rounded-md bg-white/[0.08] px-2 py-1 text-[9.5px] font-medium text-white/80">

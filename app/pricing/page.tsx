@@ -145,24 +145,23 @@ const productSchema = {
 
 /* ── Shared styles (same language as the homepage) ─────────────────────── */
 const SECTION = 'scroll-mt-20 border-b border-slate-200 px-6 py-20 dark:border-white/[0.08] lg:py-24';
-const BAND = 'bg-white/60 dark:bg-white/[0.015]';
+const BAND = 'bg-sand-50 dark:bg-slate-950';
 const WRAP = 'mx-auto max-w-[1180px]';
 const H2 =
-  'font-instrument font-semibold text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em] text-slate-950 dark:text-white';
-const LEAD = 'text-[17px] leading-relaxed text-slate-600 dark:text-slate-300';
+  'font-display font-medium text-[clamp(36px,4.2vw,58px)] leading-[1.05] text-slate-950 dark:text-white';
+const LEAD = 'text-[18px] leading-[1.5] text-slate-600 dark:text-slate-300';
 const SURFACE =
-  'rounded-modal border border-slate-200 bg-sand-50 shadow-[0_4px_32px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)]';
+  'rounded-card border border-slate-200 bg-sand-50 dark:border-rule dark:bg-surface';
 
-function Eyebrow({ children, center, dark }: { children: ReactNode; center?: boolean; dark?: boolean }) {
+/** Small sentence-case label above a headline: plain stone text, no ember. */
+function Eyebrow({ children, onPaper }: { children: ReactNode; onPaper?: boolean }) {
   return (
     <p
       className={[
-        'flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.14em]',
-        dark ? 'text-ember-400' : 'text-ember-500 dark:text-ember-400',
-        center ? 'justify-center' : '',
+        'text-[14px] font-medium',
+        onPaper ? 'text-stone-dark' : 'text-slate-500 dark:text-slate-400',
       ].join(' ')}
     >
-      <span aria-hidden="true" className={`h-px w-6 ${dark ? 'bg-ember-400' : 'bg-ember-500 dark:bg-ember-400'}`} />
       {children}
     </p>
   );
@@ -173,7 +172,7 @@ const GROUP_ICONS = { free: Gift, research: FileSearch, contacts: Mail, exports:
 const RULE_ICONS = [ShieldCheck, Repeat, Upload, Coins, Users, RefreshCcw, CalendarClock, PackagePlus, Check];
 
 /** Worked-example bar colours, in WORKED_EXAMPLE order. */
-const WORKED_COLORS = ['bg-ember-500', 'bg-ember-300', 'bg-slate-950 dark:bg-white'];
+const WORKED_COLORS = ['bg-ember-500', 'bg-slate-400 dark:bg-slate-300', 'bg-slate-600 dark:bg-slate-400'];
 
 const GROWTH_COL = PLANS.findIndex((p) => p.id === 'growth');
 
@@ -202,26 +201,13 @@ export default function PricingPage() {
         {/* ═══ Hero + plans ═════════════════════════════════════════════════ */}
         {/* Not id="hero": the Navbar switches to its on-dark styling over any #hero. */}
         <section id="pricing-hero" className="relative overflow-hidden border-b border-slate-200 px-6 pb-20 pt-32 dark:border-white/[0.08] lg:pb-24 lg:pt-40">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_40%_at_50%_0%,rgba(201,76,30,0.14),transparent_70%)] dark:bg-[radial-gradient(55%_40%_at_50%_0%,rgba(201,76,30,0.22),transparent_70%)]"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(35,34,32,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(35,34,32,0.045)_1px,transparent_1px)] bg-[size:56px_56px]
-                       [mask-image:radial-gradient(60%_35%_at_50%_15%,#000,transparent)]
-                       dark:bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)]"
-          />
           <div className="relative mx-auto max-w-[1240px]">
-            <div className="mx-auto max-w-[760px] text-center">
-              <span className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-ember-200 bg-ember-50/80 px-4 py-1.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ember-600 dark:border-ember-500/30 dark:bg-ember-500/10 dark:text-ember-300">
-                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-ember-500" />
-                Pricing
-              </span>
-              <h1 className="mt-7 animate-fade-up font-instrument text-[clamp(38px,5.4vw,68px)] font-semibold leading-[1.03] tracking-[-0.035em] text-slate-950 [animation-delay:80ms] [animation-fill-mode:both] dark:text-white">
-                Start free. <span className="text-ember-500 dark:text-ember-400">Pay for what Harvin AI finds.</span>
+            <div className="max-w-[860px]">
+              <p className="animate-fade-up text-[14px] font-medium text-slate-500 dark:text-slate-400">Pricing</p>
+              <h1 className="mt-5 animate-fade-up font-display text-[clamp(44px,6vw,80px)] font-medium leading-[1.02] text-slate-950 [animation-delay:80ms] [animation-fill-mode:both] dark:text-white">
+                Start free. <span className="italic text-ember-600 dark:text-ember-400">Pay for what Harvin AI finds.</span>
               </h1>
-              <p className="mx-auto mt-6 max-w-[620px] animate-fade-up text-[17px] leading-relaxed text-slate-600 [animation-delay:160ms] [animation-fill-mode:both] dark:text-slate-400 sm:text-[18px]">
+              <p className="mt-6 max-w-[640px] animate-fade-up text-[18px] leading-[1.5] text-slate-600 [animation-delay:160ms] [animation-fill-mode:both] dark:text-slate-300 sm:text-[19px]">
                 Every plan uses credits, and every paid plan includes unlimited seats. You spend credits on the companies
                 Harvin AI researches and scores, the fields you add, and the emails and phone numbers it finds. Contacts
                 are charged only when found.
@@ -240,7 +226,7 @@ export default function PricingPage() {
               <Eyebrow>Credits</Eyebrow>
               <h2 className={`mt-5 ${H2}`}>What do credits pay for?</h2>
             </div>
-            <div className="mt-12 grid gap-5 md:grid-cols-2">
+            <div className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2">
               {CREDIT_MENU_GROUPS.map((g) => {
                 const Icon = GROUP_ICONS[g.id];
                 const free = g.id === 'free';
@@ -248,36 +234,23 @@ export default function PricingPage() {
                   <div
                     key={g.id}
                     className={[
-                      'rounded-modal border p-6',
+                      'border-t pt-6',
                       g.id === 'signals' ? 'md:col-span-2' : '',
-                      free
-                        ? 'border-emerald-500/30 bg-emerald-500/[0.05] dark:border-emerald-400/20 dark:bg-emerald-400/[0.04]'
-                        : 'border-slate-200 bg-white dark:border-white/[0.08] dark:bg-white/[0.03]',
+                      'border-slate-300 dark:border-rule',
                     ].join(' ')}
                   >
                     <div className="flex items-center gap-3">
-                      <span
-                        className={[
-                          'flex h-10 w-10 items-center justify-center rounded-card',
-                          free
-                            ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400'
-                            : 'bg-ember-50 text-ember-500 dark:bg-ember-500/10 dark:text-ember-400',
-                        ].join(' ')}
-                      >
-                        <Icon size={18} aria-hidden="true" />
-                      </span>
-                      <h3 className="text-[18px] font-bold text-slate-950 dark:text-white">{g.title}</h3>
+                      <Icon size={18} aria-hidden="true" className="text-slate-500 dark:text-slate-400" />
+                      <h3 className="font-display text-[24px] font-medium text-slate-950 dark:text-white">{g.title}</h3>
                     </div>
-                    <dl className="mt-5 divide-y divide-slate-200 dark:divide-white/[0.06]">
+                    <dl className="mt-4 divide-y divide-slate-200 dark:divide-rule">
                       {g.rows.map((row) => (
                         <div key={row.action} className="flex items-start justify-between gap-4 py-3">
-                          <dt className="text-[14.5px] leading-relaxed text-slate-700 dark:text-slate-300">{row.action}</dt>
+                          <dt className="text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">{row.action}</dt>
                           <dd
                             className={[
-                              'shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-[12.5px] font-bold tabular-nums ring-1 ring-inset',
-                              free
-                                ? 'bg-emerald-500/15 text-emerald-700 ring-emerald-500/20 dark:bg-emerald-400/10 dark:text-emerald-300 dark:ring-emerald-400/25'
-                                : 'bg-ember-50 text-ember-600 ring-ember-200 dark:bg-ember-500/10 dark:text-ember-300 dark:ring-ember-500/25',
+                              'shrink-0 whitespace-nowrap text-[15px] font-semibold tabular-nums',
+                              free ? 'text-ember-600 dark:text-ember-400' : 'text-slate-950 dark:text-white',
                             ].join(' ')}
                           >
                             {row.credits}
@@ -289,8 +262,8 @@ export default function PricingPage() {
                 );
               })}
             </div>
-            <p className="mt-8 flex items-start gap-2.5 text-[14.5px] leading-relaxed text-slate-600 dark:text-slate-300">
-              <Repeat size={16} aria-hidden="true" className="mt-1 shrink-0 text-ember-500 dark:text-ember-400" />
+            <p className="mt-10 flex items-start gap-2.5 text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">
+              <Repeat size={16} aria-hidden="true" className="mt-1 shrink-0 text-slate-500 dark:text-slate-400" />
               Each record is paid for once. Re-exporting it or syncing it to your CRM again is always free.
             </p>
           </div>
@@ -306,8 +279,8 @@ export default function PricingPage() {
             </div>
             <div className={`${SURFACE} p-6 sm:p-8`}>
               <div className="flex items-baseline justify-between">
-                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">Starter · one month</p>
-                <p className="font-instrument text-[32px] font-semibold leading-none tracking-[-0.02em] text-slate-950 dark:text-white">
+                <p className="text-[14px] font-medium text-slate-500 dark:text-slate-400">Starter · one month</p>
+                <p className="font-display text-[32px] font-medium leading-none text-slate-950 dark:text-white">
                   {workedTotal.toLocaleString('en-US')}
                   <span className="ml-1.5 text-[14px] font-normal text-slate-500 dark:text-slate-400">credits</span>
                 </p>
@@ -327,7 +300,7 @@ export default function PricingPage() {
                 </thead>
                 <tbody>
                   {WORKED_EXAMPLE.map((r, i) => (
-                    <tr key={r.work} className="border-b border-slate-200 dark:border-white/[0.06]">
+                    <tr key={r.work} className="border-b border-slate-200 dark:border-rule">
                       <td className="py-3 text-slate-700 dark:text-slate-300">
                         <span className="flex items-center gap-3">
                           <span aria-hidden="true" className={`h-2.5 w-2.5 rounded-full ${WORKED_COLORS[i]}`} />
@@ -340,8 +313,8 @@ export default function PricingPage() {
                     </tr>
                   ))}
                   <tr>
-                    <td className="pt-4 font-bold text-slate-950 dark:text-white">Total</td>
-                    <td className="pt-4 text-right font-bold tabular-nums text-slate-950 dark:text-white">{workedTotal.toLocaleString('en-US')}</td>
+                    <td className="pt-4 font-semibold text-slate-950 dark:text-white">Total</td>
+                    <td className="pt-4 text-right font-semibold tabular-nums text-slate-950 dark:text-white">{workedTotal.toLocaleString('en-US')}</td>
                   </tr>
                 </tbody>
               </table>
@@ -352,8 +325,8 @@ export default function PricingPage() {
         {/* ═══ Calculator ═══════════════════════════════════════════════════ */}
         <section id="calculator" className={`${SECTION} ${BAND}`}>
           <div className={WRAP}>
-            <div className="mx-auto max-w-[720px] text-center">
-              <Eyebrow center>Calculator</Eyebrow>
+            <div className="max-w-[720px]">
+              <Eyebrow>Calculator</Eyebrow>
               <h2 className={`mt-5 ${H2}`}>Estimate your credits</h2>
             </div>
             <div className="mt-12">
@@ -365,24 +338,23 @@ export default function PricingPage() {
         {/* ═══ Top-ups + rules ══════════════════════════════════════════════ */}
         <section className={SECTION}>
           <div className={`${WRAP} grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]`}>
-            <div id="top-ups" className="relative flex flex-col overflow-hidden rounded-modal bg-gradient-to-br from-ember-500 to-ember-700 p-8 text-white shadow-[0_20px_60px_rgba(201,76,30,0.25)]">
-              <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
-              <PackagePlus size={26} aria-hidden="true" className="relative text-white/85" />
-              <h2 className="relative mt-6 font-instrument text-[clamp(26px,2.8vw,34px)] font-semibold leading-[1.1] tracking-[-0.02em]">
+            <div id="top-ups" className={`${SURFACE} flex flex-col p-8`}>
+              <PackagePlus size={24} aria-hidden="true" className="text-slate-500 dark:text-slate-400" />
+              <h2 className="mt-6 font-display text-[clamp(28px,2.8vw,36px)] font-medium leading-[1.1] text-slate-950 dark:text-white">
                 Need more credits this month?
               </h2>
-              <div className="relative mt-6 flex items-end gap-3" aria-hidden="true">
-                <span className="font-instrument text-[56px] font-semibold leading-none tracking-[-0.035em]">$59</span>
-                <span className="pb-1.5 text-[15px] text-white/80">for 2,500 credits</span>
+              <div className="mt-6 flex items-end gap-3" aria-hidden="true">
+                <span className="font-display text-[56px] font-medium leading-none text-ember-500">$59</span>
+                <span className="pb-1.5 text-[15px] text-slate-500 dark:text-slate-400">for 2,500 credits</span>
               </div>
-              <p className="relative mt-6 text-[15.5px] leading-relaxed text-white/85">
+              <p className="mt-6 text-[16px] leading-[1.5] text-slate-600 dark:text-slate-300">
                 Add a credit pack any time on a paid plan: 2,500 credits for $59. Packs last 12 months. If you top up
                 often, upgrading your plan costs less per credit.
               </p>
             </div>
 
             <div id="rules" className={`${SURFACE} p-8`}>
-              <h2 className="font-instrument text-[clamp(26px,2.8vw,34px)] font-semibold leading-[1.1] tracking-[-0.02em] text-slate-950 dark:text-white">
+              <h2 className="font-display text-[clamp(28px,2.8vw,36px)] font-medium leading-[1.1] text-slate-950 dark:text-white">
                 How credits work
               </h2>
               <ul className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -390,17 +362,15 @@ export default function PricingPage() {
                   const Icon = RULE_ICONS[i] ?? Check;
                   return (
                     <li key={rule} className="flex gap-3">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-btn bg-ember-50 text-ember-500 dark:bg-ember-500/10 dark:text-ember-400">
-                        <Icon size={16} aria-hidden="true" />
-                      </span>
-                      <span className="pt-1 text-[14.5px] leading-relaxed text-slate-700 dark:text-slate-300">{rule}</span>
+                      <Icon size={16} aria-hidden="true" className="mt-1 shrink-0 text-slate-500 dark:text-slate-400" />
+                      <span className="text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">{rule}</span>
                     </li>
                   );
                 })}
               </ul>
               <Link
                 href="/refund"
-                className="group mt-6 inline-flex items-center gap-1.5 text-[14px] font-semibold text-ember-500 hover:text-ember-400 dark:text-ember-400 dark:hover:text-ember-300"
+                className="group mt-6 inline-flex items-center gap-1.5 text-[15px] font-medium text-slate-950 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-950 dark:text-white dark:decoration-rule dark:hover:decoration-white"
               >
                 Refund Policy
                 <ArrowRight size={14} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
@@ -420,16 +390,16 @@ export default function PricingPage() {
               <table className="w-full min-w-[820px] border-collapse text-[14.5px]">
                 <thead>
                   <tr>
-                    <th scope="col" className="sticky left-0 z-10 bg-sand-50 px-6 py-5 text-left text-[12px] font-semibold uppercase tracking-[0.12em] text-slate-500 dark:bg-[#0F0E0C] dark:text-slate-400">
+                    <th scope="col" className="sticky left-0 z-10 bg-sand-50 px-6 py-5 text-left text-[14px] font-medium text-slate-500 dark:bg-surface dark:text-slate-400">
                       Feature
                     </th>
                     {PLANS.map((p, i) => (
                       <th
                         key={p.id}
                         scope="col"
-                        className={`px-4 py-5 text-center ${i === GROWTH_COL ? 'bg-ember-500/[0.07] dark:bg-ember-500/[0.1]' : ''}`}
+                        className={`px-4 py-5 text-center ${i === GROWTH_COL ? 'bg-slate-100 dark:bg-white/[0.04]' : ''}`}
                       >
-                        <span className="block font-instrument text-[17px] font-semibold text-slate-950 dark:text-white">{p.name}</span>
+                        <span className="block font-display text-[17px] font-medium text-slate-950 dark:text-white">{p.name}</span>
                         <span className="mt-0.5 block text-[12.5px] font-normal text-slate-500 dark:text-slate-400">
                           <BillingPrice planId={p.id} />
                         </span>
@@ -439,26 +409,26 @@ export default function PricingPage() {
                 </thead>
                 <tbody>
                   {FEATURE_TABLE.map((row) => (
-                    <tr key={row.feature} className="group border-t border-slate-200 dark:border-white/[0.06]">
+                    <tr key={row.feature} className="group border-t border-slate-200 dark:border-rule">
                       <th
                         scope="row"
-                        className="sticky left-0 z-10 bg-sand-50 px-6 py-3.5 text-left font-medium text-slate-800 transition-colors group-hover:bg-white dark:bg-[#0F0E0C] dark:text-slate-200 dark:group-hover:bg-[#151412]"
+                        className="sticky left-0 z-10 bg-sand-50 px-6 py-3.5 text-left font-medium text-slate-800 transition-colors group-hover:bg-white dark:bg-surface dark:text-slate-200 dark:group-hover:bg-rule"
                       >
                         {row.feature}
                       </th>
                       {row.cells.map((cell, i) => (
                         <td
                           key={PLANS[i].id}
-                          className={`px-4 py-3.5 text-center transition-colors group-hover:bg-white/70 dark:group-hover:bg-white/[0.02] ${i === GROWTH_COL ? 'bg-ember-500/[0.07] dark:bg-ember-500/[0.1]' : ''}`}
+                          className={`px-4 py-3.5 text-center transition-colors group-hover:bg-white/70 dark:group-hover:bg-white/[0.02] ${i === GROWTH_COL ? 'bg-slate-100 dark:bg-white/[0.04]' : ''}`}
                         >
                           {cell === 'Yes' ? (
-                            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-ember-500/10 text-ember-500 dark:text-ember-400">
-                              <Check size={14} strokeWidth={3} aria-hidden="true" />
+                            <span className="inline-flex h-6 w-6 items-center justify-center text-ember-600 dark:text-ember-400">
+                              <Check size={16} strokeWidth={2.5} aria-hidden="true" />
                               <span className="sr-only">Included</span>
                             </span>
                           ) : cell === '–' ? (
                             <span className="inline-flex">
-                              <Minus size={16} className="mx-auto text-slate-300 dark:text-slate-600" aria-hidden="true" />
+                              <Minus size={16} className="mx-auto text-grey" aria-hidden="true" />
                               <span className="sr-only">Not included</span>
                             </span>
                           ) : (
@@ -477,38 +447,30 @@ export default function PricingPage() {
         <Faq items={PRICING_FAQ} />
 
         {/* ═══ Enterprise CTA ═══════════════════════════════════════════════ */}
-        <section id="enterprise-cta" className="relative overflow-hidden bg-[#0C0B09] px-6 py-24 text-white">
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_70%_at_85%_50%,rgba(201,76,30,0.25),transparent_70%)]" />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(60%_80%_at_80%_50%,#000,transparent)]"
-          />
-          <div className={`relative ${WRAP} grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-center`}>
+        {/* The page's one warm-paper band. */}
+        <section id="enterprise-cta" className="bg-paper px-6 py-24 text-slate-950">
+          <div className={`${WRAP} grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-center`}>
             <div>
-              <Eyebrow dark>Enterprise</Eyebrow>
-              <h2 className="mt-5 font-instrument text-[clamp(30px,3.6vw,46px)] font-semibold leading-[1.08] tracking-[-0.025em]">
-                Buying for a larger team?
+              <Eyebrow onPaper>Enterprise</Eyebrow>
+              <h2 className="mt-5 font-display text-[clamp(36px,4.2vw,58px)] font-medium leading-[1.05] text-slate-950">
+                Buying for a <span className="italic text-ember-600">larger team?</span>
               </h2>
-              <p className="mt-5 max-w-[580px] text-[17px] leading-relaxed text-white/70">
+              <p className="mt-5 max-w-[580px] text-[18px] leading-[1.5] text-stone-dark">
                 Enterprise gives you annual credits, unlimited seats, SSO, guided onboarding and your first list built
                 with our team. Bring one market and we&rsquo;ll show you what Harvin AI finds.
               </p>
               <Link
                 href={BOOK_DEMO_HREF}
-                className="group mt-8 inline-flex items-center justify-center gap-2 rounded-btn bg-ember-500 px-6 py-3.5 text-[15px] font-semibold text-white transition-all duration-150
-                           shadow-[0_1px_4px_rgba(201,76,30,0.3)] hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)]
-                           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300"
+                className="group mt-8 inline-flex items-center justify-center gap-2 rounded-btn bg-ember-500 px-6 py-3.5 text-[15px] font-semibold text-pure transition-all duration-150 hover:bg-ember-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
               >
                 Talk to sales
                 <ArrowRight size={16} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
               </Link>
             </div>
-            <ul className="grid gap-3 sm:grid-cols-2" aria-hidden="true">
+            <ul className="divide-y divide-paper-rule border-y border-paper-rule" aria-hidden="true">
               {['Annual credits', 'Unlimited seats', 'SSO', 'Guided onboarding', 'First list built with you'].map((f) => (
-                <li key={f} className="flex items-center gap-3 rounded-card border border-white/[0.1] bg-white/[0.04] px-4 py-4 text-[14.5px] font-semibold">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ember-500">
-                    <Check size={13} strokeWidth={3} />
-                  </span>
+                <li key={f} className="flex items-center gap-3 py-3.5 text-[16px] text-slate-950">
+                  <Check size={16} strokeWidth={2.5} className="shrink-0 text-stone-dark" />
                   {f}
                 </li>
               ))}

@@ -78,7 +78,7 @@ function Eyebrow({ children, dark }: { children: React.ReactNode; dark?: boolean
   );
 }
 
-const H2 = 'font-instrument font-semibold text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em]';
+const H2 = 'font-display font-medium text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em]';
 
 /* ── Page ─────────────────────────────────────────────────────────────────── */
 
@@ -105,7 +105,7 @@ export default function AboutClient() {
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-ember-500" />
             About Harvin
           </span>
-          <h1 className="mt-7 font-instrument font-semibold text-[clamp(38px,5.8vw,74px)] leading-[1.02] tracking-[-0.035em] text-slate-950 dark:text-white">
+          <h1 className="mt-7 font-display font-medium text-[clamp(38px,5.8vw,74px)] leading-[1.02] tracking-[-0.035em] text-slate-950 dark:text-white">
             Building a better way to run <span className="text-ember-500">SDR teams</span>
           </h1>
           <p className="mt-6 max-w-[620px] text-[18px] leading-[1.65] text-slate-600 dark:text-slate-300 sm:text-[20px]">
@@ -170,7 +170,7 @@ export default function AboutClient() {
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <div className="rounded-card border border-slate-200 bg-sand-50 p-7 shadow-[0_4px_32px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)] sm:p-8">
-                    <h3 className="font-instrument font-semibold text-[20px] text-slate-900 dark:text-white">{s.title}</h3>
+                    <h3 className="font-display font-medium text-[20px] text-slate-900 dark:text-white">{s.title}</h3>
                     {s.body.map((b) => (
                       <p key={b} className="mt-3 text-[16px] leading-[1.75] text-slate-600 dark:text-slate-300">
                         {b}
@@ -200,7 +200,7 @@ export default function AboutClient() {
               <p className="relative text-[12px] font-semibold uppercase tracking-[0.14em] text-ember-400">
                 A product built around one question
               </p>
-              <p className="relative mt-4 font-instrument text-[24px] font-semibold leading-[1.3] tracking-[-0.01em] text-white sm:text-[30px]">
+              <p className="relative mt-4 font-display text-[24px] font-medium leading-[1.3] tracking-[-0.01em] text-white sm:text-[30px]">
                 &ldquo;How can we make the SDR operation easier to run, easier to understand and easier to improve?&rdquo;
               </p>
             </div>
@@ -319,7 +319,7 @@ export default function AboutClient() {
                       />
                     )}
                   </div>
-                  <h3 className="mt-6 font-instrument font-semibold text-[21px] text-slate-900 dark:text-white">{title}</h3>
+                  <h3 className="mt-6 font-display font-medium text-[21px] text-slate-900 dark:text-white">{title}</h3>
                   <p className="mt-1 text-[12.5px] font-semibold uppercase tracking-[0.08em] text-ember-600 dark:text-ember-400">{tag}</p>
                   <p className="mt-3 text-[15.5px] leading-[1.65] text-slate-600 dark:text-slate-300">{body}</p>
                 </>
@@ -369,13 +369,13 @@ export default function AboutClient() {
                     {String(i + 1).padStart(2, '0')}
                   </span>
                 </div>
-                <h3 className="mt-7 font-instrument font-semibold text-[22px] text-slate-900 dark:text-white">{title}</h3>
+                <h3 className="mt-7 font-display font-medium text-[22px] text-slate-900 dark:text-white">{title}</h3>
                 <p className="mt-2.5 max-w-[440px] text-[15.5px] leading-[1.7] text-slate-600 dark:text-slate-300">{body}</p>
               </li>
             ))}
           </ol>
 
-          <p className="mx-auto mt-14 max-w-2xl text-center font-instrument text-[clamp(22px,2.4vw,30px)] font-semibold leading-snug tracking-[-0.015em] text-slate-900 dark:text-white">
+          <p className="mx-auto mt-14 max-w-2xl text-center font-display text-[clamp(22px,2.4vw,30px)] font-medium leading-snug tracking-[-0.015em] text-slate-900 dark:text-white">
             Today, Harvin is building a better way to run the <span className="text-ember-500">SDR operation</span>.
           </p>
         </div>
@@ -405,7 +405,7 @@ export default function AboutClient() {
                 </span>
               </div>
               <div className="flex flex-1 flex-col">
-                <h3 className="mt-6 font-instrument font-semibold text-[24px] text-slate-950 dark:text-white">Rahul Dev</h3>
+                <h3 className="mt-6 font-display font-medium text-[24px] text-slate-950 dark:text-white">Rahul Dev</h3>
                 <p className="text-[14px] font-medium text-ember-600 dark:text-ember-400">CEO &amp; Founder</p>
                 <p className="mt-4 text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">
                   Former SDR and SDR Head who experienced the fragmentation of the outbound sales stack firsthand.
@@ -430,7 +430,7 @@ export default function AboutClient() {
                 loading="lazy"
                 className="h-20 w-20 rounded-2xl object-cover shadow-[0_8px_30px_rgba(0,0,0,0.15)]"
               />
-              <h3 className="mt-6 font-instrument font-semibold text-[24px] text-slate-950 dark:text-white">Akash Singh</h3>
+              <h3 className="mt-6 font-display font-medium text-[24px] text-slate-950 dark:text-white">Akash Singh</h3>
               <p className="text-[14px] font-medium text-ember-600 dark:text-ember-400">Product Developer</p>
               <p className="mt-4 text-[15px] leading-relaxed text-slate-600 dark:text-slate-400">
                 Architecting high-performance web systems and the connected SDR workflow engine.
@@ -449,7 +449,7 @@ export default function AboutClient() {
         />
 
         <div className="relative mx-auto max-w-[840px] text-center">
-          <h2 className="font-instrument font-semibold text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">
+          <h2 className="font-display font-medium text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">
             The SDR operation deserves a place <span className="text-ember-400">of its own.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-white/65 sm:text-[19px]">

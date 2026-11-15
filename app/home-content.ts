@@ -8,8 +8,8 @@
 
 export const HOME_FAQ = [
   {
-    q: 'What is Harvin.AI?',
-    a: "Harvin.AI is a B2B company discovery and research platform. You describe your business once in a Company Profile: what you sell, who buys and which deals you won or lost. Harvin then finds companies that share your customers' need in any industry, researches each one, shows Company Fit with the reasons, and finds the right buyer's work email and phone number.",
+    q: 'What is Harvin AI?',
+    a: "Harvin AI is a B2B company discovery and research platform. You describe your business once in a Company Profile: what you sell, who buys and which deals you won or lost. Harvin then finds companies that share your customers' need in any industry, researches each one, shows Company Fit with the reasons, and finds the right buyer's work email and phone number.",
   },
   {
     q: "How do I find B2B companies that don't fit industry filters?",
