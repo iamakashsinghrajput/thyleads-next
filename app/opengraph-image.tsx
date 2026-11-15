@@ -5,43 +5,45 @@ import { ImageResponse } from 'next/og';
 /**
  * The site-wide social card, rendered at build time by Satori.
  *
- * This replaces the old `/dashboard-preview.png`, which was a full product
- * screenshot: at the ~500px a chat client actually renders a preview at, every
- * label in it was illegible, and it froze one build of the UI into every link
- * ever shared. A typographic card stays readable at any preview size and never
- * goes stale.
+ * A typographic card stays readable at any preview size and never goes stale.
  *
  * File-convention route: Next serves the rendered PNG at /opengraph-image.
  * The tags are NOT left to the convention though — app/layout.tsx names this
  * URL under `images:`, because a segment that declares its own `openGraph`
  * block (there are five) replaces the parent's wholesale and would otherwise
  * ship with no card at all.
+ *
+ * Harvin AI brand guidelines (12 Nov 2026): black canvas, warm-paper
+ * Newsreader headline, one ember-light accent phrase in italic, Instrument Sans
+ * for everything else, and the logo as a small signature bottom-left — never
+ * the hero. The headline is the brand idea, from "Lines to reuse".
  */
-export const alt = 'Harvin.AI — find the B2B customers your database misses';
+export const alt = 'Harvin AI — databases search the label. Harvin AI looks at the business.';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 /* Brand tokens, mirrored from tailwind.config.ts. Satori has no Tailwind, so
    these are the one place the palette is repeated — keep them in sync. */
-const SAND_100 = '#F7F3EB';
-const SAND_300 = '#E0D7C5';
-const SLATE_950 = '#0D0D0C';
-const SLATE_500 = '#6E6B63';
-const EMBER_500 = '#C94C1E';
+const BLACK = '#0D0D0C';
+const PAPER = '#F7F3EB';
+const PAPER_SOFT = '#CFC8BA';
+const STONE = '#A8A294';
+const RULE = '#2E2B27';
+const EMBER_LIGHT = '#E56B2C';
 
-const font = (name: string) => readFile(join(process.cwd(), 'public/fonts', name));
+/* Static instances of the brand faces (Satori can't read woff2 or variable fonts). */
+const font = (name: string) => readFile(join(process.cwd(), 'public/fonts/brand', name));
 
 export default async function OpengraphImage() {
-  const [bricolage, display, text, mark] = await Promise.all([
-    font('BricolageGrotesque-Bold.ttf'),
-    font('UniversalSans-Display600.ttf'),
-    font('UniversalSans-Text400.ttf'),
-    /* The same file the navbar and footer draw the mark from (Wordmark.tsx),
-       so the card can never drift from the live header. 492×507 with alpha. */
-    readFile(join(process.cwd(), 'public/harvinlogo/logo.png')),
+  const [newsreader, newsreaderItalic, instrument, logo] = await Promise.all([
+    font('newsreader-latin-500-normal.woff'),
+    font('newsreader-latin-400-italic.woff'),
+    font('instrument-sans-latin-400-normal.woff'),
+    /* The on-black lockup the navbar and footer use: ember mark + warm-paper "Harvin AI". 704×120. */
+    readFile(join(process.cwd(), 'public/harvin-logo-light.png')),
   ]);
 
-  const markSrc = `data:image/png;base64,${mark.toString('base64')}`;
+  const logoSrc = `data:image/png;base64,${logo.toString('base64')}`;
 
   return new ImageResponse(
     (
@@ -52,76 +54,56 @@ export default async function OpengraphImage() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '68px 76px',
-          backgroundColor: SAND_100,
-          /* the same ember wash the sand sections carry, so the card reads as
-             part of the site rather than a separate template */
-          backgroundImage: `radial-gradient(circle at 12% 8%, rgba(201,76,30,0.13), transparent 46%)`,
+          padding: '72px 76px 60px',
+          backgroundColor: BLACK,
         }}
       >
-        {/* ── Wordmark ─────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <img src={markSrc} width={50} height={52} alt="" />
-          <span
-            style={{
-              fontFamily: 'Bricolage',
-              fontSize: 40,
-              color: SLATE_950,
-              letterSpacing: '-0.02em',
-            }}
-          >
-            Harvin
-          </span>
-        </div>
-
         {/* ── Headline + supporting line ───────────────────────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div
             style={{
               display: 'flex',
-              flexDirection: 'column',
-              fontFamily: 'Display',
-              fontSize: 66,
-              lineHeight: 1.08,
-              letterSpacing: '-0.028em',
-              color: SLATE_950,
+              fontFamily: 'Newsreader',
+              fontSize: 92,
+              lineHeight: 1.02,
+              letterSpacing: '-0.02em',
+              color: PAPER,
             }}
           >
-            <span>A better way to find your</span>
-            {/* the accent falls on the same half the site's CTA accents */}
-            <span style={{ color: EMBER_500 }}>next B2B customers.</span>
+            Databases search the label.
           </div>
-
           <div
             style={{
-              marginTop: 26,
-              maxWidth: 840,
-              fontFamily: 'Text',
-              fontSize: 26,
-              lineHeight: 1.5,
-              color: SLATE_500,
+              display: 'flex',
+              marginTop: 14,
+              fontFamily: 'Newsreader Italic',
+              fontSize: 58,
+              lineHeight: 1.1,
+              color: EMBER_LIGHT,
             }}
           >
-            Harvin finds the companies and buyers your database misses, shows why each one
-            fits, and finds their work emails and phone numbers.
+            Harvin AI looks at the business.
+          </div>
+          <div
+            style={{
+              marginTop: 30,
+              maxWidth: 900,
+              fontFamily: 'Instrument Sans',
+              fontSize: 27,
+              lineHeight: 1.5,
+              color: PAPER_SOFT,
+            }}
+          >
+            Tell Harvin what you sell and who buys. It finds the companies that fit, and shows why.
           </div>
         </div>
 
-        {/* ── Footer rule ──────────────────────────────────────────────── */}
+        {/* ── Signature band ───────────────────────────────────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ display: 'flex', height: 1, backgroundColor: SAND_300, marginBottom: 22 }} />
+          <div style={{ display: 'flex', height: 1, backgroundColor: RULE, marginBottom: 26 }} />
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span
-              style={{
-                fontFamily: 'Text',
-                fontSize: 19,
-                letterSpacing: '0.16em',
-                color: EMBER_500,
-              }}
-            >
-              B2B COMPANY DISCOVERY &amp; RESEARCH
-            </span>
-            <span style={{ fontFamily: 'Display', fontSize: 22, color: SLATE_950 }}>harvin.ai</span>
+            <img src={logoSrc} width={211} height={36} alt="" />
+            <span style={{ fontFamily: 'Instrument Sans', fontSize: 24, color: STONE }}>harvin.ai</span>
           </div>
         </div>
       </div>
@@ -129,9 +111,9 @@ export default async function OpengraphImage() {
     {
       ...size,
       fonts: [
-        { name: 'Bricolage', data: bricolage, weight: 700, style: 'normal' },
-        { name: 'Display', data: display, weight: 600, style: 'normal' },
-        { name: 'Text', data: text, weight: 400, style: 'normal' },
+        { name: 'Newsreader', data: newsreader, weight: 500, style: 'normal' },
+        { name: 'Newsreader Italic', data: newsreaderItalic, weight: 400, style: 'italic' },
+        { name: 'Instrument Sans', data: instrument, weight: 400, style: 'normal' },
       ],
     },
   );

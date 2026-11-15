@@ -48,17 +48,15 @@ export default function EarlyAccessModal({ open, type, onClose }: Props) {
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/55 backdrop-blur-sm" onClick={handleClose} />
+      <div className="absolute inset-0 bg-black/55" onClick={handleClose} />
 
       {/* Card */}
-      <div className="relative z-10 w-full max-w-[480px] rounded-2xl bg-white dark:bg-[#141311] shadow-2xl border border-slate-200 dark:border-white/[0.08]">
+      <div className="relative z-10 w-full max-w-[480px] rounded-modal bg-white dark:bg-surface border border-slate-200 dark:border-rule">
 
         <button
           onClick={handleClose}
           aria-label="Close"
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg
-                     text-slate-400 hover:text-slate-700 dark:hover:text-white
-                     hover:bg-slate-100 dark:hover:bg-white/[0.08] transition-colors"
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-btn text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.08] transition-colors"
         >
           <X size={16} />
         </button>
@@ -67,10 +65,10 @@ export default function EarlyAccessModal({ open, type, onClose }: Props) {
           {!submitted ? (
             <>
               <div className="mb-6">
-                <h2 className="font-instrument font-semibold text-[22px] tracking-[-0.02em] text-slate-900 dark:text-white">
+                <h2 className="font-display font-medium text-[32px] leading-[1.1] text-slate-900 dark:text-white">
                   {isSales ? 'Talk to our sales team' : 'Get early access'}
                 </h2>
-                <p className="mt-1.5 text-[14px] text-slate-500 dark:text-slate-400">
+                <p className="mt-2 text-[16px] leading-[1.5] text-slate-600 dark:text-slate-300">
                   {isSales
                     ? "Tell us about your team and we'll get back within 24 hours."
                     : 'Be among the first to find D2C opportunities with Harvin.'}
@@ -80,77 +78,62 @@ export default function EarlyAccessModal({ open, type, onClose }: Props) {
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="grid grid-cols-2 gap-3">
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-medium text-slate-600 dark:text-slate-400">Full name *</span>
+                    <span className="text-[14px] font-medium text-slate-600 dark:text-slate-300">Full name *</span>
                     <input
                       required
                       type="text"
                       placeholder="Rahul Sharma"
                       value={form.name}
                       onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                      className="h-10 px-3 rounded-lg border border-slate-200 dark:border-white/[0.12]
-                                 bg-slate-50 dark:bg-white/[0.05] text-[14px] text-slate-900 dark:text-white
-                                 placeholder:text-slate-400 focus:outline-none focus:border-ember-500
-                                 dark:focus:border-ember-500 transition-colors"
+                      className="h-11 px-3.5 rounded-btn border border-slate-200 dark:border-rule bg-slate-50 dark:bg-slate-950 text-[15px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-ember-500 dark:focus:border-ember-500 transition-colors"
                     />
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-medium text-slate-600 dark:text-slate-400">Work email *</span>
+                    <span className="text-[14px] font-medium text-slate-600 dark:text-slate-300">Work email *</span>
                     <input
                       required
                       type="email"
                       placeholder="you@company.com"
                       value={form.email}
                       onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                      className="h-10 px-3 rounded-lg border border-slate-200 dark:border-white/[0.12]
-                                 bg-slate-50 dark:bg-white/[0.05] text-[14px] text-slate-900 dark:text-white
-                                 placeholder:text-slate-400 focus:outline-none focus:border-ember-500
-                                 dark:focus:border-ember-500 transition-colors"
+                      className="h-11 px-3.5 rounded-btn border border-slate-200 dark:border-rule bg-slate-50 dark:bg-slate-950 text-[15px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-ember-500 dark:focus:border-ember-500 transition-colors"
                     />
                   </label>
                 </div>
 
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-medium text-slate-600 dark:text-slate-400">Company *</span>
+                  <span className="text-[14px] font-medium text-slate-600 dark:text-slate-300">Company *</span>
                   <input
                     required
                     type="text"
                     placeholder="Acme Corp"
                     value={form.company}
                     onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
-                    className="h-10 px-3 rounded-lg border border-slate-200 dark:border-white/[0.12]
-                               bg-slate-50 dark:bg-white/[0.05] text-[14px] text-slate-900 dark:text-white
-                               placeholder:text-slate-400 focus:outline-none focus:border-ember-500
-                               dark:focus:border-ember-500 transition-colors"
+                    className="h-11 px-3.5 rounded-btn border border-slate-200 dark:border-rule bg-slate-50 dark:bg-slate-950 text-[15px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-ember-500 dark:focus:border-ember-500 transition-colors"
                   />
                 </label>
 
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-medium text-slate-600 dark:text-slate-400">Your role *</span>
+                  <span className="text-[14px] font-medium text-slate-600 dark:text-slate-300">Your role *</span>
                   <input
                     required
                     type="text"
                     placeholder="Head of Sales"
                     value={form.role}
                     onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
-                    className="h-10 px-3 rounded-lg border border-slate-200 dark:border-white/[0.12]
-                               bg-slate-50 dark:bg-white/[0.05] text-[14px] text-slate-900 dark:text-white
-                               placeholder:text-slate-400 focus:outline-none focus:border-ember-500
-                               dark:focus:border-ember-500 transition-colors"
+                    className="h-11 px-3.5 rounded-btn border border-slate-200 dark:border-rule bg-slate-50 dark:bg-slate-950 text-[15px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-ember-500 dark:focus:border-ember-500 transition-colors"
                   />
                 </label>
 
                 {isSales && (
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-medium text-slate-600 dark:text-slate-400">Message</span>
+                    <span className="text-[14px] font-medium text-slate-600 dark:text-slate-300">Message</span>
                     <textarea
                       rows={3}
                       placeholder="Tell us about your use case..."
                       value={form.message}
                       onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                      className="px-3 py-2.5 rounded-lg border border-slate-200 dark:border-white/[0.12]
-                                 bg-slate-50 dark:bg-white/[0.05] text-[14px] text-slate-900 dark:text-white
-                                 placeholder:text-slate-400 focus:outline-none focus:border-ember-500
-                                 dark:focus:border-ember-500 transition-colors resize-none"
+                      className="px-3.5 py-2.5 rounded-btn border border-slate-200 dark:border-rule bg-slate-50 dark:bg-slate-950 text-[15px] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-ember-500 dark:focus:border-ember-500 transition-colors resize-none"
                     />
                   </label>
                 )}
@@ -158,13 +141,10 @@ export default function EarlyAccessModal({ open, type, onClose }: Props) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="mt-1 w-full h-11 rounded-[10px] bg-ember-500 hover:bg-ember-400 text-white
-                             text-[14px] font-semibold flex items-center justify-center gap-2
-                             shadow-[0_2px_10px_rgba(201,76,30,0.35)] hover:shadow-[0_6px_20px_rgba(201,76,30,0.5)]
-                             transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="mt-1 w-full h-11 rounded-btn bg-ember-500 hover:bg-ember-400 text-pure text-[15px] font-semibold flex items-center justify-center gap-2 transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-surface"
                 >
                   {loading ? (
-                    <span className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                    <span>Sending…</span>
                   ) : (
                     <>
                       {isSales ? 'Send message' : 'Request early access'}
@@ -173,29 +153,25 @@ export default function EarlyAccessModal({ open, type, onClose }: Props) {
                   )}
                 </button>
 
-                <p className="text-center text-[12px] text-slate-400 dark:text-slate-500">
+                <p className="text-[13px] text-slate-500 dark:text-slate-400">
                   No credit card required · We&apos;ll never spam you
                 </p>
               </form>
             </>
           ) : (
-            <div className="flex flex-col items-center text-center py-6">
-              <div className="w-14 h-14 rounded-full bg-ember-50 dark:bg-ember-500/15 flex items-center justify-center mb-4">
-                <CheckCircle size={28} className="text-ember-500" strokeWidth={1.8} />
-              </div>
-              <h2 className="font-instrument font-semibold text-[20px] text-slate-900 dark:text-white mb-2">
+            <div className="flex flex-col items-start py-4">
+              <CheckCircle size={24} aria-hidden="true" className="mb-5 text-ember-600 dark:text-ember-400" strokeWidth={1.8} />
+              <h2 className="font-display font-medium text-[32px] leading-[1.1] text-slate-900 dark:text-white mb-3">
                 {isSales ? 'Message received!' : "You're on the list!"}
               </h2>
-              <p className="text-[14px] leading-relaxed text-slate-500 dark:text-slate-400 max-w-[320px]">
+              <p className="text-[16px] leading-[1.5] text-slate-600 dark:text-slate-300 max-w-[360px]">
                 {isSales
                   ? 'Our sales team will reach out within 24 hours.'
                   : "We'll send early access details to your email. Thanks for your interest in Harvin!"}
               </p>
               <button
                 onClick={handleClose}
-                className="mt-6 px-6 py-2.5 rounded-[10px] border border-slate-200 dark:border-white/[0.15]
-                           text-[14px] font-semibold text-slate-700 dark:text-slate-300
-                           hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
+                className="mt-6 px-6 py-2.5 rounded-btn border border-slate-200 dark:border-rule text-[14px] font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/[0.05] transition-colors"
               >
                 Close
               </button>

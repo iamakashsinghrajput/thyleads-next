@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Data Processing Addendum',
   description:
-    'The Harvin.ai Data Processing Addendum: how Thyleads Private Limited processes Customer Personal Data on behalf of customers.',
+    'The Harvin AI Data Processing Addendum: how Thyleads Private Limited processes Customer Personal Data on behalf of customers.',
   alternates: { canonical: '/dpa' },
 };
 

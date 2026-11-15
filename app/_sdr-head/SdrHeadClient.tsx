@@ -287,7 +287,7 @@ const FAQS = [
    PAGE
    ═══════════════════════════════════════════════════════════════════════════════ */
 
-const H2 = 'font-instrument font-semibold text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em] text-slate-950 dark:text-white';
+const H2 = 'font-display font-medium text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em] text-slate-950 dark:text-white';
 const SURFACE =
   'rounded-modal border border-slate-200 bg-sand-50 shadow-[0_4px_32px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)]';
 
@@ -330,7 +330,7 @@ export default function SdrHeadClient() {
             <BarChart3 size={13} className="text-ember-500" aria-hidden="true" />
             For SDR Heads
           </span>
-          <h1 className="mx-auto mt-7 max-w-4xl font-instrument font-semibold text-[clamp(38px,5.8vw,74px)] leading-[1.03] tracking-[-0.035em] text-slate-950 dark:text-white">
+          <h1 className="mx-auto mt-7 max-w-4xl font-display font-medium text-[clamp(38px,5.8vw,74px)] leading-[1.03] tracking-[-0.035em] text-slate-950 dark:text-white">
             Know where your team <span className="text-ember-500">needs you.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-[640px] text-[18px] leading-[1.65] text-slate-600 dark:text-slate-300 sm:text-[20px]">
@@ -388,7 +388,7 @@ export default function SdrHeadClient() {
                   <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_80%_at_100%_0%,rgba(201,76,30,0.35),transparent_70%)]" />
                 )}
                 <span className={`relative font-mono text-[12px] font-medium ${card.highlight ? 'text-ember-400' : 'text-ember-500'}`}>{card.num}</span>
-                <h3 className={`relative mt-4 font-instrument font-semibold text-[19px] leading-snug ${card.highlight ? 'text-white' : 'text-slate-950 dark:text-white'}`}>{card.title}</h3>
+                <h3 className={`relative mt-4 font-display font-medium text-[19px] leading-snug ${card.highlight ? 'text-white' : 'text-slate-950 dark:text-white'}`}>{card.title}</h3>
                 <p className={`relative mt-2.5 text-[14.5px] leading-relaxed ${card.highlight ? 'text-slate-400' : 'text-slate-600 dark:text-slate-400'}`}>{card.desc}</p>
               </li>
             ))}
@@ -439,7 +439,7 @@ export default function SdrHeadClient() {
             {CAPABILITIES.map((cap) => (
               <div key={cap.step} className={`group flex flex-col p-7 transition-colors hover:border-ember-300 dark:hover:border-ember-500/40 ${SURFACE}`}>
                 <span className="font-mono text-[12px] font-medium text-ember-500">{cap.step}</span>
-                <h3 className="mt-3 font-instrument font-semibold text-[19px] leading-snug text-slate-950 dark:text-white">{cap.title}</h3>
+                <h3 className="mt-3 font-display font-medium text-[19px] leading-snug text-slate-950 dark:text-white">{cap.title}</h3>
                 <p className="mt-2.5 flex-1 text-[14.5px] leading-relaxed text-slate-600 dark:text-slate-400">{cap.desc}</p>
                 <div className="mt-6 flex flex-wrap gap-1.5 border-t border-slate-200 pt-4 dark:border-white/[0.08]">
                   {cap.tags.map((tag) => (
@@ -454,7 +454,7 @@ export default function SdrHeadClient() {
             {/* Live console — the 7 capabilities in action */}
             <div className={`p-6 md:col-span-2 ${SURFACE}`}>
               <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ember-500">Live Console</p>
-              <h4 className="mt-2 font-instrument text-[20px] font-semibold text-slate-950 dark:text-white">Territory Coverage &amp; Real-time Account Allocation</h4>
+              <h4 className="mt-2 font-display text-[20px] font-medium text-slate-950 dark:text-white">Territory Coverage &amp; Real-time Account Allocation</h4>
               <div className="mt-5">
                 <Frame w={760} h={380} label="Account allocation and territory prioritization" aspect="aspect-[1.85/1]">
                   <CoverageMock />
@@ -476,7 +476,7 @@ export default function SdrHeadClient() {
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {TESTIMONIALS.map((t) => (
               <figure key={t.name} className={`flex flex-col p-7 ${SURFACE}`}>
-                <p className="font-instrument text-[30px] font-semibold leading-none tracking-[-0.02em] text-ember-500">{t.metric.split(' ')[0]}</p>
+                <p className="font-display text-[30px] font-medium leading-none tracking-[-0.02em] text-ember-500">{t.metric.split(' ')[0]}</p>
                 <p className="mt-1 text-[12.5px] font-medium text-slate-500 dark:text-slate-400">{t.metric.split(' ').slice(1).join(' ')}</p>
                 <blockquote className="mt-5 flex-1 text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">&ldquo;{t.quote}&rdquo;</blockquote>
                 <figcaption className="mt-6 flex items-center gap-3 border-t border-slate-200 pt-5 dark:border-white/[0.08]">
@@ -538,7 +538,7 @@ export default function SdrHeadClient() {
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(60%_70%_at_50%_30%,#000,transparent)]"
         />
         <div className="relative mx-auto max-w-[840px] text-center">
-          <h2 className="font-instrument font-semibold text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">Start running your team with clarity.</h2>
+          <h2 className="font-display font-medium text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">Start running your team with clarity.</h2>
           <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-white/65 sm:text-[19px]">
             Give your SDR team a connected way to work, and give yourself a clearer path to coaching.
           </p>

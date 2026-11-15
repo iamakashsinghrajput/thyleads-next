@@ -1079,7 +1079,7 @@ export default function FeatureSection() {
                     <span className="mb-3 inline-block text-[12px] font-semibold uppercase tracking-[0.12em] text-ember-500">
                         Integrations
                     </span>
-                    <h2 className="font-instrument font-semibold text-[clamp(30px,3.5vw,46px)] leading-[1.08] tracking-[-0.025em] text-white">
+                    <h2 className="font-display font-medium text-[clamp(30px,3.5vw,46px)] leading-[1.08] tracking-[-0.025em] text-white">
                         Set up Harvin around the way your team works.
                     </h2>
                     <p className="mt-2 text-[16px] leading-relaxed text-slate-400">

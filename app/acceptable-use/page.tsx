@@ -16,7 +16,7 @@ export default function AcceptableUsePolicy() {
     >
       <LegalSection title="1. Introduction">
         <p>
-          This Acceptable Use Policy (&quot;AUP&quot;) governs your use of the HarvinAI platform,
+          This Acceptable Use Policy (&quot;AUP&quot;) governs your use of the Harvin AI platform,
           Chrome extension, and all related services (collectively, the &quot;Service&quot;). This
           AUP is part of and supplements our{' '}
           <LegalLink href="/terms">Terms and Conditions</LegalLink>. By using the Service, you
@@ -27,7 +27,7 @@ export default function AcceptableUsePolicy() {
       <LegalSection title="2. Prohibited Activities">
         <p>You must not use the Service to:</p>
 
-        <h3 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white/80 mt-4 mb-1">
+        <h3 className="font-display font-medium text-[16px] text-slate-800 dark:text-white/80 mt-4 mb-1">
           2.1 Scraping and Automated Abuse
         </h3>
         <LegalList
@@ -38,7 +38,7 @@ export default function AcceptableUsePolicy() {
           ]}
         />
 
-        <h3 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white/80 mt-4 mb-1">
+        <h3 className="font-display font-medium text-[16px] text-slate-800 dark:text-white/80 mt-4 mb-1">
           2.2 Reverse Engineering
         </h3>
         <LegalList
@@ -49,18 +49,18 @@ export default function AcceptableUsePolicy() {
           ]}
         />
 
-        <h3 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white/80 mt-4 mb-1">
+        <h3 className="font-display font-medium text-[16px] text-slate-800 dark:text-white/80 mt-4 mb-1">
           2.3 Data Resale and Unauthorized Distribution
         </h3>
         <LegalList
           items={[
-            'Resell, redistribute, sublicense, or commercially exploit any data, insights, or reports obtained through the Service without prior written consent from HarvinAI.',
+            'Resell, redistribute, sublicense, or commercially exploit any data, insights, or reports obtained through the Service without prior written consent from Harvin AI.',
             'Share account credentials or access with unauthorized third parties.',
             'Create derivative databases or datasets from Service outputs for distribution or sale.',
           ]}
         />
 
-        <h3 className="font-instrument font-semibold text-[16px] text-slate-800 dark:text-white/80 mt-4 mb-1">
+        <h3 className="font-display font-medium text-[16px] text-slate-800 dark:text-white/80 mt-4 mb-1">
           2.4 Harmful or Illegal Activities
         </h3>
         <LegalList
@@ -93,7 +93,7 @@ export default function AcceptableUsePolicy() {
       </LegalSection>
 
       <LegalSection title="4. Chrome Extension Usage Rules">
-        <p>When using the HarvinAI Chrome Extension, you agree to:</p>
+        <p>When using the Harvin AI Chrome Extension, you agree to:</p>
         <LegalList
           items={[
             'Use the extension only for its intended purpose: scanning websites for technology stack detection and brand intelligence.',

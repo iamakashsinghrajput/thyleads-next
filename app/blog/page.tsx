@@ -28,7 +28,7 @@ const FALLBACK_IMG = '/blogs/covers/ultimate-guide-automated-hyper-targeted-outr
 
 function Meta({ date, readTime }: { date: string; readTime: string }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-slate-500 dark:text-slate-400">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] text-slate-500 dark:text-slate-400">
       <span className="flex items-center gap-1.5">
         <Calendar size={12} strokeWidth={2} />
         {date}
@@ -73,15 +73,15 @@ export default function BlogIndex() {
       <Navbar alwaysDark />
 
       {/* ═══ HEADER ════════════════════════════════════════════════════════ */}
-      <section className="border-b border-slate-200 px-4 pb-14 pt-28 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:pt-32">
+      <section className="border-b border-slate-200 px-4 pb-14 pt-28 dark:border-rule sm:px-6 lg:px-8 lg:pt-32">
         <div className="mx-auto max-w-[1180px]">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500 dark:text-ember-400">Blog</p>
+          <p className="text-[14px] font-medium text-slate-500 dark:text-slate-400">Blog</p>
           <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
-            <h1 className="font-instrument font-semibold max-w-[720px] text-[clamp(31px,4.2vw,52px)] leading-[1.06] tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h1 className="font-display font-medium max-w-[760px] text-[clamp(44px,6vw,80px)] leading-[1.02] text-slate-900 dark:text-white">
               The playbook for modern B2B growth
             </h1>
 
-            <label className="flex w-full items-center gap-2.5 rounded-btn border border-slate-200 bg-white px-4 py-3 shadow-[0_4px_20px_rgba(15,23,42,0.05)] transition-colors focus-within:border-ember-400 dark:border-white/[0.08] dark:bg-white/[0.03] dark:focus-within:border-ember-500/60 lg:w-[300px]">
+            <label className="flex w-full items-center gap-2.5 rounded-btn border border-slate-200 bg-white px-4 py-3 transition-colors focus-within:border-slate-400 dark:border-rule dark:bg-surface dark:focus-within:border-slate-400 lg:w-[300px]">
               <Search size={15} strokeWidth={2.2} className="flex-shrink-0 text-slate-400" />
               <input
                 type="search"
@@ -94,7 +94,7 @@ export default function BlogIndex() {
             </label>
           </div>
 
-          <p className="mt-5 max-w-[620px] text-[16px] leading-[1.7] text-slate-600 dark:text-slate-400">
+          <p className="mt-5 max-w-[620px] text-[18px] leading-[1.5] text-slate-600 dark:text-slate-300">
             Field notes on outbound, intent data and GTM — written from the campaigns we run, not
             from a keyword list.
           </p>
@@ -109,10 +109,10 @@ export default function BlogIndex() {
                   type="button"
                   onClick={() => setCategory(c)}
                   aria-pressed={on}
-                  className={`rounded-full px-3.5 py-1.5 text-[12.5px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 ${
+                  className={`rounded-full px-3.5 py-1.5 text-[14px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 ${
                     on
-                      ? 'bg-ember-500 text-white shadow-[0_1px_4px_rgba(201,76,30,0.3)]'
-                      : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-slate-300 dark:hover:border-white/[0.16] dark:hover:text-white'
+                      ? 'border border-slate-950 bg-slate-950 text-white dark:border-white dark:bg-white dark:text-slate-950'
+                      : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-rule dark:bg-transparent dark:text-slate-300 dark:hover:border-white/[0.16] dark:hover:text-white'
                   }`}
                 >
                   {c}
@@ -125,37 +125,37 @@ export default function BlogIndex() {
 
       {/* ═══ FEATURED — only on the unfiltered view ════════════════════════ */}
       {category === 'All' && !q && featured && (
-        <section className="border-b border-slate-200 px-4 py-14 dark:border-white/[0.06] sm:px-6 lg:px-8">
+        <section className="border-b border-slate-200 px-4 py-14 dark:border-rule sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[1180px]">
             <Link
               href={`/blog/${featured.slug}`}
-              className="group grid overflow-hidden rounded-2xl border border-slate-200 bg-white transition-shadow hover:shadow-[0_18px_48px_rgba(15,23,42,0.10)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:hover:border-ember-500/40 dark:hover:shadow-[0_18px_48px_rgba(0,0,0,0.5)] lg:grid-cols-[1.05fr_1fr]"
+              className="group grid overflow-hidden rounded-card border border-slate-200 bg-white transition-colors hover:border-slate-300 dark:border-rule dark:bg-surface dark:hover:border-white/[0.16] lg:grid-cols-[1.05fr_1fr]"
             >
               <div className="relative aspect-[16/10] overflow-hidden bg-sand-200 dark:bg-white/[0.04] lg:aspect-auto lg:min-h-[320px]">
                 <img
                   src={featured.cardImage || featured.image || FALLBACK_IMG}
                   alt={featured.title}
                   loading="eager"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
 
               <div className="flex flex-col justify-center p-7 lg:p-10">
-                <span className="inline-flex w-fit items-center gap-2 rounded-full bg-ember-500/[0.10] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-ember-500 dark:text-ember-400">
+                <span className="text-[14px] font-medium text-slate-500 dark:text-slate-400">
                   Featured · {featured.category}
                 </span>
-                <h2 className="font-instrument font-semibold mt-4 text-[clamp(21px,2.4vw,30px)] leading-[1.2] tracking-[-0.02em] text-slate-900 dark:text-white">
+                <h2 className="font-display font-medium mt-4 text-[clamp(28px,3vw,40px)] leading-[1.1] text-slate-900 dark:text-white">
                   {featured.title}
                 </h2>
-                <p className="mt-3 line-clamp-3 text-[15px] leading-[1.65] text-slate-500 dark:text-slate-400">
+                <p className="mt-3 line-clamp-3 text-[17px] leading-[1.5] text-slate-600 dark:text-slate-300">
                   {featured.excerpt}
                 </p>
                 <div className="mt-6">
                   <Meta date={featured.date} readTime={featured.readTime} />
                 </div>
-                <span className="mt-6 inline-flex items-center gap-1.5 text-[14px] font-semibold text-slate-900 dark:text-white">
+                <span className="mt-6 inline-flex items-center gap-1.5 text-[15px] font-medium text-slate-900 dark:text-white">
                   Read the post
-                  <ArrowRight size={15} strokeWidth={2.4} className="text-ember-500 dark:text-ember-400 transition-transform group-hover:translate-x-0.5" />
+                  <ArrowRight size={15} strokeWidth={2.4} className="text-ember-600 dark:text-ember-400 transition-transform group-hover:translate-x-0.5" />
                 </span>
               </div>
             </Link>
@@ -164,9 +164,9 @@ export default function BlogIndex() {
       )}
 
       {/* ═══ GRID ══════════════════════════════════════════════════════════ */}
-      <section className="border-b border-slate-200 px-4 py-14 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:py-20">
+      <section className="border-b border-slate-200 px-4 py-14 dark:border-rule sm:px-6 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-[1180px]">
-          <p className="mb-8 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
+          <p className="mb-8 text-[14px] text-slate-500 dark:text-slate-400">
             {posts.length} {posts.length === 1 ? 'post' : 'posts'}
             {category !== 'All' && ` · ${category}`}
           </p>
@@ -181,28 +181,28 @@ export default function BlogIndex() {
                 <Link
                   key={p.slug}
                   href={`/blog/${p.slug}`}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-shadow hover:shadow-[0_14px_40px_rgba(15,23,42,0.09)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:hover:border-ember-500/40 dark:hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)]"
+                  className="group flex flex-col overflow-hidden rounded-card border border-slate-200 bg-white transition-colors hover:border-slate-300 dark:border-rule dark:bg-surface dark:hover:border-white/[0.16]"
                 >
                   <div className="relative aspect-[16/9] overflow-hidden bg-sand-200 dark:bg-white/[0.04]">
                     <img
                       src={p.cardImage || p.image || FALLBACK_IMG}
                       alt={p.title}
                       loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                      className="absolute inset-0 h-full w-full object-cover"
                     />
                   </div>
 
                   <div className="flex flex-1 flex-col p-5">
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ember-500 dark:text-ember-400">
+                    <span className="text-[14px] font-medium text-slate-500 dark:text-slate-400">
                       {p.category}
                     </span>
-                    <h3 className="font-instrument font-semibold mt-2.5 text-[17px] leading-[1.3] tracking-[-0.015em] text-slate-900 transition-colors group-hover:text-ember-600 dark:text-white dark:group-hover:text-ember-300">
+                    <h3 className="font-display font-medium mt-2.5 text-[22px] leading-[1.2] text-slate-900 underline-offset-4 group-hover:underline dark:text-white">
                       {p.title}
                     </h3>
-                    <p className="mt-2.5 line-clamp-3 flex-1 text-[13.5px] leading-[1.6] text-slate-500 dark:text-slate-400">
+                    <p className="mt-2.5 line-clamp-3 flex-1 text-[15px] leading-[1.5] text-slate-600 dark:text-slate-300">
                       {p.excerpt}
                     </p>
-                    <div className="mt-5 border-t border-slate-200 pt-4 dark:border-white/[0.08]">
+                    <div className="mt-5 border-t border-slate-200 pt-4 dark:border-rule">
                       <Meta date={p.date} readTime={p.readTime} />
                     </div>
                   </div>

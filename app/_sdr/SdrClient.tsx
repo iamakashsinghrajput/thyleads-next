@@ -182,7 +182,7 @@ function DialerMock() {
    PAGE
    ═══════════════════════════════════════════════════════════════════════════════ */
 
-const H2 = 'font-instrument font-semibold text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em] text-slate-950 dark:text-white';
+const H2 = 'font-display font-medium text-[clamp(30px,3.6vw,46px)] leading-[1.08] tracking-[-0.025em] text-slate-950 dark:text-white';
 const SURFACE =
   'rounded-modal border border-slate-200 bg-sand-50 shadow-[0_4px_32px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)]';
 
@@ -327,7 +327,7 @@ export default function SdrClient() {
             <Target size={13} className="text-ember-500" aria-hidden="true" />
             For the SDRs
           </span>
-          <h1 className="mx-auto mt-7 max-w-[960px] font-instrument font-semibold text-[clamp(36px,5.6vw,72px)] leading-[1.03] tracking-[-0.035em] text-slate-950 dark:text-white">
+          <h1 className="mx-auto mt-7 max-w-[960px] font-display font-medium text-[clamp(36px,5.6vw,72px)] leading-[1.03] tracking-[-0.035em] text-slate-950 dark:text-white">
             Start your day knowing what matters, <span className="text-ember-500">why and what to do next.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-[700px] text-[18px] leading-[1.65] text-slate-600 dark:text-slate-300 sm:text-[20px]">
@@ -382,7 +382,7 @@ export default function SdrClient() {
               >
                 {c.highlight && <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_80%_at_100%_0%,rgba(201,76,30,0.35),transparent_70%)]" />}
                 <span className={`relative font-mono text-[13px] font-medium ${c.highlight ? 'text-ember-400' : 'text-ember-500'}`}>{c.num}</span>
-                <h3 className={`relative mt-4 font-instrument font-semibold text-[20px] leading-snug ${c.highlight ? 'text-white' : 'text-slate-950 dark:text-white'}`}>{c.title}</h3>
+                <h3 className={`relative mt-4 font-display font-medium text-[20px] leading-snug ${c.highlight ? 'text-white' : 'text-slate-950 dark:text-white'}`}>{c.title}</h3>
                 <p className={`relative mt-2.5 text-[15px] leading-relaxed ${c.highlight ? 'text-slate-400' : 'text-slate-600 dark:text-slate-400'}`}>{c.desc}</p>
               </li>
             ))}
@@ -432,8 +432,8 @@ export default function SdrClient() {
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {CAPABILITIES.map((cap) => (
               <div key={cap.step} className={`group flex flex-col p-7 transition-colors hover:border-ember-300 dark:hover:border-ember-500/40 ${SURFACE}`}>
-                <span className="font-instrument text-[36px] font-semibold leading-none tracking-[-0.03em] text-ember-500/30">{cap.step}</span>
-                <h3 className="mt-4 font-instrument font-semibold text-[20px] leading-snug text-slate-950 dark:text-white">{cap.title}</h3>
+                <span className="font-display text-[36px] font-medium leading-none tracking-[-0.03em] text-ember-500/30">{cap.step}</span>
+                <h3 className="mt-4 font-display font-medium text-[20px] leading-snug text-slate-950 dark:text-white">{cap.title}</h3>
                 <p className="mt-2.5 flex-1 text-[14.5px] leading-relaxed text-slate-600 dark:text-slate-400">{cap.desc}</p>
                 <div className="mt-6 flex flex-wrap gap-1.5 border-t border-slate-200 pt-4 dark:border-white/[0.08]">
                   {cap.tags.map((tag) => (
@@ -455,7 +455,7 @@ export default function SdrClient() {
             <div className="relative grid items-center gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
               <div>
                 <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ember-400">Execution &amp; Calling Console</span>
-                <h4 className="mt-3 font-instrument text-[clamp(24px,2.6vw,32px)] font-semibold leading-[1.15] tracking-[-0.02em] text-white">
+                <h4 className="mt-3 font-display text-[clamp(24px,2.6vw,32px)] font-medium leading-[1.15] tracking-[-0.02em] text-white">
                   Built-in Dialer with Talking Points &amp; Queue
                 </h4>
                 <p className="mt-4 text-[15.5px] leading-relaxed text-slate-400">
@@ -482,7 +482,7 @@ export default function SdrClient() {
             {TESTIMONIALS.map((t) => (
               <figure key={t.name} className={`relative flex flex-col p-7 ${SURFACE}`}>
                 <Quote aria-hidden="true" size={40} className="absolute right-6 top-6 rotate-180 text-ember-500/10" />
-                <p className="font-instrument text-[30px] font-semibold leading-none tracking-[-0.02em] text-ember-500">{t.metric.split(' ')[0]}</p>
+                <p className="font-display text-[30px] font-medium leading-none tracking-[-0.02em] text-ember-500">{t.metric.split(' ')[0]}</p>
                 <p className="mt-1 text-[12.5px] font-medium text-slate-500 dark:text-slate-400">{t.metric.split(' ').slice(1).join(' ')}</p>
                 <blockquote className="mt-5 flex-1 text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">&ldquo;{t.quote}&rdquo;</blockquote>
                 <figcaption className="mt-6 flex items-center gap-3 border-t border-slate-200 pt-5 dark:border-white/[0.08]">
@@ -544,7 +544,7 @@ export default function SdrClient() {
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(60%_70%_at_50%_30%,#000,transparent)]"
         />
         <div className="relative mx-auto max-w-[840px] text-center">
-          <h2 className="font-instrument font-semibold text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">Give your day a clear starting point.</h2>
+          <h2 className="font-display font-medium text-[clamp(32px,4.4vw,52px)] leading-[1.08] tracking-[-0.03em]">Give your day a clear starting point.</h2>
           <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-relaxed text-white/65 sm:text-[19px]">
             See how Harvin brings your accounts, outreach and meetings into one workspace.
           </p>

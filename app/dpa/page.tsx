@@ -41,19 +41,19 @@ export default function DataProcessingAddendum() {
       title="Data Processing Addendum"
       effectiveDate="2 November 2026"
       lastUpdated="2 November 2026"
-      entity="Thyleads Private Limited, operating Harvin.ai"
+      entity="Thyleads Private Limited, operating Harvin AI"
       intro={
         <>
-          This Data Processing Addendum (&lsquo;DPA&rsquo;) forms part of the agreement governing use of Harvin.ai
-          between Thyleads Private Limited, operating Harvin.ai (&lsquo;Harvin&rsquo;), and the customer using the
+          This Data Processing Addendum (&lsquo;DPA&rsquo;) forms part of the agreement governing use of Harvin AI
+          between Thyleads Private Limited, operating Harvin AI (&lsquo;Harvin&rsquo;), and the customer using the
           Harvin service (&lsquo;Customer&rsquo;).
         </>
       }
     >
       <LegalSection title="1. Scope and Definitions">
         <p>
-          This Data Processing Addendum forms part of the agreement governing use of Harvin.ai between Thyleads Private
-          Limited, operating Harvin.ai (&lsquo;Harvin&rsquo;), and the customer using the Harvin service
+          This Data Processing Addendum forms part of the agreement governing use of Harvin AI between Thyleads Private
+          Limited, operating Harvin AI (&lsquo;Harvin&rsquo;), and the customer using the Harvin service
           (&lsquo;Customer&rsquo;). It applies where Harvin processes Personal Data on behalf of Customer.
         </p>
         <p>

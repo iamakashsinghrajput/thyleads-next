@@ -19,8 +19,8 @@ export const metadata: Metadata = {
 
 export default function ProductTourPage() {
   return (
-    <div className="min-h-screen bg-sand-100 dark:bg-slate-950 transition-colors duration-300">
-      <Navbar />
+    <div className="dark min-h-screen bg-slate-950 text-white [color-scheme:dark]">
+      <Navbar alwaysDark />
       <main>
         <ProductTourClient />
       </main>

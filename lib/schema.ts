@@ -18,7 +18,7 @@ import { LEGAL_NAME, SITE_URL } from '@/lib/site';
  * here and nowhere else.
  */
 export const ENTITY_SENTENCE =
-  'Harvin.AI is a B2B company discovery and research platform that finds the companies and buyers your database misses, shows why each one fits your business, and finds their work emails and phone numbers.';
+  'Harvin AI is a B2B company discovery and research platform that finds the companies and buyers your database misses, shows why each one fits your business, and finds their work emails and phone numbers.';
 
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const SITE_ID = `${SITE_URL}/#website`;

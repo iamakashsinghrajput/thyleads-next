@@ -105,27 +105,14 @@ export default function ContactPage() {
       <Navbar alwaysDark />
 
       {/* ═══ HEADER ═══════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden border-b border-slate-200 px-4 pb-16 pt-28 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:pb-20 lg:pt-36">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_70%_at_15%_0%,rgba(201,76,30,0.12),transparent_70%)] dark:bg-[radial-gradient(50%_70%_at_15%_0%,rgba(201,76,30,0.2),transparent_70%)]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(35,34,32,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(35,34,32,0.045)_1px,transparent_1px)] bg-[size:56px_56px]
-                     [mask-image:radial-gradient(60%_80%_at_20%_30%,#000,transparent)]
-                     dark:bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)]"
-        />
+      <section className="relative overflow-hidden border-b border-slate-200 px-4 pb-16 pt-28 dark:border-rule sm:px-6 lg:px-8 lg:pb-20 lg:pt-36">
         <div className="relative mx-auto max-w-[1180px]">
           <div className="max-w-[720px]">
-            <p className="inline-flex items-center gap-2 rounded-full border border-ember-200 bg-ember-50/80 px-4 py-1.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-ember-600 dark:border-ember-500/30 dark:bg-ember-500/10 dark:text-ember-400">
-              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-ember-500" />
-              Contact
-            </p>
-            <h1 className="font-instrument font-semibold mt-6 text-[clamp(36px,5vw,64px)] leading-[1.04] tracking-[-0.035em] text-slate-950 dark:text-white">
-              Talk to <span className="bg-gradient-to-r from-ember-500 to-ember-300 bg-clip-text text-transparent">us</span>
+            <p className="text-[14px] font-medium text-slate-500 dark:text-slate-400">Contact</p>
+            <h1 className="font-display font-medium mt-5 text-[clamp(44px,6vw,80px)] leading-[1.02] text-slate-950 dark:text-white">
+              Talk to <span className="italic text-ember-600 dark:text-ember-500">us</span>
             </h1>
-            <p className="mt-6 text-[17px] leading-[1.7] text-slate-600 dark:text-slate-400">
+            <p className="mt-6 text-[18px] leading-[1.5] text-slate-600 dark:text-slate-300">
               A demo, a question about how the platform handles your team’s setup, or something
               about an account you already have — it reaches the same small team either way. Tell us
               what you are working with and we will reply within one working day.
@@ -135,31 +122,29 @@ export default function ContactPage() {
       </section>
 
       {/* ═══ FORM + DETAILS ═══════════════════════════════════════════════ */}
-      <section className="border-b border-slate-200 px-4 py-14 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:py-20">
+      <section className="border-b border-slate-200 px-4 py-14 dark:border-rule sm:px-6 lg:px-8 lg:py-20">
         <div className="mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-20">
-          <div className="self-start rounded-modal border border-slate-200 bg-sand-50 p-6 shadow-[0_4px_32px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:shadow-[0_4px_40px_rgba(0,0,0,0.35)] sm:p-9">
-            <h2 className="font-instrument font-semibold text-[22px] tracking-[-0.015em] text-slate-950 dark:text-white">
+          <div className="self-start rounded-card border border-slate-200 bg-sand-50 p-6 dark:border-rule dark:bg-surface sm:p-9">
+            <h2 className="font-display font-medium text-[28px] leading-[1.1] text-slate-950 dark:text-white">
               Send us a message
             </h2>
-            <p className="mb-8 mt-2 text-[14.5px] leading-[1.7] text-slate-600 dark:text-slate-400">
+            <p className="mb-8 mt-2 text-[16px] leading-[1.5] text-slate-600 dark:text-slate-300">
               The more you tell us about the team and the stack, the more useful the first reply is.
             </p>
             <ContactForm />
           </div>
 
           <div className="lg:pt-9">
-            <h2 className="font-instrument font-semibold text-[22px] tracking-[-0.015em] text-slate-950 dark:text-white">
+            <h2 className="font-display font-medium text-[28px] leading-[1.1] text-slate-950 dark:text-white">
               Or reach us directly
             </h2>
 
-            <dl className="mt-8 border-t border-slate-200 dark:border-white/[0.08]">
+            <dl className="mt-8 border-t border-slate-200 dark:border-rule">
               {DETAILS.map(({ Icon, label, lines, href }) => (
-                <div key={label} className="flex gap-4 border-b border-slate-200 py-5 dark:border-white/[0.08]">
-                  <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-btn bg-ember-500/10 text-ember-500 dark:bg-ember-500/10 dark:text-ember-400 dark:ring-1 dark:ring-inset dark:ring-ember-500/25">
-                    <Icon size={16} strokeWidth={2} aria-hidden="true" />
-                  </span>
+                <div key={label} className="flex gap-4 border-b border-slate-200 py-5 dark:border-rule">
+                  <Icon size={16} strokeWidth={2} aria-hidden="true" className="mt-0.5 flex-shrink-0 text-slate-500 dark:text-slate-400" />
                   <div className="min-w-0">
-                    <dt className="text-[11.5px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
+                    <dt className="text-[14px] font-medium text-slate-500 dark:text-slate-400">
                       {label}
                     </dt>
                     <dd className="mt-1.5 space-y-0.5">
@@ -168,14 +153,14 @@ export default function ContactPage() {
                           <a
                             key={line}
                             href={href}
-                            className="block text-[15px] font-semibold text-ember-600 underline underline-offset-4 transition-colors hover:text-ember-500 dark:text-ember-300 dark:hover:text-ember-200"
+                            className="block text-[16px] font-medium text-slate-950 underline decoration-slate-300 underline-offset-4 transition-colors hover:decoration-slate-950 dark:text-white dark:decoration-rule dark:hover:decoration-white"
                           >
                             {line}
                           </a>
                         ) : (
                           <p
                             key={line}
-                            className="text-[14.5px] leading-[1.6] text-slate-600 dark:text-slate-400"
+                            className="text-[15px] leading-[1.5] text-slate-600 dark:text-slate-300"
                           >
                             {line}
                           </p>

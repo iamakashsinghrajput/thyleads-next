@@ -1,567 +1,187 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { Clock, Mail, Phone, Zap } from 'lucide-react';
-import { BOOK_DEMO_HREF, startFreeHref } from '@/lib/site';
+import { useEffect, useRef, useState } from 'react';
+import { startFreeHref } from '@/lib/site';
+import { FREE_CREDITS } from '@/lib/pricing';
 import TrustedStrip from '@/components/TrustedStrip';
 
-const styles = `
-  @keyframes heroFadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes heroImageIn { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
-  /* Card 1 rises from behind the laptop lid: starts tiny and pushed down onto
-     the lid, then grows upward (origin is the card's own bottom edge, which
-     rests just above the screen). */
-  @keyframes heroCardEmerge { 0% { opacity: 0; transform: translateY(52px) scale(0.2); } 25% { opacity: 0.45; } 55% { opacity: 0.9; } 100% { opacity: 1; transform: translateY(0) scale(1); } }
-  @keyframes heroCardIn { from { opacity: 0; transform: translateY(18px) scale(0.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
-  @keyframes heroCardFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-  @keyframes heroCaret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
-  @keyframes heroBarGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-`;
-
-/** Card 1's prompt — typed out on screen. */
-const PROMPT: [string, string] = ['Which customers am I missing?', 'Who should I reach first?'];
-
 /**
- * Shared by background-1920.jpg AND heroman-1600.png. Both plates share the
- * same aspect ratio and framing, so an
- * identical box + object-position is what re-registers the cut-out onto the
- * scene. Edit this in one place only — divergent crops slide the man off his
- * own chair.
- */
-const SCENE_IMG = 'h-full w-full object-cover object-[68%_center] lg:object-[52%_center]';
-
-/**
- * The cut-out is framed much larger than the room plate wants him, so he gets
- * this on TOP of SCENE_IMG.
+ * Homepage hero, per the Harvin AI brand guidelines (12 Nov 2026):
+ * black canvas, a Newsreader headline, one "Start free" button, and the paper
+ * record as the hero — "a file card on a dark desk". No photograph.
  *
- * The origin does double duty: `bottom` keeps his laptop planted on the table
- * as he shrinks (scaling about the centre would lift him off it), and `right`
- * makes him shrink TOWARD the right edge rather than toward the middle — which
- * is what walks him over to the right side without a separate translate.
- * Lower the scale to shrink him further; he'll drift further right as he goes.
+ * The record tells the brand idea in one loop: the database label is struck
+ * (grey = missed/wrong), Harvin's findings appear with ember marks, and the
+ * Company Fit numeral counts up while the card's border turns ember
+ * (ember = found/right). The loop starts and ends on the complete graphic,
+ * and holds it under prefers-reduced-motion.
  *
- * The translates then place him: -y lifts him clear of the table, +x walks him
- * further right than the origin alone takes him. Because CSS applies the scale
- * first and the translates after, these are flat offsets — they are NOT
- * multiplied by the scale — so the values read as the actual distance he moves
- * (percentages are of the panel, which is 66% of the viewport at lg).
- * Lift too far and his laptop floats off the table.
+ * Copy: "Harvin Home Page Content .md". Company and figures in the record are
+ * an illustrative example.
  */
-const MAN_TRANSFORM = 'translate-x-[14%] -translate-y-[12%] scale-[0.60] origin-bottom-right';
 
-function Sparkle() {
-  return (
-    <svg viewBox="0 0 26 26" className="h-[22px] w-[22px] flex-shrink-0" fill="currentColor" aria-hidden="true">
-      <path d="M15.4 1.6l1.75 4.9 4.9 1.75-4.9 1.75-1.75 4.9-1.75-4.9-4.9-1.75 4.9-1.75 1.75-4.9z" />
-      <path d="M6.6 13.9l1.05 2.95 2.95 1.05-2.95 1.05-1.05 2.95-1.05-2.95-2.95-1.05 2.95-1.05 1.05-2.95z" />
-    </svg>
-  );
+const FACTS = ['Bills customers in 18 countries', 'Recurring foreign-currency payments', 'Uses Stripe'];
+
+/* Phases of the loop: 0 plain record → 1 label struck → 2–4 facts appear → 5 fit lands (complete). */
+const PHASE_MS = [900, 1100, 700, 700, 1200, 5200];
+const COMPLETE = PHASE_MS.length - 1;
+
+function prefersReducedMotion() {
+  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-/** Types both lines out as one stream so line 2 starts only once line 1 lands. */
-function TypedLines({ lines, delay }: { lines: [string, string]; delay: number }) {
-  const full = `${lines[0]}\n${lines[1]}`;
-  const [n, setN] = useState(0);
+function useRecordLoop() {
+  // Server render and reduced motion both show the complete graphic.
+  const [phase, setPhase] = useState(COMPLETE);
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    setN(0);
-    let i = 0;
-    let tick: ReturnType<typeof setTimeout>;
-    // uneven cadence — a fixed interval reads as a machine, not a person
-    const step = () => {
-      i += 1;
-      setN(i);
-      if (i >= full.length) return;
-      const ch = full[i - 1];
-      const pause =
-        ch === '\n' ? 420 :        // beat before the second line
-          '?.,'.includes(ch) ? 260 : // settle on punctuation
-            ch === ' ' ? 70 :
-              40 + Math.random() * 60;
-      tick = setTimeout(step, pause);
-    };
-    const start = setTimeout(step, delay);
-    return () => { clearTimeout(start); clearTimeout(tick); };
-  }, [full, delay]);
+    const el = ref.current;
+    if (!el || prefersReducedMotion()) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
-  const out = full.slice(0, n).split('\n');
-  const done = n >= full.length;
+  useEffect(() => {
+    if (!visible) return;
+    const t = setTimeout(() => setPhase((p) => (p + 1) % PHASE_MS.length), PHASE_MS[phase]);
+    return () => clearTimeout(t);
+  }, [phase, visible]);
 
-  return (
-    // min-height reserves both lines so the card doesn't grow mid-type
-    <p className="min-h-[47px] text-[15px] font-medium leading-[1.55] text-white">
-      {out.map((line, i) => (
-        <span key={i} className="block">
-          {line}
-          {i === out.length - 1 && !done && (
-            <span
-              className="ml-0.5 inline-block h-[14px] w-[1.5px] translate-y-[2px] bg-[#F2841C]"
-              style={{ animation: 'heroCaret 1s steps(1) infinite' }}
-            />
-          )}
-        </span>
-      ))}
-    </p>
-  );
+  return [ref, phase] as const;
 }
 
-/** Card 1 — the Harvin Intelligence prompt, rising from behind the laptop lid. */
-function HarvinIntelligenceCard() {
+function FitNumber({ run, to }: { run: boolean; to: number }) {
+  const [n, setN] = useState(to);
+  useEffect(() => {
+    if (!run || prefersReducedMotion()) {
+      setN(to);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / 900, 1);
+      setN(Math.round(to * (1 - Math.pow(1 - t, 3))));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    setN(0);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [run, to]);
+  return <span className="tabular-nums">{n}</span>;
+}
+
+/** The paper record: one company, looked at properly. */
+function PaperRecord() {
+  const [ref, phase] = useRecordLoop();
+  const struck = phase >= 1;
+  const done = phase === COMPLETE;
+
   return (
     <div
-      className="w-[360px]"
-      // grows upward off its own bottom edge, which sits on the laptop lid
-      style={{ animation: 'heroCardEmerge 2s cubic-bezier(0.33,1,0.68,1) both', transformOrigin: '50% 100%' }}
+      ref={ref}
+      role="img"
+      aria-label="Illustrative company record: a database files Northstar Software under Software; Harvin AI finds it bills customers in 18 countries, has recurring foreign-currency payments and uses Stripe, and scores its Company Fit at 91."
     >
-      <div style={{ animation: 'heroCardFloat 9s ease-in-out infinite', animationDelay: '2.1s' }}>
-        {/* 2px gradient border: ember at the left edge resolving to blue across */}
-        <div className="rounded-[20px] bg-[linear-gradient(103deg,#F2841C_0%,#E9701B_14%,#6455C8_46%,#2F6AE8_72%,#3F7DF5_100%)] p-[1.5px] shadow-[0_0_38px_rgba(47,106,232,0.22),0_18px_46px_rgba(0,0,0,0.55)]">
-          <div className="flex items-center gap-4 rounded-[19px] bg-[linear-gradient(118deg,#0B1A3A_0%,#101F49_48%,#0A1631_100%)] px-5 py-4">
-            <div className="min-w-0 flex-1">
-              <span className="flex items-center gap-1.5 text-[#F2841C]">
-                <Sparkle />
-                <span className="font-bricolage text-[16.5px] font-bold tracking-[-0.01em]">Harvin Intelligence</span>
-              </span>
-              <div className="mt-2.5">
-                <TypedLines lines={PROMPT} delay={1550} />
-              </div>
-            </div>
+      <div
+        aria-hidden="true"
+        className={[
+          'rounded-card border-2 bg-paper px-[30px] pb-[26px] pt-[30px] text-slate-950 transition-colors duration-700',
+          done ? 'border-ember-500' : 'border-paper',
+        ].join(' ')}
+      >
+        <div className="flex items-baseline justify-between gap-4">
+          <p className="text-[14px] font-medium text-stone-dark">Company record</p>
+          <p className="text-[14px] text-stone-dark">Illustrative example</p>
+        </div>
+        <p className="mt-3 font-display text-[clamp(30px,3vw,40px)] font-medium leading-[1.05]">Northstar Software</p>
 
-            <span aria-hidden="true" className="h-[52px] w-px flex-shrink-0 bg-white/15" />
+        {/* How a database files it: the label tag, struck */}
+        <div className="mt-5 flex flex-wrap items-center gap-3 border-b border-paper-rule pb-5">
+          <span className="text-[14px] font-medium text-stone-dark">Listed in databases as</span>
+          {/* label tag; the strike draws across it */}
+          <span className="relative inline-flex items-center rounded-[7px] border border-paper-rule px-[11px] pb-2 pt-[7px] text-[14px] font-semibold leading-none text-stone-dark">
+            Software
             <span
-              aria-hidden="true"
-              className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full border border-[#4F86F7]/70 text-[#6C9BFF]"
-            >
-              <svg viewBox="0 0 24 24" className="h-[13px] w-[13px] translate-x-[1px]" fill="currentColor">
-                <path d="M8 4.5l11.5 7.5L8 19.5v-15z" />
-              </svg>
-            </span>
-          </div>
+              className={`absolute left-2 right-2 top-1/2 h-[2px] origin-left bg-grey transition-transform duration-500 ease-out ${struck ? 'scale-x-100' : 'scale-x-0'}`}
+            />
+          </span>
         </div>
-      </div>
-    </div>
-  );
-}
 
-/**
- * Uplift series, as a % of the plot height. Deliberately NOT a clean ramp —
- * the dip at index 2 is what makes it read as measured data rather than
- * decoration. The final bar is the projection and carries the only accent.
- */
-const BARS = [24, 33, 27, 44, 52, 63, 88];
-// tracks the figure's cap height so the plot reads as its peer, not its label
-const PLOT_H = 56;
-
-function Bars() {
-  return (
-    <span className="relative flex items-end gap-[5px]" style={{ height: PLOT_H }} aria-hidden="true">
-      {BARS.map((pct, i) => {
-        const projected = i === BARS.length - 1;
-        return (
-          <span
-            key={i}
-            className={`w-[6px] origin-bottom rounded-t-[2px] ${
-              // one accent, everything else recedes — a rainbow ramp here says
-              // nothing about the data
-              projected ? 'bg-[#F2841C] shadow-[0_0_12px_rgba(242,132,28,0.5)]' : 'bg-[#3B4C7D]'
-              }`}
-            style={{
-              height: (pct / 100) * PLOT_H,
-              animation: 'heroBarGrow 0.5s cubic-bezier(0.33,1,0.68,1) both',
-              // history fills quickly, the projection lands last and alone
-              animationDelay: `${0.7 + i * 0.06 + (projected ? 0.12 : 0)}s`,
-            }}
-          />
-        );
-      })}
-      <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-white/[0.11]" />
-    </span>
-  );
-}
-
-function CountUp({ to, delay }: { to: number; delay: number }) {
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    setN(0);
-    let tick: ReturnType<typeof setInterval>;
-    const start = setTimeout(() => {
-      let v = 0;
-      // ~32 ticks whatever the target, so a larger figure lands just as fast
-      const step = Math.max(1, Math.ceil(to / 32));
-      tick = setInterval(() => {
-        v = Math.min(to, v + step);
-        setN(v);
-        if (v >= to) clearInterval(tick);
-      }, 60);
-    }, delay);
-    return () => { clearTimeout(start); clearInterval(tick); };
-  }, [to, delay]);
-  return <>{n}</>;
-}
-
-/**
- * Card 2 — Harvin answering card 1's question: the recommended next move and
- * what it should return. Parked low so the man reads as being in front of it.
- *
- * The figures here are illustrative product UI, in the same spirit as the
- * reference — not claims about Harvin's results.
- */
-function PlaybookCard() {
-  return (
-    <div className="w-[312px]" style={{ animation: 'heroCardIn 0.9s cubic-bezier(0.33,1,0.68,1) both' }}>
-      <div style={{ animation: 'heroCardFloat 9s ease-in-out infinite', animationDelay: '1.2s' }}>
-        <div className="rounded-[24px] bg-[linear-gradient(152deg,#F2841C_0%,#E9701B_11%,#6455C8_40%,#2F6AE8_70%,#3F7DF5_100%)] p-[1.5px] shadow-[0_0_38px_rgba(47,106,232,0.22),0_18px_46px_rgba(0,0,0,0.55)]">
-          <div className="rounded-[23px] bg-[linear-gradient(158deg,#0B1A3A_0%,#101F49_50%,#0A1631_100%)] px-[21px] py-[19px] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
-            {/* Salutation is context, not the message — it recedes so the offer
-                is the first thing read. Both at one weight read as a wall. */}
-            <p className="text-[13.5px] font-medium text-white/50">Cross-border payments</p>
-            <p className="mt-1.5 text-[18px] font-semibold leading-[1.26] tracking-[-0.015em] text-white">
-              25 companies that fit, filed under the wrong category.
-            </p>
-
-            {/* Metric gets its own inset surface rather than being fenced by two
-                rules — structure instead of dividers. */}
-            <div className="mt-[18px] rounded-[15px] border border-white/[0.07] bg-white/[0.035] px-4 py-3.5">
-              <p className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#8FA3D8]">
-                Top Company Fit
-              </p>
-              <div className="mt-2.5 flex items-end justify-between gap-3">
-                <span className="font-bricolage text-[60px] font-bold leading-[0.8] tracking-[-0.045em] text-[#F2841C]">
-                  <CountUp to={91} delay={620} />
-                  {/* smaller, lighter, raised — the unit shouldn't carry the
-                      same weight as the figure, and the gap widens as the
-                      figure grows */}
-                  <span className="relative -top-[17px] ml-[2px] text-[20px] font-semibold text-[#F2841C]/65">/100</span>
-                </span>
-                <Bars />
-              </div>
-            </div>
-
-            <div className="mt-[18px] flex flex-col gap-2.5">
-              <span
-                className="block rounded-[12px] bg-[linear-gradient(180deg,#F79138_0%,#E4700F_100%)] py-[12px]
-                           text-center text-[13.5px] font-semibold tracking-[-0.005em] text-white
-                           shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_6px_16px_rgba(228,112,15,0.32)]"
+        {/* What Harvin AI found: ruled rows with ember marks */}
+        <p className="mt-5 text-[14px] font-medium text-stone-dark">What the business actually does</p>
+        <ul className="mt-2 divide-y divide-paper-rule border-b border-paper-rule">
+          {FACTS.map((f, i) => {
+            const shown = phase >= 2 + i;
+            return (
+              <li
+                key={f}
+                className={`flex items-center gap-3 py-3 text-[18px] font-medium text-slate-950 transition-opacity duration-500 ${shown ? 'opacity-100' : 'opacity-0'}`}
               >
-                Find buyers
-              </span>
-              <span
-                className="block rounded-[12px] border border-white/[0.14] bg-white/[0.05] py-[11px]
-                           text-center text-[12.5px] font-medium text-white/85"
-              >
-                See why each one fits
-              </span>
-            </div>
+                <span className="h-[9px] w-[9px] shrink-0 rounded-full bg-ember-500" />
+                {f}
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="mt-6 flex items-end justify-between gap-4">
+          <div>
+            <p className="text-[14px] text-stone-dark">Company Fit</p>
+            <p className="mt-1 text-[15px] text-slate-600">Matches the customers who converted</p>
           </div>
+          <p
+            className={`font-display text-[clamp(72px,8vw,110px)] font-medium leading-[0.85] text-ember-500 transition-opacity duration-500 ${phase >= 5 ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <FitNumber run={phase === COMPLETE} to={91} />
+          </p>
         </div>
       </div>
     </div>
   );
 }
-
-const Rule = () => <div aria-hidden="true" className="my-[11px] h-px bg-white/[0.10]" />;
-const Meta = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-[10.5px] text-white/45">{children}</p>
-);
-
-/**
- * Placeholder lead portraits. These are generated silhouette SVGs in
- * /public/avatars, not photographs — they read as stand-ins rather than
- * pretending to be real people, which is the point: putting invented faces
- * next to named "leads" on a live marketing page would be fabricated social
- * proof. Drop real headshots in at the same paths to swap them; no markup
- * change needed.
- */
-const COHORT = [
-  { name: 'Avery Park', img: '/avatars/lead-1.svg', ring: 'linear-gradient(140deg,#F2841C,#C94C1E)' },
-  { name: 'Liam Alexander', img: '/avatars/lead-2.svg', ring: 'linear-gradient(140deg,#6455C8,#2F6AE8)' },
-  { name: 'Olivia Grace', img: '/avatars/lead-3.svg', ring: 'linear-gradient(140deg,#E9701B,#6455C8)' },
-  { name: 'Dylan Thomas', img: '/avatars/lead-4.svg', ring: 'linear-gradient(140deg,#3F7DF5,#6455C8)' },
-];
-
-/**
- * Card 3 — the lead-generation readout: who Harvin surfaced, how to reach them,
- * how warm they are and how fresh the signal is.
- *
- * Reframed from the reference's win-back cohort, because Email + Cold Calling
- * are prospecting channels — "dormant", "At risk" and a 47-day-old engagement
- * describe a customer you are losing, not a lead you are working.
- */
-function CohortCard() {
-  return (
-    <div className="w-[282px]" style={{ animation: 'heroCardIn 0.9s cubic-bezier(0.33,1,0.68,1) both' }}>
-      <div style={{ animation: 'heroCardFloat 9s ease-in-out infinite', animationDelay: '1.2s' }}>
-        <div className="rounded-[22px] bg-[linear-gradient(152deg,#F2841C_0%,#E9701B_11%,#6455C8_40%,#2F6AE8_70%,#3F7DF5_100%)] p-[1.5px] shadow-[0_0_38px_rgba(47,106,232,0.22),0_18px_46px_rgba(0,0,0,0.55)]">
-          <div className="rounded-[21px] bg-[linear-gradient(158deg,#0B1A3A_0%,#101F49_50%,#0A1631_100%)] px-[18px] py-[16px] shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
-            <h3 className="font-instrument font-semibold text-[19px] leading-[1.18] tracking-[-0.02em] text-white">
-              Right buyers,
-              <br />
-              contacts found
-            </h3>
-
-            <Rule />
-
-            {/* Channel accents are drawn from the card's own gradient rather
-                than each vendor's brand colour — these are outbound motions,
-                not logos. */}
-            <Meta>Contacts found</Meta>
-            <div className="mt-2 grid grid-cols-2 gap-2">
-              <span className="flex items-center justify-center gap-1.5 rounded-[10px] border border-[#3F7DF5]/55 bg-[#3F7DF5]/[0.10] py-[7px]">
-                <Mail size={14} className="flex-shrink-0 text-[#6C9BFF]" strokeWidth={2.2} />
-                <span className="text-[12px] font-bold text-white">Work email</span>
-              </span>
-              <span className="flex items-center justify-center gap-1.5 rounded-[10px] border border-[#F2841C]/55 bg-[#F2841C]/[0.10] py-[7px]">
-                <Phone size={14} className="flex-shrink-0 text-[#F79127]" strokeWidth={2.2} />
-                <span className="text-[12px] font-bold text-white">Phone</span>
-              </span>
-            </div>
-
-            <Rule />
-
-            <Meta>Company Fit</Meta>
-            <div className="mt-1.5 flex items-center gap-2">
-              <Zap size={16} className="flex-shrink-0 text-[#F2841C]" strokeWidth={2.2} fill="#F2841C" />
-              <span className="text-[13.5px] font-bold text-[#F2841C]">Strong fit</span>
-            </div>
-
-            <Rule />
-
-            <Meta>Listed in databases as</Meta>
-            <div className="mt-1.5 flex items-center gap-2">
-              <Clock size={16} className="flex-shrink-0 text-[#3F7DF5]" strokeWidth={2.2} />
-              <span className="text-[13.5px] font-bold text-white">Software</span>
-            </div>
-
-            <Rule />
-
-            <Meta>Matched buyers</Meta>
-            <div className="mt-2.5 grid grid-cols-4 gap-1.5">
-              {COHORT.map((c) => (
-                <span key={c.name} className="flex flex-col items-center gap-1.5">
-                  <span
-                    className="grid h-[42px] w-[42px] flex-shrink-0 place-items-center rounded-full p-[2px]"
-                    style={{ background: c.ring }}
-                  >
-                    <img
-                      src={c.img}
-                      alt=""
-                      loading="lazy"
-                      className="h-full w-full rounded-full bg-[#0B1A3A] object-cover"
-                    />
-                  </span>
-                  <span className="text-center text-[8.5px] leading-[1.25] text-white/50">{c.name}</span>
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/**
- * The card sequence. Each slide owns its artwork, its position, its dwell time
- * and — now that the man is a separate cut-out — which side of him it sits on.
- *
- *   behind: true  → drawn between the background and the man plate, so the man
- *                   physically covers any part of the card that overlaps him.
- *   behind: false → floats over the entire scene.
- */
-const SLIDES: { key: string; pos: string; ms: number; behind: boolean; node: React.ReactNode }[] = [
-  { key: 'harvin-intelligence', pos: 'bottom-[60%] left-[65%] -translate-x-1/2', ms: 8200, behind: false, node: <HarvinIntelligenceCard /> },
-  // Sits to the man's LEFT, with its right edge inside his silhouette so his
-  // arm crops that corner. It used to sit on his right, but once he moved over
-  // there was less viewport left of the edge than the card is wide — it would
-  // have been buried. Tracks MAN_TRANSFORM: every nudge right pushes his left
-  // edge along too, so this follows or the overlap is lost.
-  { key: 'playbook', pos: 'bottom-[37%] left-[68%] -translate-x-1/2', ms: 6400, behind: true, node: <PlaybookCard /> },
-  // taller than card 2, so it sits lower to keep its top off the headline
-  // while its foot stays clear of the trusted strip
-  { key: 'cohort', pos: 'bottom-[37%] left-[68%] -translate-x-1/2', ms: 7000, behind: true, node: <CohortCard /> },
-];
 
 export default function Hero() {
-  const [email, setEmail] = useState('');
-  const [cardIdx, setCardIdx] = useState(0);
-
-  useEffect(() => {
-    const t = setTimeout(() => setCardIdx((i) => (i + 1) % SLIDES.length), SLIDES[cardIdx].ms);
-    return () => clearTimeout(t);
-  }, [cardIdx]);
-
   return (
-    <section id="hero" className="relative isolate overflow-hidden bg-[#0d0703] text-white">
-      <style>{styles}</style>
+    <section id="hero" className="relative border-b border-rule bg-slate-950 px-6 pb-10 pt-32 text-white lg:pt-40">
+      <div className="mx-auto grid max-w-[1200px] items-center gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-16">
+        <div className="motion-safe:animate-fade-up">
+          <p className="text-[15px] text-slate-400">B2B company discovery &amp; research</p>
+          <h1 className="mt-5 max-w-[13ch] font-display text-[clamp(44px,6.2vw,80px)] font-medium leading-[1.02] text-white">
+            Find companies traditional database searches <em className="text-ember-400">miss.</em>
+          </h1>
+          <p className="mt-7 max-w-[34em] text-[19px] leading-[1.5] text-slate-300">
+            Tell Harvin what you sell, who buys and what makes a company relevant to your business.
+          </p>
+          <p className="mt-3 max-w-[34em] text-[19px] leading-[1.5] text-slate-300">
+            Harvin uses that context to discover and research companies and then finds the right decision-makers inside them.
+          </p>
 
-      {/* ── Base wash ───────────────────────────────────────────────────── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(75%_65%_at_50%_45%,#3a1f0c_0%,#20120a_45%,#0d0703_100%)]"
-      />
-
-      {/* ── Hero image — full-bleed on mobile, right panel from lg up ─────
-          The panel is wider and the crop sits further right than the source
-          framing, which pulls the subject leftward into the composition. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[66%]"
-        style={{ animation: 'heroImageIn 1.1s cubic-bezier(0.16,1,0.3,1) both' }}
-      >
-        {/* The LCP element. The 2730px source was a 5.8 MB PNG of opaque
-            photography — re-encoded to JPEG at display width it is 156 KB,
-            which is the single biggest load-time win on the site. Explicit
-            width/height reserve the box so the hero does not shift while it
-            decodes. fetchPriority tells the browser this is the one image
-            worth fetching first. */}
-        <img
-          src="/background-1920.jpg"
-          alt=""
-          width={1920}
-          height={1080}
-          fetchPriority="high"
-          className={SCENE_IMG}
-          loading="eager"
-        />
-        {/* blend the image's left edge into the page background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0d0703] via-[#0d0703]/72 to-[#0d0703]/20 lg:via-[#0d0703]/40 lg:to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0d0703] to-transparent" />
-      </div>
-
-      {/* ── BEHIND-THE-MAN card stage — drawn after the plate but before the
-             cut-out, so the man genuinely covers whatever overlaps him. ──── */}
-      {SLIDES[cardIdx].behind && (
-        <div
-          key={cardIdx}
-          aria-hidden="true"
-          className={`pointer-events-none absolute z-[6] hidden xl:block ${SLIDES[cardIdx].pos}`}
-        >
-          {SLIDES[cardIdx].node}
-        </div>
-      )}
-
-      {/* ── The man, cut out and laid back over the plate. Same panel box and
-             same SCENE_IMG crop as the background — that shared value is the
-             whole registration; changing one without the other slides him off
-             his own chair. ─────────────────────────────────────────────── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 right-0 z-[7] w-full lg:w-[66%]"
-        style={{ animation: 'heroImageIn 1.1s cubic-bezier(0.16,1,0.3,1) both' }}
-      >
-        {/* stays PNG — it is a cut-out and needs its alpha; downscaled from
-            2730px to 1600, which is still above its rendered size */}
-        <img
-          src="/heroman-1600.png"
-          alt=""
-          width={1600}
-          height={900}
-          className={`${SCENE_IMG} ${MAN_TRANSFORM}`}
-          loading="eager"
-        />
-      </div>
-
-      {/* ── Copy scrim — holds the left third near-black so the headline,
-             sub-copy and form stay legible, then clears before the subject.
-             Sits ABOVE the cut-out so his far edge falls away into the copy
-             side instead of cutting a hard silhouette across the headline. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[8]
-                   bg-[linear-gradient(to_right,rgba(13,7,3,0.94)_0%,rgba(13,7,3,0.88)_45%,rgba(13,7,3,0.66)_100%)]
-                   lg:bg-[linear-gradient(to_right,rgba(13,7,3,0.97)_0%,rgba(13,7,3,0.94)_22%,rgba(13,7,3,0.76)_38%,rgba(13,7,3,0.36)_50%,rgba(13,7,3,0.08)_62%,transparent_72%)]"
-      />
-
-      {/* ── Grain ───────────────────────────────────────────────────────── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[9] opacity-[0.18] mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")",
-        }}
-      />
-
-      {/* ── IN-FRONT card stage — for slides that should float over the whole
-             scene, the man included. ────────────────────────────────────── */}
-      {!SLIDES[cardIdx].behind && (
-        <div
-          key={cardIdx}
-          aria-hidden="true"
-          className={`pointer-events-none absolute z-20 hidden xl:block ${SLIDES[cardIdx].pos}`}
-        >
-          {SLIDES[cardIdx].node}
-        </div>
-      )}
-
-      {/* ── Content ────────────────────────────────────────────────────── */}
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1240px] flex-col px-6 lg:max-w-[1340px]">
-
-        <div className="flex flex-1 flex-col items-start justify-center pt-44 pb-8 text-left">
-          <div className="flex w-full max-w-[560px] flex-col items-start lg:max-w-[680px]">
-            <p
-              className="mb-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-ember-400"
-              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both' }}
+          <div className="mt-10 flex flex-wrap items-center gap-x-[22px] gap-y-3.5">
+            <a
+              href={startFreeHref()}
+              className="inline-flex min-h-[52px] items-center justify-center rounded-[10px] bg-ember-500 px-7 text-[17px] font-semibold text-pure transition-colors hover:bg-ember-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
             >
-              B2B Company Discovery &amp; Research
-            </p>
-
-            <h1
-              className="font-instrument font-semibold tracking-[-0.02em] leading-[1.05]
- text-[clamp(32px,3.8vw,48px)] text-white"
-              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.06s both' }}
-            >
-              Find companies traditional database searches miss.
-            </h1>
-
-            <p
-              className="mt-5 max-w-[540px] text-[15px] sm:text-[16.5px] leading-relaxed text-white/75"
-              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both' }}
-            >
-              Tell Harvin what you sell, who buys and what makes a company relevant to your business.
-            </p>
-            <p
-              className="mt-3 max-w-[540px] text-[15px] sm:text-[16.5px] leading-relaxed text-white/75"
-              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.16s both' }}
-            >
-              Harvin uses that context to discover and research companies and then finds the right decision-makers
-              inside them.
-            </p>
-
-            <div
-              className="mt-8 flex flex-wrap items-center gap-4"
-              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.24s both' }}
-            >
-              <a
-                href={startFreeHref()}
-                className="flex items-center justify-center gap-2 rounded-xl bg-ember-500 px-6 py-3.5 text-[15px] font-semibold text-white
-                           shadow-[0_4px_14px_rgba(201,76,30,0.45)] hover:bg-ember-400 transition-all active:scale-95"
-              >
-                Start free
-              </a>
-              <Link
-                href={BOOK_DEMO_HREF}
-                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3.5 text-[15px] font-semibold text-white
-                           hover:bg-white/15 hover:border-white/30 transition-all active:scale-95"
-              >
-                Book a demo
-              </Link>
-            </div>
-            <p
-              className="mt-4 text-[13px] italic text-white/55"
-              style={{ animation: 'heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.28s both' }}
-            >
-              Already have a target list?{' '}
-              <a href="#your-list" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 hover:text-white">
-                Upload it
-              </a>{' '}
-              and see what Harvin finds beyond it.
-            </p>
+              Start free
+            </a>
+            <span className="text-[16px] text-stone">{FREE_CREDITS} free credits. No card.</span>
           </div>
+          <p className="mt-5 text-[15px] text-slate-400">
+            Already have a target list?{' '}
+            <a href="#your-list" className="text-slate-300 underline decoration-rule underline-offset-4 hover:text-white">
+              Upload it
+            </a>{' '}
+            and see what Harvin finds beyond it.
+          </p>
         </div>
 
-        {/* ── Social proof strip ───────────────────────────────────────── */}
+        <PaperRecord />
+      </div>
+
+      <div className="mx-auto mt-16 max-w-[1200px] border-t border-rule">
         <TrustedStrip />
       </div>
     </section>

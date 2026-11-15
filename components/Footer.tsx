@@ -131,23 +131,24 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-[#0C0B09] text-white">
+    <footer className="relative bg-slate-950 text-white">
       {/* Ember hairline seam — ties the always-dark footer to the page above */}
       <div
         aria-hidden="true"
-        className="h-px w-full bg-gradient-to-r from-transparent via-ember-500/40 to-transparent"
+        className="h-px w-full bg-rule"
       />
 
       {/* ── Main grid (Brand + 3 Nav columns in single row on desktop) ──────── */}
       <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-12 px-6 py-16 sm:grid-cols-3 md:grid-cols-[1.6fr_repeat(3,minmax(0,1fr))] lg:gap-x-8 lg:px-8 lg:py-20">
         {/* Brand column */}
         <div className="col-span-2 flex flex-col gap-6 sm:col-span-3 md:col-span-1 md:pr-4">
-          <Link href="/" className="flex w-fit items-center rounded-xl bg-white px-4 py-3 shadow-sm">
-            <img src="/harvin-logo.png" alt="Harvin" loading="lazy" className="h-[30px] w-auto" />
+          {/* Brand: on black the wordmark is warm paper (harvin-logo-light.png), never on a white box. */}
+          <Link href="/" className="flex w-fit items-center">
+            <img src="/harvin-logo-light.png" alt="Harvin AI" loading="lazy" className="h-[30px] w-auto" />
           </Link>
 
           {/* Brand line from the v2 copy handoff §3.3. */}
-          <p className="max-w-[300px] text-[15px] font-normal leading-[1.65] text-white/55">
+          <p className="max-w-[300px] text-[15px] font-normal leading-[1.65] text-slate-300">
             Harvin AI finds the companies and buyers your database misses, shows why each one fits, and finds their
             work emails and phone numbers.
           </p>
@@ -160,10 +161,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.10] bg-white/[0.05]
-                           text-white/50 transition-all duration-150
-                           hover:border-white/25 hover:bg-white/[0.12] hover:text-white
-                           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-rule bg-white/[0.05] text-slate-400 transition-all duration-150 hover:border-white/25 hover:bg-white/[0.12] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
               >
                 {icon}
               </a>
@@ -176,11 +174,10 @@ export default function Footer() {
           <div key={sections.map((s) => s.heading).join('-')} className="flex flex-col gap-10">
             {sections.map((col) => (
               <nav key={col.heading} aria-label={col.heading} className="flex flex-col gap-4">
-                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/40">{col.heading}</p>
+                <p className="text-[14px] text-slate-400">{col.heading}</p>
                 <ul className="flex flex-col gap-3">
                   {col.links.map((link) => {
-                    const cls = `w-fit text-[14px] text-white/60 transition-colors hover:text-white
-                                   focus-visible:outline-none focus-visible:text-white`;
+                    const cls = `w-fit text-[14px] text-slate-300 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white`;
                     return (
                       <li key={link.label}>
                         {'external' in link && link.external ? (
@@ -204,14 +201,14 @@ export default function Footer() {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-12">
             {REGISTRATION.map((r) => (
               <div key={r.label} className={r.lines.length > 1 ? 'sm:col-span-2' : ''}>
-                <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/35">{r.label}</p>
+                <p className="mb-2 text-[14px] text-slate-400">{r.label}</p>
                 <div className={`grid grid-cols-1 gap-5 ${r.lines.length > 1 ? 'sm:grid-cols-2 sm:gap-8' : ''}`}>
                   {r.lines.map((line) => (
                     <div key={line.value}>
-                      <p className={`text-[13.5px] font-medium text-white/70 ${r.mono ? 'font-mono tracking-wide' : ''}`}>
+                      <p className={`text-[13.5px] font-medium text-slate-300 ${r.mono ? 'font-mono ' : ''}`}>
                         {line.value}
                       </p>
-                      {line.sub && <p className="mt-1 max-w-[230px] text-[12.5px] leading-relaxed text-white/40">{line.sub}</p>}
+                      {line.sub && <p className="mt-1 max-w-[230px] text-[14px] leading-relaxed text-slate-400">{line.sub}</p>}
                     </div>
                   ))}
                 </div>
@@ -220,7 +217,7 @@ export default function Footer() {
 
             {/* Ask AI — fills the third column of the address row */}
             <div>
-              <p className="mb-2 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/35">
+              <p className="mb-2 flex items-center gap-1.5 text-[14px] text-slate-400">
                 <Sparkles size={12} className="text-ember-400" aria-hidden="true" />
                 Ask AI about Harvin
               </p>
@@ -234,10 +231,7 @@ export default function Footer() {
                     onClick={copyPrompt}
                     aria-label={`Ask ${tool.name} about Harvin`}
                     title={`Ask ${tool.name}`}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.12] bg-white/[0.04]
-                               text-white/65 transition-all duration-150
-                               hover:-translate-y-0.5 hover:border-ember-500/60 hover:bg-white/[0.08] hover:text-white
-                               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-rule bg-white/[0.04] text-slate-300 transition-all duration-150 hover:-translate-y-0.5 hover:border-ember-500/60 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
                   >
                     <svg viewBox="0 0 24 24" className="h-[17px] w-[17px]" fill="currentColor" aria-hidden="true">
                       <path d={tool.path} />
@@ -249,10 +243,10 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col items-start gap-1 sm:items-end">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-white/35">Contact</p>
+            <p className="text-[14px] text-slate-400">Contact</p>
             <a
               href="mailto:admin@harvin.ai"
-              className="text-[13.5px] text-white/70 transition-colors hover:text-ember-400"
+              className="text-[13.5px] text-slate-300 transition-colors hover:text-ember-400"
             >
               admin@harvin.ai
             </a>
@@ -263,7 +257,7 @@ export default function Footer() {
       {/* ── Bottom bar ────────────────────────────────────────────────────── */}
       <div className="border-t border-white/[0.07]">
         <div className="mx-auto flex max-w-[1300px] flex-col items-center justify-between gap-4 px-6 py-6 sm:flex-row lg:px-8">
-          <p className="text-[12.5px] text-white/40">&copy; {year} Thyleads Pvt. Ltd. All rights reserved.</p>
+          <p className="text-[14px] text-slate-400">&copy; {year} Thyleads Pvt. Ltd. All rights reserved.</p>
 
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             {[
@@ -275,7 +269,7 @@ export default function Footer() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="text-[12.5px] text-white/40 transition-colors hover:text-white/75"
+                className="text-[14px] text-slate-400 transition-colors hover:text-slate-300"
               >
                 {item.label}
               </Link>
@@ -283,7 +277,7 @@ export default function Footer() {
             <button
               type="button"
               onClick={openCookieSettings}
-              className="text-[12.5px] text-white/40 transition-colors hover:text-white/75"
+              className="text-[14px] text-slate-400 transition-colors hover:text-slate-300"
             >
               Cookie settings
             </button>

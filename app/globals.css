@@ -4,7 +4,16 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans antialiased;
+    @apply bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-sans antialiased;
+  }
+  /* Brand: headlines are Newsreader medium, tightly spaced (about -2%). */
+  .font-display {
+    letter-spacing: -0.02em;
+  }
+  /* Numbers that count or line up use lining, tabular figures. */
+  .font-mono,
+  .tabular-nums {
+    font-variant-numeric: lining-nums tabular-nums;
   }
 }
 

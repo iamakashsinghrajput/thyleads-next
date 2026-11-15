@@ -9,10 +9,10 @@ export default function RefundPolicy() {
       title="Refund Policy"
       effectiveDate="2 November 2026"
       lastUpdated="2 November 2026"
-      entity="Thyleads Private Limited, operating Harvin.ai"
+      entity="Thyleads Private Limited, operating Harvin AI"
       intro={
         <>
-          This Refund Policy applies to Harvin.ai, a business-to-business software service operated by
+          This Refund Policy applies to Harvin AI, a business-to-business software service operated by
           Thyleads Private Limited, unless different terms are stated in an Order Form or other agreement
           signed with the customer.
         </>

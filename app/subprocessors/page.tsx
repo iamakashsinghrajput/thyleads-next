@@ -43,7 +43,7 @@ export default function SubprocessorList() {
       title="Subprocessor List"
       effectiveDate="2 November 2026"
       lastUpdated="2 November 2026"
-      entity="Thyleads Private Limited, operating Harvin.ai"
+      entity="Thyleads Private Limited, operating Harvin AI"
       intro={
         <>
           Harvin uses third-party service providers to support certain features of the service. Where those providers

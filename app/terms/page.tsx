@@ -9,10 +9,10 @@ export default function TermsOfService() {
       title="Terms of Service"
       effectiveDate="2 November 2026"
       lastUpdated="2 November 2026"
-      entity="Thyleads Private Limited, operating Harvin.ai"
+      entity="Thyleads Private Limited, operating Harvin AI"
       intro={
         <>
-          These Terms of Service govern your use of Harvin.ai, a product operated by Thyleads Private Limited. By
+          These Terms of Service govern your use of Harvin AI, a product operated by Thyleads Private Limited. By
           creating an account, executing an Order Form, purchasing a subscription or otherwise using Harvin, you
           agree to these Terms.
         </>

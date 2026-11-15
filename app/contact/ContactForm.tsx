@@ -16,9 +16,9 @@ import { ArrowRight, Check, AlertCircle } from 'lucide-react';
  */
 
 const FIELD =
-  'h-11 w-full rounded-btn border border-slate-200 bg-white px-3.5 text-[14.5px] text-slate-900 transition-colors placeholder:text-slate-400 focus:border-ember-500 focus:outline-none focus:ring-2 focus:ring-ember-500/20 dark:border-white/[0.12] dark:bg-white/[0.04] dark:text-white dark:placeholder:text-slate-500 dark:hover:border-white/[0.2] dark:focus:border-ember-500/70 dark:focus:bg-white/[0.06] dark:focus:ring-ember-500/25';
+  'h-11 w-full rounded-btn border border-slate-200 bg-white px-3.5 text-[14.5px] text-slate-900 transition-colors placeholder:text-slate-400 focus:border-ember-500 focus:outline-none focus:ring-2 focus:ring-ember-500/20 dark:border-rule dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500 dark:hover:border-white/[0.2] dark:focus:border-ember-500/70 dark:focus:bg-white/[0.06] dark:focus:ring-ember-500/25';
 
-const LABEL = 'text-[12.5px] font-medium text-slate-600 dark:text-slate-400';
+const LABEL = 'text-[14px] font-medium text-slate-600 dark:text-slate-300';
 
 type Form = { name: string; email: string; company: string; role: string; message: string };
 const EMPTY: Form = { name: '', email: '', company: '', role: '', message: '' };
@@ -50,19 +50,17 @@ export default function ContactForm() {
 
   if (state === 'sent') {
     return (
-      <div className="rounded-card border border-emerald-500/30 bg-emerald-500/[0.06] p-8">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/15">
-          <Check size={18} strokeWidth={2.6} className="text-emerald-600 dark:text-emerald-400" />
-        </div>
-        <h2 className="font-instrument font-semibold mt-5 text-[19px] tracking-[-0.015em] text-slate-900 dark:text-white">
+      <div className="border-t border-slate-200 pt-8 dark:border-rule">
+        <Check size={20} strokeWidth={2.4} aria-hidden="true" className="text-ember-600 dark:text-ember-400" />
+        <h2 className="font-display font-medium mt-5 text-[28px] leading-[1.1] text-slate-900 dark:text-white">
           Message sent
         </h2>
-        <p className="mt-2.5 text-[15px] leading-[1.7] text-slate-600 dark:text-slate-400">
+        <p className="mt-3 text-[17px] leading-[1.5] text-slate-600 dark:text-slate-300">
           Thanks {form.name.split(' ')[0]} — a confirmation is on its way to {form.email}. We reply
           within one working day. If it has not landed, check your spam folder or write to{' '}
           <a
             href="mailto:admin@harvin.ai"
-            className="font-semibold text-ember-600 underline underline-offset-4 dark:text-ember-300"
+            className="font-medium text-slate-900 underline underline-offset-4 dark:text-white"
           >
             admin@harvin.ai
           </a>
@@ -142,19 +140,19 @@ export default function ContactForm() {
       {state === 'error' && (
         <div
           role="alert"
-          className="flex items-start gap-3 rounded-btn border border-red-500/30 bg-red-500/[0.06] px-4 py-3"
+          className="flex items-start gap-3 border-l-2 border-grey py-1 pl-4"
         >
           <AlertCircle
             size={16}
             strokeWidth={2.2}
             aria-hidden="true"
-            className="mt-0.5 flex-shrink-0 text-red-600 dark:text-red-400"
+            className="mt-0.5 flex-shrink-0 text-slate-500 dark:text-slate-400"
           />
-          <p className="text-[13.5px] leading-[1.6] text-slate-700 dark:text-slate-300">
+          <p className="text-[15px] leading-[1.5] text-slate-700 dark:text-slate-300">
             That did not go through. Please email{' '}
             <a
               href="mailto:admin@harvin.ai"
-              className="font-semibold text-ember-600 underline underline-offset-4 dark:text-ember-300"
+              className="font-medium text-slate-900 underline underline-offset-4 dark:text-white"
             >
               admin@harvin.ai
             </a>{' '}
@@ -167,12 +165,12 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={state === 'sending'}
-          className="inline-flex items-center gap-2 rounded-btn bg-ember-500 px-5 py-3 text-[14px] font-semibold text-white shadow-[0_1px_4px_rgba(201,76,30,0.3)] transition-all hover:bg-ember-400 hover:shadow-[0_4px_14px_rgba(201,76,30,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#0F0E0C] disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-btn bg-ember-500 px-5 py-3 text-[14px] font-semibold text-pure transition-colors hover:bg-ember-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-surface disabled:cursor-not-allowed disabled:opacity-60"
         >
           {state === 'sending' ? 'Sending…' : 'Send message'}
           {state !== 'sending' && <ArrowRight size={15} strokeWidth={2.4} aria-hidden="true" />}
         </button>
-        <p className="text-[12.5px] text-slate-500 dark:text-slate-400">
+        <p className="text-[14px] text-slate-500 dark:text-slate-400">
           We reply within one working day.
         </p>
       </div>

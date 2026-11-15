@@ -66,14 +66,14 @@ const RICH_LINK = /^\[([^\]]+)\]\(([^)]+)\)$/;
  */
 function Rich({ text }: { text: string }) {
   const linkCls =
-    'font-semibold text-ember-600 underline underline-offset-4 transition-colors hover:text-ember-500 dark:text-ember-300 dark:hover:text-ember-200';
+    'font-medium text-slate-900 underline decoration-slate-400 underline-offset-4 transition-colors hover:decoration-slate-900 dark:text-white dark:decoration-slate-400 dark:hover:decoration-white';
 
   return (
     <>
       {text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g).map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) {
           return (
-            <strong key={i} className="font-bold text-slate-900 dark:text-white">
+            <strong key={i} className="font-semibold text-slate-900 dark:text-white">
               {part.slice(2, -2)}
             </strong>
           );
@@ -107,7 +107,7 @@ function Blocks({ content }: { content: string | ContentBlock[] }) {
       {blocks.map((b, i) => {
         if (typeof b === 'string') {
           return (
-            <p key={i} className="mt-5 text-[16.5px] leading-[1.75] text-slate-600 first:mt-0 dark:text-slate-300">
+            <p key={i} className="mt-5 text-[18px] leading-[1.6] text-slate-600 first:mt-0 dark:text-slate-300">
               <Rich text={b} />
             </p>
           );
@@ -117,7 +117,7 @@ function Blocks({ content }: { content: string | ContentBlock[] }) {
           return (
             <h3
               key={i}
-              className="mt-9 font-instrument font-semibold text-[19px] leading-[1.3] tracking-[-0.015em] text-slate-900 dark:text-white"
+              className="mt-9 font-display font-medium text-[24px] leading-[1.25] text-slate-900 dark:text-white"
             >
               {b.text}
             </h3>
@@ -129,13 +129,13 @@ function Blocks({ content }: { content: string | ContentBlock[] }) {
           return (
             <List key={i} className="mt-5 space-y-2.5">
               {b.items.map((it, n) => (
-                <li key={n} className="flex gap-3 text-[16px] leading-[1.7] text-slate-600 dark:text-slate-300">
+                <li key={n} className="flex gap-3 text-[18px] leading-[1.6] text-slate-600 dark:text-slate-300">
                   <span
                     aria-hidden="true"
-                    className="mt-[9px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-ember-500 dark:bg-ember-400"
+                    className="mt-[12px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-slate-400 dark:bg-slate-400"
                   />
                   <span className="min-w-0">
-                    {b.ordered && <span className="mr-1.5 font-bold text-ember-500 dark:text-ember-400">{n + 1}.</span>}
+                    {b.ordered && <span className="mr-1.5 font-semibold text-slate-500 dark:text-slate-400">{n + 1}.</span>}
                     <Rich text={it} />
                   </span>
                 </li>
@@ -146,7 +146,7 @@ function Blocks({ content }: { content: string | ContentBlock[] }) {
 
         if (b.type === 'image') {
           return (
-            <figure key={i} className="mt-8 overflow-hidden rounded-2xl border border-slate-200 dark:border-white/[0.08]">
+            <figure key={i} className="mt-8 overflow-hidden rounded-card border border-slate-200 dark:border-rule">
               <img src={b.src} alt={b.alt ?? ''} loading="lazy" className="h-auto w-full object-cover" />
             </figure>
           );
@@ -157,12 +157,12 @@ function Blocks({ content }: { content: string | ContentBlock[] }) {
           <Link
             key={i}
             href={b.href ?? '/data-building' /* was /platform, now hidden */}
-            className="mt-8 flex items-center gap-3 rounded-2xl border border-ember-500/30 bg-ember-500/[0.06] px-5 py-4 transition-colors hover:border-ember-500/50 dark:bg-ember-500/[0.08] dark:hover:bg-ember-500/[0.12]"
+            className="mt-8 flex items-center gap-3 border-y border-slate-200 py-4 transition-colors hover:border-slate-400 dark:border-rule dark:hover:border-slate-400"
           >
-            <span className="min-w-0 flex-1 text-[15px] font-semibold leading-[1.5] text-slate-900 dark:text-white">
+            <span className="min-w-0 flex-1 text-[17px] font-medium leading-[1.5] text-slate-900 dark:text-white">
               {b.text}
             </span>
-            <ArrowRight size={16} strokeWidth={2.4} className="flex-shrink-0 text-ember-500 dark:text-ember-400" />
+            <ArrowRight size={16} strokeWidth={2.4} className="flex-shrink-0 text-ember-600 dark:text-ember-400" />
           </Link>
         );
       })}
@@ -174,19 +174,19 @@ function RelatedCard({ post }: { post: BlogPost }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-shadow hover:shadow-[0_14px_40px_rgba(15,23,42,0.09)] dark:border-white/[0.08] dark:bg-[#0F0E0C] dark:hover:border-ember-500/40 dark:hover:shadow-[0_14px_40px_rgba(0,0,0,0.45)]"
+      className="group flex flex-col overflow-hidden rounded-card border border-slate-200 bg-white transition-colors hover:border-slate-300 dark:border-rule dark:bg-surface dark:hover:border-white/[0.16]"
     >
       <div className="relative aspect-[16/9] overflow-hidden bg-sand-200 dark:bg-white/[0.04]">
         <img
           src={post.cardImage || post.image}
           alt={post.title}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+          className="absolute inset-0 h-full w-full object-cover"
         />
       </div>
       <div className="p-5">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ember-500 dark:text-ember-400">{post.category}</span>
-        <h3 className="font-instrument font-semibold mt-2 text-[16px] leading-[1.3] tracking-[-0.015em] text-slate-900 transition-colors group-hover:text-ember-600 dark:text-white dark:group-hover:text-ember-300">
+        <span className="text-[14px] font-medium text-slate-500 dark:text-slate-400">{post.category}</span>
+        <h3 className="font-display font-medium mt-2 text-[22px] leading-[1.2] text-slate-900 underline-offset-4 group-hover:underline dark:text-white">
           {post.title}
         </h3>
       </div>
@@ -235,21 +235,21 @@ export default async function BlogPostPage(
           <div className="mx-auto max-w-[820px]">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-slate-500 transition-colors hover:text-ember-500 dark:text-slate-400 dark:hover:text-ember-400"
+              className="inline-flex items-center gap-1.5 text-[14px] font-medium text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
             >
               <ArrowLeft size={14} strokeWidth={2.4} />
               All posts
             </Link>
 
-            <p className="mt-8 text-[12px] font-semibold uppercase tracking-[0.16em] text-ember-500 dark:text-ember-400">
+            <p className="mt-8 text-[14px] font-medium text-slate-500 dark:text-slate-400">
               {post.category}
             </p>
-            <h1 className="font-instrument font-semibold mt-4 text-[clamp(28px,4vw,46px)] leading-[1.09] tracking-[-0.025em] text-slate-900 dark:text-white">
+            <h1 className="font-display font-medium mt-4 text-[clamp(44px,5.6vw,72px)] leading-[1.02] text-slate-900 dark:text-white">
               {post.title}
             </h1>
-            <p className="mt-5 text-[17px] leading-[1.7] text-slate-600 dark:text-slate-400">{post.excerpt}</p>
+            <p className="mt-5 text-[19px] leading-[1.5] text-slate-600 dark:text-slate-300">{post.excerpt}</p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-4 border-t border-slate-200 pt-6 dark:border-white/[0.08]">
+            <div className="mt-8 flex flex-wrap items-center gap-4 border-t border-slate-200 pt-6 dark:border-rule">
               <img
                 src={post.author.image}
                 alt=""
@@ -257,11 +257,11 @@ export default async function BlogPostPage(
                 className="h-11 w-11 flex-shrink-0 rounded-full object-cover"
               />
               <div className="min-w-0">
-                <p className="text-[14px] font-bold text-slate-900 dark:text-white">{post.author.name}</p>
-                <p className="text-[12.5px] text-slate-500 dark:text-slate-400">{post.author.role}</p>
+                <p className="text-[15px] font-semibold text-slate-900 dark:text-white">{post.author.name}</p>
+                <p className="text-[14px] text-slate-500 dark:text-slate-400">{post.author.role}</p>
               </div>
-              <span aria-hidden="true" className="hidden h-8 w-px bg-slate-200 dark:bg-white/10 sm:block" />
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12.5px] text-slate-500 dark:text-slate-400">
+              <span aria-hidden="true" className="hidden h-8 w-px bg-slate-200 dark:bg-rule sm:block" />
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[14px] text-slate-500 dark:text-slate-400">
                 <span className="flex items-center gap-1.5">
                   <Calendar size={12} strokeWidth={2} />
                   {post.date}
@@ -280,7 +280,7 @@ export default async function BlogPostPage(
             scripts/blog-covers.js; a post with no image skips the hero. */}
         {!post.hideHeroImage && post.image && (
           <div className="px-4 sm:px-6 lg:px-8">
-            <figure className="mx-auto max-w-[1000px] overflow-hidden rounded-2xl border border-slate-200 dark:border-white/[0.08]">
+            <figure className="mx-auto max-w-[1000px] overflow-hidden rounded-card border border-slate-200 dark:border-rule">
               <img src={post.image} alt={post.title} loading="eager" className="h-auto w-full object-cover" />
             </figure>
           </div>
@@ -293,7 +293,7 @@ export default async function BlogPostPage(
 
             {post.content.sections.map((sec) => (
               <section key={sec.heading} className="mt-12">
-                <h2 className="font-instrument font-semibold text-[clamp(21px,2.4vw,28px)] leading-[1.2] tracking-[-0.02em] text-slate-900 dark:text-white">
+                <h2 className="font-display font-medium text-[clamp(30px,3.2vw,40px)] leading-[1.1] text-slate-900 dark:text-white">
                   {sec.heading}
                 </h2>
                 <div className="mt-4">
@@ -303,7 +303,7 @@ export default async function BlogPostPage(
             ))}
 
             {/* ── Author ─────────────────────────────────────────────────── */}
-            <aside className="mt-14 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/[0.08] dark:bg-[#0F0E0C] sm:flex-row sm:items-start">
+            <aside className="mt-14 flex flex-col gap-4 border-t border-slate-200 pt-8 dark:border-rule sm:flex-row sm:items-start">
               <img
                 src={post.author.image}
                 alt=""
@@ -311,9 +311,9 @@ export default async function BlogPostPage(
                 className="h-14 w-14 flex-shrink-0 rounded-full object-cover"
               />
               <div className="min-w-0">
-                <p className="text-[15px] font-bold text-slate-900 dark:text-white">{post.author.name}</p>
-                <p className="text-[13px] text-slate-500 dark:text-slate-400">{post.author.role}</p>
-                <p className="mt-3 text-[14.5px] leading-[1.65] text-slate-600 dark:text-slate-300">
+                <p className="text-[16px] font-semibold text-slate-900 dark:text-white">{post.author.name}</p>
+                <p className="text-[14px] text-slate-500 dark:text-slate-400">{post.author.role}</p>
+                <p className="mt-3 text-[16px] leading-[1.5] text-slate-600 dark:text-slate-300">
                   {post.author.bio}
                 </p>
               </div>
@@ -323,9 +323,9 @@ export default async function BlogPostPage(
 
         {/* ═══ RELATED ═════════════════════════════════════════════════════ */}
         {related.length > 0 && (
-          <section className="border-t border-slate-200 px-4 py-14 dark:border-white/[0.06] sm:px-6 lg:px-8 lg:py-20">
+          <section className="border-t border-slate-200 px-4 py-14 dark:border-rule sm:px-6 lg:px-8 lg:py-20">
             <div className="mx-auto max-w-[1180px]">
-              <h2 className="font-instrument font-semibold mb-8 text-[clamp(21px,2.4vw,30px)] tracking-[-0.02em] text-slate-900 dark:text-white">
+              <h2 className="font-display font-medium mb-8 text-[clamp(36px,4.2vw,58px)] leading-[1.05] text-slate-900 dark:text-white">
                 Keep reading
               </h2>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
