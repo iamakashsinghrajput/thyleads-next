@@ -8,8 +8,8 @@ import { openCookieSettings } from '@/components/CookieConsent';
 /* ── Nav data ─────────────────────────────────────────────────────────────
    Every href below resolves to a real route in /app. The previous footer
    linked to /blog, which does not exist — a 404 on every page of the site.
-   The legal column now also surfaces the cookie, refund and acceptable-use
-   policies, which existed but were unreachable from anywhere.
+   The legal column keeps only Privacy, Terms and Cookies; the other policy
+   pages still exist at their URLs but are not linked from here.
    ─────────────────────────────────────────────────────────────────────── */
 const NAV_SECTIONS = [
   {
@@ -55,11 +55,6 @@ const NAV_SECTIONS = [
       { label: 'Privacy Policy', href: '/privacy' },
       { label: 'Terms of Service', href: '/terms' },
       { label: 'Cookie Policy', href: '/cookies' },
-      { label: 'Acceptable Use', href: '/acceptable-use' },
-      { label: 'Refund Policy', href: '/refund' },
-      { label: 'Data Processing Addendum', href: '/dpa' },
-      { label: 'Subprocessors', href: '/subprocessors' },
-      { label: 'Your Privacy Choices', href: '/privacy-choices' },
     ],
   },
 ];
@@ -70,18 +65,6 @@ const NAV_COLS = [
   sectionsFor('Product', 'Resources' /* , 'Roles' — hidden for now */),
   sectionsFor('Account'),
   sectionsFor('Legal'),
-];
-
-const REGISTRATION = [
-  // { label: 'Registered company', lines: [{ value: 'Harvin AI Ltd', sub: '' }], mono: true },
-
-  { label: 'Registered office', lines: [{ value: '124 City Road, London', sub: 'EC1V 2NX, United Kingdom' }], mono: false },
-
-  {
-    label: 'India office',
-    lines: [{ value: '#164, 1st Cross, 1st Main Road', sub: 'AECS Layout, Hebbal, Bengaluru, Karnataka 560094, India' }],
-    mono: false,
-  },
 ];
 
 /* ── Ask AI about Harvin ──────────────────────────────────────────────────
@@ -127,157 +110,145 @@ const SOCIALS = [
 ];
 
 /* ── Component ────────────────────────────────────────────────────────────── */
+const OFFICES = [
+  { label: 'Registered office', value: '124 City Road, London', sub: 'EC1V 2NX, United Kingdom' },
+  { label: 'India office', value: '#164, 1st Cross, 1st Main Road', sub: 'AECS Layout, Hebbal, Bengaluru, Karnataka 560094, India' },
+];
+
+const BOTTOM_LINKS = [
+  { label: 'Privacy', href: '/privacy' },
+  { label: 'Terms', href: '/terms' },
+  { label: 'Cookies', href: '/cookies' },
+  { label: 'Do Not Sell or Share My Data', href: '/privacy-choices' },
+];
+
+const linkCls =
+  'w-fit text-[14.5px] text-slate-300 transition-colors duration-150 hover:text-white focus-visible:outline-none focus-visible:text-white';
+const labelCls = 'text-[12px] font-medium uppercase tracking-[0.12em] text-slate-500';
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer className="relative bg-slate-950 text-white">
-      {/* Ember hairline seam — ties the always-dark footer to the page above */}
-      <div
-        aria-hidden="true"
-        className="h-px w-full bg-rule"
-      />
+      <div aria-hidden="true" className="h-px w-full bg-gradient-to-r from-transparent via-ember-500/45 to-transparent" />
 
-      {/* ── Main grid (Brand + 3 Nav columns in single row on desktop) ──────── */}
-      <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-12 px-6 py-16 sm:grid-cols-3 md:grid-cols-[1.6fr_repeat(3,minmax(0,1fr))] lg:gap-x-8 lg:px-8 lg:py-20">
-        {/* Brand column */}
-        <div className="col-span-2 flex flex-col gap-6 sm:col-span-3 md:col-span-1 md:pr-4">
-          {/* Brand: on black the wordmark is warm paper (harvin-logo-light.png), never on a white box. */}
-          <Link href="/" className="flex w-fit items-center">
-            <img src="/harvin-logo-light.png" alt="Harvin AI" loading="lazy" className="h-[30px] w-auto" />
-          </Link>
+      <div className="mx-auto max-w-[1300px] px-6 lg:px-8">
+        {/* ── Brand + navigation ─────────────────────────────────────────── */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-12 py-16 sm:grid-cols-3 lg:grid-cols-[1.7fr_repeat(3,minmax(0,1fr))] lg:gap-x-10 lg:py-20">
+          <div className="col-span-2 flex flex-col gap-6 sm:col-span-3 lg:col-span-1 lg:pr-10">
+            {/* Same lockup as the navbar ("Harvin AI"), light ink on the dark footer. */}
+            <Link href="/" aria-label="Harvin AI home" className="flex w-fit items-center transition-opacity hover:opacity-90">
+              <img src="/harvin-logo-light.png" alt="Harvin AI" loading="lazy" className="h-[30px] w-auto" />
+            </Link>
 
-          {/* Brand line from the v2 copy handoff §3.3. */}
-          <p className="max-w-[300px] text-[15px] font-normal leading-[1.65] text-slate-300">
-            Harvin AI finds the companies and buyers your database misses, shows why each one fits, and finds their
-            work emails and phone numbers.
-          </p>
+            <p className="max-w-[340px] text-[15px] leading-[1.7] text-slate-300">
+              Harvin AI finds the companies and buyers your database misses, shows why each one fits, and finds their
+              work emails and phone numbers.
+            </p>
 
-          <div className="flex items-center gap-2.5">
-            {SOCIALS.map(({ icon, href, label }) => (
+            <div className="flex flex-wrap items-center gap-3">
               <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-rule bg-white/[0.05] text-slate-400 transition-all duration-150 hover:border-white/25 hover:bg-white/[0.12] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
+                href={portalUrl()}
+                className="inline-flex h-10 items-center rounded-lg bg-ember-500 px-4 text-[14px] font-medium text-white transition-colors hover:bg-ember-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
               >
-                {icon}
+                Sign up for free
               </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Nav columns — each stacks its sections (e.g. Product above Roles) */}
-        {NAV_COLS.map((sections) => (
-          <div key={sections.map((s) => s.heading).join('-')} className="flex flex-col gap-10">
-            {sections.map((col) => (
-              <nav key={col.heading} aria-label={col.heading} className="flex flex-col gap-4">
-                <p className="text-[14px] text-slate-400">{col.heading}</p>
-                <ul className="flex flex-col gap-3">
-                  {col.links.map((link) => {
-                    const cls = `w-fit text-[14px] text-slate-300 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white`;
-                    return (
-                      <li key={link.label}>
-                        {'external' in link && link.external ? (
-                          <a href={link.href} className={cls}>{link.label}</a>
-                        ) : (
-                          <Link href={link.href} className={cls}>{link.label}</Link>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </nav>
-            ))}
-          </div>
-        ))}
-      </div>
-
-      {/* ── Company registration ──────────────────────────────────────────── */}
-      <div className="border-t border-white/[0.07]">
-        <div className="mx-auto grid max-w-[1300px] grid-cols-1 items-start gap-8 px-6 py-10 sm:grid-cols-[1fr_auto] lg:px-8">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-12">
-            {REGISTRATION.map((r) => (
-              <div key={r.label} className={r.lines.length > 1 ? 'sm:col-span-2' : ''}>
-                <p className="mb-2 text-[14px] text-slate-400">{r.label}</p>
-                <div className={`grid grid-cols-1 gap-5 ${r.lines.length > 1 ? 'sm:grid-cols-2 sm:gap-8' : ''}`}>
-                  {r.lines.map((line) => (
-                    <div key={line.value}>
-                      <p className={`text-[13.5px] font-medium text-slate-300 ${r.mono ? 'font-mono ' : ''}`}>
-                        {line.value}
-                      </p>
-                      {line.sub && <p className="mt-1 max-w-[230px] text-[14px] leading-relaxed text-slate-400">{line.sub}</p>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            {/* Ask AI — fills the third column of the address row */}
-            <div>
-              <p className="mb-2 flex items-center gap-1.5 text-[14px] text-slate-400">
-                <Sparkles size={12} className="text-ember-400" aria-hidden="true" />
-                Ask AI about Harvin
-              </p>
-              <div className="flex items-center gap-2.5">
-                {AI_TOOLS.map((tool) => (
-                  <a
-                    key={tool.name}
-                    href={tool.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={copyPrompt}
-                    aria-label={`Ask ${tool.name} about Harvin`}
-                    title={`Ask ${tool.name}`}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-rule bg-white/[0.04] text-slate-300 transition-all duration-150 hover:-translate-y-0.5 hover:border-ember-500/60 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
-                  >
-                    <svg viewBox="0 0 24 24" className="h-[17px] w-[17px]" fill="currentColor" aria-hidden="true">
-                      <path d={tool.path} />
-                    </svg>
-                  </a>
-                ))}
-              </div>
+              {SOCIALS.map(({ icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-slate-400 transition-all duration-150 hover:border-white/25 hover:bg-white/[0.1] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
+                >
+                  {icon}
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="flex flex-col items-start gap-1 sm:items-end">
-            <p className="text-[14px] text-slate-400">Contact</p>
-            <a
-              href="mailto:admin@harvin.ai"
-              className="text-[13.5px] text-slate-300 transition-colors hover:text-ember-400"
-            >
+          {NAV_COLS.map((sections) => (
+            <div key={sections.map((s) => s.heading).join('-')} className="flex flex-col gap-10">
+              {sections.map((col) => (
+                <nav key={col.heading} aria-label={col.heading} className="flex flex-col gap-4">
+                  <p className={labelCls}>{col.heading}</p>
+                  <ul className="flex flex-col gap-3">
+                    {col.links.map((link) => (
+                      <li key={link.label}>
+                        {'external' in link && link.external ? (
+                          <a href={link.href} className={linkCls}>{link.label}</a>
+                        ) : (
+                          <Link href={link.href} className={linkCls}>{link.label}</Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* ── Offices · Ask AI · Contact ─────────────────────────────────── */}
+        <div className="grid grid-cols-1 gap-10 border-t border-white/[0.08] py-10 sm:grid-cols-2 lg:grid-cols-[1.25fr_1.25fr_1fr_auto] lg:gap-12">
+          {OFFICES.map((o) => (
+            <div key={o.label}>
+              <p className={`mb-3 ${labelCls}`}>{o.label}</p>
+              <p className="text-[14px] font-medium text-slate-200">{o.value}</p>
+              <p className="mt-1 max-w-[260px] text-[14px] leading-relaxed text-slate-400">{o.sub}</p>
+            </div>
+          ))}
+
+          <div>
+            <p className={`mb-3 flex items-center gap-1.5 ${labelCls}`}>
+              <Sparkles size={12} className="text-ember-400" aria-hidden="true" />
+              Ask AI about Harvin
+            </p>
+            <div className="flex items-center gap-2.5">
+              {AI_TOOLS.map((tool) => (
+                <a
+                  key={tool.name}
+                  href={tool.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={copyPrompt}
+                  aria-label={`Ask ${tool.name} about Harvin`}
+                  title={`Ask ${tool.name}`}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-slate-300 transition-all duration-150 hover:-translate-y-0.5 hover:border-ember-500/60 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
+                >
+                  <svg viewBox="0 0 24 24" className="h-[17px] w-[17px]" fill="currentColor" aria-hidden="true">
+                    <path d={tool.path} />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className={`mb-3 ${labelCls}`}>Contact</p>
+            <a href="mailto:admin@harvin.ai" className="text-[14px] font-medium text-slate-200 transition-colors hover:text-ember-400">
               admin@harvin.ai
             </a>
           </div>
         </div>
-      </div>
 
-      {/* ── Bottom bar ────────────────────────────────────────────────────── */}
-      <div className="border-t border-white/[0.07]">
-        <div className="mx-auto flex max-w-[1300px] flex-col items-center justify-between gap-4 px-6 py-6 sm:flex-row lg:px-8">
-          <p className="text-[14px] text-slate-400">&copy; {year} Thyleads Pvt. Ltd. All rights reserved.</p>
+        {/* ── Bottom bar ─────────────────────────────────────────────────── */}
+        {/* Right padding on wide screens keeps the last link clear of the floating Ask AI button. */}
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/[0.08] py-6 sm:flex-row lg:pr-36">
+          <p className="text-[13.5px] text-slate-400">&copy; {year} Thyleads Pvt. Ltd. All rights reserved.</p>
 
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            {[
-              { label: 'Privacy', href: '/privacy' },
-              { label: 'Terms', href: '/terms' },
-              { label: 'Cookies', href: '/cookies' },
-              { label: 'Do Not Sell or Share My Data', href: '/privacy-choices' },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="text-[14px] text-slate-400 transition-colors hover:text-slate-300"
-              >
+            {BOTTOM_LINKS.map((item) => (
+              <Link key={item.label} href={item.href} className="text-[13.5px] text-slate-400 transition-colors hover:text-slate-200">
                 {item.label}
               </Link>
             ))}
             <button
               type="button"
               onClick={openCookieSettings}
-              className="text-[14px] text-slate-400 transition-colors hover:text-slate-300"
+              className="text-[13.5px] text-slate-400 transition-colors hover:text-slate-200"
             >
               Cookie settings
             </button>

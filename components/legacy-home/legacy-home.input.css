@@ -1,0 +1,30 @@
+/* Source for the pre-rebrand homepage's stylesheet.
+ *
+ * Do NOT import this file directly. It is compiled by the Tailwind CLI with
+ * tailwind.legacy-home.config.ts into legacy-home.css (run automatically by
+ * `npm run dev` / `npm run build`, or manually with `npm run legacy-home:css`).
+ * Compiling it inside Next's PostCSS pipeline would make Tailwind apply this
+ * config to globals.css as well and break every other page.
+ *
+ * Every rule is scoped to .legacy-home, so nothing here reaches other pages. */
+@tailwind components;
+@tailwind utilities;
+
+/* What the old root layout's <body> gave the homepage. */
+/* Applied to every .legacy-home wrapper: the homepage and the shared navbar. */
+.legacy-home {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  color: theme('colors.slate.900');
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+:is(.dark .legacy-home) {
+  color: theme('colors.slate.100');
+}
+
+/* CompanyProfile: fills the active step's progress line over one auto-advance
+   interval (the duration is set inline to match the component's timer). */
+@keyframes lh-step-progress {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}

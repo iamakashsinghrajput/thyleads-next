@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p ${PORT:-3000}",
-    "bulk-meta": "node scripts/bulk-meta.js"
+    "bulk-meta": "node scripts/bulk-meta.js",
+    "legacy-home:css": "tailwindcss -c tailwind.legacy-home.config.ts -i components/legacy-home/legacy-home.input.css -o components/legacy-home/legacy-home.css --minify",
+    "predev": "npm run legacy-home:css",
+    "prebuild": "npm run legacy-home:css"
   },
   "dependencies": {
     "@sparticuz/chromium": "^143.0.4",
