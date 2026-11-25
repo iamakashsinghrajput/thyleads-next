@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { useModal } from '@/components/ModalContext';
 
-/* Layout, primitives and terminology mirror /data-building (DataBuildingClient.tsx):
+/* Layout, primitives and terminology mirror the previous /data-building page (DataBuildingClient.tsx, now replaced by components/legacy-home/data-building):
    Company Fit, Signals, Target Profile, verified email + phone, Account 360. */
 
 /* ═══ Motion hooks ════════════════════════════════════════════════════════════

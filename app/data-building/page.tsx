@@ -1,7 +1,18 @@
 import type { Metadata } from 'next';
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/legacy-home/Navbar';
 import Footer from '@/components/Footer';
-import DataBuildingClient from './DataBuildingClient';
+import '@/components/legacy-home/legacy-home.css';
+import { legacyFontVars } from '@/components/legacy-home/fonts';
+import DbHero from '@/components/legacy-home/data-building/DbHero';
+import Problem from '@/components/legacy-home/data-building/Problem';
+import HowItWorks from '@/components/legacy-home/data-building/HowItWorks';
+import ProfileSection from '@/components/legacy-home/data-building/ProfileSection';
+import Discovery from '@/components/legacy-home/data-building/Discovery';
+import BuildWays from '@/components/legacy-home/data-building/BuildWays';
+import Research from '@/components/legacy-home/data-building/Research';
+import People from '@/components/legacy-home/data-building/People';
+import Signals from '@/components/legacy-home/data-building/Signals';
+import DbCta from '@/components/legacy-home/data-building/DbCta';
 
 export const metadata: Metadata = {
   title: 'Data Building — Find the Companies and Decision-Makers That Fit | Harvin',
@@ -19,14 +30,31 @@ export const metadata: Metadata = {
 
 export default function DataBuildingPage() {
   return (
-    // This page is always dark (like /pricing): the `dark` class here switches every
-    // dark: variant below (Navbar, sections, footer) regardless of the site theme toggle.
-    <div className="dark min-h-screen bg-slate-950 text-white [color-scheme:dark]">
-      <Navbar alwaysDark />
-      <main>
-        <DataBuildingClient />
-      </main>
-      <Footer />
-    </div>
+    // Follows the site theme like the homepage: sand in light mode, near-black in
+    // dark. The hero is a dark band in both themes, as on the homepage.
+    <>
+      <div className={`legacy-home ${legacyFontVars}`}>
+        <div className="min-h-screen bg-sand-100 transition-colors duration-300 dark:bg-slate-950">
+          <Navbar />
+          <main>
+            <DbHero />
+            <Problem />
+            <HowItWorks />
+            <ProfileSection />
+            <Discovery />
+            <BuildWays />
+            <Research />
+            <People />
+            <Signals />
+            <DbCta />
+          </main>
+        </div>
+      </div>
+      {/* Same as the homepage: the site-wide footer sits outside .legacy-home so
+          the scoped homepage utilities can't override its layout. */}
+      <div className="relative z-10">
+        <Footer />
+      </div>
+    </>
   );
 }

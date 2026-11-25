@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 const PRICING_FAQ = [
   {
     q: 'How much does Harvin AI cost?',
-    a: 'Harvin AI starts free with 250 credits. Paid plans are Starter at $99 a month for 5,000 credits, Growth at $349 for 20,000, Agency at $799 for 50,000, and Enterprise from $12,000 a year. Every paid plan includes unlimited seats. Annual billing saves about 20%. Credits pay for research, fields, contacts and signal monitoring.',
+    a: 'Harvin AI starts free with 250 credits. Paid plans are Starter at $99 a month for 5,000 credits, Growth at $349 for 20,000, Agency at a custom price with custom credits, and Enterprise from $12,000 a year. Every paid plan includes unlimited seats. Annual billing saves about 20%. Credits pay for research, fields, contacts and signal monitoring.',
   },
   {
     q: 'Do you charge per seat?',

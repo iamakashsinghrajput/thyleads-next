@@ -74,9 +74,10 @@ export default function PricingPlans() {
       <div className="mt-12 grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {selfServe.map((plan) => {
           const dark = Boolean(plan.badge);
+          const custom = plan.monthly === null;
           const price = (annual ? plan.annual : plan.monthly) ?? 0;
           const credits = creditsLabel(plan, annual);
-          const href = startFreeHref(plan.id === 'free' ? undefined : plan.id);
+          const href = custom ? BOOK_DEMO_HREF : startFreeHref(plan.id === 'free' ? undefined : plan.id);
 
           return (
             <div
@@ -103,14 +104,14 @@ export default function PricingPlans() {
                   <span
                     className="font-display text-[48px] font-medium leading-none tabular-nums text-slate-950 dark:text-white"
                   >
-                    ${price}
+                    {custom ? 'Custom' : `$${price}`}
                   </span>
-                  {price > 0 && (
+                  {!custom && price > 0 && (
                     <span className="text-[14px] text-slate-500 dark:text-slate-400">/month</span>
                   )}
                 </div>
                 <p className="mt-1.5 h-5 text-[13px] text-slate-500 dark:text-slate-400">
-                  {price === 0 ? 'No card needed' : annual ? (
+                  {custom ? plan.priceNote : price === 0 ? 'No card needed' : annual ? (
                     <>
                       ${((plan.annual ?? 0) * 12).toLocaleString('en-US')} billed yearly
                     </>

@@ -77,14 +77,14 @@ export const PLANS: Plan[] = [
   {
     id: 'agency',
     name: 'Agency',
-    monthly: 799,
-    annual: 639,
-    monthlyCredits: 50000,
+    monthly: null,
+    annual: null,
+    priceNote: 'Annual agreement, priced for your team',
     seats: 'Unlimited seats',
     bestFor: 'Agencies running many clients',
-    oneLiner: 'A separate Company Profile and workspace for every client.',
-    inclusions: ['Everything in Growth', 'Unlimited client profiles', 'Client workspaces', 'Guest seats for client teams'],
-    cta: 'Start with Agency',
+    oneLiner: 'Custom credits and a separate Company Profile and workspace for every client.',
+    inclusions: ['Everything in Growth', 'Custom credits', 'Unlimited client profiles', 'Client workspaces', 'Guest seats for client teams'],
+    cta: 'Talk to sales',
   },
   {
     id: 'enterprise',
@@ -174,7 +174,7 @@ export const WORKED_EXAMPLE: { work: string; credits: number }[] = [
 /** '–' renders as "Not included", 'Yes' as "Included"; anything else is shown as text. */
 type Cell = string;
 export const FEATURE_TABLE: { feature: string; cells: [Cell, Cell, Cell, Cell, Cell] }[] = [
-  { feature: 'Credits', cells: ['250 once', '5,000 / month', '20,000 / month', '50,000 / month', 'Custom, annual'] },
+  { feature: 'Credits', cells: ['250 once', '5,000 / month', '20,000 / month', 'Custom', 'Custom, annual'] },
   { feature: 'Seats', cells: ['1', 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited'] },
   { feature: 'Company Profiles', cells: ['1', '1', '3', 'Unlimited', 'Custom'] },
   { feature: 'Discovery previews', cells: ['Yes', 'Yes', 'Yes', 'Yes', 'Yes'] },
