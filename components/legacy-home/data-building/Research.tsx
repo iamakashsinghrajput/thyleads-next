@@ -240,7 +240,6 @@ function ResearchFilm() {
   const ref = useRef<HTMLDivElement>(null);
   const [{ scene, t }, setPos] = useState({ scene: 0, t: 0 });
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -253,7 +252,7 @@ function ResearchFilm() {
   }, []);
 
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -264,7 +263,7 @@ function ResearchFilm() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const EXIT = 450;
   const dur = R_CHAPTERS[scene].dur;
@@ -286,8 +285,6 @@ function ResearchFilm() {
       {/* Film */}
       <div
         className="rs-stage relative flex min-h-[460px] items-center justify-center pb-6 pt-2 sm:min-h-[500px]"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
         role="img"
         aria-label={
           scene === 0
@@ -635,7 +632,6 @@ function EnrichSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [t, setT] = useState(0);
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -648,7 +644,7 @@ function EnrichSection() {
   }, []);
 
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -659,7 +655,7 @@ function EnrichSection() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const clock = reduced ? TOAST_AT + 400 : t;
   // brief fade at the loop seam
@@ -701,7 +697,7 @@ function EnrichSection() {
         </ol>
       </div>
 
-      <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <div>
         <div style={{ opacity: seam }}>
           <EnrichDemo t={clock} />
         </div>

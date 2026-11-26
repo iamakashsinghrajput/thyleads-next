@@ -294,7 +294,6 @@ function DecisionMakers() {
   const ref = useRef<HTMLDivElement>(null);
   const [t, setT] = useState(0);
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -307,7 +306,7 @@ function DecisionMakers() {
   }, []);
 
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -318,7 +317,7 @@ function DecisionMakers() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const clock = reduced ? H_DONE + 300 : t;
   const seam = reduced ? 1 : dEase(clock / 350) * (1 - dEase((clock - (D_DUR - 350)) / 350));
@@ -368,7 +367,7 @@ function DecisionMakers() {
         </p>
       </div>
 
-      <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <div>
         <div style={{ opacity: seam }} role="img" aria-label="A keyword search for Finance returns adjacent and junior roles and misses the CFO and Head of Payments; Harvin matches the Target Profile roles in priority order.">
           <OrgDemo t={clock} />
         </div>
@@ -549,7 +548,6 @@ function Contacts() {
   const ref = useRef<HTMLDivElement>(null);
   const [t, setT] = useState(0);
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -562,7 +560,7 @@ function Contacts() {
   }, []);
 
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -573,7 +571,7 @@ function Contacts() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const clock = reduced ? ALL_FOUND + 400 : t;
   const seam = reduced ? 1 : dEase(clock / 350) * (1 - dEase((clock - (W_DUR - 350)) / 350));
@@ -587,7 +585,7 @@ function Contacts() {
 
   return (
     <div ref={ref} className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
-      <div className="order-2 lg:order-1" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <div className="order-2 lg:order-1">
         <div style={{ opacity: seam }} role="img" aria-label="Harvin runs an email waterfall and a phone waterfall for one decision-maker; each stops at the first source with a qualifying result.">
           <WaterfallDemo t={clock} />
         </div>

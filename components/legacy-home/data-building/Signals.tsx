@@ -165,7 +165,6 @@ function SignalsVisual() {
   const ref = useRef<HTMLDivElement>(null);
   const [t, setT] = useState(0);
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -178,7 +177,7 @@ function SignalsVisual() {
   }, []);
 
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -189,7 +188,7 @@ function SignalsVisual() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const clock = reduced ? SUMMARY_AT + 500 : t;
   const seam = reduced ? 1 : sEase(clock / 350) * (1 - sEase((clock - (S_DUR - 350)) / 350));
@@ -228,7 +227,7 @@ function SignalsVisual() {
         </p>
       </div>
 
-      <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <div>
         <div style={{ opacity: seam }} role="img" aria-label="Accounts mapped by Company Fit and signal strength; high-fit accounts with a fresh signal move into Act now, while a strong signal on a poor-fit company stays out of the target zone.">
           <SignalMap t={clock} />
         </div>
@@ -387,7 +386,6 @@ function Outcomes() {
   const [t, setT] = useState(0);
   const [inView, setInView] = useState(false);
   const [seen, setSeen] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -403,7 +401,7 @@ function Outcomes() {
   }, []);
 
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -414,7 +412,7 @@ function Outcomes() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const clock = reduced ? O_DONE + 400 : t;
   const seam = reduced ? 1 : sEase(clock / 350) * (1 - sEase((clock - (O_DUR - 350)) / 350));
@@ -440,7 +438,7 @@ function Outcomes() {
         </div>
       </div>
 
-      <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <div>
         <div style={{ opacity: seam }} role="img" aria-label="A time dial of five manual workflows — discovery, research, people, contact data and monitoring. As Harvin takes each over, its share collapses and total list-building time drops by 80%.">
           <WorkBars t={clock} />
         </div>

@@ -16,8 +16,7 @@ import { CompanyLogo, stageVars } from './shared';
  * and blur out on the same clock.
  *
  * The chapter list on the right tracks the film: the active row opens, its
- * checklist ticks as the scene plays and a rule along its edge fills. Plays only while in view, pauses on
- * hover, and under reduced motion holds each scene's finished frame.
+ * checklist ticks as the scene plays and a rule along its edge fills. Plays only while in view, and under reduced motion holds each scene's finished frame.
  *
  * Real company logos; roles only, contacts masked, scores illustrative.
  */
@@ -805,7 +804,6 @@ export default function HowItWorks() {
   const ref = useRef<HTMLDivElement>(null);
   const [{ scene, t }, setPos] = useState({ scene: 0, t: 0 });
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -820,7 +818,7 @@ export default function HowItWorks() {
   // Frame clock. One state object, so a scene change and its clock reset
   // always land together.
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -831,7 +829,7 @@ export default function HowItWorks() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const go = (i: number) => setPos({ scene: i, t: 0 });
 
@@ -858,8 +856,6 @@ export default function HowItWorks() {
         {/* Stage */}
         <div
           className="hiw-stage relative flex min-h-[460px] items-center justify-center py-2 sm:min-h-[500px]"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
           aria-label={`${STEPS[scene].verb}: ${STEPS[scene].title}`}
           role="img"
         >

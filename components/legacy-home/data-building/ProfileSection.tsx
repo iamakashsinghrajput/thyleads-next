@@ -14,7 +14,7 @@ import { CompanyLogo } from './shared';
  *   02 Upload        customers.csv uploads, then sorts into converted / lost
  *   03 Set targeting titles, functions, seniority, markets and exclusions
  *                    get picked, and the profile saves.
- * Follows the site theme. Plays while in view, pauses on hover, and holds each
+ * Follows the site theme. Plays while in view, and holds each
  * step's finished frame under reduced motion. Real company logos; illustrative.
  */
 
@@ -318,7 +318,6 @@ export default function ProfileSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [{ step, t }, setPos] = useState({ step: 0, t: 0 });
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -331,7 +330,7 @@ export default function ProfileSection() {
   }, []);
 
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -342,7 +341,7 @@ export default function ProfileSection() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const dur = INPUTS[step].dur;
   const clock = reduced ? dur - EXIT_MS - 1 : t;
@@ -413,7 +412,7 @@ export default function ProfileSection() {
         </div>
 
         {/* Product card */}
-        <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+        <div>
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_60px_rgba(15,23,42,0.10)] dark:border-white/[0.08] dark:bg-[#0E0D0B] dark:shadow-[0_24px_60px_rgba(0,0,0,0.55)]">
             <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-3.5 dark:border-white/[0.06]">
               <span className="grid h-8 w-8 place-items-center rounded-lg bg-slate-100 text-slate-700 dark:bg-white/[0.06] dark:text-slate-200">

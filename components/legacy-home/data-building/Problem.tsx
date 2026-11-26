@@ -270,7 +270,6 @@ export default function Problem() {
   const ref = useRef<HTMLDivElement>(null);
   const [{ scene, t }, setPos] = useState({ scene: 0, t: 0 });
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -283,7 +282,7 @@ export default function Problem() {
   }, []);
 
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -294,7 +293,7 @@ export default function Problem() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const dur = CHAPTERS[scene].dur;
   const clock = reduced ? dur - EXIT_MS - 1 : t;
@@ -310,8 +309,6 @@ export default function Problem() {
         {/* Film */}
         <div
           className="pr-stage relative flex min-h-[460px] items-center justify-center py-2 sm:min-h-[500px]"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
           role="img"
           aria-label={
             scene === 0

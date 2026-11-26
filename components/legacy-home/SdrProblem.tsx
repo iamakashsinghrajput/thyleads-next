@@ -398,7 +398,6 @@ export default function SdrProblem() {
   const ref = useRef<HTMLDivElement>(null);
   const [{ scene, t }, setPos] = useState({ scene: 0, t: 0 });
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -412,7 +411,7 @@ export default function SdrProblem() {
 
   // Frame clock; scene and time live in one state so they always change together.
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -423,7 +422,7 @@ export default function SdrProblem() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const go = (i: number) => setPos({ scene: i, t: 0 });
 
@@ -455,8 +454,6 @@ export default function SdrProblem() {
           <div
             className="relative isolate flex min-h-[380px] flex-col items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-[#0A0908] px-3 py-6
                        shadow-[0_18px_44px_rgba(15,23,42,0.12)] dark:border-white/[0.07] dark:shadow-none sm:min-h-[400px] sm:px-8"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
             role="img"
             aria-label={`${EXAMPLES[scene].seller}: a filter on ${EXAMPLES[scene].filter} misses companies that fit; checking ${EXAMPLES[scene].fit.toLowerCase()} finds them.`}
           >

@@ -297,7 +297,6 @@ export default function BuildWays() {
   const ref = useRef<HTMLDivElement>(null);
   const [{ scene, t }, setPos] = useState({ scene: 0, t: 0 });
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -310,7 +309,7 @@ export default function BuildWays() {
   }, []);
 
   useEffect(() => {
-    if (!inView || paused || reduced) return;
+    if (!inView || reduced) return;
     let raf = 0;
     let last = performance.now();
     const loop = (now: number) => {
@@ -321,7 +320,7 @@ export default function BuildWays() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, paused, reduced]);
+  }, [inView, reduced]);
 
   const dur = PATHS[scene].dur;
   const clock = reduced ? dur - EXIT_MS - 1 : t;
@@ -337,8 +336,6 @@ export default function BuildWays() {
         {/* Film */}
         <div
           className="bw-stage relative flex min-h-[460px] items-center justify-center pb-6 pt-2 sm:min-h-[480px]"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
           role="img"
           aria-label={
             scene === 0

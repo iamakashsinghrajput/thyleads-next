@@ -35,11 +35,12 @@ import { legacyFontVars } from '@/components/legacy-home/fonts';
  * wrapper so it looks identical on every page.
  */
 
-const TITLE = 'Harvin — SDR Management Platform for Sales Teams';
+// Same positioning as the site-wide defaults in app/layout.tsx.
+const TITLE = 'Harvin AI: Find the B2B Customers Your Database Misses';
 const DESCRIPTION =
-  'Harvin is the SDR management platform that gives sales leaders one place to run the team — territories and account ownership, buying signals that set daily priorities, email, dialer and tasks, meeting handoffs, and reporting from accounts worked through to pipeline.';
+  'Harvin finds companies and buyers that databases file under the wrong category, shows why each one fits, and finds their work email and phone. Start free.';
 const SHARE_DESCRIPTION =
-  'One place to run a high-performing SDR team: ownership, priorities, execution, meetings and pipeline reporting.';
+  "Harvin finds them, shows why they fit, and finds the right buyer's work email and phone.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },

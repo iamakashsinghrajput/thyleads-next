@@ -131,10 +131,10 @@ function navLinkClass(overlay: boolean, active: boolean) {
   if (overlay) {
     return `${base} after:bg-white text-white/85 hover:text-white`;
   }
-  return `${base} after:bg-primary-500 ${
+  return `${base} after:bg-ember-500 ${
     active
-      ? 'text-primary-700 after:scale-x-100'
-      : 'text-neutral-600 hover:text-primary-600'
+      ? 'text-ember-700 after:scale-x-100'
+      : 'text-neutral-600 hover:text-ember-600'
   }`;
 }
 
@@ -333,7 +333,7 @@ const Navbar = ({ darkTop = false }: { darkTop?: boolean } = {}) => {
                 className={`text-[10.5px] font-bold uppercase tracking-[0.14em] transition-colors ${
                   overlay
                     ? 'text-white/70 hover:text-white'
-                    : 'text-neutral-500 hover:text-primary-600'
+                    : 'text-neutral-500 hover:text-ember-600'
                 }`}
               >
                 {l.name}
@@ -349,7 +349,7 @@ const Navbar = ({ darkTop = false }: { darkTop?: boolean } = {}) => {
               className={`flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-[0.14em] transition-colors ${
                 overlay
                   ? 'text-white/70 hover:text-white'
-                  : 'text-neutral-500 hover:text-primary-600'
+                  : 'text-neutral-500 hover:text-ember-600'
               }`}
             >
               <ArrowUpRight className="h-3 w-3" strokeWidth={2.5} />
@@ -360,7 +360,7 @@ const Navbar = ({ darkTop = false }: { darkTop?: boolean } = {}) => {
               className={`flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-[0.14em] transition-colors ${
                 overlay
                   ? 'text-white/70 hover:text-white'
-                  : 'text-neutral-500 hover:text-primary-600'
+                  : 'text-neutral-500 hover:text-ember-600'
               }`}
             >
               <Mail className="h-3 w-3" strokeWidth={2.5} />
@@ -429,7 +429,7 @@ const Navbar = ({ darkTop = false }: { darkTop?: boolean } = {}) => {
           <a
             href={PORTAL}
             className={`text-[11px] font-bold uppercase tracking-[0.12em] transition-colors ${
-              overlay ? 'text-white/85 hover:text-white' : 'text-neutral-700 hover:text-primary-600'
+              overlay ? 'text-white/85 hover:text-white' : 'text-neutral-700 hover:text-ember-600'
             }`}
           >
             Log in
@@ -437,7 +437,7 @@ const Navbar = ({ darkTop = false }: { darkTop?: boolean } = {}) => {
           {overlay ? (
             <a
               href={PORTAL}
-              className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-neutral-900 transition-all duration-300 hover:bg-primary-500 hover:text-white"
+              className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-neutral-900 transition-all duration-300 hover:bg-ember-500 hover:text-white"
             >
               <span className="text-[11px] font-bold uppercase tracking-[0.1em]">
                 Start free
@@ -449,8 +449,8 @@ const Navbar = ({ darkTop = false }: { darkTop?: boolean } = {}) => {
               href={PORTAL}
               className="relative inline-flex items-center justify-center rounded-full p-[1.5px] overflow-hidden group cursor-pointer"
             >
-              <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0%,transparent_30%,#845cf5_50%,#ffffff_60%,transparent_70%,transparent_100%)]" />
-              <span className="relative flex items-center space-x-2 px-5 py-2.5 bg-neutral-900 text-white rounded-full group-hover:bg-primary-500 transition-all duration-300">
+              <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0%,transparent_30%,#E56B2C_50%,#ffffff_60%,transparent_70%,transparent_100%)]" />
+              <span className="relative flex items-center space-x-2 px-5 py-2.5 bg-neutral-900 text-white rounded-full group-hover:bg-ember-500 transition-all duration-300">
                 <span className="text-[11px] font-bold uppercase tracking-[0.1em]">
                   Start free
                 </span>
@@ -572,7 +572,7 @@ const Navbar = ({ darkTop = false }: { darkTop?: boolean } = {}) => {
                     <a
                       href={PORTAL}
                       onClick={closeMobile}
-                      className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-white transition-colors hover:bg-primary-500"
+                      className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-white transition-colors hover:bg-ember-500"
                     >
                       <span className="text-[11px] font-bold uppercase tracking-[0.1em]">
                         Start free
@@ -580,11 +580,11 @@ const Navbar = ({ darkTop = false }: { darkTop?: boolean } = {}) => {
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </a>
                     <div className="mt-4 flex flex-col gap-2">
-                      <a href={PORTAL} className="flex items-center gap-2 text-[12px] font-medium text-neutral-500 transition-colors hover:text-primary-600">
+                      <a href={PORTAL} className="flex items-center gap-2 text-[12px] font-medium text-neutral-500 transition-colors hover:text-ember-600">
                         <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.2} />
                         Log in
                       </a>
-                      <a href={`mailto:${CONTACT_EMAIL}`} className="flex items-center gap-2 text-[12px] font-medium text-neutral-500 transition-colors hover:text-primary-600">
+                      <a href={`mailto:${CONTACT_EMAIL}`} className="flex items-center gap-2 text-[12px] font-medium text-neutral-500 transition-colors hover:text-ember-600">
                         <Mail className="h-3.5 w-3.5" strokeWidth={2.2} />
                         {CONTACT_EMAIL}
                       </a>
@@ -623,7 +623,7 @@ function MenuTrigger({
         type="button"
         aria-expanded={active}
         className={`${navLinkClass(overlay, active)} gap-1 ${
-          active ? 'after:scale-x-100 text-primary-700' : ''
+          active ? 'after:scale-x-100 text-ember-700' : ''
         }`}
       >
         {label}
@@ -679,10 +679,10 @@ function NavItem({ item, onClick }: { item: NavLink; onClick: () => void }) {
         className="group/nav flex items-start gap-3 py-[9px] transition-colors"
       >
         {item.Icon && (
-          <item.Icon size={16} strokeWidth={1.9} className="mt-[3px] flex-shrink-0 text-neutral-400 transition-colors group-hover/nav:text-primary-600" />
+          <item.Icon size={16} strokeWidth={1.9} className="mt-[3px] flex-shrink-0 text-neutral-400 transition-colors group-hover/nav:text-ember-600" />
         )}
         <span>
-          <span className="block text-[15px] text-neutral-800 transition-colors group-hover/nav:text-primary-600">
+          <span className="block text-[15px] text-neutral-800 transition-colors group-hover/nav:text-ember-600">
             {item.name}
           </span>
           <span className="mt-1 block text-[13px] leading-[1.5] text-neutral-500">{item.desc}</span>
@@ -696,10 +696,10 @@ function NavItem({ item, onClick }: { item: NavLink; onClick: () => void }) {
       <Link
         href={item.href}
         onClick={onClick}
-        className="group/nav flex items-center gap-3 py-[7px] text-[15px] text-neutral-800 transition-colors hover:text-primary-600"
+        className="group/nav flex items-center gap-3 py-[7px] text-[15px] text-neutral-800 transition-colors hover:text-ember-600"
       >
         {item.Icon ? (
-          <item.Icon size={16} strokeWidth={1.9} className="flex-shrink-0 text-neutral-400 transition-colors group-hover/nav:text-primary-600" />
+          <item.Icon size={16} strokeWidth={1.9} className="flex-shrink-0 text-neutral-400 transition-colors group-hover/nav:text-ember-600" />
         ) : (
           <span aria-hidden="true" className="w-4 flex-shrink-0" />
         )}
@@ -713,7 +713,7 @@ function NavItem({ item, onClick }: { item: NavLink; onClick: () => void }) {
               key={c.name}
               href={c.href}
               onClick={onClick}
-              className="relative block py-[7px] pl-6 text-[15px] text-neutral-800 transition-colors before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-neutral-900/15 before:content-[''] after:absolute after:left-0 after:top-1/2 after:h-px after:w-[14px] after:bg-neutral-900/15 after:content-[''] last:before:h-1/2 hover:text-primary-600"
+              className="relative block py-[7px] pl-6 text-[15px] text-neutral-800 transition-colors before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-neutral-900/15 before:content-[''] after:absolute after:left-0 after:top-1/2 after:h-px after:w-[14px] after:bg-neutral-900/15 after:content-[''] last:before:h-1/2 hover:text-ember-600"
             >
               {c.name}
             </Link>
@@ -740,7 +740,7 @@ function FeaturedCard({ item, onClick }: { item: MenuItem; onClick: () => void }
         )}
         <p className="mt-5 text-[16px] font-bold leading-[1.3] tracking-[-0.015em] text-neutral-900">{item.name}</p>
         <p className="mt-2 text-[13.5px] leading-[1.55] text-neutral-500">{item.desc}</p>
-        <span className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary-600">
+        <span className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-semibold text-ember-600">
           {item.cta ?? 'Learn more'}
           <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover/feat:translate-x-0.5" strokeWidth={2.2} />
         </span>
@@ -862,7 +862,7 @@ function PanelLabel({
 
 function CardArrow() {
   return (
-    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/40 bg-white/10 text-white backdrop-blur-sm transition-all duration-300 group-hover/card:border-primary-400 group-hover/card:bg-primary-500 group-hover/card:shadow-[0_6px_14px_-4px_rgba(132,92,245,0.8)]">
+    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/40 bg-white/10 text-white backdrop-blur-sm transition-all duration-300 group-hover/card:border-ember-400 group-hover/card:bg-ember-500 group-hover/card:shadow-[0_6px_14px_-4px_rgba(132,92,245,0.8)]">
       <ArrowUpRight
         className="h-4 w-4 transition-transform duration-300 group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5"
         strokeWidth={2}
@@ -895,11 +895,11 @@ function MenuLink({
     <Link
       href={href}
       onClick={onClose}
-      className="group/ml relative inline-flex items-center gap-2 py-2 text-[15px] font-medium text-neutral-700 transition-colors hover:text-primary-600"
+      className="group/ml relative inline-flex items-center gap-2 py-2 text-[15px] font-medium text-neutral-700 transition-colors hover:text-ember-600"
     >
       <span className="relative">
         {children}
-        <span className="absolute -bottom-0.5 left-0 h-[1.5px] w-full origin-left scale-x-0 bg-primary-500 transition-transform duration-300 group-hover/ml:scale-x-100" />
+        <span className="absolute -bottom-0.5 left-0 h-[1.5px] w-full origin-left scale-x-0 bg-ember-500 transition-transform duration-300 group-hover/ml:scale-x-100" />
       </span>
       <ArrowUpRight
         className="h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover/ml:translate-x-0 group-hover/ml:opacity-100"
@@ -920,7 +920,7 @@ function MenuColumn({
 }) {
   return (
     <div className="mb-5 sm:mb-0">
-      <div className="mb-1 text-[9.5px] font-bold uppercase tracking-[0.24em] text-primary-600">
+      <div className="mb-1 text-[9.5px] font-bold uppercase tracking-[0.24em] text-ember-600">
         {label}
       </div>
       <div className="flex flex-col">
