@@ -76,7 +76,7 @@ export const PLANS: Plan[] = [
   },
   {
     id: 'agency',
-    name: 'Agency',
+    name: 'Custom',
     monthly: null,
     annual: null,
     priceNote: 'Annual agreement, priced for your team',

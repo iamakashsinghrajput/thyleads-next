@@ -104,7 +104,7 @@ export default function PricingPlans() {
                   <span
                     className="font-display text-[48px] font-medium leading-none tabular-nums text-slate-950 dark:text-white"
                   >
-                    {custom ? 'Custom' : `$${price}`}
+                    {custom ? '\u00A0' : `$${price}`}
                   </span>
                   {!custom && price > 0 && (
                     <span className="text-[14px] text-slate-500 dark:text-slate-400">/month</span>
@@ -201,7 +201,7 @@ export default function PricingPlans() {
       </div>
 
       {/* Enterprise band */}
-      <div className="relative mt-10 rounded-card border border-slate-200 bg-sand-50 p-6 dark:border-rule dark:bg-surface sm:p-8">
+      {/* <div className="relative mt-10 rounded-card border border-slate-200 bg-sand-50 p-6 dark:border-rule dark:bg-surface sm:p-8">
         <div className="relative grid gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,5fr)_auto] lg:items-center">
           <div>
             <div className="flex items-center gap-3">
@@ -237,7 +237,7 @@ export default function PricingPlans() {
             <ArrowRight size={16} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
-      </div>
+      </div> */}
 
       <p className="mt-6 text-[14px] text-slate-500 dark:text-slate-400">
         Every paid plan includes unlimited seats for people at your company. Annual plans are billed yearly, with all
