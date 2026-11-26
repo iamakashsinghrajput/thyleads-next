@@ -31,8 +31,8 @@ const FIELDS = [
     max: 5,
     step: 1,
   },
-  { key: 'emails', label: 'Work emails', helper: '3 credits each, only when found', initial: 600, max: 5000, step: 50 },
-  { key: 'phones', label: 'Phone numbers', helper: '20 credits each, only when found', initial: 60, max: 1000, step: 10 },
+  { key: 'emails', label: 'Work emails', helper: `${CREDIT_COSTS.email} credit${CREDIT_COSTS.email === 1 ? '' : 's'} each, only when found`, initial: 600, max: 5000, step: 50 },
+  { key: 'phones', label: 'Phone numbers', helper: `${CREDIT_COSTS.phone} credits each, only when found`, initial: 60, max: 1000, step: 10 },
   {
     key: 'accounts',
     label: 'Accounts to monitor for signals',

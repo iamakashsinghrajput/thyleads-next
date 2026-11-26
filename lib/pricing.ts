@@ -136,8 +136,8 @@ export const CREDIT_MENU_GROUPS: {
     id: 'contacts',
     title: 'Contacts',
     rows: [
-      { action: 'Work email found', credits: '3' },
-      { action: 'Phone number found', credits: '20' },
+      { action: 'Work email found', credits: '1' },
+      { action: 'Phone number found', credits: '14' },
     ],
   },
   {
@@ -159,16 +159,19 @@ export const CREDIT_COSTS = {
   company: 2,
   standardField: 1,
   deepField: 3,
-  email: 3,
-  phone: 20,
+  /** Charged per successful work email found. */
+  email: 1,
+  /** Charged per successful phone number found. */
+  phone: 14,
   signalAccount: 5,
   exportPerson: 1,
 } as const;
 
+/** Credits derive from CREDIT_COSTS so the example can't drift from the menu. */
 export const WORKED_EXAMPLE: { work: string; credits: number }[] = [
-  { work: '1,000 companies researched and scored', credits: 2000 },
-  { work: '600 work emails found', credits: 1800 },
-  { work: '60 phone numbers found', credits: 1200 },
+  { work: '1,000 companies researched and scored', credits: 1000 * CREDIT_COSTS.company },
+  { work: '1,600 work emails found', credits: 1600 * CREDIT_COSTS.email },
+  { work: '100 phone numbers found', credits: 100 * CREDIT_COSTS.phone },
 ];
 
 /** '–' renders as "Not included", 'Yes' as "Included"; anything else is shown as text. */

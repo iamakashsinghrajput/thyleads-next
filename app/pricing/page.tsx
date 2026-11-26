@@ -66,7 +66,7 @@ const PRICING_FAQ = [
   },
   {
     q: 'What is a credit?',
-    a: 'A credit is the unit Harvin AI uses to charge for work. Researching and scoring a company costs 2 credits, a deep-research field 3, a work email 3 and a phone number 20 when found. Discovery previews and matching up to three decision-makers per company are free.',
+    a: 'A credit is the unit Harvin AI uses to charge for work. Researching and scoring a company costs 2 credits, a deep-research field 3, a work email 1 and a phone number 14 when found. Discovery previews and matching up to three decision-makers per company are free.',
   },
   {
     q: "Do I pay if Harvin AI doesn't find a contact?",
