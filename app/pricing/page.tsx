@@ -29,7 +29,7 @@ import CreditCalculator from '@/components/CreditCalculator';
 import BillingProvider, { BillingPrice } from '@/components/BillingProvider';
 import { BOOK_DEMO_HREF, SITE_URL } from '@/lib/site';
 import { ORG_ID, SITE_ID, breadcrumbSchema, faqSchema, graph } from '@/lib/schema';
-import { CREDIT_MENU_GROUPS, FEATURE_TABLE, PLANS, PRICING_APPROVED, WORKED_EXAMPLE } from '@/lib/pricing';
+import { CREDIT_MENU_GROUPS, CREDIT_PACKS, FEATURE_TABLE, PLANS, PRICING_APPROVED, WORKED_EXAMPLE } from '@/lib/pricing';
 
 /** Copy: "Harvin AI Pricing Page: Developer Handoff" (9 Nov 2026). Numbers live in lib/pricing.ts. */
 export const metadata: Metadata = {
@@ -66,7 +66,7 @@ const PRICING_FAQ = [
   },
   {
     q: 'What is a credit?',
-    a: 'A credit is the unit Harvin AI uses to charge for work. Researching and scoring a company costs 2 credits, a deep-research field 3, a work email 1 and a phone number 14 when found. Discovery previews and matching up to three decision-makers per company are free.',
+    a: 'A credit is the unit Harvin AI uses to charge for work. Company Fit scoring is optional and costs 1 credit per 22 companies, a standard research field 1 per company, a deep-research field 3, a work email 1 and a phone number 14 when found. Discovery previews and matching up to three decision-makers per company are free.',
   },
   {
     q: "Do I pay if Harvin AI doesn't find a contact?",
@@ -343,13 +343,33 @@ export default function PricingPage() {
               <h2 className="mt-6 font-display text-[clamp(28px,2.8vw,36px)] font-medium leading-[1.1] text-slate-950 dark:text-white">
                 Need more credits this month?
               </h2>
-              <div className="mt-6 flex items-end gap-3" aria-hidden="true">
-                <span className="font-display text-[56px] font-medium leading-none text-ember-500">$59</span>
-                <span className="pb-1.5 text-[15px] text-slate-500 dark:text-slate-400">for 2,500 credits</span>
-              </div>
+              <ul className="mt-6 grid grid-cols-2 gap-3">
+                {CREDIT_PACKS.map((p, i) => {
+                  const per = (p.price / p.credits) * 1000;
+                  const save = Math.round((1 - per / ((CREDIT_PACKS[0].price / CREDIT_PACKS[0].credits) * 1000)) * 100);
+                  const best = i === CREDIT_PACKS.length - 1;
+                  return (
+                    <li
+                      key={p.credits}
+                      className={`relative rounded-2xl border p-4 ${best ? 'border-ember-500' : 'border-slate-200 dark:border-rule'}`}
+                    >
+                      {best ? (
+                        <span className="absolute -top-2.5 left-4 rounded-full bg-ember-500 px-2 py-0.5 text-[11px] font-medium text-white">
+                          Best value
+                        </span>
+                      ) : null}
+                      <p className="font-display text-[28px] font-medium leading-none text-slate-950 dark:text-white">${p.price}</p>
+                      <p className="mt-1.5 text-[14px] text-slate-600 dark:text-slate-300">{p.credits.toLocaleString('en-US')} credits</p>
+                      <p className="mt-2 text-[12.5px] text-slate-500 dark:text-slate-400">
+                        ${per.toFixed(2)} per 1,000{save > 0 ? ` · save ${save}%` : ''}
+                      </p>
+                    </li>
+                  );
+                })}
+              </ul>
               <p className="mt-6 text-[16px] leading-[1.5] text-slate-600 dark:text-slate-300">
-                Add a credit pack any time on a paid plan: 2,500 credits for $59. Packs last 12 months. If you top up
-                often, upgrading your plan costs less per credit.
+                Add a credit pack any time on a paid plan. Bigger packs cost less per credit, and every pack lasts 12
+                months.
               </p>
             </div>
 

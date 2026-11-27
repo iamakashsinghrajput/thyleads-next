@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 import { BOOK_DEMO_HREF, startFreeHref } from '@/lib/site';
-import { CREDIT_COSTS, CREDIT_PACK, PLANS, recommendPlan } from '@/lib/pricing';
+import { COMPANIES_PER_SCORING_CREDIT, CREDIT_COSTS, CREDIT_PACKS, PLANS, recommendPlan, scoringCredits } from '@/lib/pricing';
 
 /**
  * Pricing calculator. A slider plus an exact number field per input; the
@@ -14,7 +14,7 @@ import { CREDIT_COSTS, CREDIT_PACK, PLANS, recommendPlan } from '@/lib/pricing';
  * annual toggle never changes this — it always estimates monthly use.
  */
 const FIELDS = [
-  { key: 'companies', label: 'Companies to research each month', helper: '2 credits each', initial: 1000, max: 10000, step: 100 },
+  { key: 'companies', label: 'Companies to research each month', helper: `Company Fit scoring: 1 credit per ${COMPANIES_PER_SCORING_CREDIT} companies`, initial: 1000, max: 10000, step: 100 },
   {
     key: 'standardFields',
     label: 'Standard fields per company',
@@ -53,7 +53,7 @@ export default function CreditCalculator() {
   const set = (key: Key, n: number) => setValues((v) => ({ ...v, [key]: Math.max(0, Math.floor(n || 0)) }));
 
   const parts = [
-    { label: 'Research', value: values.companies * CREDIT_COSTS.company, cls: 'bg-ember-500' },
+    { label: 'Scoring', value: scoringCredits(values.companies), cls: 'bg-ember-500' },
     { label: 'Std fields', value: values.companies * values.standardFields * CREDIT_COSTS.standardField, cls: 'bg-ember-200' },
     { label: 'Deep fields', value: values.companies * values.deepFields * CREDIT_COSTS.deepField, cls: 'bg-ember-300' },
     { label: 'Emails', value: values.emails * CREDIT_COSTS.email, cls: 'bg-amber-400' },
@@ -210,7 +210,7 @@ export default function CreditCalculator() {
           ) : null}
           {option?.packs ? (
             <p className="mt-3 text-center text-[12px] text-white/45">
-              Credit packs: {fmt(CREDIT_PACK.credits)} credits for ${CREDIT_PACK.price}, on paid plans.
+              Credit packs from {fmt(CREDIT_PACKS[0].credits)} credits for ${CREDIT_PACKS[0].price} up to {fmt(CREDIT_PACKS[CREDIT_PACKS.length - 1].credits)} for ${CREDIT_PACKS[CREDIT_PACKS.length - 1].price}, on paid plans.
             </p>
           ) : null}
         </div>

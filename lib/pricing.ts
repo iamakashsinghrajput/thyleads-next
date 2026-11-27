@@ -16,6 +16,16 @@ export const FREE_REVEALS = 10;
 /** Credit pack — paid plans only [DECISION B]. */
 export const CREDIT_PACK = { credits: 2500, price: 59 } as const;
 
+export const CREDIT_PACKS = [
+  CREDIT_PACK,
+  { credits: 5000, price: 109 },
+  { credits: 10000, price: 199 },
+  { credits: 25000, price: 449 },
+] as const;
+
+export const COMPANIES_PER_SCORING_CREDIT = 22;
+export const scoringCredits = (companies: number) => (companies > 0 ? Math.ceil(companies / COMPANIES_PER_SCORING_CREDIT) : 0);
+
 export type PlanId = 'free' | 'starter' | 'growth' | 'agency' | 'enterprise';
 
 export type Plan = {
@@ -127,7 +137,7 @@ export const CREDIT_MENU_GROUPS: {
     id: 'research',
     title: 'Company research',
     rows: [
-      { action: 'Company researched and scored for Company Fit', credits: '2 per company' },
+      { action: 'Company Fit scoring (optional)', credits: '1 per 22 companies' },
       { action: 'Standard research field (category, funding, tech stack, revenue estimate)', credits: '1 per company' },
       { action: 'Deep-research field (store count, monthly active users, location count, countries served)', credits: '3 per company' },
     ],
@@ -156,7 +166,6 @@ export const CREDIT_MENU_GROUPS: {
 ];
 
 export const CREDIT_COSTS = {
-  company: 2,
   standardField: 1,
   deepField: 3,
   /** Charged per successful work email found. */
@@ -169,7 +178,7 @@ export const CREDIT_COSTS = {
 
 /** Credits derive from CREDIT_COSTS so the example can't drift from the menu. */
 export const WORKED_EXAMPLE: { work: string; credits: number }[] = [
-  { work: '1,000 companies researched and scored', credits: 1000 * CREDIT_COSTS.company },
+  { work: '1,000 companies scored for Company Fit', credits: scoringCredits(1000) },
   { work: '1,600 work emails found', credits: 1600 * CREDIT_COSTS.email },
   { work: '100 phone numbers found', credits: 100 * CREDIT_COSTS.phone },
 ];
