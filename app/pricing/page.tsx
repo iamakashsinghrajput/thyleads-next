@@ -83,7 +83,7 @@ const PRICING_FAQ = [
   },
   {
     q: 'Do unused credits roll over?',
-    a: 'Monthly plan credits roll over for one month, then expire. Annual plans receive all credits at the start of the year. Credit packs last 12 months from purchase.',
+    a: 'Monthly plan credits roll over for one month, then expire. Annual plans receive all credits at the start of the year. Credit packs are a one-time purchase, and unused pack credits stay valid for 12 months from purchase.',
   },
   {
     q: 'Is there a free trial?',
@@ -368,8 +368,8 @@ export default function PricingPage() {
                 })}
               </ul>
               <p className="mt-6 text-[16px] leading-[1.5] text-slate-600 dark:text-slate-300">
-                Add a credit pack any time on a paid plan. Bigger packs cost less per credit, and every pack lasts 12
-                months.
+                Add a credit pack any time on a paid plan. Each pack is a one-time price, not a subscription. Bigger
+                packs cost less per credit, and unused pack credits stay valid for 12 months.
               </p>
             </div>
 

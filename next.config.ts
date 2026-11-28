@@ -29,6 +29,8 @@ const nextConfig: NextConfig = {
       { source: '/product', destination: '/', permanent: false },
       // /outreach-and-engagement is hidden (app/_outreach-and-engagement). Temporary, so it can come back.
       { source: '/outreach-and-engagement', destination: '/', permanent: false },
+      // /product-tour is hidden (app/_product-tour): it describes the old SDR product. Temporary, so it can come back.
+      { source: '/product-tour', destination: '/data-building', permanent: false },
       // the vertical pages shipped briefly under /services
       { source: '/services/:vertical', destination: '/solutions/:vertical', permanent: true },
     ];

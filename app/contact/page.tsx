@@ -26,12 +26,12 @@ const CONTACT_EMAIL = 'admin@harvin.ai';
 export const metadata: Metadata = {
   title: 'Contact Harvin',
   description:
-    'Talk to the Harvin team about running your SDR team on one platform — territories, buying-signal priorities, execution and pipeline reporting. We reply within one working day.',
+    'Talk to the Harvin team about finding the B2B customers your database misses — company discovery, research, decision-makers and verified email and phone. We reply within one working day.',
   alternates: { canonical: '/contact' },
   openGraph: {
     title: 'Contact Harvin',
     description:
-      'Questions about the platform, a demo, or your SDR team’s setup — reach the team directly.',
+      'Questions about Harvin, a demo, or your account — reach the team directly.',
     url: '/contact',
     /* Next replaces a parent's `openGraph` wholesale rather than merging
        `images` into it, so every segment that declares its own block has to
@@ -77,7 +77,7 @@ export default function ContactPage() {
             url: `${SITE_URL}/contact`,
             name: 'Contact Harvin',
             description:
-              'Contact the Harvin team about the SDR management platform, a demo, or an existing account.',
+              'Contact the Harvin team about Harvin AI, a demo, or an existing account.',
             mainEntity: { '@id': ORG_ID },
           },
           /* Same @id as the node the homepage declares, carrying one extra
